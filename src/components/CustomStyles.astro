@@ -1,11 +1,15 @@
 ---
 import '@fontsource-variable/inter';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import '@fontsource/roboto/900.css';
 
 // 'DM Sans'
 // Nunito
 // Dosis
 // Outfit
-// Roboto
+// Roboto - Using for professional, industrial look
 // Literata
 // 'IBM Plex Sans'
 // Karla
@@ -21,43 +25,57 @@ import '@fontsource-variable/inter';
 
 <style is:inline>
   :root {
-    --aw-font-sans: 'Inter Variable';
-    --aw-font-serif: 'Inter Variable';
-    --aw-font-heading: 'Inter Variable';
+    --aw-font-sans: 'Roboto', 'Inter Variable', system-ui, sans-serif;
+    --aw-font-serif: 'Roboto', 'Inter Variable', system-ui, sans-serif;
+    --aw-font-heading: 'Roboto', 'Inter Variable', system-ui, sans-serif;
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    /* MTN Mud Brand Colors */
+    --aw-color-primary: rgb(221 94 38); /* Safety Orange */
+    --aw-color-secondary: rgb(52 50 48); /* Charcoal Black */
+    --aw-color-accent: rgb(221 94 38); /* Safety Orange for accents */
 
-    --aw-color-text-heading: rgb(0 0 0);
-    --aw-color-text-default: rgb(16 16 16);
-    --aw-color-text-muted: rgb(16 16 16 / 66%);
-    --aw-color-bg-page: rgb(255 255 255);
+    /* Additional brand colors */
+    --aw-color-orange: rgb(221 94 38); /* Safety Orange */
+    --aw-color-charcoal: rgb(52 50 48); /* Charcoal Black */
+    --aw-color-white: rgb(255 255 255); /* White */
 
-    --aw-color-bg-page-dark: rgb(3 6 32);
+    /* Text colors for light mode */
+    --aw-color-text-heading: rgb(52 50 48); /* Charcoal for headings */
+    --aw-color-text-default: rgb(52 50 48); /* Charcoal for body text */
+    --aw-color-text-muted: rgb(52 50 48 / 75%); /* Muted charcoal */
 
+    /* Background colors */
+    --aw-color-bg-page: rgb(255 255 255); /* White background */
+    --aw-color-bg-page-dark: rgb(52 50 48); /* Charcoal for dark sections */
+
+    /* Selection styling */
     ::selection {
-      background-color: lavender;
+      background-color: rgb(221 94 38 / 20%);
+      color: rgb(52 50 48);
     }
   }
 
   .dark {
-    --aw-font-sans: 'Inter Variable';
-    --aw-font-serif: 'Inter Variable';
-    --aw-font-heading: 'Inter Variable';
+    --aw-font-sans: 'Roboto', 'Inter Variable', system-ui, sans-serif;
+    --aw-font-serif: 'Roboto', 'Inter Variable', system-ui, sans-serif;
+    --aw-font-heading: 'Roboto', 'Inter Variable', system-ui, sans-serif;
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    /* MTN Mud Brand Colors in dark mode */
+    --aw-color-primary: rgb(221 94 38); /* Safety Orange stays vibrant */
+    --aw-color-secondary: rgb(255 255 255); /* White for secondary in dark */
+    --aw-color-accent: rgb(221 94 38); /* Safety Orange for accents */
 
-    --aw-color-text-heading: rgb(247, 248, 248);
-    --aw-color-text-default: rgb(229 236 246);
-    --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(3 6 32);
+    /* Text colors for dark mode */
+    --aw-color-text-heading: rgb(255 255 255); /* White headings */
+    --aw-color-text-default: rgb(255 255 255 / 95%); /* Almost white for body */
+    --aw-color-text-muted: rgb(255 255 255 / 70%); /* Muted white */
+
+    /* Background for dark mode */
+    --aw-color-bg-page: rgb(52 50 48); /* Charcoal background */
 
     ::selection {
-      background-color: black;
-      color: snow;
+      background-color: rgb(221 94 38 / 40%);
+      color: rgb(255 255 255);
     }
   }
 </style>
