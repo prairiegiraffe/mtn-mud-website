@@ -48,15 +48,35 @@ const tailwindUtilities = [
   { class: '.bg-light', css: 'background-color: var(--aw-color-bg-page)', description: 'Light page background' },
   { class: '.text-page', css: 'color: var(--aw-color-text-page)', description: 'Page text color' },
   { class: '.text-muted', css: 'color: var(--aw-color-text-muted)', description: 'Muted text color' },
-  { class: '.bg-orange', css: 'background-color: var(--aw-color-orange)', description: 'MTN Mud Safety Orange background' },
-  { class: '.bg-charcoal', css: 'background-color: var(--aw-color-charcoal)', description: 'MTN Mud Charcoal background' },
+  {
+    class: '.bg-orange',
+    css: 'background-color: var(--aw-color-orange)',
+    description: 'MTN Mud Safety Orange background',
+  },
+  {
+    class: '.bg-charcoal',
+    css: 'background-color: var(--aw-color-charcoal)',
+    description: 'MTN Mud Charcoal background',
+  },
   { class: '.text-orange', css: 'color: var(--aw-color-orange)', description: 'MTN Mud Safety Orange text' },
   { class: '.text-charcoal', css: 'color: var(--aw-color-charcoal)', description: 'MTN Mud Charcoal text' },
   { class: '.border-orange', css: 'border-color: var(--aw-color-orange)', description: 'MTN Mud Safety Orange border' },
   { class: '.border-charcoal', css: 'border-color: var(--aw-color-charcoal)', description: 'MTN Mud Charcoal border' },
-  { class: '.industrial-heading', css: '@apply font-black uppercase tracking-wide', description: 'Industrial style heading' },
-  { class: '.industrial-subheading', css: '@apply font-bold uppercase tracking-wider text-sm', description: 'Industrial style subheading' },
-  { class: '.industrial-card', css: '@apply bg-white border-2 border-gray-200 shadow-lg hover:shadow-xl hover:border-orange transition-all duration-300', description: 'Industrial style card component' },
+  {
+    class: '.industrial-heading',
+    css: '@apply font-black uppercase tracking-wide',
+    description: 'Industrial style heading',
+  },
+  {
+    class: '.industrial-subheading',
+    css: '@apply font-bold uppercase tracking-wider text-sm',
+    description: 'Industrial style subheading',
+  },
+  {
+    class: '.industrial-card',
+    css: '@apply bg-white border-2 border-gray-200 shadow-lg hover:shadow-xl hover:border-orange transition-all duration-300',
+    description: 'Industrial style card component',
+  },
   { class: '.industrial-section', css: '@apply py-16 md:py-24', description: 'Industrial section spacing' },
 ];
 
@@ -235,8 +255,8 @@ const cardExamples = [
       <div class="mb-12">
         <h1 class="text-4xl font-bold text-center mb-4">MTN Mud Global Styles Guide</h1>
         <p class="text-lg text-center text-muted max-w-3xl mx-auto">
-          Complete documentation of all global styles, brand colors, industrial utilities, and configuration settings for the
-          MTN Mud website.
+          Complete documentation of all global styles, brand colors, industrial utilities, and configuration settings
+          for the MTN Mud website.
         </p>
       </div>
 
@@ -673,11 +693,17 @@ const cardExamples = [
               <div class="space-y-2">
                 <div>
                   <span class="text-sm text-muted">Light: </span>
-                  <span class="px-2 py-1 rounded text-sm" style="background: rgba(221, 94, 38, 0.2); color: rgb(52, 50, 48);">Orange tint with charcoal text</span>
+                  <span
+                    class="px-2 py-1 rounded text-sm"
+                    style="background: rgba(221, 94, 38, 0.2); color: rgb(52, 50, 48);"
+                    >Orange tint with charcoal text</span
+                  >
                 </div>
                 <div>
                   <span class="text-sm text-muted">Dark: </span>
-                  <span class="px-2 py-1 rounded text-sm" style="background: rgba(221, 94, 38, 0.4); color: white;">Darker orange tint with white text</span>
+                  <span class="px-2 py-1 rounded text-sm" style="background: rgba(221, 94, 38, 0.4); color: white;"
+                    >Darker orange tint with white text</span
+                  >
                 </div>
               </div>
             </div>

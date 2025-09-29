@@ -1,10 +1,5 @@
 'use client';
 
-interface NavigationItem {
-  name: string;
-  href: string;
-}
-
 interface BackgroundImageHeroProps {
   title?: string;
   subtitle?: string;
@@ -14,23 +9,10 @@ interface BackgroundImageHeroProps {
   secondaryCtaHref?: string;
   announcementText?: string;
   announcementHref?: string;
-  logoSrc?: string;
-  logoSrcDark?: string;
-  logoAlt?: string;
   backgroundImage?: string;
   backgroundImageDark?: string;
-  navigation?: NavigationItem[];
-  loginText?: string;
-  loginHref?: string;
   className?: string;
 }
-
-const defaultNavigation: NavigationItem[] = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
-];
 
 export default function BackgroundImageHero({
   title = 'Data to enrich your online business',
@@ -41,14 +23,8 @@ export default function BackgroundImageHero({
   secondaryCtaHref = '#',
   announcementText = 'Announcing our next round of funding. Read more',
   announcementHref = '#',
-  logoSrc = 'https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600',
-  logoSrcDark = 'https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500',
-  logoAlt = 'Your Company',
   backgroundImage = 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=fff&sat=-100&exp=15&blend-mode=overlay',
   backgroundImageDark = 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2830&q=80&blend=111827&sat=-100&exp=15&blend-mode=multiply',
-  navigation = defaultNavigation,
-  loginText = 'Log in',
-  loginHref = '#',
   className = '',
 }: BackgroundImageHeroProps) {
   return (
@@ -81,7 +57,10 @@ export default function BackgroundImageHero({
             <div className="hidden sm:mb-8 sm:flex sm:justify-center">
               <div className="relative rounded-full px-4 py-2 text-sm/6 text-white bg-orange-500/20 ring-1 ring-orange-500/30 hover:ring-orange-500/50 backdrop-blur-sm transition-all">
                 {announcementText.replace(' Learn more', '')}{' '}
-                <a href={announcementHref} className="font-bold text-orange-400 hover:text-orange-300 transition-colors">
+                <a
+                  href={announcementHref}
+                  className="font-bold text-orange-400 hover:text-orange-300 transition-colors"
+                >
                   <span aria-hidden="true" className="absolute inset-0" />
                   Learn more <span aria-hidden="true">&rarr;</span>
                 </a>
@@ -101,8 +80,14 @@ export default function BackgroundImageHero({
                 >
                   {ctaText}
                 </a>
-                <a href={secondaryCtaHref} className="btn-secondary inline-flex items-center justify-center rounded-md border-2 bg-white text-gray-800 border-white hover:bg-gray-100 px-8 py-4 text-sm font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all duration-300">
-                  {secondaryCtaText} <span aria-hidden="true" className="ml-2">→</span>
+                <a
+                  href={secondaryCtaHref}
+                  className="btn-secondary inline-flex items-center justify-center rounded-md border-2 bg-white text-gray-800 border-white hover:bg-gray-100 px-8 py-4 text-sm font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  {secondaryCtaText}{' '}
+                  <span aria-hidden="true" className="ml-2">
+                    →
+                  </span>
                 </a>
               </div>
             </div>

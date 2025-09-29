@@ -11,7 +11,7 @@ metadata:
   title:
     default: MTN Mud - Service Based Drilling Fluids
     template: '%s — MTN Mud'
-  description: "Exceptional, customer-specific service in the drilling fluids industry. 40+ years delivering high-quality products, superior service, and unwavering commitment to safety and technology."
+  description: 'Exceptional, customer-specific service in the drilling fluids industry. 40+ years delivering high-quality products, superior service, and unwavering commitment to safety and technology.'
   robots:
     index: true
     follow: true
