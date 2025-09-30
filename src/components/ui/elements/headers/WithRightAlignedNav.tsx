@@ -50,7 +50,10 @@ export default function WithRightAlignedNav() {
               {item.name}
             </a>
           ))}
-          <a href="/apply" className="inline-flex items-center justify-center rounded-md bg-orange-500 text-white hover:bg-orange-600 px-6 py-2.5 text-sm font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all duration-300">
+          <a
+            href="/apply"
+            className="inline-flex items-center justify-center rounded-md bg-orange-500 text-white hover:bg-orange-600 px-6 py-2.5 text-sm font-bold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all duration-300"
+          >
             Apply Now
           </a>
         </div>

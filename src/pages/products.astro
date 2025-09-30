@@ -123,11 +123,13 @@ const downloadableResources = [
         <!-- Category Pills -->
         <div class="flex flex-wrap gap-2 mt-6 justify-center">
           {
-            categories.slice(0, 5).map((category) => (
-              <button class="px-4 py-2 bg-white/10 hover:bg-orange-600 border border-white/20 rounded-full text-sm font-semibold transition-all duration-300">
-                {category}
-              </button>
-            ))
+            categories
+              .slice(0, 5)
+              .map((category) => (
+                <button class="px-4 py-2 bg-white/10 hover:bg-orange-600 border border-white/20 rounded-full text-sm font-semibold transition-all duration-300">
+                  {category}
+                </button>
+              ))
           }
         </div>
       </div>
@@ -150,7 +152,10 @@ const downloadableResources = [
                 {
                   categories.map((category) => (
                     <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
-                      <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
+                      <input
+                        type="checkbox"
+                        class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
+                      />
                       {category}
                     </label>
                   ))
@@ -255,7 +260,8 @@ const downloadableResources = [
             <button class="px-4 py-2 bg-orange-600 text-white rounded-lg">1</button>
             <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">2</button>
             <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">3</button>
-            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">Next</button>
+            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">Next</button
+            >
           </div>
         </div>
       </div>
@@ -300,12 +306,8 @@ const downloadableResources = [
         Our technical experts are ready to help you choose the right products for your drilling operation.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/contact" class="btn-primary">
-          Contact Our Team
-        </a>
-        <a href="/services" class="btn">
-          View Services
-        </a>
+        <a href="/contact" class="btn-primary"> Contact Our Team </a>
+        <a href="/services" class="btn"> View Services </a>
       </div>
     </div>
   </section>

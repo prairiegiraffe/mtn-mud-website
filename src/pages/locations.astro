@@ -7,16 +7,15 @@ import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
   title: 'Locations - MTN Mud Service & Supply',
-  description: 'Find Mountain Mud Service & Supply locations across the United States. Over 13 stock points serving major drilling operations.',
+  description:
+    'Find Mountain Mud Service & Supply locations across the United States. Over 13 stock points serving major drilling operations.',
 };
 ---
 
 <Layout metadata={metadata}>
   <!-- Page Hero ******************* -->
 
-  <Hero
-    tagline="Our Locations"
-  >
+  <Hero tagline="Our Locations">
     <Fragment slot="title">
       Serving the Heart of <span class="text-primary dark:text-white">American Energy</span>
     </Fragment>
@@ -36,7 +35,9 @@ const metadata = {
   >
     <Fragment slot="content">
       <p class="text-xl text-muted leading-relaxed text-center">
-        Mountain Mud Service & Supply strategically positions our facilities to serve major drilling operations across the United States. With over 13 stock points and growing, we ensure rapid response times and local expertise wherever you operate.
+        Mountain Mud Service & Supply strategically positions our facilities to serve major drilling operations across
+        the United States. With over 13 stock points and growing, we ensure rapid response times and local expertise
+        wherever you operate.
       </p>
     </Fragment>
   </Content>

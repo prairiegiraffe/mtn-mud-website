@@ -7,16 +7,15 @@ import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
   title: 'About MTN Mud - 40+ Years of Drilling Fluids Excellence',
-  description: 'Learn about Mountain Mud Service & Supply - your trusted partner for drilling fluids and mud engineering across the Rockies since 1983.',
+  description:
+    'Learn about Mountain Mud Service & Supply - your trusted partner for drilling fluids and mud engineering across the Rockies since 1983.',
 };
 ---
 
 <Layout metadata={metadata}>
   <!-- Page Hero ******************* -->
 
-  <Hero
-    tagline="Home / About"
-  >
+  <Hero tagline="Home / About">
     <Fragment slot="title">
       About <span class="text-primary dark:text-white">Mountain Mud</span>
     </Fragment>
@@ -37,10 +36,15 @@ const metadata = {
     <Fragment slot="content">
       <h2 class="text-4xl md:text-5xl font-bold mb-6">Four Decades of Service Excellence</h2>
       <p class="text-lg text-muted mb-6">
-        Since our founding over 40 years ago, Mountain Mud Service & Supply has built a reputation as the most reliable drilling fluids provider in U.S. land drilling. What started as a family-run operation has grown into a comprehensive drilling fluids company with stock points across the United States, yet we've never lost our commitment to personalized service and integrity.
+        Since our founding over 40 years ago, Mountain Mud Service & Supply has built a reputation as the most reliable
+        drilling fluids provider in U.S. land drilling. What started as a family-run operation has grown into a
+        comprehensive drilling fluids company with stock points across the United States, yet we've never lost our
+        commitment to personalized service and integrity.
       </p>
       <p class="text-lg text-muted">
-        Under current ownership since January 1, 2006, we've maintained an impeccable safety record with zero lost time accidents while expanding our capabilities and service areas. Today, we're the Powder River Basin's only full-service drilling fluid supply company, serving operations from the Rockies to Texas.
+        Under current ownership since January 1, 2006, we've maintained an impeccable safety record with zero lost time
+        accidents while expanding our capabilities and service areas. Today, we're the Powder River Basin's only
+        full-service drilling fluid supply company, serving operations from the Rockies to Texas.
       </p>
     </Fragment>
   </Content>
@@ -90,7 +94,7 @@ const metadata = {
       {
         title: 'Safety',
         description:
-          'Zero lost time accidents since 2006. Safety is not just a priority—it\'s our way of doing business every day.',
+          "Zero lost time accidents since 2006. Safety is not just a priority—it's our way of doing business every day.",
       },
       {
         title: 'Innovation',
@@ -139,5 +143,4 @@ const metadata = {
       },
     ]}
   />
-
 </Layout>
