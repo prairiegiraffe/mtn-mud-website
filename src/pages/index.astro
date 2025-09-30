@@ -22,15 +22,15 @@ const metadata = {
   <BackgroundImageHero
     client:load
     title="Service Based Drilling Fluids"
-    subtitle="Your trusted partner for drilling fluids and mud engineering across the Rockies and beyond. 40+ years of excellence in the drilling fluids industry."
+    subtitle="Your trusted partner for drilling fluids and mud engineering across the Rockies and beyond"
     ctaText="Get Started"
     ctaHref="/contact"
-    secondaryCtaText="Learn More"
-    secondaryCtaHref="#about"
+    secondaryCtaText="View Our Services"
+    secondaryCtaHref="/services"
     announcementText="40+ Years of Excellence in Drilling Fluids. Learn more"
     announcementHref="#about"
-    backgroundImage="~/assets/images/hero-image.png"
-    backgroundImageDark="~/assets/images/hero-image.png"
+    backgroundImage="/hero-image.png"
+    backgroundImageDark="/hero-image.png"
   />
 
   <!-- Introduction Section ******************* -->
@@ -61,58 +61,50 @@ const metadata = {
     </Fragment>
   </Content>
 
-  <!-- Key Differentiators Grid ******************* -->
+  <!-- Statistics Grid ******************* -->
   <Features
-    id="differentiators"
-    title="Why Choose MTN Mud"
-    subtitle="Our commitment to excellence sets us apart in the drilling fluids industry"
+    id="statistics"
     columns={3}
     items={[
       {
-        title: 'Rapid Response',
-        description:
-          '24/7 service delivery with strategic locations across the Rockies ensuring quick response times to your drilling operations.',
+        title: '24/7 Availability',
+        description: '65+ vehicle private fleet',
         icon: 'tabler:truck-delivery',
       },
       {
-        title: 'Safety First',
-        description:
-          'Unwavering commitment to safety with comprehensive training, protocols, and equipment to protect our team and yours.',
+        title: 'Perfect Safety',
+        description: 'Zero lost time accidents since 2006',
         icon: 'tabler:shield-check',
       },
       {
-        title: 'Advanced Technology',
-        description:
-          'Cutting-edge technology and data-driven solutions to optimize drilling performance and reduce operational costs.',
-        icon: 'tabler:cpu',
+        title: 'Massive Inventory',
+        description: '1M+ pounds bulk barite in stock',
+        icon: 'tabler:box',
       },
       {
-        title: 'Expert Engineering',
-        description:
-          'Certified mud engineers with decades of experience providing technical expertise and custom solutions.',
+        title: 'Oil-Based Fluids',
+        description: '20,000+ bbls ready to deliver',
+        icon: 'tabler:droplet',
+      },
+      {
+        title: 'Advanced Testing',
+        description: 'Fully equipped mud labs',
         icon: 'tabler:flask',
       },
       {
-        title: 'Quality Products',
-        description:
-          'Premium drilling fluids and chemical additives sourced from leading manufacturers and tested for performance.',
-        icon: 'tabler:certificate',
-      },
-      {
-        title: 'Customer Partnership',
-        description:
-          'Long-term partnerships built on trust, reliability, and shared success in challenging drilling environments.',
-        icon: 'tabler:users',
+        title: 'Regional Leader',
+        description: "Powder River Basin's only full-service supplier",
+        icon: 'tabler:award',
       },
     ]}
     classes={{
-      container: 'max-w-6xl',
+      container: 'max-w-7xl',
       title: 'text-4xl md:text-5xl',
       subtitle: 'text-xl',
     }}
   />
 
-  <!-- Services Overview ******************* -->
+  <!-- Services Preview ******************* -->
   <Features3
     title="Our Core Services"
     subtitle="Comprehensive drilling fluids solutions tailored to your specific needs"
@@ -121,34 +113,34 @@ const metadata = {
     items={[
       {
         title: 'Mud Engineering',
-        description: 'Expert mud system design and on-site engineering support for optimal drilling performance.',
+        description: '24-hour on-site support and technical expertise',
         image: {
           src: '~/assets/images/default.png',
           alt: 'Mud Engineering Services',
         },
       },
       {
-        title: 'Drilling Fluids',
-        description: 'High-performance drilling fluids for all geological conditions and drilling applications.',
+        title: 'Products & Chemicals',
+        description: 'Premium additives and specialty products',
         image: {
           src: '~/assets/images/default.png',
-          alt: 'Drilling Fluids',
+          alt: 'Products & Chemicals',
         },
       },
       {
-        title: 'Chemical Additives',
-        description: 'Specialized chemical additives to enhance drilling efficiency and wellbore stability.',
+        title: 'Logistics & Delivery',
+        description: 'Private fleet available 24/7',
         image: {
           src: '~/assets/images/default.png',
-          alt: 'Chemical Additives',
+          alt: 'Logistics & Delivery',
         },
       },
       {
-        title: 'Lab Testing',
-        description: 'Comprehensive laboratory testing and analysis to ensure optimal fluid properties.',
+        title: 'Testing & Analysis',
+        description: 'State-of-the-art mud lab',
         image: {
           src: '~/assets/images/default.png',
-          alt: 'Mud Lab Testing',
+          alt: 'Testing & Analysis',
         },
       },
     ]}
@@ -159,22 +151,6 @@ const metadata = {
     }}
   />
 
-  <!-- Stats Section ******************* -->
-  <Stats
-    title="Proven Track Record"
-    subtitle="Four decades of delivering results across the energy sector"
-    stats={[
-      { amount: '40+', title: 'Years of Experience' },
-      { amount: '500+', title: 'Wells Serviced' },
-      { amount: '4', title: 'States Covered' },
-      { amount: '24/7', title: 'Emergency Response' },
-    ]}
-    classes={{
-      container: 'max-w-6xl',
-      title: 'text-4xl md:text-5xl',
-      subtitle: 'text-xl',
-    }}
-  />
 
   <!-- Client Logo Banner ******************* -->
   <Brands
@@ -213,7 +189,7 @@ const metadata = {
   <!-- Bottom CTA Section ******************* -->
   <CallToAction
     title="Ready to Optimize Your Drilling Operations?"
-    subtitle="Contact MTN Mud today for expert drilling fluids solutions and exceptional service across the Rockies"
+    subtitle="Partner with the Powder River Basin's only full-service drilling fluid supply company."
     actions={[
       {
         variant: 'primary',
@@ -223,9 +199,9 @@ const metadata = {
       },
       {
         variant: 'secondary',
-        text: 'View Services',
-        href: '/services',
-        icon: 'tabler:list',
+        text: 'Download Product Sheets',
+        href: '/products',
+        icon: 'tabler:download',
       },
     ]}
     classes={{

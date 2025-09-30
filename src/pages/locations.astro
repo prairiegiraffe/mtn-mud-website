@@ -1,0 +1,112 @@
+---
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Locations - MTN Mud Service & Supply',
+  description: 'Find Mountain Mud Service & Supply locations across the United States. Over 13 stock points serving major drilling operations.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Page Hero ******************* -->
+
+  <Hero
+    tagline="Our Locations"
+  >
+    <Fragment slot="title">
+      Serving the Heart of <span class="text-primary dark:text-white">American Energy</span>
+    </Fragment>
+  </Hero>
+
+  <!-- Introduction ******************* -->
+
+  <Content
+    id="introduction"
+    columns={1}
+    items={[]}
+    classes={{
+      container: 'max-w-4xl',
+      panel: 'max-w-none',
+      content: 'text-center',
+    }}
+  >
+    <Fragment slot="content">
+      <p class="text-xl text-muted leading-relaxed text-center">
+        Mountain Mud Service & Supply strategically positions our facilities to serve major drilling operations across the United States. With over 13 stock points and growing, we ensure rapid response times and local expertise wherever you operate.
+      </p>
+    </Fragment>
+  </Content>
+
+  <!-- Location Cards ******************* -->
+
+  <Features2
+    title="Our Stock Points"
+    tagline="Strategic Locations"
+    columns={2}
+    items={[
+      {
+        title: 'Gillette, WY (Headquarters)',
+        description: 'Full-service facility with complete mud lab, extensive inventory, and 24/7 support',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Cheyenne, WY',
+        description: 'Strategic distribution point serving Wyoming operations',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Belfield, ND',
+        description: 'Full-service support for Bakken drilling operations',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Mohall, ND',
+        description: 'Northern North Dakota coverage with local expertise',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Farmington, NM',
+        description: 'San Juan Basin operations support and supply',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Hobbs, NM',
+        description: 'Permian Basin service center with extensive inventory',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Carthage, TX',
+        description: 'East Texas operations support and delivery services',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: 'Additional Locations',
+        description: 'Contact us for information about our growing network of stock points',
+        icon: 'tabler:map-pins',
+      },
+    ]}
+  />
+
+  <!-- Delivery Banner ******************* -->
+
+  <CallToAction
+    title="We Deliver Anywhere, Anytime"
+    subtitle="Our private fleet of 65+ vehicles ensures we can reach your location 24/7, no matter the load size or urgency."
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Contact Us',
+        href: '/contact',
+        icon: 'tabler:phone',
+      },
+    ]}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-primary"></div>
+    </Fragment>
+  </CallToAction>
+</Layout>

@@ -1,0 +1,312 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+const metadata = {
+  title: 'Products - MTN Mud Drilling Fluids & Equipment',
+  description: 'Browse our comprehensive range of drilling fluids, chemical additives, and mud engineering equipment.',
+};
+
+const categories = [
+  'All Products',
+  'Drilling Fluids',
+  'Chemical Additives',
+  'Barite & Weighting Materials',
+  'Lost Circulation Materials',
+  'Filtration Control',
+  'Viscosifiers',
+  'pH Control',
+  'Equipment & Tools',
+];
+
+const products = [
+  {
+    id: 1,
+    title: 'Premium Bentonite',
+    category: 'Drilling Fluids',
+    description: 'High-yield sodium bentonite for superior viscosity and filtration control',
+    image: '~/assets/images/102A8278.jpg',
+    specs: { yield: '90-100 bbl/ton', viscosity: 'High', application: 'Water-based muds' },
+  },
+  {
+    id: 2,
+    title: 'API Barite',
+    category: 'Barite & Weighting Materials',
+    description: 'API Grade barite for density control in all drilling fluid systems',
+    image: '~/assets/images/102A8302.jpg',
+    specs: { gravity: '4.2 SG', grade: 'API 13A', application: 'Weighting agent' },
+  },
+  {
+    id: 3,
+    title: 'Poly-Anionic Cellulose (PAC)',
+    category: 'Filtration Control',
+    description: 'Advanced filtration control agent for all water-based mud systems',
+    image: '~/assets/images/102A8314.jpg',
+    specs: { grade: 'LV/HV', function: 'Filtration control', compatibility: 'All WBM' },
+  },
+  {
+    id: 4,
+    title: 'Lost Circulation Fiber Blend',
+    category: 'Lost Circulation Materials',
+    description: 'Specialized fiber blend for severe lost circulation zones',
+    image: '~/assets/images/102A9005.jpg',
+    specs: { size: 'Fine/Medium/Coarse', concentration: '5-30 ppb', application: 'Lost circulation' },
+  },
+  {
+    id: 5,
+    title: 'Xanthan Gum Polymer',
+    category: 'Viscosifiers',
+    description: 'High-performance biopolymer for viscosity and hole cleaning',
+    image: '~/assets/images/102A9044.jpg',
+    specs: { type: 'Biopolymer', function: 'Viscosity/Suspension', dosage: '0.25-2.0 ppb' },
+  },
+  {
+    id: 6,
+    title: 'Caustic Soda (NaOH)',
+    category: 'pH Control',
+    description: 'Industrial grade caustic soda for pH adjustment and alkalinity control',
+    image: '~/assets/images/102A9083.jpg',
+    specs: { concentration: '50% liquid/solid', pH: '14', application: 'pH control' },
+  },
+];
+
+const downloadableResources = [
+  {
+    title: 'Product Catalog 2025',
+    fileSize: '12.4 MB',
+    fileType: 'PDF',
+    icon: 'tabler:file-type-pdf',
+  },
+  {
+    title: 'Safety Data Sheets (SDS)',
+    fileSize: '8.2 MB',
+    fileType: 'PDF',
+    icon: 'tabler:file-type-pdf',
+  },
+  {
+    title: 'Technical Specifications',
+    fileSize: '5.1 MB',
+    fileType: 'PDF',
+    icon: 'tabler:file-type-pdf',
+  },
+  {
+    title: 'Application Guidelines',
+    fileSize: '3.8 MB',
+    fileType: 'PDF',
+    icon: 'tabler:file-type-pdf',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Section with Search -->
+  <section class="bg-gray-900 text-white py-16">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-black uppercase tracking-wide mb-4">Our Products</h1>
+        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+          Premium drilling fluids, chemical additives, and equipment for optimal performance
+        </p>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="max-w-2xl mx-auto">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search products..."
+            class="w-full px-6 py-4 bg-white/10 backdrop-blur border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+          <Icon name="tabler:search" class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 text-white/60" />
+        </div>
+
+        <!-- Category Pills -->
+        <div class="flex flex-wrap gap-2 mt-6 justify-center">
+          {
+            categories.slice(0, 5).map((category) => (
+              <button class="px-4 py-2 bg-white/10 hover:bg-orange-600 border border-white/20 rounded-full text-sm font-semibold transition-all duration-300">
+                {category}
+              </button>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Layout with Sidebar -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Sidebar Filters -->
+        <aside class="w-full lg:w-64 lg:sticky lg:top-24 h-fit">
+          <div class="bg-white rounded-lg shadow-lg p-6 space-y-6">
+            <h3 class="text-lg font-bold uppercase tracking-wider text-gray-900">Filters</h3>
+
+            <!-- Category Filter -->
+            <div class="border-t border-gray-200 pt-4">
+              <h4 class="font-semibold text-gray-900 mb-3">Categories</h4>
+              <div class="space-y-2">
+                {
+                  categories.map((category) => (
+                    <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
+                      <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
+                      {category}
+                    </label>
+                  ))
+                }
+              </div>
+            </div>
+
+            <!-- Application Filter -->
+            <div class="border-t border-gray-200 pt-4">
+              <h4 class="font-semibold text-gray-900 mb-3">Application</h4>
+              <div class="space-y-2">
+                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
+                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
+                  Water-Based Muds
+                </label>
+                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
+                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
+                  Oil-Based Muds
+                </label>
+                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
+                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
+                  Synthetic Muds
+                </label>
+              </div>
+            </div>
+
+            <!-- Availability -->
+            <div class="border-t border-gray-200 pt-4">
+              <h4 class="font-semibold text-gray-900 mb-3">Availability</h4>
+              <div class="space-y-2">
+                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
+                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
+                  In Stock
+                </label>
+                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
+                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
+                  Special Order
+                </label>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <div class="flex-1">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {
+              products.map((product) => (
+                <div class="group relative overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300">
+                  {/* Product Image */}
+                  <div class="relative h-64 overflow-hidden bg-gray-200">
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+
+                    {/* Category Badge */}
+                    <div class="absolute top-4 right-4">
+                      <span class="px-3 py-1 bg-orange-600 text-white text-xs font-bold uppercase rounded-full">
+                        {product.category}
+                      </span>
+                    </div>
+
+                    {/* Content Overlay */}
+                    <div class="absolute bottom-0 p-6 text-white w-full">
+                      <h3 class="text-2xl font-bold mb-2">{product.title}</h3>
+                      <p class="text-gray-200 text-sm mb-4">{product.description}</p>
+
+                      {/* Specifications */}
+                      <div class="space-y-1 mb-4 text-sm">
+                        {Object.entries(product.specs).map(([key, value]) => (
+                          <div class="flex justify-between">
+                            <span class="text-gray-300 capitalize">{key}:</span>
+                            <span class="font-semibold">{value}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div class="flex gap-2">
+                        <button class="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+                          Request Quote
+                        </button>
+                        <button class="p-2 bg-white/10 hover:bg-white/20 backdrop-blur rounded transition-colors duration-300">
+                          <Icon name="tabler:info-circle" class="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+
+          <!-- Pagination -->
+          <div class="mt-12 flex justify-center gap-2">
+            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
+              Previous
+            </button>
+            <button class="px-4 py-2 bg-orange-600 text-white rounded-lg">1</button>
+            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">2</button>
+            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">3</button>
+            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download Center -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-black uppercase tracking-wide mb-4">Download Center</h2>
+        <p class="text-xl text-gray-600">Product catalogs, specifications, and technical documentation</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {
+          downloadableResources.map((resource) => (
+            <div class="bg-white border border-gray-200 p-6 rounded-lg hover:shadow-lg transition-shadow duration-300">
+              <div class="flex flex-col items-center text-center">
+                <Icon name={resource.icon} class="w-16 h-16 text-red-500 mb-4" />
+                <h3 class="font-bold text-gray-900 mb-2">{resource.title}</h3>
+                <p class="text-sm text-gray-500 mb-4">
+                  {resource.fileType} • {resource.fileSize}
+                </p>
+                <button class="w-full btn-primary inline-flex items-center justify-center gap-2">
+                  <Icon name="tabler:download" class="w-4 h-4" />
+                  Download
+                </button>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-gray-900 text-white">
+    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+      <h2 class="text-3xl md:text-4xl font-black uppercase tracking-wide mb-4">Need Help Selecting Products?</h2>
+      <p class="text-xl text-gray-300 mb-8">
+        Our technical experts are ready to help you choose the right products for your drilling operation.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="/contact" class="btn-primary">
+          Contact Our Team
+        </a>
+        <a href="/services" class="btn">
+          View Services
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

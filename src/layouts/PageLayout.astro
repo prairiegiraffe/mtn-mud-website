@@ -1,9 +1,9 @@
 ---
 import Layout from '~/layouts/Layout.astro';
-import Header from '~/components/widgets/Header.astro';
+import WithRightAlignedNav from '~/components/ui/elements/headers/WithRightAlignedNav';
 import Footer from '~/components/widgets/Footer.astro';
 
-import { headerData, footerData } from '~/navigation';
+import { footerData } from '~/navigation';
 
 import type { MetaData } from '~/types';
 
@@ -19,9 +19,9 @@ const { metadata } = Astro.props;
     <Announcement />
   </slot> -->
   <slot name="header">
-    <Header {...headerData} isSticky showRssFeed showToggleTheme />
+    <WithRightAlignedNav client:load />
   </slot>
-  <main>
+  <main class="pt-20">
     <slot />
   </main>
   <slot name="footer">
