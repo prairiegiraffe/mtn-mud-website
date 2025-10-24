@@ -65,7 +65,7 @@ export default {
         mono: ['var(--aw-font-mono, ui-monospace)', ...defaultTheme.fontFamily.mono],
       },
       boxShadow: {
-        'soft': '0 2px 8px rgba(52, 50, 48, 0.08)',
+        soft: '0 2px 8px rgba(52, 50, 48, 0.08)',
         'soft-lg': '0 4px 16px rgba(52, 50, 48, 0.12)',
         'soft-xl': '0 8px 32px rgba(52, 50, 48, 0.16)',
         'orange-glow': '0 4px 16px rgba(221, 94, 38, 0.25)',
