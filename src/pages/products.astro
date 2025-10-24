@@ -1,314 +1,244 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
 
 const metadata = {
-  title: 'Products - MTN Mud Drilling Fluids & Equipment',
-  description: 'Browse our comprehensive range of drilling fluids, chemical additives, and mud engineering equipment.',
+  title: 'Products - Premium Drilling Fluids & Additives | MTN Mud',
+  description:
+    'Premium products for every drilling challenge. Over 1 million pounds of bulk barite and 20,000+ barrels of OBM in stock.',
 };
 
-const categories = [
-  'All Products',
-  'Drilling Fluids',
-  'Chemical Additives',
-  'Barite & Weighting Materials',
-  'Lost Circulation Materials',
-  'Filtration Control',
-  'Viscosifiers',
-  'pH Control',
-  'Equipment & Tools',
-];
-
-const products = [
-  {
-    id: 1,
-    title: 'Premium Bentonite',
-    category: 'Drilling Fluids',
-    description: 'High-yield sodium bentonite for superior viscosity and filtration control',
-    image: '~/assets/images/102A8278.jpg',
-    specs: { yield: '90-100 bbl/ton', viscosity: 'High', application: 'Water-based muds' },
-  },
-  {
-    id: 2,
-    title: 'API Barite',
-    category: 'Barite & Weighting Materials',
-    description: 'API Grade barite for density control in all drilling fluid systems',
-    image: '~/assets/images/102A8302.jpg',
-    specs: { gravity: '4.2 SG', grade: 'API 13A', application: 'Weighting agent' },
-  },
-  {
-    id: 3,
-    title: 'Poly-Anionic Cellulose (PAC)',
-    category: 'Filtration Control',
-    description: 'Advanced filtration control agent for all water-based mud systems',
-    image: '~/assets/images/102A8314.jpg',
-    specs: { grade: 'LV/HV', function: 'Filtration control', compatibility: 'All WBM' },
-  },
-  {
-    id: 4,
-    title: 'Lost Circulation Fiber Blend',
-    category: 'Lost Circulation Materials',
-    description: 'Specialized fiber blend for severe lost circulation zones',
-    image: '~/assets/images/102A9005.jpg',
-    specs: { size: 'Fine/Medium/Coarse', concentration: '5-30 ppb', application: 'Lost circulation' },
-  },
-  {
-    id: 5,
-    title: 'Xanthan Gum Polymer',
-    category: 'Viscosifiers',
-    description: 'High-performance biopolymer for viscosity and hole cleaning',
-    image: '~/assets/images/102A9044.jpg',
-    specs: { type: 'Biopolymer', function: 'Viscosity/Suspension', dosage: '0.25-2.0 ppb' },
-  },
-  {
-    id: 6,
-    title: 'Caustic Soda (NaOH)',
-    category: 'pH Control',
-    description: 'Industrial grade caustic soda for pH adjustment and alkalinity control',
-    image: '~/assets/images/102A9083.jpg',
-    specs: { concentration: '50% liquid/solid', pH: '14', application: 'pH control' },
-  },
-];
-
-const downloadableResources = [
-  {
-    title: 'Product Catalog 2025',
-    fileSize: '12.4 MB',
-    fileType: 'PDF',
-    icon: 'tabler:file-type-pdf',
-  },
-  {
-    title: 'Safety Data Sheets (SDS)',
-    fileSize: '8.2 MB',
-    fileType: 'PDF',
-    icon: 'tabler:file-type-pdf',
-  },
-  {
-    title: 'Technical Specifications',
-    fileSize: '5.1 MB',
-    fileType: 'PDF',
-    icon: 'tabler:file-type-pdf',
-  },
-  {
-    title: 'Application Guidelines',
-    fileSize: '3.8 MB',
-    fileType: 'PDF',
-    icon: 'tabler:file-type-pdf',
-  },
+// Sample product data for the table
+const sampleProducts = [
+  { name: 'BARITE', size: '100 LBS', price: '$21.55' },
+  { name: 'BARITE BULK', size: 'TON', price: '$265.00' },
+  { name: 'GEL 100LBS', size: '100 LBS', price: '$7.85' },
+  { name: 'SALT GEL', size: '50 LBS', price: '$28.00' },
+  { name: 'SEA GEL', size: '50 LBS', price: '$28.00' },
 ];
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Section with Search -->
-  <section class="bg-gray-900 text-white py-16">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center mb-8">
-        <h1 class="text-4xl md:text-5xl font-black uppercase tracking-wide mb-4">Our Products</h1>
-        <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-          Premium drilling fluids, chemical additives, and equipment for optimal performance
-        </p>
+  <!-- SECTION 1: HERO -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="container mx-auto px-4 max-w-5xl text-center">
+      <!-- Hero Image -->
+      <div class="h-72 bg-gray-200 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center mb-12">
+        <span class="text-gray-500 text-center px-4">PRODUCTS HERO IMAGE</span>
       </div>
 
-      <!-- Search Bar -->
-      <div class="max-w-2xl mx-auto">
-        <div class="relative">
-          <input
-            type="text"
-            placeholder="Search products..."
-            class="w-full px-6 py-4 bg-white/10 backdrop-blur border border-white/20 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-orange-500"
-          />
-          <Icon name="tabler:search" class="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 text-white/60" />
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-charcoal">Premium Products for Every Drilling Challenge</h1>
+      <p class="text-lg text-gray-700 leading-relaxed max-w-4xl mx-auto">
+        From standard drilling mud additives to specialty products for unique geological formations, Mountain Mud
+        delivers the quality and consistency your operations demand. With over 1 million pounds of bulk barite and
+        20,000+ barrels of OBM in stock, we're ready to support projects of any scale.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 2: PRODUCT CATEGORIES -->
+  <section class="bg-light-gray py-16 md:py-24">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Card 1: Water-Based Mud Additives -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="h-48 bg-gray-200 border-b-2 border-dashed border-gray-400 flex items-center justify-center">
+            <span class="text-gray-500 text-sm">CATEGORY IMAGE</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 text-safety-orange">Water-Based Mud Additives</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+              Comprehensive solutions for water-based drilling operations including bentonite, polymers, fluid loss
+              control agents, thinners, and viscosifiers. Designed for optimal performance across all geological
+              formations.
+            </p>
+            <a
+              href="#products"
+              class="border-2 border-charcoal text-charcoal px-6 py-2 rounded hover:bg-charcoal hover:text-white transition-all font-semibold inline-flex items-center justify-center"
+            >
+              View Products
+            </a>
+          </div>
         </div>
 
-        <!-- Category Pills -->
-        <div class="flex flex-wrap gap-2 mt-6 justify-center">
-          {
-            categories
-              .slice(0, 5)
-              .map((category) => (
-                <button class="px-4 py-2 bg-white/10 hover:bg-orange-600 border border-white/20 rounded-full text-sm font-semibold transition-all duration-300">
-                  {category}
-                </button>
-              ))
-          }
+        <!-- Card 2: Oil-Based Mud Additives -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="h-48 bg-gray-200 border-b-2 border-dashed border-gray-400 flex items-center justify-center">
+            <span class="text-gray-500 text-sm">CATEGORY IMAGE</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 text-safety-orange">Oil-Based Mud Additives</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+              Advanced OBM solutions including emulsifiers, organoclays, rheology modifiers, and wetting agents. Over
+              20,000 barrels in stock at our Wyoming headquarters—the Powder River Basin's only full-service OBM
+              supplier.
+            </p>
+            <a
+              href="#products"
+              class="border-2 border-charcoal text-charcoal px-6 py-2 rounded hover:bg-charcoal hover:text-white transition-all font-semibold inline-flex items-center justify-center"
+            >
+              View Products
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 3: Salt Water-Based Mud Additives -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="h-48 bg-gray-200 border-b-2 border-dashed border-gray-400 flex items-center justify-center">
+            <span class="text-gray-500 text-sm">CATEGORY IMAGE</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 text-safety-orange">Salt Water-Based Mud Additives</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+              Specialized non-aqueous solutions for saltwater applications, including salt gel systems and additives
+              designed for challenging brine environments and salt-sensitive formations.
+            </p>
+            <a
+              href="#products"
+              class="border-2 border-charcoal text-charcoal px-6 py-2 rounded hover:bg-charcoal hover:text-white transition-all font-semibold inline-flex items-center justify-center"
+            >
+              View Products
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 4: Lubricants -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="h-48 bg-gray-200 border-b-2 border-dashed border-gray-400 flex items-center justify-center">
+            <span class="text-gray-500 text-sm">CATEGORY IMAGE</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 text-safety-orange">Lubricants</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+              High-performance lubrication solutions including MTN Beads, Lube X, and premium drilling lubricants
+              designed to reduce torque, drag, and equipment wear in demanding drilling conditions.
+            </p>
+            <a
+              href="#products"
+              class="border-2 border-charcoal text-charcoal px-6 py-2 rounded hover:bg-charcoal hover:text-white transition-all font-semibold inline-flex items-center justify-center"
+            >
+              View Products
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 5: Lost Circulation Materials -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="h-48 bg-gray-200 border-b-2 border-dashed border-gray-400 flex items-center justify-center">
+            <span class="text-gray-500 text-sm">CATEGORY IMAGE</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 text-safety-orange">Lost Circulation Materials</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+              Comprehensive LCM solutions including fiber products, graphite, mica, walnut shells, and proprietary
+              blends like MTN Magic and Surface Sweep for controlling fluid loss in fractured formations.
+            </p>
+            <a
+              href="#products"
+              class="border-2 border-charcoal text-charcoal px-6 py-2 rounded hover:bg-charcoal hover:text-white transition-all font-semibold inline-flex items-center justify-center"
+            >
+              View Products
+            </a>
+          </div>
+        </div>
+
+        <!-- Card 6: Specialty Products -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow">
+          <div class="h-48 bg-gray-200 border-b-2 border-dashed border-gray-400 flex items-center justify-center">
+            <span class="text-gray-500 text-sm">CATEGORY IMAGE</span>
+          </div>
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-3 text-safety-orange">Specialty Products</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+              Custom solutions for unique drilling challenges including corrosion inhibitors, biocides, defoamers, and
+              specialized chemical additives. If you don't see it listed, we can special order it.
+            </p>
+            <a
+              href="#products"
+              class="border-2 border-charcoal text-charcoal px-6 py-2 rounded hover:bg-charcoal hover:text-white transition-all font-semibold inline-flex items-center justify-center"
+            >
+              View Products
+            </a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Products Layout with Sidebar -->
-  <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="flex flex-col lg:flex-row gap-8">
-        <!-- Sidebar Filters -->
-        <aside class="w-full lg:w-64 lg:sticky lg:top-24 h-fit">
-          <div class="bg-white rounded-lg shadow-lg p-6 space-y-6">
-            <h3 class="text-lg font-bold uppercase tracking-wider text-gray-900">Filters</h3>
+  <!-- SECTION 3: SAMPLE PRODUCT TABLE -->
+  <section id="products" class="bg-white py-16 md:py-24">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <h3 class="text-3xl font-bold mb-8 text-charcoal text-center">
+        Sample Product Listing - Weight Material and Clays
+      </h3>
 
-            <!-- Category Filter -->
-            <div class="border-t border-gray-200 pt-4">
-              <h4 class="font-semibold text-gray-900 mb-3">Categories</h4>
-              <div class="space-y-2">
-                {
-                  categories.map((category) => (
-                    <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500"
-                      />
-                      {category}
-                    </label>
-                  ))
-                }
-              </div>
-            </div>
-
-            <!-- Application Filter -->
-            <div class="border-t border-gray-200 pt-4">
-              <h4 class="font-semibold text-gray-900 mb-3">Application</h4>
-              <div class="space-y-2">
-                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
-                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
-                  Water-Based Muds
-                </label>
-                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
-                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
-                  Oil-Based Muds
-                </label>
-                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
-                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
-                  Synthetic Muds
-                </label>
-              </div>
-            </div>
-
-            <!-- Availability -->
-            <div class="border-t border-gray-200 pt-4">
-              <h4 class="font-semibold text-gray-900 mb-3">Availability</h4>
-              <div class="space-y-2">
-                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
-                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
-                  In Stock
-                </label>
-                <label class="flex items-center text-sm text-gray-700 hover:text-orange-600 cursor-pointer">
-                  <input type="checkbox" class="mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
-                  Special Order
-                </label>
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        <!-- Product Grid -->
-        <div class="flex-1">
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Responsive Table -->
+      <div class="overflow-x-auto bg-white rounded-lg shadow-sm border border-gray-200">
+        <table class="w-full">
+          <thead class="bg-light-gray border-b-2 border-safety-orange">
+            <tr>
+              <th class="px-6 py-4 text-left font-bold text-charcoal">Product Name</th>
+              <th class="px-6 py-4 text-left font-bold text-charcoal">Size</th>
+              <th class="px-6 py-4 text-left font-bold text-charcoal">Price</th>
+              <th class="px-6 py-4 text-left font-bold text-charcoal">Product Sheet</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
             {
-              products.map((product) => (
-                <div class="group relative overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300">
-                  {/* Product Image */}
-                  <div class="relative h-64 overflow-hidden bg-gray-200">
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-
-                    {/* Category Badge */}
-                    <div class="absolute top-4 right-4">
-                      <span class="px-3 py-1 bg-orange-600 text-white text-xs font-bold uppercase rounded-full">
-                        {product.category}
-                      </span>
-                    </div>
-
-                    {/* Content Overlay */}
-                    <div class="absolute bottom-0 p-6 text-white w-full">
-                      <h3 class="text-2xl font-bold mb-2">{product.title}</h3>
-                      <p class="text-gray-200 text-sm mb-4">{product.description}</p>
-
-                      {/* Specifications */}
-                      <div class="space-y-1 mb-4 text-sm">
-                        {Object.entries(product.specs).map(([key, value]) => (
-                          <div class="flex justify-between">
-                            <span class="text-gray-300 capitalize">{key}:</span>
-                            <span class="font-semibold">{value}</span>
-                          </div>
-                        ))}
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div class="flex gap-2">
-                        <button class="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
-                          Request Quote
-                        </button>
-                        <button class="p-2 bg-white/10 hover:bg-white/20 backdrop-blur rounded transition-colors duration-300">
-                          <Icon name="tabler:info-circle" class="w-5 h-5" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              sampleProducts.map((product, index) => (
+                <tr class={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                  <td class="px-6 py-4 font-semibold text-charcoal">{product.name}</td>
+                  <td class="px-6 py-4 text-gray-700">{product.size}</td>
+                  <td class="px-6 py-4 text-gray-700">{product.price}</td>
+                  <td class="px-6 py-4">
+                    <a
+                      href="#"
+                      class="text-safety-orange hover:underline font-semibold inline-flex items-center gap-2"
+                    >
+                      <svg
+                        class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                      Download PDF
+                    </a>
+                  </td>
+                </tr>
               ))
             }
-          </div>
-
-          <!-- Pagination -->
-          <div class="mt-12 flex justify-center gap-2">
-            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">
-              Previous
-            </button>
-            <button class="px-4 py-2 bg-orange-600 text-white rounded-lg">1</button>
-            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">2</button>
-            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">3</button>
-            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors">Next</button
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Download Center -->
-  <section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h2 class="text-4xl font-black uppercase tracking-wide mb-4">Download Center</h2>
-        <p class="text-xl text-gray-600">Product catalogs, specifications, and technical documentation</p>
+          </tbody>
+        </table>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {
-          downloadableResources.map((resource) => (
-            <div class="bg-white border border-gray-200 p-6 rounded-lg hover:shadow-lg transition-shadow duration-300">
-              <div class="flex flex-col items-center text-center">
-                <Icon name={resource.icon} class="w-16 h-16 text-red-500 mb-4" />
-                <h3 class="font-bold text-gray-900 mb-2">{resource.title}</h3>
-                <p class="text-sm text-gray-500 mb-4">
-                  {resource.fileType} • {resource.fileSize}
-                </p>
-                <button class="w-full btn-primary inline-flex items-center justify-center gap-2">
-                  <Icon name="tabler:download" class="w-4 h-4" />
-                  Download
-                </button>
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Section -->
-  <section class="py-16 bg-gray-900 text-white">
-    <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-      <h2 class="text-3xl md:text-4xl font-black uppercase tracking-wide mb-4">Need Help Selecting Products?</h2>
-      <p class="text-xl text-gray-300 mb-8">
-        Our technical experts are ready to help you choose the right products for your drilling operation.
+      <p class="text-sm text-gray-600 text-center mt-6 italic">
+        Complete product catalog with pricing from all categories organized by system type
       </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="/contact" class="btn-primary"> Contact Our Team </a>
-        <a href="/services" class="btn"> View Services </a>
-      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: CTA -->
+  <section class="bg-charcoal text-white py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-4xl text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 text-safety-orange">Can't Find What You Need?</h2>
+      <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-10 max-w-3xl mx-auto">
+        Any item not listed can be special ordered at any time. Contact our team for availability, pricing, or custom
+        formulations tailored to your specific drilling requirements.
+      </p>
+
+      <a
+        href="/contact"
+        class="bg-white text-safety-orange px-10 py-4 rounded hover:bg-gray-100 transition-colors font-semibold text-lg inline-flex items-center justify-center"
+      >
+        Contact Product Specialists
+      </a>
     </div>
   </section>
 </Layout>

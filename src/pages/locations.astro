@@ -1,113 +1,206 @@
 ---
-import Hero from '~/components/widgets/Hero.astro';
-import Content from '~/components/widgets/Content.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
   title: 'Locations - MTN Mud Service & Supply',
   description:
-    'Find Mountain Mud Service & Supply locations across the United States. Over 13 stock points serving major drilling operations.',
+    'Strategically located in Gillette WY, Cheyenne WY, and Williston ND. Three locations across the Rockies delivering drilling fluid solutions 24/7.',
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Page Hero ******************* -->
-
-  <Hero tagline="Our Locations">
-    <Fragment slot="title">
-      Serving the Heart of <span class="text-primary dark:text-white">American Energy</span>
-    </Fragment>
-  </Hero>
-
-  <!-- Introduction ******************* -->
-
-  <Content
-    id="introduction"
-    columns={1}
-    items={[]}
-    classes={{
-      container: 'max-w-4xl',
-      panel: 'max-w-none',
-      content: 'text-center',
-    }}
-  >
-    <Fragment slot="content">
-      <p class="text-xl text-muted leading-relaxed text-center">
-        Mountain Mud Service & Supply strategically positions our facilities to serve major drilling operations across
-        the United States. With over 13 stock points and growing, we ensure rapid response times and local expertise
-        wherever you operate.
+  <!-- SECTION 1: HERO -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="container mx-auto px-4 max-w-4xl text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 text-charcoal">Strategically Located to Serve You</h1>
+      <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-safety-orange">Three Locations Across the Rockies</h2>
+      <p class="text-lg text-gray-700 leading-relaxed mb-12 max-w-3xl mx-auto">
+        With strategically positioned facilities in Wyoming and North Dakota, we're positioned to deliver drilling fluid
+        solutions where you need them, when you need them—24/7, 365 days a year.
       </p>
-    </Fragment>
-  </Content>
 
-  <!-- Location Cards ******************* -->
+      <!-- Map Placeholder -->
+      <div class="h-96 bg-gray-200 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center">
+        <span class="text-gray-500 text-center px-4">INTERACTIVE MAP WITH LOCATION PINS</span>
+      </div>
+    </div>
+  </section>
 
-  <Features2
-    title="Our Stock Points"
-    tagline="Strategic Locations"
-    columns={2}
-    items={[
-      {
-        title: 'Gillette, WY (Headquarters)',
-        description: 'Full-service facility with complete mud lab, extensive inventory, and 24/7 support',
-        icon: 'tabler:map-pin',
-      },
-      {
-        title: 'Cheyenne, WY',
-        description: 'Strategic distribution point serving Wyoming operations',
-        icon: 'tabler:map-pin',
-      },
-      {
-        title: 'Belfield, ND',
-        description: 'Full-service support for Bakken drilling operations',
-        icon: 'tabler:map-pin',
-      },
-      {
-        title: 'Mohall, ND',
-        description: 'Northern North Dakota coverage with local expertise',
-        icon: 'tabler:map-pin',
-      },
-      {
-        title: 'Farmington, NM',
-        description: 'San Juan Basin operations support and supply',
-        icon: 'tabler:map-pin',
-      },
-      {
-        title: 'Hobbs, NM',
-        description: 'Permian Basin service center with extensive inventory',
-        icon: 'tabler:map-pin',
-      },
-      {
-        title: 'Carthage, TX',
-        description: 'East Texas operations support and delivery services',
-        icon: 'tabler:map-pin',
-      },
-      {
-        title: 'Additional Locations',
-        description: 'Contact us for information about our growing network of stock points',
-        icon: 'tabler:map-pins',
-      },
-    ]}
-  />
+  <!-- SECTION 2: LOCATION CARDS -->
+  <section class="bg-light-gray py-16 md:py-24">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Card 1 - Gillette, WY (Headquarters) -->
+        <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-safety-orange">
+          <h3 class="text-2xl font-bold mb-4 text-safety-orange">Gillette, WY (Headquarters)</h3>
 
-  <!-- Delivery Banner ******************* -->
+          <p class="text-gray-700 leading-relaxed mb-6">
+            Our flagship location serves as the operational heart of Mountain Mud, featuring our largest inventory, full
+            mud lab capabilities, and over 20,000 barrels of oil-based drilling fluid in stock.
+          </p>
 
-  <CallToAction
-    title="We Deliver Anywhere, Anytime"
-    subtitle="Our private fleet of 65+ vehicles ensures we can reach your location 24/7, no matter the load size or urgency."
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Contact Us',
-        href: '/contact',
-        icon: 'tabler:phone',
-      },
-    ]}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-primary"></div>
-    </Fragment>
-  </CallToAction>
+          <div class="space-y-3 mb-6">
+            <div>
+              <p class="font-semibold text-charcoal">Address:</p>
+              <p class="text-gray-700">
+                103 E. Lincoln St.<br />
+                Gillette, WY 82716
+              </p>
+            </div>
+
+            <div>
+              <p class="font-semibold text-charcoal">Phone:</p>
+              <p class="text-gray-700">
+                <a href="tel:307-682-8688" class="text-safety-orange hover:underline">307-682-8688</a>
+              </p>
+            </div>
+
+            <div>
+              <p class="font-semibold text-charcoal">Email:</p>
+              <p class="text-gray-700">
+                <a href="mailto:alicia@kutthru.com" class="text-safety-orange hover:underline">alicia@kutthru.com</a>
+              </p>
+            </div>
+          </div>
+
+          <div>
+            <p class="font-semibold text-charcoal mb-2">Services:</p>
+            <ul class="space-y-1 text-gray-700 text-sm">
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Full mud engineering</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>24/7 delivery</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Complete product inventory</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Mud lab</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Technical support</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 2 - Cheyenne, WY -->
+        <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-safety-orange">
+          <h3 class="text-2xl font-bold mb-4 text-safety-orange">Cheyenne, WY</h3>
+
+          <p class="text-gray-700 leading-relaxed mb-6">
+            Strategically positioned to serve operations throughout southern Wyoming and northern Colorado, our Cheyenne
+            facility ensures rapid response times and local expertise.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div>
+              <p class="font-semibold text-charcoal">Address:</p>
+              <p class="text-gray-700 italic">[To be provided]</p>
+            </div>
+
+            <div>
+              <p class="font-semibold text-charcoal">Phone:</p>
+              <p class="text-gray-700 italic">[TBD]</p>
+            </div>
+          </div>
+
+          <div>
+            <p class="font-semibold text-charcoal mb-2">Services:</p>
+            <ul class="space-y-1 text-gray-700 text-sm">
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Drilling fluid supplies</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Delivery services</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Technical support</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Card 3 - Williston, ND -->
+        <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-safety-orange">
+          <h3 class="text-2xl font-bold mb-4 text-safety-orange">Williston, ND</h3>
+
+          <p class="text-gray-700 leading-relaxed mb-6">
+            Serving the Bakken and surrounding formations, our Williston facility features a fully functional mud lab and
+            comprehensive inventory to support your North Dakota operations.
+          </p>
+
+          <div class="space-y-3 mb-6">
+            <div>
+              <p class="font-semibold text-charcoal">Address:</p>
+              <p class="text-gray-700 italic">[To be provided]</p>
+            </div>
+
+            <div>
+              <p class="font-semibold text-charcoal">Phone:</p>
+              <p class="text-gray-700 italic">[TBD]</p>
+            </div>
+          </div>
+
+          <!-- Mud Lab Photo -->
+          <div class="mb-6 h-48 bg-gray-200 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center">
+            <span class="text-gray-500 text-sm text-center px-4">MUD LAB PHOTO (August in ND)</span>
+          </div>
+
+          <div>
+            <p class="font-semibold text-charcoal mb-2">Services:</p>
+            <ul class="space-y-1 text-gray-700 text-sm">
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Full functional mud lab</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Particle size analysis</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Drilling fluid supplies</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Delivery</span>
+              </li>
+              <li class="flex items-start">
+                <span class="text-safety-orange mr-2">•</span>
+                <span>Technical support</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: CTA -->
+  <section class="bg-light-gray py-16 md:py-20">
+    <div class="container mx-auto px-4 max-w-4xl text-center">
+      <h3 class="text-2xl md:text-3xl font-bold mb-6 text-charcoal">Ready to Work Together?</h3>
+      <p class="text-lg text-gray-700 leading-relaxed mb-8 max-w-3xl mx-auto">
+        No matter which location you work with, you'll receive the same exceptional service, technical expertise, and
+        commitment to your success that Mountain Mud is known for.
+      </p>
+
+      <a
+        href="/contact"
+        class="bg-safety-orange text-white px-10 py-4 rounded hover:bg-[#C25A1E] transition-colors font-semibold text-lg inline-flex items-center justify-center"
+      >
+        Contact Your Nearest Location
+      </a>
+    </div>
+  </section>
 </Layout>

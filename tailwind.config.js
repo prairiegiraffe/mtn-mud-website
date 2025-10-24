@@ -13,13 +13,63 @@ export default {
         accent: 'var(--aw-color-accent)',
         default: 'var(--aw-color-text-default)',
         muted: 'var(--aw-color-text-muted)',
-        orange: 'var(--aw-color-orange)',
-        charcoal: 'var(--aw-color-charcoal)',
+        // Brand Colors - Safety & Energy
+        'safety-orange': {
+          DEFAULT: '#DD5E26',
+          50: '#FEF3EE',
+          100: '#FCE4D6',
+          200: '#F9C8AD',
+          300: '#F5A379',
+          400: '#EF7A43',
+          500: '#DD5E26',
+          600: '#C2491A',
+          700: '#9F3818',
+          800: '#7F2F1A',
+          900: '#672817',
+        },
+        // Neutrals - Professional & Warm
+        charcoal: {
+          DEFAULT: '#343230',
+          50: '#F5F4F4',
+          100: '#E6E5E4',
+          200: '#CFCDCB',
+          300: '#ADA9A6',
+          400: '#8A8582',
+          500: '#6F6B68',
+          600: '#5A5754',
+          700: '#4A4744',
+          800: '#343230',
+          900: '#1F1E1D',
+        },
+        // Warm Backgrounds
+        'warm-white': '#FDFCFB',
+        'warm-gray': {
+          DEFAULT: '#F7F6F4',
+          50: '#FDFCFB',
+          100: '#F7F6F4',
+          200: '#EEECEA',
+          300: '#E0DDD9',
+          400: '#C9C4BE',
+        },
+        // Trust & Technology Accent
+        slate: {
+          DEFAULT: '#4A5568',
+          light: '#718096',
+          dark: '#2D3748',
+        },
       },
       fontFamily: {
         sans: ['var(--aw-font-sans, ui-sans-serif)', ...defaultTheme.fontFamily.sans],
         serif: ['var(--aw-font-serif, ui-serif)', ...defaultTheme.fontFamily.serif],
         heading: ['var(--aw-font-heading, ui-sans-serif)', ...defaultTheme.fontFamily.sans],
+        mono: ['var(--aw-font-mono, ui-monospace)', ...defaultTheme.fontFamily.mono],
+      },
+      boxShadow: {
+        'soft': '0 2px 8px rgba(52, 50, 48, 0.08)',
+        'soft-lg': '0 4px 16px rgba(52, 50, 48, 0.12)',
+        'soft-xl': '0 8px 32px rgba(52, 50, 48, 0.16)',
+        'orange-glow': '0 4px 16px rgba(221, 94, 38, 0.25)',
+        'inner-soft': 'inset 0 2px 4px rgba(52, 50, 48, 0.06)',
       },
 
       animation: {

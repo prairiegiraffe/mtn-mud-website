@@ -1,51 +1,47 @@
 ---
-import '@fontsource-variable/inter';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import '@fontsource/roboto/900.css';
-
-// 'DM Sans'
-// Nunito
-// Dosis
-// Outfit
-// Roboto - Using for professional, industrial look
-// Literata
-// 'IBM Plex Sans'
-// Karla
-// Poppins
-// 'Fira Sans'
-// 'Libre Franklin'
-// Inconsolata
-// Raleway
-// Oswald
-// 'Space Grotesk'
-// Urbanist
+// Modern industrial font pairing for MTN Mud
+import '@fontsource-variable/work-sans';
+import '@fontsource/space-grotesk/400.css';
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/600.css';
+import '@fontsource/space-grotesk/700.css';
 ---
 
 <style is:inline>
   :root {
-    --aw-font-sans: 'Roboto', 'Inter Variable', system-ui, sans-serif;
-    --aw-font-serif: 'Roboto', 'Inter Variable', system-ui, sans-serif;
-    --aw-font-heading: 'Roboto', 'Inter Variable', system-ui, sans-serif;
+    /* Modern Font System */
+    --aw-font-sans: 'Work Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --aw-font-heading: 'Work Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --aw-font-mono: 'Space Grotesk', 'SF Mono', Monaco, 'Courier New', monospace;
 
-    /* MTN Mud Brand Colors */
-    --aw-color-primary: rgb(221 94 38); /* Safety Orange */
-    --aw-color-secondary: rgb(52 50 48); /* Charcoal Black */
+    /* MTN Mud Brand Colors - Enhanced */
+    --aw-color-primary: rgb(221 94 38); /* Safety Orange #DD5E26 */
+    --aw-color-secondary: rgb(52 50 48); /* Charcoal #343230 */
     --aw-color-accent: rgb(221 94 38); /* Safety Orange for accents */
 
-    /* Additional brand colors */
-    --aw-color-orange: rgb(221 94 38); /* Safety Orange */
-    --aw-color-charcoal: rgb(52 50 48); /* Charcoal Black */
-    --aw-color-white: rgb(255 255 255); /* White */
+    /* Extended Color Palette */
+    --aw-color-safety-orange: rgb(221 94 38);
+    --aw-color-safety-orange-light: rgb(245 163 121);
+    --aw-color-safety-orange-dark: rgb(194 73 26);
+
+    --aw-color-charcoal: rgb(52 50 48);
+    --aw-color-charcoal-light: rgb(111 107 104);
+    --aw-color-charcoal-dark: rgb(31 30 29);
+
+    /* Warm Neutral Backgrounds */
+    --aw-color-warm-white: rgb(253 252 251);
+    --aw-color-warm-gray: rgb(247 246 244);
+    --aw-color-warm-gray-100: rgb(238 236 234);
+    --aw-color-warm-gray-200: rgb(224 221 217);
 
     /* Text colors for light mode */
-    --aw-color-text-heading: rgb(52 50 48); /* Charcoal for headings */
-    --aw-color-text-default: rgb(52 50 48); /* Charcoal for body text */
-    --aw-color-text-muted: rgb(52 50 48 / 75%); /* Muted charcoal */
+    --aw-color-text-heading: rgb(52 50 48);
+    --aw-color-text-default: rgb(52 50 48);
+    --aw-color-text-muted: rgb(111 107 104);
 
     /* Background colors */
-    --aw-color-bg-page: rgb(255 255 255); /* White background */
+    --aw-color-bg-page: rgb(253 252 251); /* Warm white instead of pure white */
+    --aw-color-bg-light: rgb(247 246 244); /* Warm gray background */
     --aw-color-bg-page-dark: rgb(52 50 48); /* Charcoal for dark sections */
 
     /* Selection styling */
@@ -56,22 +52,32 @@ import '@fontsource/roboto/900.css';
   }
 
   .dark {
-    --aw-font-sans: 'Roboto', 'Inter Variable', system-ui, sans-serif;
-    --aw-font-serif: 'Roboto', 'Inter Variable', system-ui, sans-serif;
-    --aw-font-heading: 'Roboto', 'Inter Variable', system-ui, sans-serif;
+    /* Modern Font System (same as light) */
+    --aw-font-sans: 'Work Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --aw-font-heading: 'Work Sans Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --aw-font-mono: 'Space Grotesk', 'SF Mono', Monaco, 'Courier New', monospace;
 
     /* MTN Mud Brand Colors in dark mode */
-    --aw-color-primary: rgb(221 94 38); /* Safety Orange stays vibrant */
-    --aw-color-secondary: rgb(255 255 255); /* White for secondary in dark */
-    --aw-color-accent: rgb(221 94 38); /* Safety Orange for accents */
+    --aw-color-primary: rgb(221 94 38);
+    --aw-color-secondary: rgb(255 255 255);
+    --aw-color-accent: rgb(221 94 38);
+
+    --aw-color-safety-orange: rgb(221 94 38);
+    --aw-color-safety-orange-light: rgb(245 163 121);
+    --aw-color-safety-orange-dark: rgb(194 73 26);
+
+    --aw-color-charcoal: rgb(52 50 48);
+    --aw-color-warm-white: rgb(253 252 251);
+    --aw-color-warm-gray: rgb(247 246 244);
 
     /* Text colors for dark mode */
-    --aw-color-text-heading: rgb(255 255 255); /* White headings */
-    --aw-color-text-default: rgb(255 255 255 / 95%); /* Almost white for body */
-    --aw-color-text-muted: rgb(255 255 255 / 70%); /* Muted white */
+    --aw-color-text-heading: rgb(255 255 255);
+    --aw-color-text-default: rgb(255 255 255 / 95%);
+    --aw-color-text-muted: rgb(255 255 255 / 70%);
 
     /* Background for dark mode */
-    --aw-color-bg-page: rgb(52 50 48); /* Charcoal background */
+    --aw-color-bg-page: rgb(52 50 48);
+    --aw-color-bg-light: rgb(74 71 68);
 
     ::selection {
       background-color: rgb(221 94 38 / 40%);

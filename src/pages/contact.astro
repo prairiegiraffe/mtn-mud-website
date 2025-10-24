@@ -1,79 +1,332 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
-import ContactUs from '~/components/widgets/Contact.astro';
-import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
-  title: 'Contact',
+  title: 'Contact Us - Get Expert Support 24/7 | MTN Mud',
+  description:
+    'Contact Mountain Mud for drilling fluids expertise and support. Available 24/7 at 307-682-8688. Headquarters in Gillette WY, with locations in Cheyenne WY and Williston ND.',
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- HeroText Widget ******************* -->
+  <!-- SECTION 1: HERO -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="container mx-auto px-4 max-w-5xl text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 text-charcoal">Let's Talk About Your Project</h1>
+      <p class="text-lg text-gray-700 leading-relaxed max-w-4xl mx-auto">
+        Have questions about our drilling fluid services, products, or capabilities? Need immediate technical support?
+        Want to discuss a custom solution for your next project? We're here to help—24 hours a day, 7 days a week.
+      </p>
+    </div>
+  </section>
 
-  <HeroText tagline="Contact" title="Let's Connect!" />
+  <!-- SECTION 2: CONTACT INFO & FORM -->
+  <section class="bg-light-gray py-16 md:py-24">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+        <!-- Left Column - Contact Information (40%) -->
+        <div class="lg:col-span-2 space-y-8">
+          <div>
+            <h3 class="text-2xl font-bold mb-4 text-safety-orange">Contact Information</h3>
+            <p class="text-gray-700 leading-relaxed mb-6">
+              Whether you're an existing partner or exploring drilling fluids solutions for the first time, our team is
+              ready to answer your questions and provide expert guidance.
+            </p>
+          </div>
 
-  <ContactUs
-    id="form"
-    title="Drop us a message today!"
-    subtitle="For quicker answers, explore our FAQs section. You may find the solution you're looking  for right there! If not, our support team is delighted to help you."
-    inputs={[
-      {
-        type: 'text',
-        name: 'name',
-        label: 'Name',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Email',
-      },
-    ]}
-    textarea={{
-      label: 'Message',
-    }}
-    disclaimer={{
-      label:
-        'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
-    }}
-    description="Our support team typically responds within 24 business hours."
-  />
+          <!-- Headquarters -->
+          <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-safety-orange">
+            <h4 class="text-xl font-bold mb-4 text-charcoal">Headquarters - Gillette, WY</h4>
 
-  <!-- Features2 Widget ************** -->
+            <div class="space-y-3 text-gray-700">
+              <div>
+                <p class="font-semibold text-charcoal">Address:</p>
+                <p>103 E. Lincoln St.</p>
+                <p>Gillette, WY 82716</p>
+              </div>
 
-  <Features2
-    title="We are here to help!"
-    items={[
-      {
-        title: 'General support',
-        description: `Chat with us for inquiries related to account management, website navigation, payment issues, accessing purchased templates or general questions about the website's functionality.`,
-      },
-      {
-        title: 'Contact sales',
-        description:
-          'Chat with us for questions about purchases, customization options, licensing for commercial use, inquiries about specific template, etc.',
-      },
-      {
-        title: 'Technical support',
-        description:
-          'Chat with us when facing issues like template installation, problems editing difficulties, compatibility issues with software or download errors, or other technical challenges related to using the templates.',
-      },
-      {
-        title: 'Phone',
-        description: '+1 (234) 567-890',
-        icon: 'tabler:headset',
-      },
-      {
-        title: 'Email',
-        description: 'contact@support.com',
-        icon: 'tabler:mail',
-      },
-      {
-        title: 'Location',
-        description: '1234 Lorem Ipsum St, 12345, Miami, EEUU',
-        icon: 'tabler:map-pin',
-      },
-    ]}
-  />
+              <div>
+                <p class="font-semibold text-charcoal">Phone:</p>
+                <p>
+                  <a href="tel:307-682-8688" class="text-safety-orange hover:underline font-semibold">307-682-8688</a>
+                </p>
+              </div>
+
+              <div>
+                <p class="font-semibold text-charcoal">Email:</p>
+                <p>
+                  <a href="mailto:alicia@kutthru.com" class="text-safety-orange hover:underline"
+                    >alicia@kutthru.com</a
+                  >
+                </p>
+              </div>
+
+              <div>
+                <p class="font-semibold text-charcoal">Hours:</p>
+                <p class="font-bold text-safety-orange">24/7 Support Available</p>
+                <p class="text-sm">Office Hours: Monday-Friday, 8:00 AM - 5:00 PM MT</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Locations -->
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h4 class="text-xl font-bold mb-4 text-charcoal">Additional Locations</h4>
+
+            <div class="space-y-4 text-gray-700">
+              <div>
+                <p class="font-semibold text-charcoal">Cheyenne, WY</p>
+                <p class="text-sm text-gray-500 italic">[Address to be provided]</p>
+              </div>
+
+              <div>
+                <p class="font-semibold text-charcoal">Williston, ND</p>
+                <p class="text-sm text-gray-500 italic">[Address to be provided]</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social Media -->
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h4 class="text-xl font-bold mb-4 text-charcoal">Connect With Us</h4>
+            <p class="text-gray-700 mb-4">
+              Follow us on social media for industry insights, company updates, and drilling fluids tips:
+            </p>
+
+            <div class="flex gap-4">
+              <a
+                href="https://www.facebook.com/mtnmud"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-safety-orange hover:text-orange-600 transition-colors"
+                aria-label="Facebook"
+              >
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                  ></path>
+                </svg>
+              </a>
+
+              <a
+                href="https://www.instagram.com/MTN_MUD"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-safety-orange hover:text-orange-600 transition-colors"
+                aria-label="Instagram"
+              >
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                  ></path>
+                </svg>
+              </a>
+
+              <a
+                href="https://www.linkedin.com/company/mountainmud/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-safety-orange hover:text-orange-600 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                  ></path>
+                </svg>
+              </a>
+
+              <a
+                href="https://www.tiktok.com/@mtn_mud"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-safety-orange hover:text-orange-600 transition-colors"
+                aria-label="TikTok"
+              >
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"
+                  ></path>
+                </svg>
+              </a>
+
+              <a
+                href="https://www.youtube.com/@MTN_MUD"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-safety-orange hover:text-orange-600 transition-colors"
+                aria-label="YouTube"
+              >
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - Contact Form (60%) -->
+        <div class="lg:col-span-3">
+          <div class="bg-white p-8 rounded-lg shadow-sm">
+            <h3 class="text-2xl font-bold mb-6 text-safety-orange">Send Us a Message</h3>
+
+            <form class="space-y-6">
+              <div>
+                <label for="name" class="block text-gray-700 font-semibold mb-2">
+                  Name <span class="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-safety-orange"
+                />
+              </div>
+
+              <div>
+                <label for="company" class="block text-gray-700 font-semibold mb-2">Company</label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-safety-orange"
+                />
+              </div>
+
+              <div>
+                <label for="email" class="block text-gray-700 font-semibold mb-2">
+                  Email Address <span class="text-red-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-safety-orange"
+                />
+              </div>
+
+              <div>
+                <label for="phone" class="block text-gray-700 font-semibold mb-2">Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-safety-orange"
+                />
+              </div>
+
+              <div>
+                <label for="subject" class="block text-gray-700 font-semibold mb-2">
+                  Subject <span class="text-red-500">*</span>
+                </label>
+                <select
+                  id="subject"
+                  name="subject"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-safety-orange"
+                >
+                  <option value="">Select a subject...</option>
+                  <option value="general">General Inquiry</option>
+                  <option value="product">Product Information</option>
+                  <option value="service">Service Request</option>
+                  <option value="technical">Technical Support</option>
+                  <option value="pricing">Pricing Quote</option>
+                  <option value="partnership">Partnership Opportunity</option>
+                  <option value="career">Career/Employment</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="message" class="block text-gray-700 font-semibold mb-2">
+                  Message <span class="text-red-500">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="6"
+                  required
+                  placeholder="Please provide details about your inquiry. For technical support, include rig location and nature of the issue. For service requests, let us know your project timeline and specific needs."
+                  class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-safety-orange"
+                ></textarea>
+              </div>
+
+              <div class="text-sm text-gray-500 italic">
+                Note: Include reCAPTCHA or spam protection
+              </div>
+
+              <div>
+                <button
+                  type="submit"
+                  class="w-full bg-safety-orange text-white px-10 py-4 rounded hover:bg-orange-600 transition-colors font-semibold text-lg"
+                >
+                  Send Message
+                </button>
+              </div>
+
+              <div class="text-sm text-gray-600 text-center pt-4 border-t border-gray-200">
+                <p>
+                  For urgent technical support or after-hours assistance, please call our 24/7 hotline at <a
+                    href="tel:307-682-8688"
+                    class="text-safety-orange font-semibold hover:underline">307-682-8688</a
+                  >.
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: MAP -->
+  <section class="bg-white py-16 md:py-24">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <h3 class="text-2xl md:text-3xl font-bold text-center mb-3 text-charcoal">Find Us</h3>
+      <h4 class="text-xl text-center mb-8 text-gray-600">Serving the Rockies and Beyond</h4>
+
+      {/* Map Placeholder */}
+      <div class="h-96 bg-gray-200 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center mb-8">
+        <span class="text-gray-500 text-center px-4"
+          >INTERACTIVE MAP<br />(Headquarters pin in Gillette + location markers for Cheyenne & Williston)</span
+        >
+      </div>
+
+      <p class="text-lg text-gray-700 leading-relaxed text-center max-w-4xl mx-auto">
+        With strategically located facilities across Wyoming and North Dakota, Mountain Mud is positioned to deliver
+        exceptional drilling fluid solutions throughout the Rockies, Texas, Oklahoma, Colorado, and beyond. Wherever you
+        drill, we're ready to support your operations.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 4: CTA -->
+  <section class="bg-charcoal text-white py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-4xl text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6 text-safety-orange">Ready to Get Started?</h2>
+      <p class="text-lg md:text-xl text-gray-300 leading-relaxed mb-10 max-w-3xl mx-auto">
+        Let's discuss how Mountain Mud can optimize your drilling operations with our proven fluids expertise,
+        responsive service, and commitment to your success. Contact us today.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a
+          href="tel:307-682-8688"
+          class="bg-white text-safety-orange px-10 py-4 rounded hover:bg-gray-100 transition-colors font-semibold text-lg inline-flex items-center justify-center"
+        >
+          Call Us Now
+        </a>
+        <a
+          href="#contact-form"
+          class="border-2 border-white text-white px-10 py-4 rounded hover:bg-white hover:text-charcoal transition-all font-semibold text-lg inline-flex items-center justify-center"
+        >
+          Request a Quote
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>

@@ -1,215 +1,660 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-import BackgroundImageHero from '~/components/ui/page-sections/hero-sections/BackgroundImageHero';
-import Features from '~/components/widgets/Features.astro';
-import Features3 from '~/components/widgets/Features3.astro';
-import Content from '~/components/widgets/Content.astro';
-import Brands from '~/components/widgets/Brands.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
-
 const metadata = {
   title: 'MTN Mud - Service Based Drilling Fluids',
   description:
-    'Your trusted partner for drilling fluids and mud engineering across the Rockies and beyond. 40+ years of excellence in the drilling fluids industry.',
+    'When drilling fluid challenges threaten your timeline and budget, you need a partner who delivers results—not excuses. 40+ years of excellence serving the Rockies and beyond.',
   ignoreTitleTemplate: true,
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Section ******************* -->
-  <BackgroundImageHero
-    client:load
-    title="Service Based Drilling Fluids"
-    subtitle="Your trusted partner for drilling fluids and mud engineering across the Rockies and beyond"
-    ctaText="Get Started"
-    ctaHref="/contact"
-    secondaryCtaText="View Our Services"
-    secondaryCtaHref="/services"
-    announcementText="40+ Years of Excellence in Drilling Fluids. Learn more"
-    announcementHref="#about"
-    backgroundImage="/hero-image.png"
-    backgroundImageDark="/hero-image.png"
-  />
+  <!-- SECTION 1: HERO - IMAGE TILES -->
+  <section class="relative bg-warm-white overflow-hidden">
+    <div class="mx-auto max-w-7xl px-6 pt-36 pb-32 sm:pt-48 lg:px-8 lg:pt-32">
+      <div class="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
+        <!-- Left Column: Content -->
+        <div class="relative w-full lg:max-w-xl lg:shrink-0 xl:max-w-2xl">
+          <h1 class="text-5xl font-black tracking-tight text-charcoal-900 sm:text-6xl lg:text-7xl leading-[1.1]">
+            Drill Faster. Drill Safer. Drill Smarter.
+          </h1>
+          <p class="mt-8 text-lg text-charcoal-500 sm:max-w-md sm:text-xl lg:max-w-none leading-relaxed font-medium">
+            When drilling fluid challenges threaten your timeline and budget, you need a partner who delivers
+            results—not excuses.
+          </p>
+          <div class="mt-10 flex flex-col sm:flex-row items-start gap-4">
+            <a
+              href="/contact"
+              class="bg-safety-orange text-white px-8 py-4 rounded-lg hover:bg-safety-orange-700 transition-all font-bold text-base shadow-orange-glow hover:shadow-soft-xl hover:-translate-y-0.5"
+            >
+              Get Expert Support Now
+            </a>
+            <a
+              href="#solutions"
+              class="text-base font-bold text-charcoal hover:text-safety-orange transition-colors group inline-flex items-center gap-2"
+            >
+              See Our Solutions
+              <span aria-hidden="true" class="group-hover:translate-x-1 transition-transform">→</span>
+            </a>
+          </div>
+        </div>
 
-  <!-- Introduction Section ******************* -->
-  <Content
-    id="about"
-    columns={1}
-    items={[]}
-    image={{
-      src: '~/assets/images/default.png',
-      alt: 'MTN Mud Operations',
-      loading: 'eager',
-    }}
-    classes={{
-      container: 'max-w-6xl',
-      panel: 'max-w-none',
-      title: 'text-4xl md:text-5xl font-bold',
-      subtitle: 'text-xl text-muted max-w-3xl mx-auto',
-      content: 'text-center',
-    }}
-  >
-    <Fragment slot="content">
-      <h2 class="text-4xl md:text-5xl font-bold mb-8 text-center">40 Years of Excellence in Drilling Fluids</h2>
-      <p class="text-xl text-muted leading-relaxed text-center max-w-4xl mx-auto">
-        Mountain Mud Service & Supply delivers exceptional, customer-specific service in the drilling fluids industry.
-        We combine performance, economics, safety, and cutting-edge technology to provide unmatched value to our
-        partners across Texas, Oklahoma, Colorado, and the Rocky Mountain region.
+        <!-- Right Column: Staggered Image Tiles -->
+        <div class="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
+          <!-- Column 1 -->
+          <div class="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-0 xl:pt-80">
+            <div class="relative">
+              <div class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 1<br />Field Ops</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 2 -->
+          <div class="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
+            <div class="relative">
+              <div class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 2<br />Mud Lab</span>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 3<br />Testing</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column 3 -->
+          <div class="w-44 flex-none space-y-8 pt-32 sm:pt-0">
+            <div class="relative">
+              <div class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 4<br />Equipment</span>
+              </div>
+            </div>
+            <div class="relative">
+              <div class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 5<br />Team</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: THE PROBLEM -->
+  <section class="bg-warm-gray py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <h2 class="text-3xl md:text-4xl font-black text-center mb-16 text-charcoal-900 tracking-tight">
+        Your Drilling Operation Can't Afford These Problems
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        <!-- Card 1 -->
+        <div class="bg-warm-white rounded-2xl p-8 shadow-soft-lg hover:shadow-soft-xl transition-shadow border-l-4 border-safety-orange">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-charcoal-900">Lost Circulation Eating Your Budget</h3>
+          <p class="text-charcoal-500 leading-relaxed font-medium">
+            Fluid loss in fractured formations causing delays, material waste, and mounting costs that threaten project
+            economics.
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-warm-white rounded-2xl p-8 shadow-soft-lg hover:shadow-soft-xl transition-shadow border-l-4 border-safety-orange">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-charcoal-900">Unreliable Suppliers Missing Deliveries</h3>
+          <p class="text-charcoal-500 leading-relaxed font-medium">
+            When your drilling fluid supplier can't deliver on time, your entire operation grinds to a halt—costing
+            thousands per hour.
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-warm-white rounded-2xl p-8 shadow-soft-lg hover:shadow-soft-xl transition-shadow border-l-4 border-safety-orange">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold mb-4 text-charcoal-900">Wellbore Instability & NPT</h3>
+          <p class="text-charcoal-500 leading-relaxed font-medium">
+            Poor fluid performance leading to stuck pipe, wellbore collapse, and non-productive time that destroys your
+            drilling schedule.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: GUIDE INTRO -->
+  <section class="py-20 md:py-32 bg-warm-white">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <!-- Left Column: Image -->
+        <div class="order-2 lg:order-1">
+          <div class="h-96 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+            <span class="text-charcoal-400 text-center px-4 font-medium">Field operations or lab work image</span>
+          </div>
+        </div>
+
+        <!-- Right Column: Content -->
+        <div class="order-1 lg:order-2">
+          <h2 class="text-3xl md:text-4xl font-black mb-6 text-safety-orange leading-tight">
+            We've Solved These Exact Problems—For 40 Years
+          </h2>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-4 font-medium">
+            Since 2006, Mountain Mud has been the go-to partner when drilling operations face fluid challenges in the
+            Rockies and beyond. We understand what's at stake—your timeline, your budget, your reputation.
+          </p>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-10 font-medium">
+            That's why we've built our entire operation around one principle: Be there when our customers need us, with
+            the expertise and products that actually work.
+          </p>
+
+          <!-- Stats -->
+          <div class="grid grid-cols-3 gap-6">
+            <div class="text-center bg-warm-gray rounded-xl p-4">
+              <div class="text-4xl md:text-5xl font-black text-safety-orange mb-2 font-mono">0</div>
+              <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">Lost-Time Accidents Since 2006</div>
+            </div>
+            <div class="text-center bg-warm-gray rounded-xl p-4">
+              <div class="text-4xl md:text-5xl font-black text-safety-orange mb-2 font-mono">24/7</div>
+              <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">Technical Support & Delivery</div>
+            </div>
+            <div class="text-center bg-warm-gray rounded-xl p-4">
+              <div class="text-4xl md:text-5xl font-black text-safety-orange mb-2 font-mono">20K+</div>
+              <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">Barrels OBM In Stock</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: THE PLAN -->
+  <section class="bg-charcoal-900 text-white py-24 md:py-32">
+    <div class="container mx-auto px-4 max-w-6xl text-center">
+      <h2 class="text-3xl md:text-4xl font-black mb-5 text-safety-orange leading-tight">
+        Here's How We Solve Your Drilling Fluid Challenges
+      </h2>
+      <p class="text-lg text-white/80 mb-16 max-w-3xl mx-auto font-medium">
+        A proven 3-step process that eliminates guesswork and gets your operation running at peak performance.
       </p>
-    </Fragment>
-  </Content>
 
-  <!-- Statistics Grid ******************* -->
-  <Features
-    id="statistics"
-    columns={3}
-    items={[
-      {
-        title: '24/7 Availability',
-        description: '65+ vehicle private fleet',
-        icon: 'tabler:truck-delivery',
-      },
-      {
-        title: 'Perfect Safety',
-        description: 'Zero lost time accidents since 2006',
-        icon: 'tabler:shield-check',
-      },
-      {
-        title: 'Massive Inventory',
-        description: '1M+ pounds bulk barite in stock',
-        icon: 'tabler:box',
-      },
-      {
-        title: 'Oil-Based Fluids',
-        description: '20,000+ bbls ready to deliver',
-        icon: 'tabler:droplet',
-      },
-      {
-        title: 'Advanced Testing',
-        description: 'Fully equipped mud labs',
-        icon: 'tabler:flask',
-      },
-      {
-        title: 'Regional Leader',
-        description: "Powder River Basin's only full-service supplier",
-        icon: 'tabler:award',
-      },
-    ]}
-    classes={{
-      container: 'max-w-7xl',
-      title: 'text-4xl md:text-5xl',
-      subtitle: 'text-xl',
-    }}
-  />
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <!-- Step 1 -->
+        <div class="bg-white/5 backdrop-blur-sm p-10 rounded-2xl border border-white/10 hover:border-safety-orange/50 transition-all shadow-soft-lg">
+          <div
+            class="w-20 h-20 bg-safety-orange text-white rounded-2xl flex items-center justify-center text-3xl font-black mx-auto mb-6 font-mono shadow-orange-glow"
+          >
+            1
+          </div>
+          <h3 class="text-xl font-black mb-5 text-safety-orange">Analyze Your Challenge</h3>
+          <p class="text-white/75 leading-relaxed font-medium">
+            Share your drilling conditions, geological formation, and objectives. We'll use our mud lab and 40 years of
+            field experience to design the optimal fluid system for your specific situation.
+          </p>
+        </div>
 
-  <!-- Services Preview ******************* -->
-  <Features3
-    title="Our Core Services"
-    subtitle="Comprehensive drilling fluids solutions tailored to your specific needs"
-    columns={4}
-    isBeforeContent={true}
-    items={[
-      {
-        title: 'Mud Engineering',
-        description: '24-hour on-site support and technical expertise',
-        image: {
-          src: '~/assets/images/default.png',
-          alt: 'Mud Engineering Services',
-        },
-      },
-      {
-        title: 'Products & Chemicals',
-        description: 'Premium additives and specialty products',
-        image: {
-          src: '~/assets/images/default.png',
-          alt: 'Products & Chemicals',
-        },
-      },
-      {
-        title: 'Logistics & Delivery',
-        description: 'Private fleet available 24/7',
-        image: {
-          src: '~/assets/images/default.png',
-          alt: 'Logistics & Delivery',
-        },
-      },
-      {
-        title: 'Testing & Analysis',
-        description: 'State-of-the-art mud lab',
-        image: {
-          src: '~/assets/images/default.png',
-          alt: 'Testing & Analysis',
-        },
-      },
-    ]}
-    classes={{
-      container: 'max-w-7xl',
-      title: 'text-4xl md:text-5xl',
-      subtitle: 'text-xl',
-    }}
-  />
+        <!-- Step 2 -->
+        <div class="bg-white/5 backdrop-blur-sm p-10 rounded-2xl border border-white/10 hover:border-safety-orange/50 transition-all shadow-soft-lg">
+          <div
+            class="w-20 h-20 bg-safety-orange text-white rounded-2xl flex items-center justify-center text-3xl font-black mx-auto mb-6 font-mono shadow-orange-glow"
+          >
+            2
+          </div>
+          <h3 class="text-xl font-black mb-5 text-safety-orange">Deploy Proven Solutions</h3>
+          <p class="text-white/75 leading-relaxed font-medium">
+            Get the right products delivered 24/7 from our strategically located facilities. Every fluid is pre-tested
+            in our lab. Choose from on-site engineers to drive-by checks—whatever level of support you need.
+          </p>
+        </div>
 
-  <!-- Client Logo Banner ******************* -->
-  <Brands
-    title="Trusted by Industry Leaders"
-    subtitle="Proud to partner with leading energy companies across the region"
-    icons={[]}
-    images={[
-      {
-        src: '~/assets/images/default.png',
-        alt: 'Client Logo 1',
-      },
-      {
-        src: '~/assets/images/default.png',
-        alt: 'Client Logo 2',
-      },
-      {
-        src: '~/assets/images/default.png',
-        alt: 'Client Logo 3',
-      },
-      {
-        src: '~/assets/images/default.png',
-        alt: 'Client Logo 4',
-      },
-      {
-        src: '~/assets/images/default.png',
-        alt: 'Client Logo 5',
-      },
-    ]}
-    classes={{
-      container: 'max-w-6xl',
-      title: 'text-4xl md:text-5xl',
-      subtitle: 'text-xl',
-    }}
-  />
+        <!-- Step 3 -->
+        <div class="bg-white/5 backdrop-blur-sm p-10 rounded-2xl border border-white/10 hover:border-safety-orange/50 transition-all shadow-soft-lg">
+          <div
+            class="w-20 h-20 bg-safety-orange text-white rounded-2xl flex items-center justify-center text-3xl font-black mx-auto mb-6 font-mono shadow-orange-glow"
+          >
+            3
+          </div>
+          <h3 class="text-xl font-black mb-5 text-safety-orange">Drill With Confidence</h3>
+          <p class="text-white/75 leading-relaxed font-medium">
+            Focus on drilling while we handle your fluid performance. Real-time monitoring, immediate troubleshooting,
+            and expert adjustments keep your operation running smoothly from spud to TD.
+          </p>
+        </div>
+      </div>
 
-  <!-- Bottom CTA Section ******************* -->
-  <CallToAction
-    title="Ready to Optimize Your Drilling Operations?"
-    subtitle="Partner with the Powder River Basin's only full-service drilling fluid supply company."
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Contact Us',
-        href: '/contact',
-        icon: 'tabler:phone',
-      },
-      {
-        variant: 'secondary',
-        text: 'Download Product Sheets',
-        href: '/products',
-        icon: 'tabler:download',
-      },
-    ]}
-    classes={{
-      container: 'max-w-6xl',
-      title: 'text-4xl md:text-5xl',
-      subtitle: 'text-xl',
-    }}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-gradient-to-r from-charcoal to-gray-800"></div>
-    </Fragment>
-  </CallToAction>
+      <a
+        href="/contact"
+        class="bg-safety-orange text-white px-10 py-5 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-lg inline-flex items-center justify-center shadow-orange-glow hover:shadow-soft-xl hover:-translate-y-0.5"
+      >
+        Start Your Project With Us
+      </a>
+    </div>
+  </section>
+
+  <!-- SECTION 5: SUCCESS STORIES -->
+  <section class="bg-warm-white py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-black mb-5 text-charcoal-900 tracking-tight">What Success Looks Like</h2>
+        <p class="text-lg text-charcoal-500 max-w-3xl mx-auto font-medium">
+          Real results from operators who trusted Mountain Mud to solve their toughest drilling fluid challenges.
+        </p>
+      </div>
+
+      <!-- Case Study 1 -->
+      <div class="bg-warm-gray border-l-4 border-safety-orange p-10 rounded-2xl mb-8 shadow-soft-lg">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div>
+            <div class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-5 uppercase tracking-wider">
+              Powder River Basin
+            </div>
+            <h3 class="text-2xl font-black mb-6 text-charcoal-900">$450K+ Saved Across Multi-Well Pad</h3>
+
+            <div class="mb-5">
+              <h4 class="font-bold text-charcoal-900 mb-2">The Problem:</h4>
+              <p class="text-charcoal-600 leading-relaxed font-medium">
+                Severe lost circulation causing 40% increase in NPT and threatening the entire development program.
+              </p>
+            </div>
+
+            <div class="mb-6">
+              <h4 class="font-bold text-charcoal-900 mb-2">Our Solution:</h4>
+              <p class="text-charcoal-600 leading-relaxed font-medium">
+                Custom polymer system with optimized LCM blend + 24/7 on-site engineering + pre-drill hydraulics
+                modeling.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-6">
+              <div class="text-center p-5 bg-warm-white rounded-xl shadow-soft">
+                <div class="text-4xl font-black text-safety-orange mb-2 font-mono">85%</div>
+                <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">Reduction in Lost Circulation Incidents</div>
+              </div>
+              <div class="text-center p-5 bg-warm-white rounded-xl shadow-soft">
+                <div class="text-4xl font-black text-safety-orange mb-2 font-mono">40%</div>
+                <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">Decrease in Non-Productive Time</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="h-80 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+            <span class="text-charcoal-400 text-center px-4 font-medium">BEFORE/AFTER GRAPH</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case Study 2 -->
+      <div class="bg-warm-gray border-l-4 border-safety-orange p-10 rounded-2xl shadow-soft-lg">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div class="order-2 lg:order-1 h-80 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+            <span class="text-charcoal-400 text-center px-4 font-medium">TORQUE/DRAG GRAPH</span>
+          </div>
+
+          <div class="order-1 lg:order-2">
+            <div class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-5 uppercase tracking-wider">
+              Bakken Formation
+            </div>
+            <h3 class="text-2xl font-black mb-6 text-charcoal-900">Extended Lateral Length by 1,200 Feet</h3>
+
+            <div class="mb-5">
+              <h4 class="font-bold text-charcoal-900 mb-2">The Problem:</h4>
+              <p class="text-charcoal-600 leading-relaxed font-medium">
+                High torque and drag limiting extended-reach capabilities and impacting completion operations.
+              </p>
+            </div>
+
+            <div class="mb-6">
+              <h4 class="font-bold text-charcoal-900 mb-2">Our Solution:</h4>
+              <p class="text-charcoal-600 leading-relaxed font-medium">
+                Optimized OBM system with enhanced lubricity + real-time rheology management + comprehensive hydraulics
+                modeling.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-6">
+              <div class="text-center p-5 bg-warm-white rounded-xl shadow-soft">
+                <div class="text-4xl font-black text-safety-orange mb-2 font-mono">60%</div>
+                <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">Reduction in Torque & Drag</div>
+              </div>
+              <div class="text-center p-5 bg-warm-white rounded-xl shadow-soft">
+                <div class="text-4xl font-black text-safety-orange mb-2 font-mono">25%</div>
+                <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">Improved Rate of Penetration</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-sm text-charcoal-400 text-center mt-10 italic font-medium">
+        🔴 NOTE: These are placeholder case studies - client must provide real data before launch.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 6: THE STAKES -->
+  <section class="bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-700 text-white py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-6xl text-center">
+      <h2 class="text-3xl md:text-4xl font-black mb-16 tracking-tight">The Cost of Getting Drilling Fluids Wrong</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+        <div class="p-8 bg-white/5 rounded-2xl border border-white/10">
+          <div class="w-16 h-16 rounded-xl bg-safety-orange-100 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-9 h-9 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h4 class="text-xl font-black mb-4 text-safety-orange">Project Budget Overruns</h4>
+          <p class="text-white/75 leading-relaxed font-medium">
+            Poor fluid performance can add hundreds of thousands in unplanned costs—material waste, NPT, remedial
+            operations, and extended timelines.
+          </p>
+        </div>
+
+        <div class="p-8 bg-white/5 rounded-2xl border border-white/10">
+          <div class="w-16 h-16 rounded-xl bg-safety-orange-100 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-9 h-9 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h4 class="text-xl font-black mb-4 text-safety-orange">Missed Deadlines</h4>
+          <p class="text-white/75 leading-relaxed font-medium">
+            Every day of delay compounds costs and damages your reputation with operators and partners. Time lost is
+            money you'll never recover.
+          </p>
+        </div>
+
+        <div class="p-8 bg-white/5 rounded-2xl border border-white/10">
+          <div class="w-16 h-16 rounded-xl bg-safety-orange-100 flex items-center justify-center mx-auto mb-6">
+            <svg class="w-9 h-9 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h4 class="text-xl font-black mb-4 text-safety-orange">Safety Incidents</h4>
+          <p class="text-white/75 leading-relaxed font-medium">
+            Fluid-related wellbore issues create dangerous conditions. The wrong partner puts your team at risk—and
+            that's unacceptable.
+          </p>
+        </div>
+      </div>
+
+      <p class="text-lg text-white/80 max-w-3xl mx-auto font-medium">
+        You can't afford to gamble on drilling fluids. But you also can't afford to overpay for white-glove service you
+        don't need.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 7: SOLUTIONS -->
+  <section id="solutions" class="bg-warm-white py-20 md:py-32">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-black mb-5 text-charcoal-900 tracking-tight">The Mountain Mud Difference</h2>
+        <p class="text-lg text-charcoal-500 max-w-3xl mx-auto font-medium">
+          Choose the level of support that fits your operation—from full 24/7 on-site engineering to drive-by checks
+          and technical consultation.
+        </p>
+      </div>
+
+      <!-- Solution Block 1 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
+        <div>
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-black text-safety-orange leading-tight">
+              Lab-Tested, Field-Proven Solutions
+            </h3>
+          </div>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-8 font-medium">
+            Every fluid system is tested in our fully functional mud labs before it reaches your location. Particle size
+            analysis, hydraulics modeling, and lost circulation simulation mean you drill with confidence, not hope.
+          </p>
+          <ul class="space-y-4 text-charcoal-700">
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">Water-based, oil-based, and saltwater mud systems</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">Custom formulations for your specific formation</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">Over 1 million lbs of bulk barite in stock</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">20,000+ barrels of OBM at Wyoming HQ</span>
+            </li>
+          </ul>
+        </div>
+        <div class="h-96 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+          <span class="text-charcoal-400 text-center px-4 font-medium">MUD LAB IMAGE</span>
+        </div>
+      </div>
+
+      <!-- Solution Block 2 (Reversed) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
+        <div class="order-2 lg:order-1 h-96 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+          <span class="text-charcoal-400 text-center px-4 font-medium">DELIVERY FLEET IMAGE</span>
+        </div>
+        <div class="order-1 lg:order-2">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-black text-safety-orange leading-tight">24/7 Delivery You Can Count On</h3>
+          </div>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-8 font-medium">
+            Our private fleet of 65+ trailers and 15+ trucks means we deliver when you need it—day or night. No
+            third-party logistics. No excuses. Just products on location, on time.
+          </p>
+          <ul class="space-y-4 text-charcoal-700">
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">Strategically located in Gillette, Cheyenne, Williston</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">From single pallets to bulk shipments</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">Service across the Rockies, TX, OK, CO</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">Real-time communication and tracking</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Solution Block 3 -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div>
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <h3 class="text-2xl md:text-3xl font-black text-safety-orange leading-tight">
+              Expert Engineers Who Know Your Challenges
+            </h3>
+          </div>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-8 font-medium">
+            Our team has seen it all—and solved it all. From 24-hour on-site support to technical consultation by phone,
+            we provide the level of expertise your operation requires without paying for services you don't need.
+          </p>
+          <ul class="space-y-4 text-charcoal-700">
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">24-hour or 12-hour on-site engineering</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">Drive-by mud checks for stable operations</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">24/7 technical support hotline</span>
+            </li>
+            <li class="flex items-start">
+              <svg class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span class="font-medium">Custom training and education programs</span>
+            </li>
+          </ul>
+        </div>
+        <div class="h-96 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden">
+          <span class="text-charcoal-400 text-center px-4 font-medium">FIELD ENGINEER IMAGE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 8: PRIMARY CTA -->
+  <section class="bg-safety-orange text-white py-24 md:py-32 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-safety-orange-600 to-safety-orange-700 opacity-50"></div>
+    <div class="container mx-auto px-4 max-w-4xl text-center relative z-10">
+      <h2 class="text-3xl md:text-4xl font-black mb-7 tracking-tight">Ready to Eliminate Drilling Fluid Headaches?</h2>
+      <p class="text-lg md:text-xl text-white/95 mb-12 leading-relaxed max-w-3xl mx-auto font-medium">
+        Let's discuss your next project. We'll analyze your drilling conditions, recommend the optimal fluid system, and
+        show you exactly how we'll keep your operation running smoothly from spud to TD.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-5 justify-center items-center mb-10">
+        <a
+          href="tel:307-682-8688"
+          class="bg-white text-safety-orange px-10 py-5 rounded-xl hover:bg-warm-white transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:shadow-orange-glow hover:-translate-y-0.5"
+        >
+          Call 307-682-8688 Now
+        </a>
+        <a
+          href="/contact"
+          class="bg-charcoal-900 text-white px-10 py-5 rounded-xl hover:bg-charcoal-800 transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:-translate-y-0.5"
+        >
+          Request a Consultation
+        </a>
+      </div>
+
+      <p class="text-sm text-white/90 font-medium">Available 24/7/365 • Gillette, WY • Cheyenne, WY • Williston, ND</p>
+    </div>
+  </section>
+
+  <!-- SECTION 9: TRANSITIONAL CTA -->
+  <section class="bg-warm-gray py-20 md:py-24">
+    <div class="container mx-auto px-4 max-w-4xl text-center">
+      <h3 class="text-2xl md:text-3xl font-black mb-5 text-charcoal-900">Not Ready to Talk Yet?</h3>
+      <p class="text-lg text-charcoal-600 mb-10 max-w-2xl mx-auto font-medium">
+        Explore our complete product catalog, learn about our mud lab capabilities, or read more case studies showing
+        how we've solved challenges just like yours.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a
+          href="/products"
+          class="border-2 border-charcoal-900 text-charcoal-900 px-8 py-4 rounded-xl hover:bg-charcoal-900 hover:text-white transition-all font-bold inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
+        >
+          Browse Products
+        </a>
+        <a
+          href="/mud-lab"
+          class="border-2 border-charcoal-900 text-charcoal-900 px-8 py-4 rounded-xl hover:bg-charcoal-900 hover:text-white transition-all font-bold inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
+        >
+          View Mud Lab
+        </a>
+        <a
+          href="/case-studies"
+          class="border-2 border-charcoal-900 text-charcoal-900 px-8 py-4 rounded-xl hover:bg-charcoal-900 hover:text-white transition-all font-bold inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
+        >
+          Read Case Studies
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10: CLIENT LOGOS -->
+  <section class="bg-warm-white py-20">
+    <div class="container mx-auto px-4 max-w-6xl text-center">
+      <h3 class="text-2xl md:text-3xl font-black mb-5 text-charcoal-900">Trusted by Industry Leaders</h3>
+      <p class="text-lg text-charcoal-500 mb-12 font-medium">
+        Join the operators who rely on Mountain Mud for their toughest drilling challenges
+      </p>
+
+      <!-- Logo Scroller -->
+      <div class="relative overflow-hidden bg-warm-gray py-10 rounded-2xl">
+        <div class="flex gap-12 animate-scroll">
+          <!-- Duplicate logos for seamless scroll -->
+          {
+            Array.from({ length: 24 }).map((_, i) => (
+              <div class="flex-shrink-0 w-40 h-20 bg-warm-white rounded-xl border border-warm-gray-300 flex items-center justify-center shadow-soft">
+                <span class="text-charcoal-400 text-xs font-medium">Logo {(i % 12) + 1}</span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 30s linear infinite;
+  }
+
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+</style>
