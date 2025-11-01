@@ -1,455 +1,474 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simple Coordinate Picker</title>
     <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Courier New', monospace;
-            background: #1a1a1a;
-            color: #fff;
-        }
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: 'Courier New', monospace;
+        background: #1a1a1a;
+        color: #fff;
+      }
 
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-        }
+      .container {
+        max-width: 1600px;
+        margin: 0 auto;
+      }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #ff6b35;
-        }
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #ff6b35;
+      }
 
-        .instructions {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ff6b35;
-            font-size: 18px;
-            line-height: 1.6;
-        }
+      .instructions {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ff6b35;
+        font-size: 18px;
+        line-height: 1.6;
+      }
 
-        .map-wrapper {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: flex-start;
-        }
+      .map-wrapper {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        align-items: flex-start;
+      }
 
-        .map-container {
-            position: relative;
-            border: 4px solid #ff6b35;
-            background: #000;
-            flex-shrink: 0;
-        }
+      .map-container {
+        position: relative;
+        border: 4px solid #ff6b35;
+        background: #000;
+        flex-shrink: 0;
+      }
 
-        .heightmap {
-            display: block;
-            cursor: crosshair;
-            width: 1200px;
-            height: auto;
-        }
+      .heightmap {
+        display: block;
+        cursor: crosshair;
+        width: 1200px;
+        height: auto;
+      }
 
-        .marker {
-            position: absolute;
-            width: 16px;
-            height: 16px;
-            background: #00ff00;
-            border: 3px solid #fff;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            cursor: pointer;
-            z-index: 10;
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
-        }
+      .marker {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        background: #00ff00;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+      }
 
-        .marker-label {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.95);
-            color: #00ff00;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: bold;
-            white-space: nowrap;
-            margin-bottom: 8px;
-            border: 2px solid #00ff00;
-        }
+      .marker-label {
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.95);
+        color: #00ff00;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        font-weight: bold;
+        white-space: nowrap;
+        margin-bottom: 8px;
+        border: 2px solid #00ff00;
+      }
 
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
 
-        .coordinates {
-            background: #ff6b35;
-            color: #1a1a1a;
-            padding: 20px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: bold;
-            min-width: 320px;
-        }
+      .coordinates {
+        background: #ff6b35;
+        color: #1a1a1a;
+        padding: 20px;
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        min-width: 320px;
+      }
 
-        .coord-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 8px 0;
-            padding: 4px 0;
-        }
+      .coord-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 8px 0;
+        padding: 4px 0;
+      }
 
-        .coord-label {
-            color: #000;
-        }
+      .coord-label {
+        color: #000;
+      }
 
-        .coord-value {
-            color: #1a1a1a;
-            background: rgba(255, 255, 255, 0.3);
-            padding: 2px 8px;
-            border-radius: 4px;
-            min-width: 80px;
-            text-align: right;
-        }
+      .coord-value {
+        color: #1a1a1a;
+        background: rgba(255, 255, 255, 0.3);
+        padding: 2px 8px;
+        border-radius: 4px;
+        min-width: 80px;
+        text-align: right;
+      }
 
-        .saved-points {
-            background: #2a2a2a;
-            border: 3px solid #ff6b35;
-            padding: 20px;
-            border-radius: 12px;
-            max-height: 600px;
-            overflow-y: auto;
-            min-width: 320px;
-        }
+      .saved-points {
+        background: #2a2a2a;
+        border: 3px solid #ff6b35;
+        padding: 20px;
+        border-radius: 12px;
+        max-height: 600px;
+        overflow-y: auto;
+        min-width: 320px;
+      }
 
-        .saved-points h3 {
-            margin-top: 0;
-            color: #ff6b35;
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
+      .saved-points h3 {
+        margin-top: 0;
+        color: #ff6b35;
+        font-size: 18px;
+        margin-bottom: 15px;
+      }
 
-        .saved-point {
-            margin: 12px 0;
-            padding: 12px;
-            background: #3a3a3a;
-            border-radius: 8px;
-            font-size: 14px;
-            border: 2px solid #4a4a4a;
-        }
+      .saved-point {
+        margin: 12px 0;
+        padding: 12px;
+        background: #3a3a3a;
+        border-radius: 8px;
+        font-size: 14px;
+        border: 2px solid #4a4a4a;
+      }
 
-        .saved-point strong {
-            color: #00ff00;
-            font-size: 16px;
-            display: block;
-            margin-bottom: 6px;
-        }
+      .saved-point strong {
+        color: #00ff00;
+        font-size: 16px;
+        display: block;
+        margin-bottom: 6px;
+      }
 
-        button {
-            background: #ff6b35;
-            color: #1a1a1a;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: background 0.2s;
-        }
+      button {
+        background: #ff6b35;
+        color: #1a1a1a;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+        transition: background 0.2s;
+      }
 
-        button:hover {
-            background: #ff8555;
-        }
+      button:hover {
+        background: #ff8555;
+      }
 
-        button.secondary {
-            background: #4a4a4a;
-            color: #fff;
-            font-size: 11px;
-            padding: 6px 12px;
-            margin-top: 8px;
-        }
+      button.secondary {
+        background: #4a4a4a;
+        color: #fff;
+        font-size: 11px;
+        padding: 6px 12px;
+        margin-top: 8px;
+      }
 
-        button.secondary:hover {
-            background: #5a5a5a;
-        }
+      button.secondary:hover {
+        background: #5a5a5a;
+      }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 2px solid #4a4a4a;
-            border-radius: 6px;
-            box-sizing: border-box;
-            background: #1a1a1a;
-            color: #fff;
-            font-size: 14px;
-            font-family: 'Courier New', monospace;
-        }
+      input[type='text'] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: 2px solid #4a4a4a;
+        border-radius: 6px;
+        box-sizing: border-box;
+        background: #1a1a1a;
+        color: #fff;
+        font-size: 14px;
+        font-family: 'Courier New', monospace;
+      }
 
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #ff6b35;
-        }
+      input[type='text']:focus {
+        outline: none;
+        border-color: #ff6b35;
+      }
 
-        .input-section {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 2px solid rgba(0, 0, 0, 0.3);
-        }
+      .input-section {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px solid rgba(0, 0, 0, 0.3);
+      }
 
-        .grid-info {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 10px;
-            font-size: 12px;
-            line-height: 1.6;
-        }
+      .grid-info {
+        background: rgba(0, 0, 0, 0.2);
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 10px;
+        font-size: 12px;
+        line-height: 1.6;
+      }
 
-        .legend {
-            background: #2a2a2a;
-            border: 3px solid #00ffff;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 13px;
-            line-height: 1.8;
-        }
+      .legend {
+        background: #2a2a2a;
+        border: 3px solid #00ffff;
+        padding: 15px;
+        border-radius: 12px;
+        font-size: 13px;
+        line-height: 1.8;
+      }
 
-        .legend-title {
-            color: #00ffff;
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
+      .legend-title {
+        color: #00ffff;
+        font-weight: bold;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>🗺️ Terrain Coordinate Picker</h1>
-        <div class="instructions">
-            Click on the heightmap to place markers for your towns<br>
-            The coordinates shown match the 3D terrain's coordinate system
+      <h1>🗺️ Terrain Coordinate Picker</h1>
+      <div class="instructions">
+        Click on the heightmap to place markers for your towns<br />
+        The coordinates shown match the 3D terrain's coordinate system
+      </div>
+
+      <div class="map-wrapper">
+        <div class="map-container" id="mapContainer">
+          <img
+            src="../public/heightmap-north-america-cropped.png"
+            alt="Terrain Heightmap"
+            class="heightmap"
+            id="heightmap"
+          />
         </div>
 
-        <div class="map-wrapper">
-            <div class="map-container" id="mapContainer">
-                <img src="../public/heightmap-north-america-cropped.png" alt="Terrain Heightmap" class="heightmap" id="heightmap">
+        <div class="sidebar">
+          <div class="coordinates" id="coordinates">
+            <div style="font-size: 18px; margin-bottom: 12px; text-align: center">📍 COORDINATES</div>
+
+            <div class="coord-row">
+              <span class="coord-label">X Position:</span>
+              <span class="coord-value" id="mouseX">-</span>
+            </div>
+            <div class="coord-row">
+              <span class="coord-label">Z Position:</span>
+              <span class="coord-value" id="mouseZ">-</span>
+            </div>
+            <div class="grid-info">
+              <strong>Range:</strong><br />
+              X: -30.0 to +30.0 (West to East)<br />
+              Z: -22.1 to +22.1 (South to North)
             </div>
 
-            <div class="sidebar">
-                <div class="coordinates" id="coordinates">
-                    <div style="font-size: 18px; margin-bottom: 12px; text-align: center;">📍 COORDINATES</div>
-
-                    <div class="coord-row">
-                        <span class="coord-label">X Position:</span>
-                        <span class="coord-value" id="mouseX">-</span>
-                    </div>
-                    <div class="coord-row">
-                        <span class="coord-label">Z Position:</span>
-                        <span class="coord-value" id="mouseZ">-</span>
-                    </div>
-                    <div class="grid-info">
-                        <strong>Range:</strong><br>
-                        X: -30.0 to +30.0 (West to East)<br>
-                        Z: -22.1 to +22.1 (South to North)
-                    </div>
-
-                    <div class="input-section">
-                        <input type="text" id="townName" placeholder="Enter town name (e.g., Gillette)">
-                        <button onclick="exportCoordinates()" style="width: 100%; margin-bottom: 8px;">📋 Export All Coordinates</button>
-                        <button onclick="clearMarkers()" class="secondary" style="width: 100%;">🗑️ Clear All Markers</button>
-                    </div>
-                </div>
-
-                <div class="legend">
-                    <div class="legend-title">📐 HOW IT WORKS</div>
-                    • Image represents 60×44.3 terrain<br>
-                    • Center (0, 0) is origin<br>
-                    • West (left) = negative X<br>
-                    • East (right) = positive X<br>
-                    • South (top) = negative Z<br>
-                    • North (bottom) = positive Z<br>
-                </div>
-
-                <div class="saved-points">
-                    <h3>Saved Towns</h3>
-                    <div id="pointsList">
-                        <div style="color: #888; font-style: italic; font-size: 13px;">No towns marked yet. Click on the map to add towns.</div>
-                    </div>
-                </div>
+            <div class="input-section">
+              <input type="text" id="townName" placeholder="Enter town name (e.g., Gillette)" />
+              <button onclick="exportCoordinates()" style="width: 100%; margin-bottom: 8px">
+                📋 Export All Coordinates
+              </button>
+              <button onclick="clearMarkers()" class="secondary" style="width: 100%">🗑️ Clear All Markers</button>
             </div>
+          </div>
+
+          <div class="legend">
+            <div class="legend-title">📐 HOW IT WORKS</div>
+            • Image represents 60×44.3 terrain<br />
+            • Center (0, 0) is origin<br />
+            • West (left) = negative X<br />
+            • East (right) = positive X<br />
+            • South (top) = negative Z<br />
+            • North (bottom) = positive Z<br />
+          </div>
+
+          <div class="saved-points">
+            <h3>Saved Towns</h3>
+            <div id="pointsList">
+              <div style="color: #888; font-style: italic; font-size: 13px">
+                No towns marked yet. Click on the map to add towns.
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script>
-        const mapContainer = document.getElementById('mapContainer');
-        const heightmap = document.getElementById('heightmap');
+      const mapContainer = document.getElementById('mapContainer');
+      const heightmap = document.getElementById('heightmap');
 
-        const HEIGHTMAP_WIDTH_PX = 1517;
-        const HEIGHTMAP_HEIGHT_PX = 1119;
-        const HEIGHTMAP_ASPECT = HEIGHTMAP_HEIGHT_PX / HEIGHTMAP_WIDTH_PX;
+      const HEIGHTMAP_WIDTH_PX = 1517;
+      const HEIGHTMAP_HEIGHT_PX = 1119;
+      const HEIGHTMAP_ASPECT = HEIGHTMAP_HEIGHT_PX / HEIGHTMAP_WIDTH_PX;
 
-        const TERRAIN_WIDTH = 60;
-        const TERRAIN_HEIGHT = TERRAIN_WIDTH * HEIGHTMAP_ASPECT;
+      const TERRAIN_WIDTH = 60;
+      const TERRAIN_HEIGHT = TERRAIN_WIDTH * HEIGHTMAP_ASPECT;
 
-        let savedTowns = [];
-        let imageWidth = 0;
-        let imageHeight = 0;
+      let savedTowns = [];
+      let imageWidth = 0;
+      let imageHeight = 0;
 
-        const pixelToWorldX = (px, width) => (px / width) * TERRAIN_WIDTH - TERRAIN_WIDTH / 2;
-        const pixelToWorldZ = (py, height) => (py / height) * TERRAIN_HEIGHT - TERRAIN_HEIGHT / 2;
+      const pixelToWorldX = (px, width) => (px / width) * TERRAIN_WIDTH - TERRAIN_WIDTH / 2;
+      const pixelToWorldZ = (py, height) => (py / height) * TERRAIN_HEIGHT - TERRAIN_HEIGHT / 2;
 
-        const format = (value, digits = 1) => Number(value).toFixed(digits);
+      const format = (value, digits = 1) => Number(value).toFixed(digits);
 
-        // Wait for image to load to get dimensions
-        heightmap.onload = function() {
-            imageWidth = heightmap.offsetWidth;
-            imageHeight = heightmap.offsetHeight;
-            console.log('Image loaded:', imageWidth, 'x', imageHeight);
-        };
+      // Wait for image to load to get dimensions
+      heightmap.onload = function () {
+        imageWidth = heightmap.offsetWidth;
+        imageHeight = heightmap.offsetHeight;
+        console.log('Image loaded:', imageWidth, 'x', imageHeight);
+      };
 
-        // Mouse tracking
-        heightmap.addEventListener('mousemove', (e) => {
-            const rect = heightmap.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
+      // Mouse tracking
+      heightmap.addEventListener('mousemove', (e) => {
+        const rect = heightmap.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
 
-            // Convert to terrain coordinates
-            const x = pixelToWorldX(mouseX, rect.width);
-            const z = pixelToWorldZ(mouseY, rect.height);
-            document.getElementById('mouseX').textContent = format(x);
-            document.getElementById('mouseZ').textContent = format(z);
-        });
+        // Convert to terrain coordinates
+        const x = pixelToWorldX(mouseX, rect.width);
+        const z = pixelToWorldZ(mouseY, rect.height);
+        document.getElementById('mouseX').textContent = format(x);
+        document.getElementById('mouseZ').textContent = format(z);
+      });
 
-        heightmap.addEventListener('mouseleave', () => {
-            document.getElementById('mouseX').textContent = '-';
-            document.getElementById('mouseZ').textContent = '-';
-        });
+      heightmap.addEventListener('mouseleave', () => {
+        document.getElementById('mouseX').textContent = '-';
+        document.getElementById('mouseZ').textContent = '-';
+      });
 
-        // Click to mark location
-        heightmap.addEventListener('click', (e) => {
-            const rect = heightmap.getBoundingClientRect();
-            const mouseX = e.clientX - rect.left;
-            const mouseY = e.clientY - rect.top;
+      // Click to mark location
+      heightmap.addEventListener('click', (e) => {
+        const rect = heightmap.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
 
-            const x = pixelToWorldX(mouseX, rect.width);
-            const z = pixelToWorldZ(mouseY, rect.height);
+        const x = pixelToWorldX(mouseX, rect.width);
+        const z = pixelToWorldZ(mouseY, rect.height);
 
-            const townName = document.getElementById('townName').value || 'Town ' + (savedTowns.length + 1);
+        const townName = document.getElementById('townName').value || 'Town ' + (savedTowns.length + 1);
 
-            saveTownData(townName, x, z, mouseX, mouseY);
-            document.getElementById('townName').value = '';
-        });
+        saveTownData(townName, x, z, mouseX, mouseY);
+        document.getElementById('townName').value = '';
+      });
 
-        function saveTownData(name, x, z, displayX, displayY) {
-            const town = { name, x, z, displayX, displayY };
-            savedTowns.push(town);
+      function saveTownData(name, x, z, displayX, displayY) {
+        const town = { name, x, z, displayX, displayY };
+        savedTowns.push(town);
 
-            addMarker(town);
-            updatePointsList();
-        }
+        addMarker(town);
+        updatePointsList();
+      }
 
-        function addMarker(town) {
-            const marker = document.createElement('div');
-            marker.className = 'marker';
-            marker.style.left = town.displayX + 'px';
-            marker.style.top = town.displayY + 'px';
+      function addMarker(town) {
+        const marker = document.createElement('div');
+        marker.className = 'marker';
+        marker.style.left = town.displayX + 'px';
+        marker.style.top = town.displayY + 'px';
 
-            const label = document.createElement('div');
-            label.className = 'marker-label';
-            label.textContent = town.name;
-            marker.appendChild(label);
+        const label = document.createElement('div');
+        label.className = 'marker-label';
+        label.textContent = town.name;
+        marker.appendChild(label);
 
-            marker.title = `${town.name}: (${format(town.x)}, ${format(town.z)})`;
+        marker.title = `${town.name}: (${format(town.x)}, ${format(town.z)})`;
 
-            marker.addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (confirm(`Remove ${town.name}?`)) {
-                    const index = savedTowns.indexOf(town);
-                    if (index > -1) {
-                        removeTown(index);
-                    }
-                }
-            });
-
-            mapContainer.appendChild(marker);
-        }
-
-        function updatePointsList() {
-            const list = document.getElementById('pointsList');
-
-            if (savedTowns.length === 0) {
-                list.innerHTML = '<div style="color: #888; font-style: italic; font-size: 13px;">No towns marked yet. Click on the map to add towns.</div>';
-                return;
+        marker.addEventListener('click', (e) => {
+          e.stopPropagation();
+          if (confirm(`Remove ${town.name}?`)) {
+            const index = savedTowns.indexOf(town);
+            if (index > -1) {
+              removeTown(index);
             }
+          }
+        });
 
-            list.innerHTML = savedTowns.map((town, i) => `
+        mapContainer.appendChild(marker);
+      }
+
+      function updatePointsList() {
+        const list = document.getElementById('pointsList');
+
+        if (savedTowns.length === 0) {
+          list.innerHTML =
+            '<div style="color: #888; font-style: italic; font-size: 13px;">No towns marked yet. Click on the map to add towns.</div>';
+          return;
+        }
+
+        list.innerHTML = savedTowns
+          .map(
+            (town, i) => `
                 <div class="saved-point">
                     <strong>${town.name}</strong>
                     X: ${format(town.x)}, Z: ${format(town.z)}
                     <button onclick="removeTown(${i})" class="secondary">Remove</button>
                 </div>
-            `).join('');
+            `
+          )
+          .join('');
+      }
+
+      function removeTown(index) {
+        savedTowns.splice(index, 1);
+
+        // Remove all markers and re-add remaining ones
+        const markers = mapContainer.querySelectorAll('.marker');
+        markers.forEach((m) => m.remove());
+
+        savedTowns.forEach((town) => addMarker(town));
+        updatePointsList();
+      }
+
+      function clearMarkers() {
+        if (savedTowns.length === 0) {
+          alert('No towns to clear!');
+          return;
         }
 
-        function removeTown(index) {
-            savedTowns.splice(index, 1);
+        if (!confirm('Clear all saved towns?')) return;
 
-            // Remove all markers and re-add remaining ones
-            const markers = mapContainer.querySelectorAll('.marker');
-            markers.forEach(m => m.remove());
+        savedTowns = [];
+        const markers = mapContainer.querySelectorAll('.marker');
+        markers.forEach((m) => m.remove());
+        updatePointsList();
+      }
 
-            savedTowns.forEach(town => addMarker(town));
-            updatePointsList();
+      function exportCoordinates() {
+        if (savedTowns.length === 0) {
+          alert('No towns saved yet! Click on the map to add towns first.');
+          return;
         }
 
-        function clearMarkers() {
-            if (savedTowns.length === 0) {
-                alert('No towns to clear!');
-                return;
-            }
+        const output = savedTowns
+          .map((town) => `  { name: '${town.name}', x: ${town.x.toFixed(2)}, z: ${town.z.toFixed(2)} }`)
+          .join(',\n');
 
-            if (!confirm('Clear all saved towns?')) return;
+        const fullCode = `const towns = [\n${output}\n];`;
 
-            savedTowns = [];
-            const markers = mapContainer.querySelectorAll('.marker');
-            markers.forEach(m => m.remove());
-            updatePointsList();
-        }
+        navigator.clipboard
+          .writeText(fullCode)
+          .then(() => {
+            alert(
+              `✅ Copied ${savedTowns.length} town coordinates to clipboard!\n\nYou can now paste these into your code.`
+            );
+            console.log('Town Coordinates:');
+            console.log(fullCode);
+          })
+          .catch((err) => {
+            console.error('Failed to copy:', err);
+            alert('Failed to copy to clipboard. Check the console for the coordinates.');
+            console.log(fullCode);
+          });
+      }
 
-        function exportCoordinates() {
-            if (savedTowns.length === 0) {
-                alert('No towns saved yet! Click on the map to add towns first.');
-                return;
-            }
-
-            const output = savedTowns.map(town =>
-                `  { name: '${town.name}', x: ${town.x.toFixed(2)}, z: ${town.z.toFixed(2)} }`
-            ).join(',\n');
-
-            const fullCode = `const towns = [\n${output}\n];`;
-
-            navigator.clipboard.writeText(fullCode).then(() => {
-                alert(`✅ Copied ${savedTowns.length} town coordinates to clipboard!\n\nYou can now paste these into your code.`);
-                console.log('Town Coordinates:');
-                console.log(fullCode);
-            }).catch(err => {
-                console.error('Failed to copy:', err);
-                alert('Failed to copy to clipboard. Check the console for the coordinates.');
-                console.log(fullCode);
-            });
-        }
-
-        // Trigger load event if image is already loaded
-        if (heightmap.complete) {
-            heightmap.onload();
-        }
+      // Trigger load event if image is already loaded
+      if (heightmap.complete) {
+        heightmap.onload();
+      }
     </script>
-</body>
+  </body>
 </html>

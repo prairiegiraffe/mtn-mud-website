@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Terrain Map Coordinate Reference</title>
     <script type="importmap">
       {
@@ -13,420 +13,439 @@
       }
     </script>
     <style>
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Courier New', monospace;
-            background: #1a1a1a;
-            color: #fff;
-        }
+      body {
+        margin: 0;
+        padding: 20px;
+        font-family: 'Courier New', monospace;
+        background: #1a1a1a;
+        color: #fff;
+      }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+      }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
 
-        .instructions {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #ff6b35;
-            font-size: 16px;
-        }
+      .instructions {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #ff6b35;
+        font-size: 16px;
+      }
 
-        .map-container {
-            position: relative;
-            width: 1200px;
-            height: 1200px;
-            margin: 0 auto;
-            border: 3px solid #ff6b35;
-            background: linear-gradient(to bottom, #1A2A3A 0%, #2A3A4A 100%);
-            cursor: crosshair;
-        }
+      .map-container {
+        position: relative;
+        width: 1200px;
+        height: 1200px;
+        margin: 0 auto;
+        border: 3px solid #ff6b35;
+        background: linear-gradient(to bottom, #1a2a3a 0%, #2a3a4a 100%);
+        cursor: crosshair;
+      }
 
-        .coordinates {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #ff6b35;
-            color: #1a1a1a;
-            padding: 20px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            min-width: 300px;
-            z-index: 100;
-        }
+      .coordinates {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #ff6b35;
+        color: #1a1a1a;
+        padding: 20px;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: bold;
+        min-width: 300px;
+        z-index: 100;
+      }
 
-        .coord-row {
-            display: flex;
-            justify-content: space-between;
-            margin: 5px 0;
-        }
+      .coord-row {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+      }
 
-        .saved-points {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #2a2a2a;
-            border: 2px solid #ff6b35;
-            padding: 15px;
-            border-radius: 8px;
-            max-width: 300px;
-            max-height: 400px;
-            overflow-y: auto;
-            z-index: 100;
-        }
+      .saved-points {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #2a2a2a;
+        border: 2px solid #ff6b35;
+        padding: 15px;
+        border-radius: 8px;
+        max-width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        z-index: 100;
+      }
 
-        .saved-points h3 {
-            margin-top: 0;
-            color: #ff6b35;
-        }
+      .saved-points h3 {
+        margin-top: 0;
+        color: #ff6b35;
+      }
 
-        .saved-point {
-            margin: 8px 0;
-            padding: 5px;
-            background: #3a3a3a;
-            border-radius: 4px;
-            font-size: 12px;
-        }
+      .saved-point {
+        margin: 8px 0;
+        padding: 5px;
+        background: #3a3a3a;
+        border-radius: 4px;
+        font-size: 12px;
+      }
 
-        button {
-            background: #ff6b35;
-            color: #1a1a1a;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            margin: 5px;
-        }
+      button {
+        background: #ff6b35;
+        color: #1a1a1a;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        margin: 5px;
+      }
 
-        button:hover {
-            background: #ff8555;
-        }
+      button:hover {
+        background: #ff8555;
+      }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 8px;
-            border: none;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+      input[type='text'] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 8px;
+        border: none;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>3D Terrain Map Coordinate Reference</h1>
-        <div class="instructions">
-            Click on the 3D terrain to mark town locations<br>
-            Use mouse to rotate view • Scroll to zoom
-        </div>
+      <h1>3D Terrain Map Coordinate Reference</h1>
+      <div class="instructions">
+        Click on the 3D terrain to mark town locations<br />
+        Use mouse to rotate view • Scroll to zoom
+      </div>
 
-        <div class="map-container" id="mapContainer"></div>
+      <div class="map-container" id="mapContainer"></div>
 
-        <div class="coordinates" id="coordinates">
-            <div class="coord-row">
-                <span>Mouse X:</span>
-                <span id="mouseX">-</span>
-            </div>
-            <div class="coord-row">
-                <span>Mouse Z:</span>
-                <span id="mouseZ">-</span>
-            </div>
-            <div class="coord-row">
-                <span>Normalized X:</span>
-                <span id="normX">-</span>
-            </div>
-            <div class="coord-row">
-                <span>Normalized Z:</span>
-                <span id="normZ">-</span>
-            </div>
-            <div style="margin-top: 15px;">
-                <input type="text" id="townName" placeholder="Town name" style="width: 100%; padding: 8px; margin-bottom: 8px; border: none; border-radius: 4px;">
-                <button onclick="saveTown()">Save Town Location</button>
-                <button onclick="clearMarkers()">Clear All</button>
-                <button onclick="exportCoordinates()">Export Coordinates</button>
-            </div>
+      <div class="coordinates" id="coordinates">
+        <div class="coord-row">
+          <span>Mouse X:</span>
+          <span id="mouseX">-</span>
         </div>
+        <div class="coord-row">
+          <span>Mouse Z:</span>
+          <span id="mouseZ">-</span>
+        </div>
+        <div class="coord-row">
+          <span>Normalized X:</span>
+          <span id="normX">-</span>
+        </div>
+        <div class="coord-row">
+          <span>Normalized Z:</span>
+          <span id="normZ">-</span>
+        </div>
+        <div style="margin-top: 15px">
+          <input
+            type="text"
+            id="townName"
+            placeholder="Town name"
+            style="width: 100%; padding: 8px; margin-bottom: 8px; border: none; border-radius: 4px"
+          />
+          <button onclick="saveTown()">Save Town Location</button>
+          <button onclick="clearMarkers()">Clear All</button>
+          <button onclick="exportCoordinates()">Export Coordinates</button>
+        </div>
+      </div>
 
-        <div class="saved-points" id="savedPoints">
-            <h3>Saved Towns</h3>
-            <div id="pointsList"></div>
-        </div>
+      <div class="saved-points" id="savedPoints">
+        <h3>Saved Towns</h3>
+        <div id="pointsList"></div>
+      </div>
     </div>
 
     <script type="module">
-        import * as THREE from 'three';
-        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+      import * as THREE from 'three';
+      import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-        const TERRAIN_WIDTH = 30;
-        const TERRAIN_HEIGHT = 10;
-        let savedTowns = [];
-        let scene, camera, renderer, controls, terrain, raycaster, mouse, clickMarkers = [];
-        let heightmapData = null;
+      const TERRAIN_WIDTH = 30;
+      const TERRAIN_HEIGHT = 10;
+      let savedTowns = [];
+      let scene,
+        camera,
+        renderer,
+        controls,
+        terrain,
+        raycaster,
+        mouse,
+        clickMarkers = [];
+      let heightmapData = null;
 
-        // Initialize Three.js scene
-        function init() {
-            const container = document.getElementById('mapContainer');
+      // Initialize Three.js scene
+      function init() {
+        const container = document.getElementById('mapContainer');
 
-            // Scene
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x1a2a3a);
+        // Scene
+        scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x1a2a3a);
 
-            // Camera - top-down view
-            camera = new THREE.OrthographicCamera(
-                -20, 20,  // left, right
-                10, -10,  // top, bottom
-                0.1, 100
-            );
-            camera.position.set(0, 20, 0);
-            camera.lookAt(0, 0, 0);
+        // Camera - top-down view
+        camera = new THREE.OrthographicCamera(
+          -20,
+          20, // left, right
+          10,
+          -10, // top, bottom
+          0.1,
+          100
+        );
+        camera.position.set(0, 20, 0);
+        camera.lookAt(0, 0, 0);
 
-            // Renderer
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(1200, 1200);
-            container.appendChild(renderer.domElement);
+        // Renderer
+        renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(1200, 1200);
+        container.appendChild(renderer.domElement);
 
-            // Controls
-            controls = new OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
+        // Controls
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
 
-            // Raycaster for click detection
-            raycaster = new THREE.Raycaster();
-            mouse = new THREE.Vector2();
+        // Raycaster for click detection
+        raycaster = new THREE.Raycaster();
+        mouse = new THREE.Vector2();
 
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
-            scene.add(ambientLight);
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
+        scene.add(ambientLight);
 
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-            directionalLight.position.set(10, 20, 10);
-            scene.add(directionalLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+        directionalLight.position.set(10, 20, 10);
+        scene.add(directionalLight);
 
-            // Create terrain
-            createTerrain();
+        // Create terrain
+        createTerrain();
 
-            // Grid helper
-            const gridHelper = new THREE.GridHelper(50, 50, '#00FFFF', '#0088AA');
-            gridHelper.position.y = -0.5;
-            scene.add(gridHelper);
+        // Grid helper
+        const gridHelper = new THREE.GridHelper(50, 50, '#00FFFF', '#0088AA');
+        gridHelper.position.y = -0.5;
+        scene.add(gridHelper);
 
-            // Origin marker
-            const originGeom = new THREE.SphereGeometry(0.3, 16, 16);
-            const originMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-            const origin = new THREE.Mesh(originGeom, originMat);
-            origin.position.set(0, 2.5, 0);
-            scene.add(origin);
+        // Origin marker
+        const originGeom = new THREE.SphereGeometry(0.3, 16, 16);
+        const originMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+        const origin = new THREE.Mesh(originGeom, originMat);
+        origin.position.set(0, 2.5, 0);
+        scene.add(origin);
 
-            // Click handler
-            renderer.domElement.addEventListener('click', onMapClick);
-            renderer.domElement.addEventListener('mousemove', onMouseMove);
+        // Click handler
+        renderer.domElement.addEventListener('click', onMapClick);
+        renderer.domElement.addEventListener('mousemove', onMouseMove);
 
-            animate();
+        animate();
+      }
+
+      function createTerrain() {
+        const geometry = new THREE.PlaneGeometry(TERRAIN_WIDTH, TERRAIN_HEIGHT, 150, 100);
+        const material = new THREE.MeshStandardMaterial({
+          color: 0x8b7355,
+          metalness: 0.15,
+          roughness: 0.85,
+        });
+
+        terrain = new THREE.Mesh(geometry, material);
+        terrain.rotation.x = -Math.PI / 2;
+        terrain.receiveShadow = true;
+        scene.add(terrain);
+
+        // Load heightmap
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = '../public/heightmapper-1762013079272.png';
+
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+
+          // Flip horizontally
+          ctx.translate(canvas.width, 0);
+          ctx.scale(-1, 1);
+          ctx.drawImage(img, 0, 0);
+
+          heightmapData = ctx.getImageData(0, 0, img.width, img.height);
+
+          console.log('Heightmap loaded:', img.width, 'x', img.height);
+
+          // Apply heightmap to geometry
+          const positionAttribute = geometry.getAttribute('position');
+
+          for (let i = 0; i < positionAttribute.count; i++) {
+            const x = positionAttribute.getX(i);
+            const y = positionAttribute.getY(i);
+
+            const imgX = Math.floor(((x + TERRAIN_WIDTH / 2) / TERRAIN_WIDTH) * img.width);
+            const imgY = Math.floor((1 - (y + TERRAIN_HEIGHT / 2) / TERRAIN_HEIGHT) * img.height);
+
+            const safeX = Math.max(0, Math.min(img.width - 1, imgX));
+            const safeY = Math.max(0, Math.min(img.height - 1, imgY));
+
+            const pixelIndex = (safeY * img.width + safeX) * 4;
+            const brightness = heightmapData.data[pixelIndex];
+
+            const height = (brightness / 255) * 1.0;
+            positionAttribute.setZ(i, height);
+          }
+
+          positionAttribute.needsUpdate = true;
+          geometry.computeVertexNormals();
+        };
+
+        // Wireframe overlay
+        const wireGeometry = new THREE.PlaneGeometry(TERRAIN_WIDTH, TERRAIN_HEIGHT, 60, 40);
+        const wireMaterial = new THREE.MeshBasicMaterial({
+          color: 0xff6600,
+          wireframe: true,
+          transparent: true,
+          opacity: 0.2,
+        });
+        const wireframe = new THREE.Mesh(wireGeometry, wireMaterial);
+        wireframe.rotation.x = -Math.PI / 2;
+        wireframe.position.y = 0.02;
+        scene.add(wireframe);
+      }
+
+      function onMouseMove(event) {
+        const rect = renderer.domElement.getBoundingClientRect();
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObject(terrain);
+
+        if (intersects.length > 0) {
+          const point = intersects[0].point;
+
+          // Convert to terrain coordinates
+          const x = Math.round(point.x * 10) / 10;
+          const z = Math.round(point.z * 10) / 10;
+
+          document.getElementById('mouseX').textContent = x.toFixed(1);
+          document.getElementById('mouseZ').textContent = z.toFixed(1);
         }
+      }
 
-        function createTerrain() {
-            const geometry = new THREE.PlaneGeometry(TERRAIN_WIDTH, TERRAIN_HEIGHT, 150, 100);
-            const material = new THREE.MeshStandardMaterial({
-                color: 0x8B7355,
-                metalness: 0.15,
-                roughness: 0.85
-            });
+      function onMapClick(event) {
+        const rect = renderer.domElement.getBoundingClientRect();
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-            terrain = new THREE.Mesh(geometry, material);
-            terrain.rotation.x = -Math.PI / 2;
-            terrain.receiveShadow = true;
-            scene.add(terrain);
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObject(terrain);
 
-            // Load heightmap
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.src = '../public/heightmapper-1762013079272.png';
+        if (intersects.length > 0) {
+          const point = intersects[0].point;
+          const x = Math.round(point.x * 10) / 10;
+          const z = Math.round(point.z * 10) / 10;
 
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                const ctx = canvas.getContext('2d');
+          const townName = document.getElementById('townName').value || 'Town ' + (savedTowns.length + 1);
 
-                // Flip horizontally
-                ctx.translate(canvas.width, 0);
-                ctx.scale(-1, 1);
-                ctx.drawImage(img, 0, 0);
-
-                heightmapData = ctx.getImageData(0, 0, img.width, img.height);
-
-                console.log('Heightmap loaded:', img.width, 'x', img.height);
-
-                // Apply heightmap to geometry
-                const positionAttribute = geometry.getAttribute('position');
-
-                for (let i = 0; i < positionAttribute.count; i++) {
-                    const x = positionAttribute.getX(i);
-                    const y = positionAttribute.getY(i);
-
-                    const imgX = Math.floor(((x + TERRAIN_WIDTH / 2) / TERRAIN_WIDTH) * img.width);
-                    const imgY = Math.floor((1 - (y + TERRAIN_HEIGHT / 2) / TERRAIN_HEIGHT) * img.height);
-
-                    const safeX = Math.max(0, Math.min(img.width - 1, imgX));
-                    const safeY = Math.max(0, Math.min(img.height - 1, imgY));
-
-                    const pixelIndex = (safeY * img.width + safeX) * 4;
-                    const brightness = heightmapData.data[pixelIndex];
-
-                    const height = (brightness / 255) * 1.0;
-                    positionAttribute.setZ(i, height);
-                }
-
-                positionAttribute.needsUpdate = true;
-                geometry.computeVertexNormals();
-            };
-
-            // Wireframe overlay
-            const wireGeometry = new THREE.PlaneGeometry(TERRAIN_WIDTH, TERRAIN_HEIGHT, 60, 40);
-            const wireMaterial = new THREE.MeshBasicMaterial({
-                color: 0xFF6600,
-                wireframe: true,
-                transparent: true,
-                opacity: 0.2
-            });
-            const wireframe = new THREE.Mesh(wireGeometry, wireMaterial);
-            wireframe.rotation.x = -Math.PI / 2;
-            wireframe.position.y = 0.02;
-            scene.add(wireframe);
+          saveTownData(townName, x, z, point.y);
+          document.getElementById('townName').value = '';
         }
+      }
 
-        function onMouseMove(event) {
-            const rect = renderer.domElement.getBoundingClientRect();
-            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      function saveTownData(name, x, z, y) {
+        const town = { name, x, z, y };
+        savedTowns.push(town);
 
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(terrain);
+        addMarker(town);
+        updatePointsList();
+      }
 
-            if (intersects.length > 0) {
-                const point = intersects[0].point;
+      function addMarker(town) {
+        // Create glowing marker sphere
+        const markerGeom = new THREE.SphereGeometry(0.25, 16, 16);
+        const markerMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const marker = new THREE.Mesh(markerGeom, markerMat);
+        marker.position.set(town.x, town.y + 0.5, town.z);
+        scene.add(marker);
 
-                // Convert to terrain coordinates
-                const x = Math.round(point.x * 10) / 10;
-                const z = Math.round(point.z * 10) / 10;
+        clickMarkers.push(marker);
 
-                document.getElementById('mouseX').textContent = x.toFixed(1);
-                document.getElementById('mouseZ').textContent = z.toFixed(1);
-            }
-        }
+        // Add point light
+        const light = new THREE.PointLight(0x00ff00, 2, 5);
+        light.position.copy(marker.position);
+        scene.add(light);
+      }
 
-        function onMapClick(event) {
-            const rect = renderer.domElement.getBoundingClientRect();
-            mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObject(terrain);
-
-            if (intersects.length > 0) {
-                const point = intersects[0].point;
-                const x = Math.round(point.x * 10) / 10;
-                const z = Math.round(point.z * 10) / 10;
-
-                const townName = document.getElementById('townName').value || 'Town ' + (savedTowns.length + 1);
-
-                saveTownData(townName, x, z, point.y);
-                document.getElementById('townName').value = '';
-            }
-        }
-
-        function saveTownData(name, x, z, y) {
-            const town = { name, x, z, y };
-            savedTowns.push(town);
-
-            addMarker(town);
-            updatePointsList();
-        }
-
-        function addMarker(town) {
-            // Create glowing marker sphere
-            const markerGeom = new THREE.SphereGeometry(0.25, 16, 16);
-            const markerMat = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-            const marker = new THREE.Mesh(markerGeom, markerMat);
-            marker.position.set(town.x, town.y + 0.5, town.z);
-            scene.add(marker);
-
-            clickMarkers.push(marker);
-
-            // Add point light
-            const light = new THREE.PointLight(0x00ff00, 2, 5);
-            light.position.copy(marker.position);
-            scene.add(light);
-        }
-
-        function updatePointsList() {
-            const list = document.getElementById('pointsList');
-            list.innerHTML = savedTowns.map((town, i) => `
+      function updatePointsList() {
+        const list = document.getElementById('pointsList');
+        list.innerHTML = savedTowns
+          .map(
+            (town, i) => `
                 <div class="saved-point">
                     <strong>${town.name}</strong><br>
                     X: ${town.x.toFixed(1)}, Z: ${town.z.toFixed(1)}
                     <button onclick="removeTown(${i})" style="padding: 2px 6px; font-size: 10px;">Remove</button>
                 </div>
-            `).join('');
+            `
+          )
+          .join('');
+      }
+
+      window.removeTown = function (index) {
+        savedTowns.splice(index, 1);
+
+        // Remove markers from scene
+        clickMarkers.forEach((m) => scene.remove(m));
+        clickMarkers = [];
+
+        // Re-add remaining markers
+        savedTowns.forEach((town) => addMarker(town));
+        updatePointsList();
+      };
+
+      window.clearMarkers = function () {
+        if (!confirm('Clear all saved towns?')) return;
+
+        savedTowns = [];
+        clickMarkers.forEach((m) => scene.remove(m));
+        clickMarkers = [];
+        updatePointsList();
+      };
+
+      window.exportCoordinates = function () {
+        if (savedTowns.length === 0) {
+          alert('No towns saved yet!');
+          return;
         }
 
-        window.removeTown = function(index) {
-            savedTowns.splice(index, 1);
+        const output = savedTowns
+          .map((town) => `  { name: '${town.name}', x: ${town.x.toFixed(1)}, z: ${town.z.toFixed(1)} }`)
+          .join(',\n');
 
-            // Remove markers from scene
-            clickMarkers.forEach(m => scene.remove(m));
-            clickMarkers = [];
+        const fullCode = `const towns = [\n${output}\n];`;
 
-            // Re-add remaining markers
-            savedTowns.forEach(town => addMarker(town));
-            updatePointsList();
-        };
+        navigator.clipboard.writeText(fullCode).then(() => {
+          alert('Coordinates copied to clipboard!');
+        });
 
-        window.clearMarkers = function() {
-            if (!confirm('Clear all saved towns?')) return;
+        console.log('Town Coordinates:');
+        console.log(fullCode);
+      };
 
-            savedTowns = [];
-            clickMarkers.forEach(m => scene.remove(m));
-            clickMarkers = [];
-            updatePointsList();
-        };
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      }
 
-        window.exportCoordinates = function() {
-            if (savedTowns.length === 0) {
-                alert('No towns saved yet!');
-                return;
-            }
-
-            const output = savedTowns.map(town =>
-                `  { name: '${town.name}', x: ${town.x.toFixed(1)}, z: ${town.z.toFixed(1)} }`
-            ).join(',\n');
-
-            const fullCode = `const towns = [\n${output}\n];`;
-
-            navigator.clipboard.writeText(fullCode).then(() => {
-                alert('Coordinates copied to clipboard!');
-            });
-
-            console.log('Town Coordinates:');
-            console.log(fullCode);
-        };
-
-        function animate() {
-            requestAnimationFrame(animate);
-            controls.update();
-            renderer.render(scene, camera);
-        }
-
-        // Start
-        init();
+      // Start
+      init();
     </script>
-</body>
+  </body>
 </html>

@@ -18,7 +18,8 @@ import industrialConstructionSite from '~/assets/images/Industrial Construction 
 
 const metadata = {
   title: 'Projects & Case Studies - MTN Mud',
-  description: "Explore Mountain Mud's successful drilling fluid projects across the Rockies. Real results from the Powder River Basin, Bakken Formation, and beyond.",
+  description:
+    "Explore Mountain Mud's successful drilling fluid projects across the Rockies. Real results from the Powder River Basin, Bakken Formation, and beyond.",
 };
 
 // Project data
@@ -180,17 +181,6 @@ const projects = [
     wells: 45,
   },
 ];
-
-// Filter/category options
-const categories = [
-  'All Projects',
-  'Lost Circulation Management',
-  'Extended Reach Drilling',
-  'Wellbore Stability',
-  'Horizontal Drilling',
-  'High Pressure / High Temperature',
-  'Coalbed Methane',
-];
 ---
 
 <Layout metadata={metadata}>
@@ -265,11 +255,7 @@ const categories = [
               <div class={`grid grid-cols-1 lg:grid-cols-2 gap-8 ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
                 {/* Image */}
                 <div class={index % 2 === 1 ? 'lg:col-start-2' : ''}>
-                  <Image
-                    src={project.image}
-                    alt={project.title}
-                    class="w-full h-full min-h-96 object-cover"
-                  />
+                  <Image src={project.image} alt={project.title} class="w-full h-full min-h-96 object-cover" />
                 </div>
 
                 {/* Content */}
@@ -364,10 +350,10 @@ const categories = [
       {/* Disclaimer */}
       <div class="mt-16 bg-warm-gray border-l-4 border-charcoal-400 p-8 rounded-xl">
         <p class="text-sm text-charcoal-600 leading-relaxed font-medium">
-          <strong class="text-charcoal-900">Note:</strong> All case studies represent real Mountain Mud projects.
-          Specific client names and certain proprietary details have been generalized to protect client confidentiality.
-          Results are based on actual field data and documented performance metrics. Individual results may vary based
-          on formation characteristics, drilling parameters, and operational conditions.
+          <strong class="text-charcoal-900">Note:</strong> All case studies represent real Mountain Mud projects. Specific
+          client names and certain proprietary details have been generalized to protect client confidentiality. Results are
+          based on actual field data and documented performance metrics. Individual results may vary based on formation characteristics,
+          drilling parameters, and operational conditions.
         </p>
       </div>
     </div>
@@ -392,7 +378,9 @@ const categories = [
             alt="Field operations - heavy machinery"
             class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"
+          >
             <p class="text-white font-bold text-lg">Heavy Equipment Operations</p>
           </div>
         </div>
@@ -403,7 +391,9 @@ const categories = [
             alt="Construction site loader"
             class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"
+          >
             <p class="text-white font-bold text-lg">Site Preparation</p>
           </div>
         </div>
@@ -414,7 +404,9 @@ const categories = [
             alt="Industrial delivery truck"
             class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"
+          >
             <p class="text-white font-bold text-lg">24/7 Delivery Fleet</p>
           </div>
         </div>
@@ -425,7 +417,9 @@ const categories = [
             alt="Oil rig and storage tanks"
             class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"
+          >
             <p class="text-white font-bold text-lg">Rig Operations</p>
           </div>
         </div>
@@ -436,7 +430,9 @@ const categories = [
             alt="Industrial construction site"
             class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"
+          >
             <p class="text-white font-bold text-lg">Construction Management</p>
           </div>
         </div>
@@ -447,7 +443,9 @@ const categories = [
             alt="Oil rig field worker"
             class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6"
+          >
             <p class="text-white font-bold text-lg">Expert Field Team</p>
           </div>
         </div>
@@ -459,9 +457,7 @@ const categories = [
   <section class="bg-warm-white py-20 md:py-28">
     <div class="container mx-auto px-4 max-w-6xl">
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">
-          Our Project Capabilities
-        </h2>
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Our Project Capabilities</h2>
         <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
           From simple wellbore challenges to complex multi-well programs, we have the expertise, resources, and track
           record to handle any drilling fluid project.
@@ -470,7 +466,9 @@ const categories = [
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Capability Cards */}
-        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+        <div
+          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+        >
           <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -488,14 +486,12 @@ const categories = [
           </p>
         </div>
 
-        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+        <div
+          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+        >
           <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
               ></path>
             </svg>
           </div>
@@ -505,7 +501,9 @@ const categories = [
           </p>
         </div>
 
-        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+        <div
+          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+        >
           <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -522,7 +520,9 @@ const categories = [
           </p>
         </div>
 
-        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+        <div
+          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+        >
           <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -539,7 +539,9 @@ const categories = [
           </p>
         </div>
 
-        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+        <div
+          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+        >
           <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -556,7 +558,9 @@ const categories = [
           </p>
         </div>
 
-        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+        <div
+          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+        >
           <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path

@@ -1,172 +1,172 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Generate Wyoming/ND Heightmap</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #1a1a1a;
-      color: #fff;
-    }
-    canvas {
-      border: 2px solid #ff6600;
-      margin: 20px 0;
-    }
-    button {
-      background: #ff6600;
-      color: white;
-      border: none;
-      padding: 15px 30px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 8px;
-    }
-    button:hover {
-      background: #ff8833;
-    }
-    #status {
-      margin: 20px 0;
-      padding: 15px;
-      background: #2a2a2a;
-      border-radius: 8px;
-    }
-  </style>
-</head>
-<body>
-  <h1>Wyoming/North Dakota Heightmap Generator</h1>
-  <p>This will create a realistic heightmap using actual elevation data</p>
+  <head>
+    <title>Generate Wyoming/ND Heightmap</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #1a1a1a;
+        color: #fff;
+      }
+      canvas {
+        border: 2px solid #ff6600;
+        margin: 20px 0;
+      }
+      button {
+        background: #ff6600;
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 8px;
+      }
+      button:hover {
+        background: #ff8833;
+      }
+      #status {
+        margin: 20px 0;
+        padding: 15px;
+        background: #2a2a2a;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Wyoming/North Dakota Heightmap Generator</h1>
+    <p>This will create a realistic heightmap using actual elevation data</p>
 
-  <div id="status">Ready to generate...</div>
+    <div id="status">Ready to generate...</div>
 
-  <button onclick="generateHeightmap()">Generate Heightmap</button>
+    <button onclick="generateHeightmap()">Generate Heightmap</button>
 
-  <br><br>
-  <canvas id="heightmap" width="512" height="512"></canvas>
+    <br /><br />
+    <canvas id="heightmap" width="512" height="512"></canvas>
 
-  <br>
-  <button id="download" style="display: none;" onclick="downloadImage()">Download Heightmap</button>
+    <br />
+    <button id="download" style="display: none" onclick="downloadImage()">Download Heightmap</button>
 
-  <script>
-    const canvas = document.getElementById('heightmap');
-    const ctx = canvas.getContext('2d');
-    const status = document.getElementById('status');
+    <script>
+      const canvas = document.getElementById('heightmap');
+      const ctx = canvas.getContext('2d');
+      const status = document.getElementById('status');
 
-    // Bounding box for Wyoming/North Dakota region
-    const bounds = {
-      north: 49.0,   // North Dakota northern border
-      south: 41.0,   // Wyoming southern border
-      west: -111.0,  // Western Wyoming
-      east: -97.0    // Eastern North Dakota
-    };
+      // Bounding box for Wyoming/North Dakota region
+      const bounds = {
+        north: 49.0, // North Dakota northern border
+        south: 41.0, // Wyoming southern border
+        west: -111.0, // Western Wyoming
+        east: -97.0, // Eastern North Dakota
+      };
 
-    async function generateHeightmap() {
-      status.textContent = 'Generating heightmap... This may take a minute...';
+      async function generateHeightmap() {
+        status.textContent = 'Generating heightmap... This may take a minute...';
 
-      const width = 512;
-      const height = 512;
-      const imageData = ctx.createImageData(width, height);
+        const width = 512;
+        const height = 512;
+        const imageData = ctx.createImageData(width, height);
 
-      // Sample elevation at grid points
-      const gridSize = 32; // Sample every 16 pixels for speed
-      const elevations = [];
-      let minElev = Infinity;
-      let maxElev = -Infinity;
+        // Sample elevation at grid points
+        const gridSize = 32; // Sample every 16 pixels for speed
+        const elevations = [];
+        let minElev = Infinity;
+        let maxElev = -Infinity;
 
-      status.textContent = 'Sampling elevation points...';
+        status.textContent = 'Sampling elevation points...';
 
-      // Create elevation grid
-      for (let y = 0; y < gridSize; y++) {
-        elevations[y] = [];
-        for (let x = 0; x < gridSize; x++) {
-          // Convert pixel position to lat/lon
-          const lat = bounds.north - (y / (gridSize - 1)) * (bounds.north - bounds.south);
-          const lon = bounds.west + (x / (gridSize - 1)) * (bounds.east - bounds.west);
+        // Create elevation grid
+        for (let y = 0; y < gridSize; y++) {
+          elevations[y] = [];
+          for (let x = 0; x < gridSize; x++) {
+            // Convert pixel position to lat/lon
+            const lat = bounds.north - (y / (gridSize - 1)) * (bounds.north - bounds.south);
+            const lon = bounds.west + (x / (gridSize - 1)) * (bounds.east - bounds.west);
 
-          // Use simplified terrain model based on known geography
-          let elevation = 1000; // Base Great Plains elevation
+            // Use simplified terrain model based on known geography
+            let elevation = 1000; // Base Great Plains elevation
 
-          // Rocky Mountains (western Wyoming)
-          if (lon < -107) {
-            const mountainFactor = (-107 - lon) / 4;
-            elevation += mountainFactor * 2500; // Up to 3500m
-            elevation += Math.sin(lat * 5) * 300;
-            elevation += Math.cos(lon * 5) * 300;
+            // Rocky Mountains (western Wyoming)
+            if (lon < -107) {
+              const mountainFactor = (-107 - lon) / 4;
+              elevation += mountainFactor * 2500; // Up to 3500m
+              elevation += Math.sin(lat * 5) * 300;
+              elevation += Math.cos(lon * 5) * 300;
+            }
+            // Bighorn Mountains
+            else if (lon > -108 && lon < -106 && lat > 44 && lat < 45.5) {
+              elevation += 800 + Math.sin(lat * 10) * 200;
+            }
+            // Powder River Basin (Gillette area)
+            else if (lon > -106 && lon < -104 && lat > 43.5 && lat < 45) {
+              elevation += 200 + Math.sin(lat * 3 + lon * 3) * 50;
+            }
+            // Badlands (western North Dakota)
+            else if (lat > 46.5 && lon > -104 && lon < -102) {
+              elevation += 300 + Math.sin(lat * 15 + lon * 15) * 100;
+            }
+            // Great Plains slope
+            else {
+              elevation -= (lon - bounds.west) * 5; // Gradual slope downward to east
+            }
+
+            elevations[y][x] = elevation;
+            minElev = Math.min(minElev, elevation);
+            maxElev = Math.max(maxElev, elevation);
           }
-          // Bighorn Mountains
-          else if (lon > -108 && lon < -106 && lat > 44 && lat < 45.5) {
-            elevation += 800 + Math.sin(lat * 10) * 200;
-          }
-          // Powder River Basin (Gillette area)
-          else if (lon > -106 && lon < -104 && lat > 43.5 && lat < 45) {
-            elevation += 200 + Math.sin(lat * 3 + lon * 3) * 50;
-          }
-          // Badlands (western North Dakota)
-          else if (lat > 46.5 && lon > -104 && lon < -102) {
-            elevation += 300 + Math.sin(lat * 15 + lon * 15) * 100;
-          }
-          // Great Plains slope
-          else {
-            elevation -= (lon - bounds.west) * 5; // Gradual slope downward to east
-          }
-
-          elevations[y][x] = elevation;
-          minElev = Math.min(minElev, elevation);
-          maxElev = Math.max(maxElev, elevation);
         }
+
+        status.textContent = `Elevation range: ${minElev.toFixed(0)}m to ${maxElev.toFixed(0)}m. Rendering...`;
+
+        // Interpolate and render
+        for (let y = 0; y < height; y++) {
+          for (let x = 0; x < width; x++) {
+            const idx = (y * width + x) * 4;
+
+            // Bilinear interpolation
+            const gx = (x / width) * (gridSize - 1);
+            const gy = (y / height) * (gridSize - 1);
+            const gxi = Math.floor(gx);
+            const gyi = Math.floor(gy);
+            const gxf = gx - gxi;
+            const gyf = gy - gyi;
+
+            const gxi1 = Math.min(gxi + 1, gridSize - 1);
+            const gyi1 = Math.min(gyi + 1, gridSize - 1);
+
+            const e00 = elevations[gyi][gxi];
+            const e10 = elevations[gyi][gxi1];
+            const e01 = elevations[gyi1][gxi];
+            const e11 = elevations[gyi1][gxi1];
+
+            const e0 = e00 * (1 - gxf) + e10 * gxf;
+            const e1 = e01 * (1 - gxf) + e11 * gxf;
+            const elevation = e0 * (1 - gyf) + e1 * gyf;
+
+            // Normalize to 0-255
+            const normalized = ((elevation - minElev) / (maxElev - minElev)) * 255;
+
+            imageData.data[idx] = normalized; // R
+            imageData.data[idx + 1] = normalized; // G
+            imageData.data[idx + 2] = normalized; // B
+            imageData.data[idx + 3] = 255; // A
+          }
+        }
+
+        ctx.putImageData(imageData, 0, 0);
+
+        status.textContent = '✅ Heightmap generated! Click Download to save.';
+        document.getElementById('download').style.display = 'inline-block';
       }
 
-      status.textContent = `Elevation range: ${minElev.toFixed(0)}m to ${maxElev.toFixed(0)}m. Rendering...`;
-
-      // Interpolate and render
-      for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-          const idx = (y * width + x) * 4;
-
-          // Bilinear interpolation
-          const gx = (x / width) * (gridSize - 1);
-          const gy = (y / height) * (gridSize - 1);
-          const gxi = Math.floor(gx);
-          const gyi = Math.floor(gy);
-          const gxf = gx - gxi;
-          const gyf = gy - gyi;
-
-          const gxi1 = Math.min(gxi + 1, gridSize - 1);
-          const gyi1 = Math.min(gyi + 1, gridSize - 1);
-
-          const e00 = elevations[gyi][gxi];
-          const e10 = elevations[gyi][gxi1];
-          const e01 = elevations[gyi1][gxi];
-          const e11 = elevations[gyi1][gxi1];
-
-          const e0 = e00 * (1 - gxf) + e10 * gxf;
-          const e1 = e01 * (1 - gxf) + e11 * gxf;
-          const elevation = e0 * (1 - gyf) + e1 * gyf;
-
-          // Normalize to 0-255
-          const normalized = ((elevation - minElev) / (maxElev - minElev)) * 255;
-
-          imageData.data[idx] = normalized;     // R
-          imageData.data[idx + 1] = normalized; // G
-          imageData.data[idx + 2] = normalized; // B
-          imageData.data[idx + 3] = 255;        // A
-        }
+      function downloadImage() {
+        const link = document.createElement('a');
+        link.download = 'heightmap-wyoming-nd.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        status.textContent = '✅ Downloaded! Copy this file to: public/heightmap-wyoming-nd.png';
       }
-
-      ctx.putImageData(imageData, 0, 0);
-
-      status.textContent = '✅ Heightmap generated! Click Download to save.';
-      document.getElementById('download').style.display = 'inline-block';
-    }
-
-    function downloadImage() {
-      const link = document.createElement('a');
-      link.download = 'heightmap-wyoming-nd.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      status.textContent = '✅ Downloaded! Copy this file to: public/heightmap-wyoming-nd.png';
-    }
-  </script>
-</body>
+    </script>
+  </body>
 </html>

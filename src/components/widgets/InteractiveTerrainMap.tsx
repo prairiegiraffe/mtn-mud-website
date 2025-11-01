@@ -9,10 +9,10 @@ import * as THREE from 'three';
 // The map shows: Seattle/Portland (far left), Salt Lake City (left-center),
 // Denver/Kansas (center), Chicago (right), extending north to Canada
 const TERRAIN_BOUNDS = {
-  west: -125.0,  // Pacific coast (Seattle area)
-  east: -90.0,   // Great Lakes (Chicago/Wisconsin)
-  north: 50.0,   // Canadian border
-  south: 38.0,   // Southern Wyoming/Kansas
+  west: -125.0, // Pacific coast (Seattle area)
+  east: -90.0, // Great Lakes (Chicago/Wisconsin)
+  north: 50.0, // Canadian border
+  south: 38.0, // Southern Wyoming/Kansas
 };
 
 // Terrain dimensions - make it MUCH wider to match the actual heightmap aspect ratio
@@ -220,12 +220,19 @@ function Terrain() {
         const y = positionAttribute.getY(i);
 
         // Map terrain mesh coordinates back to lat/long
-        const long = TERRAIN_BOUNDS.west + ((x + TERRAIN_WIDTH / 2) / TERRAIN_WIDTH) * (TERRAIN_BOUNDS.east - TERRAIN_BOUNDS.west);
-        const lat = TERRAIN_BOUNDS.south + ((TERRAIN_HEIGHT / 2 - y) / TERRAIN_HEIGHT) * (TERRAIN_BOUNDS.north - TERRAIN_BOUNDS.south);
+        const long =
+          TERRAIN_BOUNDS.west + ((x + TERRAIN_WIDTH / 2) / TERRAIN_WIDTH) * (TERRAIN_BOUNDS.east - TERRAIN_BOUNDS.west);
+        const lat =
+          TERRAIN_BOUNDS.south +
+          ((TERRAIN_HEIGHT / 2 - y) / TERRAIN_HEIGHT) * (TERRAIN_BOUNDS.north - TERRAIN_BOUNDS.south);
 
         // Map lat/long to heightmap pixel
-        const imgX = Math.floor(((long - TERRAIN_BOUNDS.west) / (TERRAIN_BOUNDS.east - TERRAIN_BOUNDS.west)) * img.width);
-        const imgY = Math.floor(((TERRAIN_BOUNDS.north - lat) / (TERRAIN_BOUNDS.north - TERRAIN_BOUNDS.south)) * img.height);
+        const imgX = Math.floor(
+          ((long - TERRAIN_BOUNDS.west) / (TERRAIN_BOUNDS.east - TERRAIN_BOUNDS.west)) * img.width
+        );
+        const imgY = Math.floor(
+          ((TERRAIN_BOUNDS.north - lat) / (TERRAIN_BOUNDS.north - TERRAIN_BOUNDS.south)) * img.height
+        );
 
         const safeX = Math.max(0, Math.min(img.width - 1, imgX));
         const safeY = Math.max(0, Math.min(img.height - 1, imgY));
@@ -281,7 +288,7 @@ function Terrain() {
             <mesh position={[x, 2, 0]} rotation={[-Math.PI / 2, 0, 0]}>
               <planeGeometry args={[0.08, TERRAIN_HEIGHT]} />
               <meshBasicMaterial
-                color={i % 5 === 0 ? "#00FFFF" : "#0088AA"}
+                color={i % 5 === 0 ? '#00FFFF' : '#0088AA'}
                 opacity={i % 5 === 0 ? 0.8 : 0.4}
                 transparent
                 side={THREE.DoubleSide}
@@ -289,17 +296,19 @@ function Terrain() {
             </mesh>
             {/* X-axis labels */}
             {i % 5 === 0 && (
-              <Html position={[x, 2, -TERRAIN_HEIGHT/2 - 0.5]} center>
-                <div style={{
-                  color: '#00FFFF',
-                  fontSize: '16px',
-                  fontWeight: 900,
-                  background: 'rgba(0,0,0,0.9)',
-                  padding: '6px 10px',
-                  borderRadius: '6px',
-                  border: '2px solid #00FFFF',
-                  whiteSpace: 'nowrap'
-                }}>
+              <Html position={[x, 2, -TERRAIN_HEIGHT / 2 - 0.5]} center>
+                <div
+                  style={{
+                    color: '#00FFFF',
+                    fontSize: '16px',
+                    fontWeight: 900,
+                    background: 'rgba(0,0,0,0.9)',
+                    padding: '6px 10px',
+                    borderRadius: '6px',
+                    border: '2px solid #00FFFF',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
                   X: {x}
                 </div>
               </Html>
@@ -317,7 +326,7 @@ function Terrain() {
             <mesh position={[0, 2, z]} rotation={[-Math.PI / 2, 0, 0]}>
               <planeGeometry args={[TERRAIN_WIDTH, 0.08]} />
               <meshBasicMaterial
-                color={i % 2 === 0 ? "#00FF00" : "#008800"}
+                color={i % 2 === 0 ? '#00FF00' : '#008800'}
                 opacity={i % 2 === 0 ? 0.8 : 0.4}
                 transparent
                 side={THREE.DoubleSide}
@@ -325,17 +334,19 @@ function Terrain() {
             </mesh>
             {/* Z-axis labels */}
             {i % 2 === 0 && (
-              <Html position={[-TERRAIN_WIDTH/2 - 0.5, 2, z]} center>
-                <div style={{
-                  color: '#00FF00',
-                  fontSize: '16px',
-                  fontWeight: 900,
-                  background: 'rgba(0,0,0,0.9)',
-                  padding: '6px 10px',
-                  borderRadius: '6px',
-                  border: '2px solid #00FF00',
-                  whiteSpace: 'nowrap'
-                }}>
+              <Html position={[-TERRAIN_WIDTH / 2 - 0.5, 2, z]} center>
+                <div
+                  style={{
+                    color: '#00FF00',
+                    fontSize: '16px',
+                    fontWeight: 900,
+                    background: 'rgba(0,0,0,0.9)',
+                    padding: '6px 10px',
+                    borderRadius: '6px',
+                    border: '2px solid #00FF00',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
                   Z: {z}
                 </div>
               </Html>
@@ -350,15 +361,17 @@ function Terrain() {
         <meshBasicMaterial color="#FF0000" />
       </mesh>
       <Html position={[0, 3, 0]} center>
-        <div style={{
-          color: '#FF0000',
-          fontSize: '18px',
-          fontWeight: 900,
-          background: 'rgba(0,0,0,0.9)',
-          padding: '8px 12px',
-          borderRadius: '8px',
-          border: '3px solid #FF0000'
-        }}>
+        <div
+          style={{
+            color: '#FF0000',
+            fontSize: '18px',
+            fontWeight: 900,
+            background: 'rgba(0,0,0,0.9)',
+            padding: '8px 12px',
+            borderRadius: '8px',
+            border: '3px solid #FF0000',
+          }}
+        >
           ORIGIN (0,0)
         </div>
       </Html>
@@ -548,17 +561,9 @@ function FlyingCamera({ targetLocation }: { targetLocation: (typeof locations)[0
       const height = getTerrainElevation(targetLocation.x, targetLocation.z);
       const cameraHeight = height + 4;
 
-      targetPosRef.current.set(
-        targetLocation.position[0] + 4,
-        cameraHeight,
-        targetLocation.position[2] - 6
-      );
+      targetPosRef.current.set(targetLocation.position[0] + 4, cameraHeight, targetLocation.position[2] - 6);
 
-      lookAtRef.current.set(
-        targetLocation.position[0],
-        height,
-        targetLocation.position[2]
-      );
+      lookAtRef.current.set(targetLocation.position[0], height, targetLocation.position[2]);
     } else {
       // Default overview position - viewing from south looking north
       targetPosRef.current.set(0, 10, -18);
@@ -648,17 +653,21 @@ function Scene() {
             zIndex: 1000,
           }}
         >
-          <div style={{
-            color: '#00FFFF',
-            fontSize: '12px',
-            marginBottom: '12px',
-            padding: '8px',
-            background: 'rgba(0, 255, 255, 0.1)',
-            borderRadius: '6px',
-            border: '1px solid #00FFFF'
-          }}>
-            <strong>DEBUG MODE</strong><br/>
-            Grid overlay enabled<br/>
+          <div
+            style={{
+              color: '#00FFFF',
+              fontSize: '12px',
+              marginBottom: '12px',
+              padding: '8px',
+              background: 'rgba(0, 255, 255, 0.1)',
+              borderRadius: '6px',
+              border: '1px solid #00FFFF',
+            }}
+          >
+            <strong>DEBUG MODE</strong>
+            <br />
+            Grid overlay enabled
+            <br />
             Scroll down for top-down view
           </div>
           <button
@@ -740,14 +749,16 @@ function TopDownScene() {
         <meshStandardMaterial color="#FF00FF" />
       </mesh>
       <Html position={[5, 3.5, 0]} center>
-        <div style={{
-          color: '#FF00FF',
-          fontSize: '20px',
-          fontWeight: 900,
-          background: 'black',
-          padding: '10px',
-          border: '3px solid #FF00FF'
-        }}>
+        <div
+          style={{
+            color: '#FF00FF',
+            fontSize: '20px',
+            fontWeight: 900,
+            background: 'black',
+            padding: '10px',
+            border: '3px solid #FF00FF',
+          }}
+        >
           TEST MARKER
         </div>
       </Html>
@@ -758,21 +769,25 @@ function TopDownScene() {
 // Top-down reference view component
 function TopDownReferenceView() {
   return (
-    <div style={{ position: 'relative', width: '100%', height: '700px', marginTop: '40px', border: '4px solid #00FFFF' }}>
-      <div style={{
-        position: 'absolute',
-        top: '10px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        background: 'rgba(0, 0, 0, 0.9)',
-        color: '#00FFFF',
-        padding: '12px 24px',
-        borderRadius: '12px',
-        border: '3px solid #00FFFF',
-        zIndex: 10,
-        fontSize: '18px',
-        fontWeight: 900
-      }}>
+    <div
+      style={{ position: 'relative', width: '100%', height: '700px', marginTop: '40px', border: '4px solid #00FFFF' }}
+    >
+      <div
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'rgba(0, 0, 0, 0.9)',
+          color: '#00FFFF',
+          padding: '12px 24px',
+          borderRadius: '12px',
+          border: '3px solid #00FFFF',
+          zIndex: 10,
+          fontSize: '18px',
+          fontWeight: 900,
+        }}
+      >
         📍 TOP-DOWN REFERENCE VIEW - Tell me the X, Z coordinates for each town
       </div>
       <Canvas
@@ -783,7 +798,7 @@ function TopDownReferenceView() {
           top: 10,
           bottom: -10,
           near: 0.1,
-          far: 100
+          far: 100,
         }}
         orthographic
         style={{ background: '#1a1a1a' }}
@@ -796,22 +811,32 @@ function TopDownReferenceView() {
       </Canvas>
 
       {/* Legend */}
-      <div style={{
-        position: 'absolute',
-        bottom: '20px',
-        right: '20px',
-        background: 'rgba(0, 0, 0, 0.9)',
-        padding: '16px',
-        borderRadius: '12px',
-        border: '2px solid #fff',
-        color: 'white',
-        fontSize: '14px',
-        zIndex: 10
-      }}>
-        <div style={{marginBottom: '8px'}}><span style={{color: '#00FFFF'}}>━━</span> X-axis (West-East)</div>
-        <div style={{marginBottom: '8px'}}><span style={{color: '#00FF00'}}>━━</span> Z-axis (South-North)</div>
-        <div style={{marginBottom: '8px'}}><span style={{color: '#FF0000'}}>●</span> Origin (0,0)</div>
-        <div><span style={{color: '#FF6600'}}>●</span> Towns (current position)</div>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '20px',
+          right: '20px',
+          background: 'rgba(0, 0, 0, 0.9)',
+          padding: '16px',
+          borderRadius: '12px',
+          border: '2px solid #fff',
+          color: 'white',
+          fontSize: '14px',
+          zIndex: 10,
+        }}
+      >
+        <div style={{ marginBottom: '8px' }}>
+          <span style={{ color: '#00FFFF' }}>━━</span> X-axis (West-East)
+        </div>
+        <div style={{ marginBottom: '8px' }}>
+          <span style={{ color: '#00FF00' }}>━━</span> Z-axis (South-North)
+        </div>
+        <div style={{ marginBottom: '8px' }}>
+          <span style={{ color: '#FF0000' }}>●</span> Origin (0,0)
+        </div>
+        <div>
+          <span style={{ color: '#FF6600' }}>●</span> Towns (current position)
+        </div>
       </div>
     </div>
   );
@@ -829,63 +854,63 @@ export default function InteractiveTerrainMap() {
     <>
       {/* Main 3D angled view */}
       <div style={{ position: 'relative', width: '100%', height: '700px' }}>
-      {isLoading && (
+        {isLoading && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 10,
+              color: '#FF6600',
+              fontFamily: 'Roboto, sans-serif',
+              fontSize: '20px',
+              fontWeight: 900,
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+            }}
+          >
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '48px', marginBottom: '20px' }}>🗺️</div>
+              <div>Loading 3D Terrain...</div>
+            </div>
+          </div>
+        )}
+
+        <Canvas
+          camera={{ position: [0, 10, -18], fov: 65 }}
+          shadows
+          style={{ background: 'linear-gradient(to bottom, #1A2A3A 0%, #2A3A4A 100%)' }}
+        >
+          <Scene />
+        </Canvas>
+
+        {/* Instructions */}
         <div
           style={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10,
-            color: '#FF6600',
+            bottom: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            color: 'white',
+            padding: '14px 24px',
+            borderRadius: '12px',
             fontFamily: 'Roboto, sans-serif',
-            fontSize: '20px',
-            fontWeight: 900,
-            letterSpacing: '2px',
-            textTransform: 'uppercase',
+            fontSize: '13px',
+            fontWeight: 700,
+            textAlign: 'center',
+            border: '2px solid #FF6600',
+            pointerEvents: 'none',
           }}
         >
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '48px', marginBottom: '20px' }}>🗺️</div>
-            <div>Loading 3D Terrain...</div>
-          </div>
+          Click markers to fly to locations • Start Tour for automatic flyover
         </div>
-      )}
-
-      <Canvas
-        camera={{ position: [0, 10, -18], fov: 65 }}
-        shadows
-        style={{ background: 'linear-gradient(to bottom, #1A2A3A 0%, #2A3A4A 100%)' }}
-      >
-        <Scene />
-      </Canvas>
-
-      {/* Instructions */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          color: 'white',
-          padding: '14px 24px',
-          borderRadius: '12px',
-          fontFamily: 'Roboto, sans-serif',
-          fontSize: '13px',
-          fontWeight: 700,
-          textAlign: 'center',
-          border: '2px solid #FF6600',
-          pointerEvents: 'none',
-        }}
-      >
-        Click markers to fly to locations • Start Tour for automatic flyover
-      </div>
       </div>
 
       {/* Top-down reference view */}

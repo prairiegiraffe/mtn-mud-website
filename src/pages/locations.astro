@@ -4,8 +4,6 @@ import { Image } from 'astro:assets';
 
 // Import images
 import trainWorkerInspecting from '~/assets/images/Train Worker Inspecting Freight Cars.jpg';
-import modernCoffeeLab from '~/assets/images/Modern Coffee Lab Interior.jpg';
-import mtnMudTruck from '~/assets/images/Mountain Mud Truck.jpg';
 import oilRigAtDusk from '~/assets/images/Oil Rig At Dusk-fAHo8bjvSR.jpg';
 import mtnMudBuilding from '~/assets/images/Mtn Mud Building Exterior.jpg';
 import warehouseInterior from '~/assets/images/Warehouse Interior With Forklift.jpg';
@@ -52,10 +50,12 @@ const metadata = {
             Coverage Where You Need It Most
           </h2>
           <p class="text-lg text-white/80 leading-relaxed mb-6 font-medium">
-            Our three strategically positioned facilities give us unparalleled reach across the most active drilling regions in the Rockies. From the Powder River Basin to the Bakken, we're there when you need us.
+            Our three strategically positioned facilities give us unparalleled reach across the most active drilling
+            regions in the Rockies. From the Powder River Basin to the Bakken, we're there when you need us.
           </p>
           <p class="text-lg text-white/80 leading-relaxed mb-6 font-medium">
-            Each location is equipped with the inventory, equipment, and expertise to support your operations—whether you need a single pallet or bulk shipments, technical consultation or 24-hour on-site engineering.
+            Each location is equipped with the inventory, equipment, and expertise to support your operations—whether
+            you need a single pallet or bulk shipments, technical consultation or 24-hour on-site engineering.
           </p>
 
           <div class="grid grid-cols-3 gap-4 mt-8">
@@ -91,7 +91,8 @@ const metadata = {
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Find Us on the Map</h2>
         <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
-          Our strategic locations across Wyoming and North Dakota put us close to major drilling operations in the Rockies.
+          Our strategic locations across Wyoming and North Dakota put us close to major drilling operations in the
+          Rockies.
         </p>
       </div>
 
@@ -121,32 +122,38 @@ const metadata = {
   </section>
 
   <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
+    crossorigin=""
+  />
 
   <!-- Leaflet JS -->
-  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  <script
+    is:inline
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
 
   <!-- Custom Map Script -->
   <script is:inline>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Initialize the map centered on Wyoming/North Dakota region
       const map = L.map('map', {
         center: [45.5, -104.0],
         zoom: 6,
         scrollWheelZoom: true,
         dragging: true,
-        zoomControl: true
+        zoomControl: true,
       });
 
       // Add modern tile layer with terrain
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        attribution:
+          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: 'abcd',
-        maxZoom: 20
+        maxZoom: 20,
       }).addTo(map);
 
       // Custom orange marker icon
@@ -179,7 +186,7 @@ const metadata = {
         `,
         iconSize: [40, 40],
         iconAnchor: [20, 40],
-        popupAnchor: [0, -40]
+        popupAnchor: [0, -40],
       });
 
       // Add pulsing animation
@@ -214,33 +221,33 @@ const metadata = {
           address: '103 E. Lincoln St.<br>Gillette, WY 82716',
           phone: '307-682-8688',
           email: 'alicia@kutthru.com',
-          services: ['Full mud engineering', '24/7 delivery', 'Mud lab', 'Technical support']
+          services: ['Full mud engineering', '24/7 delivery', 'Mud lab', 'Technical support'],
         },
         {
-          coords: [41.1400, -104.8202],
+          coords: [41.14, -104.8202],
           title: 'Cheyenne, WY',
           badge: null,
           address: 'Contact us for details',
           phone: '307-682-8688',
           email: null,
-          services: ['Drilling fluid supplies', 'Delivery services', 'Technical support']
+          services: ['Drilling fluid supplies', 'Delivery services', 'Technical support'],
         },
         {
-          coords: [48.1470, -103.6179],
+          coords: [48.147, -103.6179],
           title: 'Williston, ND',
           badge: null,
           address: 'Contact us for details',
           phone: '307-682-8688',
           email: null,
-          services: ['Full functional mud lab', 'Particle size analysis', 'Drilling fluid supplies']
-        }
+          services: ['Full functional mud lab', 'Particle size analysis', 'Drilling fluid supplies'],
+        },
       ];
 
       // Add markers with popups
-      locations.forEach(location => {
+      locations.forEach((location) => {
         const marker = L.marker(location.coords, { icon: orangeIcon }).addTo(map);
 
-        let popupContent = `
+        const popupContent = `
           <div style="min-width: 250px;">
             ${location.badge ? `<div style="display: inline-block; background: #FF6600; color: white; padding: 4px 12px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 1px; margin-bottom: 12px;">${location.badge}</div>` : ''}
             <h3 style="font-size: 20px; font-weight: 900; color: #FF6600; margin: 0 0 12px 0;">${location.title}</h3>
@@ -252,18 +259,26 @@ const metadata = {
               <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Phone</strong>
               <a href="tel:${location.phone}" style="color: #FF6600; font-weight: 700; text-decoration: none;">${location.phone}</a>
             </div>
-            ${location.email ? `<div style="margin-bottom: 12px;">
+            ${
+              location.email
+                ? `<div style="margin-bottom: 12px;">
               <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Email</strong>
               <a href="mailto:${location.email}" style="color: #FF6600; font-weight: 700; text-decoration: none;">${location.email}</a>
-            </div>` : ''}
+            </div>`
+                : ''
+            }
             <div style="background: #FFF5F0; padding: 12px; border-radius: 8px; margin-top: 12px;">
               <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Services</strong>
               <ul style="margin: 0; padding: 0; list-style: none;">
-                ${location.services.map(service => `
+                ${location.services
+                  .map(
+                    (service) => `
                   <li style="color: #4A4A4A; font-size: 13px; margin-bottom: 4px; display: flex; align-items: center;">
                     <span style="color: #FF6600; margin-right: 8px;">✓</span>${service}
                   </li>
-                `).join('')}
+                `
+                  )
+                  .join('')}
               </ul>
             </div>
           </div>
@@ -271,11 +286,11 @@ const metadata = {
 
         marker.bindPopup(popupContent, {
           maxWidth: 350,
-          className: 'custom-popup'
+          className: 'custom-popup',
         });
 
         // Open popup on hover
-        marker.on('mouseover', function() {
+        marker.on('mouseover', function () {
           this.openPopup();
         });
       });
@@ -292,7 +307,8 @@ const metadata = {
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Visit Our Facilities</h2>
         <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
-          Each location is equipped to support your drilling operations with comprehensive inventory, expert staff, and 24/7 availability.
+          Each location is equipped to support your drilling operations with comprehensive inventory, expert staff, and
+          24/7 availability.
         </p>
       </div>
 
@@ -306,7 +322,9 @@ const metadata = {
               class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div class="absolute top-4 left-4">
-              <div class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg">
+              <div
+                class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg"
+              >
                 Headquarters
               </div>
             </div>
@@ -320,9 +338,15 @@ const metadata = {
             <div class="mb-6">
               <p class="text-sm font-bold text-charcoal-400 uppercase tracking-wider mb-2">Highlights</p>
               <div class="flex flex-wrap gap-2">
-                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Mud Lab</span>
-                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">24/7 Service</span>
-                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Full Inventory</span>
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold"
+                  >Mud Lab</span
+                >
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold"
+                  >24/7 Service</span
+                >
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold"
+                  >Full Inventory</span
+                >
               </div>
             </div>
 
@@ -353,9 +377,15 @@ const metadata = {
             <div class="mb-6">
               <p class="text-sm font-bold text-charcoal-400 uppercase tracking-wider mb-2">Highlights</p>
               <div class="flex flex-wrap gap-2">
-                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Fast Delivery</span>
-                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Local Team</span>
-                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Full Support</span>
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold"
+                  >Fast Delivery</span
+                >
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold"
+                  >Local Team</span
+                >
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold"
+                  >Full Support</span
+                >
               </div>
             </div>
 
@@ -386,9 +416,15 @@ const metadata = {
             <div class="mb-6">
               <p class="text-sm font-bold text-charcoal-400 uppercase tracking-wider mb-2">Highlights</p>
               <div class="flex flex-wrap gap-2">
-                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Mud Lab</span>
-                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">PSA Testing</span>
-                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Bakken Focus</span>
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold"
+                  >Mud Lab</span
+                >
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold"
+                  >PSA Testing</span
+                >
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold"
+                  >Bakken Focus</span
+                >
               </div>
             </div>
 

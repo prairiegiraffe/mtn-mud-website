@@ -57,14 +57,18 @@ const teamMembers = [
     <div class="container mx-auto px-4 max-w-7xl">
       <!-- Top Content -->
       <div class="text-center mb-12">
-        <div class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
+        >
           Our Greatest Asset
         </div>
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-charcoal-900 leading-tight tracking-tight">
           The People Behind<br />the Performance
         </h1>
         <p class="text-xl text-charcoal-700 leading-relaxed max-w-4xl mx-auto mb-12">
-          Our greatest asset isn't our equipment or our inventory—it's our people. With decades of combined experience and a genuine commitment to your success, the Mountain Mud team brings unmatched expertise, responsiveness, and partnership to every project.
+          Our greatest asset isn't our equipment or our inventory—it's our people. With decades of combined experience
+          and a genuine commitment to your success, the Mountain Mud team brings unmatched expertise, responsiveness,
+          and partnership to every project.
         </p>
       </div>
 
@@ -103,11 +107,7 @@ const teamMembers = [
             <div class="absolute inset-0 bg-charcoal-900/20"></div>
           </div>
           <div class="relative rounded-2xl overflow-hidden shadow-soft-lg h-44">
-            <Image
-              src={oilRigWorker}
-              alt="Mountain Mud on-site specialist"
-              class="w-full h-full object-cover"
-            />
+            <Image src={oilRigWorker} alt="Mountain Mud on-site specialist" class="w-full h-full object-cover" />
             <div class="absolute inset-0 bg-charcoal-900/20"></div>
           </div>
         </div>
@@ -119,7 +119,9 @@ const teamMembers = [
   <section class="bg-charcoal-900 py-20 md:py-28">
     <div class="container mx-auto px-4 max-w-7xl">
       <div class="text-center mb-16">
-        <div class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider">
+        <div
+          class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+        >
           Meet the Team
         </div>
         <h2 class="text-4xl md:text-5xl font-black mb-4 text-white">Leadership Team</h2>
@@ -134,12 +136,14 @@ const teamMembers = [
             <div class="bg-charcoal-800 rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border border-white/10 hover:border-safety-orange/50 group">
               {/* Headshot placeholder */}
               <div class="aspect-square bg-charcoal-700 border-b border-white/10 flex items-center justify-center relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-charcoal-900/40"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-charcoal-900/40" />
                 <span class="text-warm-gray-500 text-sm font-bold uppercase tracking-wider">Headshot Placeholder</span>
               </div>
 
               <div class="p-6">
-                <h3 class="text-xl font-black mb-2 text-white uppercase tracking-tight group-hover:text-safety-orange transition-colors">{member.name}</h3>
+                <h3 class="text-xl font-black mb-2 text-white uppercase tracking-tight group-hover:text-safety-orange transition-colors">
+                  {member.name}
+                </h3>
                 <p class="text-safety-orange font-bold mb-4 text-sm uppercase tracking-wider">{member.title}</p>
                 <p class="text-warm-gray-300 leading-relaxed text-sm">{member.bio}</p>
               </div>
@@ -156,7 +160,9 @@ const teamMembers = [
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Right Column: Content */}
         <div class="order-2 lg:order-1">
-          <div class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider">
+          <div
+            class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
+          >
             The MTN Mud Difference
           </div>
           <h2 class="text-4xl md:text-5xl font-black mb-10 text-charcoal-900">What Makes Our Team Different</h2>
@@ -165,13 +171,21 @@ const teamMembers = [
             <div class="flex items-start gap-4">
               <div class="w-12 h-12 bg-safety-orange rounded-xl flex items-center justify-center flex-shrink-0 mt-1">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  ></path>
                 </svg>
               </div>
               <div>
                 <p class="text-lg text-charcoal-700 leading-relaxed">
-                  <span class="font-black text-charcoal-900 block mb-2 uppercase tracking-tight">Experience Meets Innovation</span>
-                  Our team combines decades of hands-on field experience with cutting-edge technical knowledge. We've seen it all—and we know how to solve it.
+                  <span class="font-black text-charcoal-900 block mb-2 uppercase tracking-tight"
+                    >Experience Meets Innovation</span
+                  >
+                  Our team combines decades of hands-on field experience with cutting-edge technical knowledge. We've seen
+                  it all—and we know how to solve it.
                 </p>
               </div>
             </div>
@@ -179,13 +193,21 @@ const teamMembers = [
             <div class="flex items-start gap-4">
               <div class="w-12 h-12 bg-safety-orange rounded-xl flex items-center justify-center flex-shrink-0 mt-1">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  ></path>
                 </svg>
               </div>
               <div>
                 <p class="text-lg text-charcoal-700 leading-relaxed">
-                  <span class="font-black text-charcoal-900 block mb-2 uppercase tracking-tight">Safety First, Always</span>
-                  Zero lost-time accidents since January 1, 2006. This isn't just a statistic—it's a reflection of our culture. Every team member goes home safely, every day.
+                  <span class="font-black text-charcoal-900 block mb-2 uppercase tracking-tight"
+                    >Safety First, Always</span
+                  >
+                  Zero lost-time accidents since January 1, 2006. This isn't just a statistic—it's a reflection of our culture.
+                  Every team member goes home safely, every day.
                 </p>
               </div>
             </div>
@@ -193,13 +215,21 @@ const teamMembers = [
             <div class="flex items-start gap-4">
               <div class="w-12 h-12 bg-safety-orange rounded-xl flex items-center justify-center flex-shrink-0 mt-1">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                  ></path>
                 </svg>
               </div>
               <div>
                 <p class="text-lg text-charcoal-700 leading-relaxed">
-                  <span class="font-black text-charcoal-900 block mb-2 uppercase tracking-tight">Partnership Mindset</span>
-                  We don't just work for you—we work with you. Your challenges become our challenges, and your success is our success. That's what true partnership looks like.
+                  <span class="font-black text-charcoal-900 block mb-2 uppercase tracking-tight"
+                    >Partnership Mindset</span
+                  >
+                  We don't just work for you—we work with you. Your challenges become our challenges, and your success is
+                  our success. That's what true partnership looks like.
                 </p>
               </div>
             </div>
@@ -207,13 +237,18 @@ const teamMembers = [
             <div class="flex items-start gap-4">
               <div class="w-12 h-12 bg-safety-orange rounded-xl flex items-center justify-center flex-shrink-0 mt-1">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
               </div>
               <div>
                 <p class="text-lg text-charcoal-700 leading-relaxed">
                   <span class="font-black text-charcoal-900 block mb-2 uppercase tracking-tight">24/7 Commitment</span>
-                  Drilling doesn't stop at 5 PM, and neither do we. Our team is available around the clock to support your operations, troubleshoot issues, and keep your project moving forward.
+                  Drilling doesn't stop at 5 PM, and neither do we. Our team is available around the clock to support your
+                  operations, troubleshoot issues, and keep your project moving forward.
                 </p>
               </div>
             </div>
@@ -232,19 +267,11 @@ const teamMembers = [
           </div>
           <div class="grid grid-cols-2 gap-6">
             <div class="relative rounded-2xl overflow-hidden shadow-soft-lg">
-              <Image
-                src={nighttimeOilRigWorker}
-                alt="24/7 field support"
-                class="w-full h-48 object-cover"
-              />
+              <Image src={nighttimeOilRigWorker} alt="24/7 field support" class="w-full h-48 object-cover" />
               <div class="absolute inset-0 bg-charcoal-900/20"></div>
             </div>
             <div class="relative rounded-2xl overflow-hidden shadow-soft-lg">
-              <Image
-                src={manStandingInFrontOfTruck}
-                alt="Mountain Mud professional"
-                class="w-full h-48 object-cover"
-              />
+              <Image src={manStandingInFrontOfTruck} alt="Mountain Mud professional" class="w-full h-48 object-cover" />
               <div class="absolute inset-0 bg-charcoal-900/20"></div>
             </div>
           </div>
@@ -256,12 +283,16 @@ const teamMembers = [
   <!-- SECTION 4: JOIN OUR TEAM -->
   <section class="bg-charcoal-900 py-20 md:py-28">
     <div class="container mx-auto px-4 max-w-5xl text-center">
-      <div class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider">
+      <div
+        class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
+      >
         Careers
       </div>
       <h2 class="text-4xl md:text-5xl font-black mb-8 text-white">Join Our Team</h2>
       <p class="text-xl text-warm-gray-200 leading-relaxed mb-12 max-w-3xl mx-auto">
-        We're always looking for talented professionals who share our commitment to service excellence, safety, and innovation. If you're passionate about drilling fluids and want to be part of a team that values your expertise and your family, we'd love to hear from you.
+        We're always looking for talented professionals who share our commitment to service excellence, safety, and
+        innovation. If you're passionate about drilling fluids and want to be part of a team that values your expertise
+        and your family, we'd love to hear from you.
       </p>
 
       <a
@@ -277,7 +308,9 @@ const teamMembers = [
   <section class="bg-warm-white py-20 md:py-28">
     <div class="container mx-auto px-4 max-w-7xl">
       <div class="text-center mb-12">
-        <div class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+        >
           Industry Partners
         </div>
         <h3 class="text-4xl md:text-5xl font-black mb-4 text-charcoal-900">Trusted by Industry Leaders</h3>
@@ -292,7 +325,9 @@ const teamMembers = [
             {
               Array.from({ length: 12 }).map((_, i) => (
                 <div class="flex-shrink-0 w-40 h-20 bg-warm-white rounded-xl border-2 border-dashed border-warm-gray-300 flex items-center justify-center">
-                  <span class="text-warm-gray-400 text-xs text-center font-bold uppercase tracking-wider">Logo {i + 1}</span>
+                  <span class="text-warm-gray-400 text-xs text-center font-bold uppercase tracking-wider">
+                    Logo {i + 1}
+                  </span>
                 </div>
               ))
             }
@@ -302,7 +337,9 @@ const teamMembers = [
             {
               Array.from({ length: 12 }).map((_, i) => (
                 <div class="flex-shrink-0 w-40 h-20 bg-warm-white rounded-xl border-2 border-dashed border-warm-gray-300 flex items-center justify-center">
-                  <span class="text-warm-gray-400 text-xs text-center font-bold uppercase tracking-wider">Logo {i + 1}</span>
+                  <span class="text-warm-gray-400 text-xs text-center font-bold uppercase tracking-wider">
+                    Logo {i + 1}
+                  </span>
                 </div>
               ))
             }

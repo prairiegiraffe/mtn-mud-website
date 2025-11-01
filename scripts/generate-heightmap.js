@@ -38,7 +38,7 @@ for (let y = 0; y < HEIGHT; y++) {
     // Rocky Mountains (western edge, left side of image)
     // Wyoming's western border has high peaks
     if (nx < 0.3) {
-      const mountainHeight = (1 - (nx / 0.3)) * 120; // Higher toward west
+      const mountainHeight = (1 - nx / 0.3) * 120; // Higher toward west
       elevation += mountainHeight;
 
       // Add mountain peaks and valleys
@@ -72,10 +72,10 @@ for (let y = 0; y < HEIGHT; y++) {
     elevation = Math.max(0, Math.min(255, elevation));
 
     // Set RGB to same value (grayscale)
-    data[idx] = elevation;     // R
+    data[idx] = elevation; // R
     data[idx + 1] = elevation; // G
     data[idx + 2] = elevation; // B
-    data[idx + 3] = 255;       // A
+    data[idx + 3] = 255; // A
   }
 }
 

@@ -13,7 +13,20 @@ const TERRAIN_WIDTH = 60;
 const TERRAIN_HEIGHT = TERRAIN_WIDTH * HEIGHTMAP_ASPECT;
 const HEIGHT_SCALE = 0.5;
 
-const towns = [
+type Town = {
+  id: string;
+  name: string;
+  badge: string | null;
+  x: number;
+  z: number;
+  address: string;
+  phone: string;
+  email: string | null;
+  services: readonly string[];
+  description: string;
+};
+
+const towns: readonly Town[] = [
   {
     id: 'williston',
     name: 'Williston, ND',
@@ -138,17 +151,11 @@ function Terrain() {
           const upIdx = (Math.max(y - 1, 0) * width + x) * 4;
           const downIdx = (Math.min(y + 1, height - 1) * width + x) * 4;
 
-          const dx =
-            (heightmapData.data[rightIdx] - heightmapData.data[leftIdx]) / 255;
-          const dy =
-            (heightmapData.data[downIdx] - heightmapData.data[upIdx]) / 255;
+          const dx = (heightmapData.data[rightIdx] - heightmapData.data[leftIdx]) / 255;
+          const dy = (heightmapData.data[downIdx] - heightmapData.data[upIdx]) / 255;
 
           const slope = Math.sqrt(dx * dx + dy * dy);
-          const shade = THREE.MathUtils.clamp(
-            1.22 - slope * 2.4 + elevation * 0.4,
-            0.85,
-            1.35
-          );
+          const shade = THREE.MathUtils.clamp(1.22 - slope * 2.4 + elevation * 0.4, 0.85, 1.35);
 
           r = THREE.MathUtils.clamp(r * shade, 0, 255);
           g = THREE.MathUtils.clamp(g * shade, 0, 255);
@@ -161,12 +168,7 @@ function Terrain() {
       }
 
       colorCtx.putImageData(imageData, 0, 0);
-      console.log(
-        '🎨 Colorized sample:',
-        imageData.data[0],
-        imageData.data[1],
-        imageData.data[2]
-      );
+      console.log('🎨 Colorized sample:', imageData.data[0], imageData.data[1], imageData.data[2]);
       console.log('✅ Colorized texture created');
 
       const texture = new THREE.CanvasTexture(colorCanvas);
@@ -202,34 +204,17 @@ function Terrain() {
       <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} receiveShadow castShadow>
         <planeGeometry args={[TERRAIN_WIDTH, TERRAIN_HEIGHT, 250, 150]} />
         {heightTexture ? (
-          <meshStandardMaterial
-            map={heightTexture}
-            metalness={0}
-            roughness={0.95}
-          />
+          <meshStandardMaterial map={heightTexture} metalness={0} roughness={0.95} />
         ) : (
-          <meshStandardMaterial
-            color="#8B7355"
-            metalness={0.15}
-            roughness={0.85}
-          />
+          <meshStandardMaterial color="#8B7355" metalness={0.15} roughness={0.85} />
         )}
       </mesh>
-
     </>
   );
 }
 
 // Town marker
-function TownMarker({
-  town,
-  isActive,
-  onClick,
-}: {
-  town: (typeof towns)[0];
-  isActive: boolean;
-  onClick: () => void;
-}) {
+function TownMarker({ town, isActive, onClick }: { town: Town; isActive: boolean; onClick: () => void }) {
   const markerRef = useRef<THREE.Group>(null);
   const [height, setHeight] = useState(0.5);
 
@@ -292,178 +277,9 @@ function TownMarker({
   );
 }
 
-// Info card
-function InfoCard({ town }: { town: (typeof towns)[0] }) {
-  return (
-    <Html position={[town.x, getHeight(town.x, town.z) + 3, town.z]} center>
-      <div
-        style={{
-          background: 'white',
-          borderRadius: '16px',
-          padding: '24px',
-          minWidth: '320px',
-          maxWidth: '360px',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
-          fontFamily: 'Roboto, sans-serif',
-          border: '3px solid #FF6600',
-          pointerEvents: 'auto',
-        }}
-      >
-        {town.badge && (
-          <div
-            style={{
-              display: 'inline-block',
-              background: '#FF6600',
-              color: 'white',
-              padding: '6px 14px',
-              borderRadius: '8px',
-              fontSize: '10px',
-              fontWeight: 900,
-              letterSpacing: '1.5px',
-              marginBottom: '16px',
-            }}
-          >
-            {town.badge}
-          </div>
-        )}
-
-        <h3
-          style={{
-            fontSize: '24px',
-            fontWeight: 900,
-            color: '#FF6600',
-            margin: '0 0 8px 0',
-          }}
-        >
-          {town.name}
-        </h3>
-
-        <p
-          style={{
-            color: '#666',
-            fontSize: '14px',
-            fontStyle: 'italic',
-            marginBottom: '16px',
-          }}
-        >
-          {town.description}
-        </p>
-
-        <div style={{ marginBottom: '14px', color: '#4A4A4A', lineHeight: '1.6' }}>
-          <strong
-            style={{
-              display: 'block',
-              color: '#1A1A1A',
-              fontSize: '11px',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              marginBottom: '6px',
-            }}
-          >
-            Address
-          </strong>
-          <div dangerouslySetInnerHTML={{ __html: town.address }} />
-        </div>
-
-        <div style={{ marginBottom: '14px' }}>
-          <strong
-            style={{
-              display: 'block',
-              color: '#1A1A1A',
-              fontSize: '11px',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              marginBottom: '6px',
-            }}
-          >
-            Phone
-          </strong>
-          <a
-            href={`tel:${town.phone}`}
-            style={{
-              color: '#FF6600',
-              fontWeight: 700,
-              textDecoration: 'none',
-              fontSize: '15px',
-            }}
-          >
-            {town.phone}
-          </a>
-        </div>
-
-        {town.email && (
-          <div style={{ marginBottom: '14px' }}>
-            <strong
-              style={{
-                display: 'block',
-                color: '#1A1A1A',
-                fontSize: '11px',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                marginBottom: '6px',
-              }}
-            >
-              Email
-            </strong>
-            <a
-              href={`mailto:${town.email}`}
-              style={{
-                color: '#FF6600',
-                fontWeight: 700,
-                textDecoration: 'none',
-                fontSize: '14px',
-              }}
-            >
-              {town.email}
-            </a>
-          </div>
-        )}
-
-        <div
-          style={{
-            background: '#FFF5F0',
-            padding: '16px',
-            borderRadius: '12px',
-            marginTop: '16px',
-          }}
-        >
-          <strong
-            style={{
-              display: 'block',
-              color: '#1A1A1A',
-              fontSize: '11px',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-              marginBottom: '10px',
-            }}
-          >
-            Services
-          </strong>
-          <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-            {town.services.map((service, idx) => (
-              <li
-                key={idx}
-                style={{
-                  color: '#4A4A4A',
-                  fontSize: '13px',
-                  marginBottom: '6px',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <span style={{ color: '#FF6600', marginRight: '10px', fontSize: '16px' }}>✓</span>
-                {service}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </Html>
-  );
-}
-
 // Camera rig with orbit controls and smooth fly-to-town animation
-function CameraRig({ activeTown }: { activeTown: (typeof towns)[0] | null }) {
+function CameraRig({ activeTown }: { activeTown: Town | null }) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const controlsRef = useRef<any>(null);
   const { camera } = useThree();
   const animation = useRef({
@@ -493,11 +309,7 @@ function CameraRig({ activeTown }: { activeTown: (typeof towns)[0] | null }) {
 
     if (activeTown) {
       const h = getHeight(activeTown.x, activeTown.z);
-      animation.current.endPos.set(
-        activeTown.x - 3.5,
-        h + 2.5,
-        activeTown.z - 3.5
-      );
+      animation.current.endPos.set(activeTown.x - 3.5, h + 2.5, activeTown.z - 3.5);
       animation.current.endTarget.set(activeTown.x, h + 0.5, activeTown.z);
     } else {
       animation.current.endPos.copy(DEFAULT_CAMERA_POSITION);
@@ -513,22 +325,11 @@ function CameraRig({ activeTown }: { activeTown: (typeof towns)[0] | null }) {
     if (!controls) return;
 
     if (animation.current.isAnimating) {
-      animation.current.progress = Math.min(
-        1,
-        animation.current.progress + delta * 0.7
-      );
+      animation.current.progress = Math.min(1, animation.current.progress + delta * 0.7);
       const eased = 1 - Math.pow(1 - animation.current.progress, 3);
 
-      camera.position.lerpVectors(
-        animation.current.startPos,
-        animation.current.endPos,
-        eased
-      );
-      controls.target.lerpVectors(
-        animation.current.startTarget,
-        animation.current.endTarget,
-        eased
-      );
+      camera.position.lerpVectors(animation.current.startPos, animation.current.endPos, eased);
+      controls.target.lerpVectors(animation.current.startTarget, animation.current.endTarget, eased);
       controls.update();
 
       if (animation.current.progress >= 1) {
@@ -555,13 +356,7 @@ function CameraRig({ activeTown }: { activeTown: (typeof towns)[0] | null }) {
 }
 
 // Main scene
-function Scene({
-  activeTown,
-  setActiveTown,
-}: {
-  activeTown: (typeof towns)[0] | null;
-  setActiveTown: (town: (typeof towns)[0] | null) => void;
-}) {
+function Scene({ activeTown, setActiveTown }: { activeTown: Town | null; setActiveTown: (town: Town | null) => void }) {
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const autoPlayIndex = useRef(0);
 
@@ -613,8 +408,8 @@ function LocationSidebar({
   activeTown,
   onSelectTown,
 }: {
-  activeTown: (typeof towns)[0] | null;
-  onSelectTown: (town: (typeof towns)[0]) => void;
+  activeTown: Town | null;
+  onSelectTown: (town: Town) => void;
 }) {
   return (
     <div
@@ -646,9 +441,7 @@ function LocationSidebar({
       >
         Our Locations
       </h2>
-      <p style={{ color: '#999', fontSize: '14px', marginBottom: '30px' }}>
-        Click a location to fly there
-      </p>
+      <p style={{ color: '#999', fontSize: '14px', marginBottom: '30px' }}>Click a location to fly there</p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
         {towns.map((town) => {
@@ -831,7 +624,7 @@ function LocationSidebar({
 // Main component - FULLSCREEN
 export default function SimpleTerrainMap() {
   const [isLoading, setIsLoading] = useState(true);
-  const [activeTown, setActiveTown] = useState<(typeof towns)[0] | null>(null);
+  const [activeTown, setActiveTown] = useState<Town | null>(null);
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1200);
