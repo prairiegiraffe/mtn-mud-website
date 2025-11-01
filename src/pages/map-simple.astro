@@ -1,0 +1,30 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import SimpleTerrainMap from '~/components/widgets/SimpleTerrainMap';
+
+const metadata = {
+  title: 'Simple 3D Map - MTN Mud',
+  description: 'Clean, simple 3D terrain map',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HERO -->
+  <section class="bg-warm-white py-20">
+    <div class="container mx-auto px-4 max-w-5xl text-center">
+      <h1 class="text-4xl md:text-5xl font-black mb-6 text-charcoal-900">
+        Simple 3D Terrain Map
+      </h1>
+      <p class="text-lg text-charcoal-700">
+        Fresh start with clean coordinates
+      </p>
+    </div>
+  </section>
+
+  <!-- 3D MAP -->
+  <section class="bg-warm-white py-12">
+    <div class="container mx-auto px-4">
+      <SimpleTerrainMap client:load />
+    </div>
+  </section>
+</Layout>
