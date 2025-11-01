@@ -1,5 +1,13 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+
+// Import images
+import industrialFacilityAerial from '~/assets/images/Industrial Facility Aerial View.jpg';
+import mtnMudBuilding from '~/assets/images/Mtn Mud Building Exterior.jpg';
+import mountainMudStorageTanks from '~/assets/images/Mountain Mud Storage Tanks.jpg';
+import constructionFatherDaughter from '~/assets/images/Construction Site Father And Daughter.jpg';
+import constructionWorkerPointing from '~/assets/images/Construction Worker Pointing.jpg';
 
 const metadata = {
   title: 'About MTN Mud - Pioneering Excellence in Drilling Fluids Since 2006',
@@ -10,76 +18,81 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
-  <section class="relative py-24">
-    <div class="absolute inset-0 h-96">
-      <div class="h-full bg-gray-200 border-2 border-dashed border-gray-400 flex items-center justify-center">
-        <span class="text-gray-500 text-center px-4">Drilling Operations Hero Image</span>
-      </div>
+  <section class="relative bg-warm-white overflow-hidden">
+    <div class="absolute inset-0 h-[28rem]">
+      <Image
+        src={industrialFacilityAerial}
+        alt="Mountain Mud industrial facility"
+        class="w-full h-full object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/60 via-charcoal-900/40 to-warm-white"></div>
     </div>
-    <div class="relative container mx-auto px-4 max-w-5xl text-center pt-96 mt-12">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-charcoal leading-tight">
+    <div class="relative container mx-auto px-4 max-w-5xl text-center pt-32 pb-12">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white leading-tight tracking-tight">
         Pioneering Excellence in Drilling Fluids Since 2006
       </h1>
-      <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+      <p class="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed font-medium">
         40 years of combined experience, zero lost-time accidents, and an unwavering commitment to your success.
       </p>
     </div>
   </section>
 
   <!-- SECTION 2: OUR STORY -->
-  <section class="py-16 md:py-24 bg-white">
+  <section class="py-20 md:py-28 bg-warm-white">
     <div class="container mx-auto px-4 max-w-6xl">
-      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-center">
         <!-- Left Column: 60% width (3 cols) -->
         <div class="lg:col-span-3">
-          <h2 class="text-3xl md:text-4xl font-bold mb-6 text-charcoal">
+          <h2 class="text-3xl md:text-4xl font-black mb-8 text-charcoal-900 tracking-tight">
             More Than a Supplier—Your Drilling Fluids Partner
           </h2>
 
-          <p class="text-lg text-gray-700 leading-relaxed mb-6">
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-6 font-medium">
             Mountain Mud Service & Supply, Inc. has been at the forefront of drilling fluids innovation for over 40
             years, with our current leadership taking the helm on January 1, 2006. What sets us apart is our unwavering
             commitment to safety, service excellence, and customer-specific solutions.
           </p>
 
-          <p class="text-lg text-gray-700 leading-relaxed mb-6">
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-6 font-medium">
             We're not just a supplier—we're your drilling fluids partner. From our fully stocked facilities in Gillette,
             Cheyenne, and Williston to our 24/7 delivery capabilities, we've built our reputation on being there when
             you need us, with the products and expertise that keep your operations running smoothly.
           </p>
 
-          <p class="text-lg text-gray-700 leading-relaxed mb-6">
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-6 font-medium">
             With over 1 million pounds of bulk barite in stock, more than 20,000 barrels of oil-based drilling fluid at
             our Wyoming headquarters, and state-of-the-art mud labs at major locations, we have the resources and
             technical capability to handle any drilling challenge across the Rockies and beyond.
           </p>
 
-          <p class="text-lg text-gray-700 leading-relaxed font-bold">
-            Our commitment to safety is unmatched: Zero lost-time accidents since January 1, 2006—a record we're proud
-            of and work every day to maintain.
-          </p>
+          <div class="bg-safety-orange-50 border-l-4 border-safety-orange p-6 rounded-lg">
+            <p class="text-lg text-charcoal-900 leading-relaxed font-bold">
+              Our commitment to safety is unmatched: Zero lost-time accidents since January 1, 2006—a record we're proud
+              of and work every day to maintain.
+            </p>
+          </div>
         </div>
 
         <!-- Right Column: 40% width (2 cols) -->
         <div class="lg:col-span-2">
-          <div
-            class="h-full min-h-96 bg-gray-200 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center"
-          >
-            <span class="text-gray-500 text-center px-4">Company/Team Photo</span>
-          </div>
+          <Image
+            src={mtnMudBuilding}
+            alt="Mountain Mud building exterior"
+            class="w-full h-full min-h-96 rounded-2xl shadow-soft-lg object-cover"
+          />
         </div>
       </div>
     </div>
   </section>
 
   <!-- SECTION 3: MISSION & VISION -->
-  <section class="bg-light-gray py-16 md:py-24">
+  <section class="bg-warm-gray py-20 md:py-28">
     <div class="container mx-auto px-4 max-w-5xl">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Mission Card -->
-        <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-safety-orange">
-          <h3 class="text-2xl font-bold mb-4 text-safety-orange">Mission</h3>
-          <p class="text-gray-700 leading-relaxed">
+        <div class="bg-warm-white p-10 rounded-2xl shadow-soft-lg border-l-4 border-safety-orange hover:shadow-soft-xl transition-shadow">
+          <h3 class="text-2xl font-black mb-6 text-safety-orange uppercase tracking-wide">Mission</h3>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
             Our mission is to deliver exceptional, customer-specific service in the drilling fluids industry, grounded
             in performance, economics, safety, and technology. We are committed to providing high-quality products and
             superior service, with true value stemming from our dedicated team, strong customer partnerships, and
@@ -88,9 +101,9 @@ const metadata = {
         </div>
 
         <!-- Vision Card -->
-        <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-safety-orange">
-          <h3 class="text-2xl font-bold mb-4 text-safety-orange">Vision</h3>
-          <p class="text-gray-700 leading-relaxed">
+        <div class="bg-warm-white p-10 rounded-2xl shadow-soft-lg border-l-4 border-safety-orange hover:shadow-soft-xl transition-shadow">
+          <h3 class="text-2xl font-black mb-6 text-safety-orange uppercase tracking-wide">Vision</h3>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
             Our vision is to become the leading drilling fluids provider in U.S. land drilling, expanding organically
             and through acquisitions, while maintaining the personalized touch and integrity of a family-run business.
           </p>
@@ -100,15 +113,22 @@ const metadata = {
   </section>
 
   <!-- SECTION 4: CORE VALUES -->
-  <section class="bg-white py-16 md:py-24">
+  <section class="bg-warm-white py-20 md:py-28">
     <div class="container mx-auto px-4 max-w-6xl">
-      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center text-charcoal">Core Values That Drive Us</h2>
+      <h2 class="text-3xl md:text-4xl font-black mb-16 text-center text-charcoal-900 tracking-tight">Core Values That Drive Us</h2>
 
-      <div class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
         <!-- Value Card 1 -->
-        <div class="bg-white border-l-4 border-safety-orange p-6 rounded-lg shadow-sm">
-          <h3 class="text-xl md:text-2xl font-bold mb-3 text-charcoal">Service Excellence</h3>
-          <p class="text-gray-700 leading-relaxed">
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-2xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-safety-orange-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-7 h-7 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl md:text-2xl font-black text-charcoal-900">Service Excellence</h3>
+          </div>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
             We are dedicated to delivering outstanding service, recognizing it as the true measure of value for our
             customers and partners. Every interaction, every delivery, every solution is an opportunity to exceed
             expectations.
@@ -116,36 +136,64 @@ const metadata = {
         </div>
 
         <!-- Value Card 2 -->
-        <div class="bg-white border-l-4 border-safety-orange p-6 rounded-lg shadow-sm">
-          <h3 class="text-xl md:text-2xl font-bold mb-3 text-charcoal">Partnership & Relationships</h3>
-          <p class="text-gray-700 leading-relaxed">
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-2xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-safety-orange-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-7 h-7 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl md:text-2xl font-black text-charcoal-900">Partnership & Relationships</h3>
+          </div>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
             We treat every customer, vendor, and team member as a valued partner, fostering strong relationships that
             create lasting value for all involved. Your success is our success.
           </p>
         </div>
 
         <!-- Value Card 3 -->
-        <div class="bg-white border-l-4 border-safety-orange p-6 rounded-lg shadow-sm">
-          <h3 class="text-xl md:text-2xl font-bold mb-3 text-charcoal">Team & Family</h3>
-          <p class="text-gray-700 leading-relaxed">
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-2xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-safety-orange-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-7 h-7 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl md:text-2xl font-black text-charcoal-900">Team & Family</h3>
+          </div>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
             We value our employees as teammates and respect the importance of their families, prioritizing their
             well-being, safety, and shared success. Our people are the foundation of everything we accomplish.
           </p>
         </div>
 
         <!-- Value Card 4 -->
-        <div class="bg-white border-l-4 border-safety-orange p-6 rounded-lg shadow-sm">
-          <h3 class="text-xl md:text-2xl font-bold mb-3 text-charcoal">Safety</h3>
-          <p class="text-gray-700 leading-relaxed">
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-2xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-safety-orange-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-7 h-7 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl md:text-2xl font-black text-charcoal-900">Safety</h3>
+          </div>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
             The safety of our team members, partners, and their families is at the heart of everything we do. With zero
             lost-time accidents since 2006, we prove every day that safety and productivity go hand in hand.
           </p>
         </div>
 
-        <!-- Value Card 5 -->
-        <div class="bg-white border-l-4 border-safety-orange p-6 rounded-lg shadow-sm">
-          <h3 class="text-xl md:text-2xl font-bold mb-3 text-charcoal">Innovation</h3>
-          <p class="text-gray-700 leading-relaxed">
+        <!-- Value Card 5 - Spans full width on md+ -->
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-2xl shadow-soft hover:shadow-soft-lg transition-all md:col-span-2">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-safety-orange-50 flex items-center justify-center flex-shrink-0">
+              <svg class="w-7 h-7 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl md:text-2xl font-black text-charcoal-900">Innovation</h3>
+          </div>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
             We embrace technology and data-driven solutions to anticipate challenges and drive continuous improvement in
             the drilling fluids industry. From hydraulics modeling to particle size analysis, we leverage cutting-edge
             tools to optimize your operations.
@@ -155,36 +203,103 @@ const metadata = {
     </div>
   </section>
 
-  <!-- SECTION 5: WHY CHOOSE US -->
-  <section class="bg-gradient-to-br from-charcoal via-gray-800 to-gray-700 text-white py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-6xl text-center">
-      <h2 class="text-3xl md:text-4xl font-bold mb-16 text-safety-orange">Why Choose Mountain Mud?</h2>
+  <!-- SECTION 5: OUR PEOPLE & CULTURE -->
+  <section class="bg-warm-gray py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Our People & Culture</h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+          At Mountain Mud, we're more than colleagues—we're a family dedicated to safety, excellence, and supporting each other both on and off the job site.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Image 1: Father and Daughter -->
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={constructionFatherDaughter}
+            alt="Construction site family - representing our commitment to work-life balance"
+            class="w-full h-96 object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-charcoal-900/40 to-transparent flex items-end p-8">
+            <div class="text-white">
+              <h3 class="text-2xl font-black mb-2">Family First</h3>
+              <p class="text-white/90 font-medium">We value the importance of family and work-life balance for every team member.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image 2: Construction Worker Pointing -->
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={constructionWorkerPointing}
+            alt="Construction worker on site - demonstrating leadership and expertise"
+            class="w-full h-96 object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-charcoal-900/40 to-transparent flex items-end p-8">
+            <div class="text-white">
+              <h3 class="text-2xl font-black mb-2">Expert Leadership</h3>
+              <p class="text-white/90 font-medium">Decades of field experience guide every decision, every recommendation, every solution.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: WHY CHOOSE US -->
+  <section class="bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-700 text-white py-24 md:py-32 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <Image
+        src={mountainMudStorageTanks}
+        alt="Background pattern"
+        class="w-full h-full object-cover"
+      />
+    </div>
+    <div class="container mx-auto px-4 max-w-6xl text-center relative z-10">
+      <h2 class="text-3xl md:text-4xl font-black mb-20 text-safety-orange tracking-tight">Why Choose Mountain Mud?</h2>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
         <!-- Stat 1 -->
-        <div>
-          <div class="text-5xl md:text-6xl font-bold text-safety-orange mb-4">40+</div>
-          <div class="text-lg text-gray-300">Years of Industry Experience</div>
+        <div class="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10">
+          <div class="text-5xl md:text-6xl font-black text-safety-orange mb-4 font-mono">40+</div>
+          <div class="text-lg text-white/90 font-medium">Years of Industry Experience</div>
         </div>
 
         <!-- Stat 2 -->
-        <div>
-          <div class="text-5xl md:text-6xl font-bold text-safety-orange mb-4">24/7</div>
-          <div class="text-lg text-gray-300">Delivery & Technical Support</div>
+        <div class="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10">
+          <div class="text-5xl md:text-6xl font-black text-safety-orange mb-4 font-mono">24/7</div>
+          <div class="text-lg text-white/90 font-medium">Delivery & Technical Support</div>
         </div>
 
         <!-- Stat 3 -->
-        <div>
-          <div class="text-5xl md:text-6xl font-bold text-safety-orange mb-4">20,000+</div>
-          <div class="text-lg text-gray-300">Barrels of OBM in Stock</div>
+        <div class="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10">
+          <div class="text-5xl md:text-6xl font-black text-safety-orange mb-4 font-mono">20K+</div>
+          <div class="text-lg text-white/90 font-medium">Barrels of OBM in Stock</div>
         </div>
 
         <!-- Stat 4 -->
-        <div>
-          <div class="text-5xl md:text-6xl font-bold text-safety-orange mb-4">0</div>
-          <div class="text-lg text-gray-300">Lost-Time Accidents Since 2006</div>
+        <div class="bg-white/5 backdrop-blur-sm p-8 rounded-2xl border border-white/10">
+          <div class="text-5xl md:text-6xl font-black text-safety-orange mb-4 font-mono">0</div>
+          <div class="text-lg text-white/90 font-medium">Lost-Time Accidents Since 2006</div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: CTA -->
+  <section class="bg-safety-orange text-white py-20 md:py-24">
+    <div class="container mx-auto px-4 max-w-4xl text-center">
+      <h2 class="text-3xl md:text-4xl font-black mb-7 tracking-tight">Ready to Partner With Us?</h2>
+      <p class="text-lg md:text-xl text-white/95 mb-10 leading-relaxed max-w-3xl mx-auto font-medium">
+        Experience the Mountain Mud difference. Let's discuss how our expertise, resources, and commitment can support your next drilling project.
+      </p>
+      <a
+        href="/contact"
+        class="bg-white text-safety-orange px-10 py-5 rounded-xl hover:bg-warm-white transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:shadow-orange-glow hover:-translate-y-0.5"
+      >
+        Get In Touch Today
+      </a>
     </div>
   </section>
 </Layout>

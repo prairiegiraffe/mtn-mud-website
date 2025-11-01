@@ -1,5 +1,15 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+
+// Import images
+import trainWorkerInspecting from '~/assets/images/Train Worker Inspecting Freight Cars.jpg';
+import modernCoffeeLab from '~/assets/images/Modern Coffee Lab Interior.jpg';
+import mtnMudTruck from '~/assets/images/Mountain Mud Truck.jpg';
+import oilRigAtDusk from '~/assets/images/Oil Rig At Dusk-fAHo8bjvSR.jpg';
+import mtnMudBuilding from '~/assets/images/Mtn Mud Building Exterior.jpg';
+import warehouseInterior from '~/assets/images/Warehouse Interior With Forklift.jpg';
+import industrialStorageTanks from '~/assets/images/Industrial Storage Tanks.jpg';
 
 const metadata = {
   title: 'Locations - MTN Mud Service & Supply',
@@ -10,196 +20,401 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
-  <section class="py-16 md:py-24 bg-white">
-    <div class="container mx-auto px-4 max-w-4xl text-center">
-      <h1 class="text-4xl md:text-5xl font-bold mb-4 text-charcoal">Strategically Located to Serve You</h1>
-      <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-safety-orange">Three Locations Across the Rockies</h2>
-      <p class="text-lg text-gray-700 leading-relaxed mb-12 max-w-3xl mx-auto">
+  <section class="relative bg-charcoal-900 overflow-hidden">
+    <div class="absolute inset-0 h-[32rem]">
+      <Image
+        src={oilRigAtDusk}
+        alt="Oil rig at dusk - Mountain Mud locations"
+        class="w-full h-full object-cover opacity-80"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/60 via-charcoal-900/70 to-charcoal-900"></div>
+    </div>
+    <div class="relative container mx-auto px-4 max-w-5xl text-center pt-32 pb-16">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white leading-tight tracking-tight">
+        Strategically Located to Serve You
+      </h1>
+      <p class="text-xl md:text-2xl text-safety-orange font-black mb-6 uppercase tracking-wide">
+        Three Locations Across the Rockies
+      </p>
+      <p class="text-lg text-white/90 max-w-3xl mx-auto leading-relaxed font-medium">
         With strategically positioned facilities in Wyoming and North Dakota, we're positioned to deliver drilling fluid
         solutions where you need them, when you need them—24/7, 365 days a year.
       </p>
+    </div>
+  </section>
 
-      <!-- Map Placeholder -->
-      <div class="h-96 bg-gray-200 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center">
-        <span class="text-gray-500 text-center px-4">INTERACTIVE MAP WITH LOCATION PINS</span>
+  <!-- SECTION 2: LOCATION OVERVIEW -->
+  <section class="py-20 md:py-28 bg-charcoal-900">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-20">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-black mb-8 text-white tracking-tight">
+            Coverage Where You Need It Most
+          </h2>
+          <p class="text-lg text-white/80 leading-relaxed mb-6 font-medium">
+            Our three strategically positioned facilities give us unparalleled reach across the most active drilling regions in the Rockies. From the Powder River Basin to the Bakken, we're there when you need us.
+          </p>
+          <p class="text-lg text-white/80 leading-relaxed mb-6 font-medium">
+            Each location is equipped with the inventory, equipment, and expertise to support your operations—whether you need a single pallet or bulk shipments, technical consultation or 24-hour on-site engineering.
+          </p>
+
+          <div class="grid grid-cols-3 gap-4 mt-8">
+            <div class="text-center bg-charcoal-800 p-6 rounded-xl border border-white/10">
+              <div class="text-4xl font-black text-safety-orange mb-2 font-mono">3</div>
+              <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Strategic Locations</div>
+            </div>
+            <div class="text-center bg-charcoal-800 p-6 rounded-xl border border-white/10">
+              <div class="text-4xl font-black text-safety-orange mb-2 font-mono">65+</div>
+              <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Trailers in Fleet</div>
+            </div>
+            <div class="text-center bg-charcoal-800 p-6 rounded-xl border border-white/10">
+              <div class="text-4xl font-black text-safety-orange mb-2 font-mono">24/7</div>
+              <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Delivery Service</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <Image
+            src={trainWorkerInspecting}
+            alt="Train worker inspecting freight cars - Mountain Mud delivery"
+            class="w-full h-full rounded-2xl shadow-soft-lg object-cover"
+          />
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 2: LOCATION CARDS -->
-  <section class="bg-light-gray py-16 md:py-24">
+  <!-- SECTION 3: INTERACTIVE MAP -->
+  <section class="bg-warm-gray py-20 md:py-28">
     <div class="container mx-auto px-4 max-w-6xl">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Card 1 - Gillette, WY (Headquarters) -->
-        <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-safety-orange">
-          <h3 class="text-2xl font-bold mb-4 text-safety-orange">Gillette, WY (Headquarters)</h3>
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Find Us on the Map</h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+          Our strategic locations across Wyoming and North Dakota put us close to major drilling operations in the Rockies.
+        </p>
+      </div>
 
-          <p class="text-gray-700 leading-relaxed mb-6">
-            Our flagship location serves as the operational heart of Mountain Mud, featuring our largest inventory, full
-            mud lab capabilities, and over 20,000 barrels of oil-based drilling fluid in stock.
-          </p>
+      <!-- Interactive Leaflet Map -->
+      <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden border-4 border-white">
+        <div id="map" class="w-full h-[600px]"></div>
+      </div>
 
-          <div class="space-y-3 mb-6">
-            <div>
-              <p class="font-semibold text-charcoal">Address:</p>
-              <p class="text-gray-700">
-                103 E. Lincoln St.<br />
-                Gillette, WY 82716
-              </p>
+      <!-- Map Legend -->
+      <div class="mt-8 bg-warm-white p-6 rounded-xl shadow-soft">
+        <div class="flex flex-wrap gap-8 justify-center items-center">
+          <div class="flex items-center gap-3">
+            <div class="w-4 h-4 rounded-full bg-safety-orange"></div>
+            <span class="text-charcoal-900 font-bold text-sm">Gillette, WY (HQ)</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-4 h-4 rounded-full bg-safety-orange"></div>
+            <span class="text-charcoal-900 font-bold text-sm">Cheyenne, WY</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-4 h-4 rounded-full bg-safety-orange"></div>
+            <span class="text-charcoal-900 font-bold text-sm">Williston, ND</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+
+  <!-- Leaflet JS -->
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+  <!-- Custom Map Script -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize the map centered on Wyoming/North Dakota region
+      const map = L.map('map', {
+        center: [45.5, -104.0],
+        zoom: 6,
+        scrollWheelZoom: true,
+        dragging: true,
+        zoomControl: true
+      });
+
+      // Add modern tile layer with terrain
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 20
+      }).addTo(map);
+
+      // Custom orange marker icon
+      const orangeIcon = L.divIcon({
+        className: 'custom-marker',
+        html: `
+          <div style="
+            position: relative;
+            width: 40px;
+            height: 40px;
+          ">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
+                fill="#FF6600"
+                stroke="#1A1A1A"
+                stroke-width="0.5"/>
+            </svg>
+            <div style="
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 20px;
+              height: 20px;
+              background: rgba(255, 102, 0, 0.3);
+              border-radius: 50%;
+              animation: pulse 2s ease-in-out infinite;
+            "></div>
+          </div>
+        `,
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -40]
+      });
+
+      // Add pulsing animation
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes pulse {
+          0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+          50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
+        }
+        .leaflet-popup-content-wrapper {
+          background: #FFFFFF;
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+          padding: 8px;
+        }
+        .leaflet-popup-content {
+          margin: 16px;
+          font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .leaflet-popup-tip {
+          background: #FFFFFF;
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Location data
+      const locations = [
+        {
+          coords: [44.2914, -105.5008],
+          title: 'Gillette, WY',
+          badge: 'HEADQUARTERS',
+          address: '103 E. Lincoln St.<br>Gillette, WY 82716',
+          phone: '307-682-8688',
+          email: 'alicia@kutthru.com',
+          services: ['Full mud engineering', '24/7 delivery', 'Mud lab', 'Technical support']
+        },
+        {
+          coords: [41.1400, -104.8202],
+          title: 'Cheyenne, WY',
+          badge: null,
+          address: 'Contact us for details',
+          phone: '307-682-8688',
+          email: null,
+          services: ['Drilling fluid supplies', 'Delivery services', 'Technical support']
+        },
+        {
+          coords: [48.1470, -103.6179],
+          title: 'Williston, ND',
+          badge: null,
+          address: 'Contact us for details',
+          phone: '307-682-8688',
+          email: null,
+          services: ['Full functional mud lab', 'Particle size analysis', 'Drilling fluid supplies']
+        }
+      ];
+
+      // Add markers with popups
+      locations.forEach(location => {
+        const marker = L.marker(location.coords, { icon: orangeIcon }).addTo(map);
+
+        let popupContent = `
+          <div style="min-width: 250px;">
+            ${location.badge ? `<div style="display: inline-block; background: #FF6600; color: white; padding: 4px 12px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 1px; margin-bottom: 12px;">${location.badge}</div>` : ''}
+            <h3 style="font-size: 20px; font-weight: 900; color: #FF6600; margin: 0 0 12px 0;">${location.title}</h3>
+            <div style="margin-bottom: 12px; color: #4A4A4A; line-height: 1.5;">
+              <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Address</strong>
+              ${location.address}
             </div>
-
-            <div>
-              <p class="font-semibold text-charcoal">Phone:</p>
-              <p class="text-gray-700">
-                <a href="tel:307-682-8688" class="text-safety-orange hover:underline">307-682-8688</a>
-              </p>
+            <div style="margin-bottom: 12px;">
+              <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Phone</strong>
+              <a href="tel:${location.phone}" style="color: #FF6600; font-weight: 700; text-decoration: none;">${location.phone}</a>
             </div>
-
-            <div>
-              <p class="font-semibold text-charcoal">Email:</p>
-              <p class="text-gray-700">
-                <a href="mailto:alicia@kutthru.com" class="text-safety-orange hover:underline">alicia@kutthru.com</a>
-              </p>
+            ${location.email ? `<div style="margin-bottom: 12px;">
+              <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Email</strong>
+              <a href="mailto:${location.email}" style="color: #FF6600; font-weight: 700; text-decoration: none;">${location.email}</a>
+            </div>` : ''}
+            <div style="background: #FFF5F0; padding: 12px; border-radius: 8px; margin-top: 12px;">
+              <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Services</strong>
+              <ul style="margin: 0; padding: 0; list-style: none;">
+                ${location.services.map(service => `
+                  <li style="color: #4A4A4A; font-size: 13px; margin-bottom: 4px; display: flex; align-items: center;">
+                    <span style="color: #FF6600; margin-right: 8px;">✓</span>${service}
+                  </li>
+                `).join('')}
+              </ul>
             </div>
           </div>
+        `;
 
-          <div>
-            <p class="font-semibold text-charcoal mb-2">Services:</p>
-            <ul class="space-y-1 text-gray-700 text-sm">
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Full mud engineering</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>24/7 delivery</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Complete product inventory</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Mud lab</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Technical support</span>
-              </li>
-            </ul>
+        marker.bindPopup(popupContent, {
+          maxWidth: 350,
+          className: 'custom-popup'
+        });
+
+        // Open popup on hover
+        marker.on('mouseover', function() {
+          this.openPopup();
+        });
+      });
+
+      // Optional: Uncomment to auto-fit all markers
+      // const group = L.featureGroup(locations.map(loc => L.marker(loc.coords)));
+      // map.fitBounds(group.getBounds().pad(0.2));
+    });
+  </script>
+
+  <!-- SECTION 4: LOCATION SHOWCASE -->
+  <section class="bg-warm-white py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Visit Our Facilities</h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+          Each location is equipped to support your drilling operations with comprehensive inventory, expert staff, and 24/7 availability.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Card 1 - Gillette, WY (Headquarters) -->
+        <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
+          <div class="relative overflow-hidden">
+            <Image
+              src={mtnMudBuilding}
+              alt="Mountain Mud headquarters in Gillette, WY"
+              class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+            <div class="absolute top-4 left-4">
+              <div class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg">
+                Headquarters
+              </div>
+            </div>
+          </div>
+          <div class="p-8">
+            <h3 class="text-2xl md:text-3xl font-black mb-3 text-charcoal-900">Gillette, WY</h3>
+            <p class="text-charcoal-600 leading-relaxed mb-6 font-medium">
+              Our flagship operational hub with full mud lab capabilities and 20,000+ barrels of OBM inventory.
+            </p>
+
+            <div class="mb-6">
+              <p class="text-sm font-bold text-charcoal-400 uppercase tracking-wider mb-2">Highlights</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Mud Lab</span>
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">24/7 Service</span>
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Full Inventory</span>
+              </div>
+            </div>
+
+            <a
+              href="/contact"
+              class="w-full bg-safety-orange text-white px-6 py-3 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-sm inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
+            >
+              Contact This Location
+            </a>
           </div>
         </div>
 
         <!-- Card 2 - Cheyenne, WY -->
-        <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-safety-orange">
-          <h3 class="text-2xl font-bold mb-4 text-safety-orange">Cheyenne, WY</h3>
-
-          <p class="text-gray-700 leading-relaxed mb-6">
-            Strategically positioned to serve operations throughout southern Wyoming and northern Colorado, our Cheyenne
-            facility ensures rapid response times and local expertise.
-          </p>
-
-          <div class="space-y-3 mb-6">
-            <div>
-              <p class="font-semibold text-charcoal">Address:</p>
-              <p class="text-gray-700 italic">[To be provided]</p>
-            </div>
-
-            <div>
-              <p class="font-semibold text-charcoal">Phone:</p>
-              <p class="text-gray-700 italic">[TBD]</p>
-            </div>
+        <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
+          <div class="relative overflow-hidden">
+            <Image
+              src={warehouseInterior}
+              alt="Cheyenne warehouse and distribution"
+              class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+            />
           </div>
+          <div class="p-8">
+            <h3 class="text-2xl md:text-3xl font-black mb-3 text-charcoal-900">Cheyenne, WY</h3>
+            <p class="text-charcoal-600 leading-relaxed mb-6 font-medium">
+              Serving southern Wyoming and northern Colorado with rapid response times and local expertise.
+            </p>
 
-          <div>
-            <p class="font-semibold text-charcoal mb-2">Services:</p>
-            <ul class="space-y-1 text-gray-700 text-sm">
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Drilling fluid supplies</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Delivery services</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Technical support</span>
-              </li>
-            </ul>
+            <div class="mb-6">
+              <p class="text-sm font-bold text-charcoal-400 uppercase tracking-wider mb-2">Highlights</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Fast Delivery</span>
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Local Team</span>
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Full Support</span>
+              </div>
+            </div>
+
+            <a
+              href="/contact"
+              class="w-full bg-safety-orange text-white px-6 py-3 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-sm inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
+            >
+              Contact This Location
+            </a>
           </div>
         </div>
 
         <!-- Card 3 - Williston, ND -->
-        <div class="bg-white p-8 rounded-lg shadow-sm border-l-4 border-safety-orange">
-          <h3 class="text-2xl font-bold mb-4 text-safety-orange">Williston, ND</h3>
+        <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
+          <div class="relative overflow-hidden">
+            <Image
+              src={industrialStorageTanks}
+              alt="Williston facility and storage"
+              class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+          <div class="p-8">
+            <h3 class="text-2xl md:text-3xl font-black mb-3 text-charcoal-900">Williston, ND</h3>
+            <p class="text-charcoal-600 leading-relaxed mb-6 font-medium">
+              Bakken-focused facility with full mud lab and particle size analysis for North Dakota operations.
+            </p>
 
-          <p class="text-gray-700 leading-relaxed mb-6">
-            Serving the Bakken and surrounding formations, our Williston facility features a fully functional mud lab
-            and comprehensive inventory to support your North Dakota operations.
-          </p>
-
-          <div class="space-y-3 mb-6">
-            <div>
-              <p class="font-semibold text-charcoal">Address:</p>
-              <p class="text-gray-700 italic">[To be provided]</p>
+            <div class="mb-6">
+              <p class="text-sm font-bold text-charcoal-400 uppercase tracking-wider mb-2">Highlights</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Mud Lab</span>
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">PSA Testing</span>
+                <span class="bg-safety-orange-50 text-safety-orange px-3 py-1 rounded-full text-xs font-bold">Bakken Focus</span>
+              </div>
             </div>
 
-            <div>
-              <p class="font-semibold text-charcoal">Phone:</p>
-              <p class="text-gray-700 italic">[TBD]</p>
-            </div>
-          </div>
-
-          <!-- Mud Lab Photo -->
-          <div
-            class="mb-6 h-48 bg-gray-200 rounded-lg border-2 border-dashed border-gray-400 flex items-center justify-center"
-          >
-            <span class="text-gray-500 text-sm text-center px-4">MUD LAB PHOTO (August in ND)</span>
-          </div>
-
-          <div>
-            <p class="font-semibold text-charcoal mb-2">Services:</p>
-            <ul class="space-y-1 text-gray-700 text-sm">
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Full functional mud lab</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Particle size analysis</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Drilling fluid supplies</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Delivery</span>
-              </li>
-              <li class="flex items-start">
-                <span class="text-safety-orange mr-2">•</span>
-                <span>Technical support</span>
-              </li>
-            </ul>
+            <a
+              href="/contact"
+              class="w-full bg-safety-orange text-white px-6 py-3 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-sm inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
+            >
+              Contact This Location
+            </a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 3: CTA -->
-  <section class="bg-light-gray py-16 md:py-20">
+  <!-- SECTION 5: CTA -->
+  <section class="bg-safety-orange text-white py-20 md:py-24">
     <div class="container mx-auto px-4 max-w-4xl text-center">
-      <h3 class="text-2xl md:text-3xl font-bold mb-6 text-charcoal">Ready to Work Together?</h3>
-      <p class="text-lg text-gray-700 leading-relaxed mb-8 max-w-3xl mx-auto">
+      <h2 class="text-3xl md:text-4xl font-black mb-7 tracking-tight">Ready to Work Together?</h2>
+      <p class="text-lg md:text-xl text-white/95 mb-10 leading-relaxed max-w-3xl mx-auto font-medium">
         No matter which location you work with, you'll receive the same exceptional service, technical expertise, and
         commitment to your success that Mountain Mud is known for.
       </p>
-
       <a
         href="/contact"
-        class="bg-safety-orange text-white px-10 py-4 rounded hover:bg-[#C25A1E] transition-colors font-semibold text-lg inline-flex items-center justify-center"
+        class="bg-white text-safety-orange px-10 py-5 rounded-xl hover:bg-warm-white transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:shadow-orange-glow hover:-translate-y-0.5"
       >
         Contact Your Nearest Location
       </a>

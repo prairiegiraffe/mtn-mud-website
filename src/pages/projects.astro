@@ -1,0 +1,606 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+
+// Import images
+import oilRigAtSunset from '~/assets/images/Oil Rig At Sunset.jpg';
+import oilRigAtDusk from '~/assets/images/Oil Rig At Dusk.jpg';
+import industrialStorageTanks from '~/assets/images/Industrial Storage Tanks.jpg';
+import constructionSiteAtSunset from '~/assets/images/Construction Site at Sunset.jpg';
+import oilRigWorker from '~/assets/images/Oil Rig Worker.jpg';
+import industrialFacility from '~/assets/images/Industrial Facility Aerial View.jpg';
+import constructionWorkerOperating from '~/assets/images/Construction Worker Operating Heavy Machinery.jpg';
+import oilRigStructure from '~/assets/images/Oil Rig Structure.jpg';
+import constructionSiteLoader from '~/assets/images/Construction Site Loader.jpg';
+import industrialTruck from '~/assets/images/Industrial Truck at Construction Site.jpg';
+import oilRigAndStorageTanks from '~/assets/images/Oil Rig And Storage Tanks.jpg';
+import industrialConstructionSite from '~/assets/images/Industrial Construction Site.jpg';
+
+const metadata = {
+  title: 'Projects & Case Studies - MTN Mud',
+  description:
+    'Explore Mountain Mud's successful drilling fluid projects across the Rockies. Real results from the Powder River Basin, Bakken Formation, and beyond.',
+};
+
+// Project data
+const projects = [
+  {
+    id: 'powder-river-basin',
+    title: 'Powder River Basin Multi-Well Pad',
+    location: 'Powder River Basin, WY',
+    client: 'Major Independent Operator',
+    image: oilRigAtSunset,
+    category: 'Lost Circulation Management',
+    challenge:
+      'Severe lost circulation in fractured coal seams causing 40% increase in non-productive time and threatening the economics of the entire development program.',
+    solution:
+      'Custom polymer-based mud system with optimized lost circulation material (LCM) blend, 24/7 on-site mud engineering, and comprehensive pre-drill hydraulics modeling.',
+    results: [
+      { metric: '85%', description: 'Reduction in Lost Circulation Incidents' },
+      { metric: '40%', description: 'Decrease in Non-Productive Time' },
+      { metric: '$450K+', description: 'Cost Savings Across 6-Well Pad' },
+      { metric: '12 Days', description: 'Time Saved vs. Offset Wells' },
+    ],
+    highlights: [
+      'Pre-drill formation analysis and hydraulics modeling',
+      'Custom LCM blend optimized for coal seam fractures',
+      '24-hour on-site engineering throughout drilling program',
+      'Real-time mud property monitoring and adjustments',
+    ],
+    duration: '45 Days',
+    wells: 6,
+  },
+  {
+    id: 'bakken-extended-reach',
+    title: 'Bakken Extended Reach Lateral',
+    location: 'Williston Basin, ND',
+    client: 'Mid-Size E&P Operator',
+    image: oilRigAtDusk,
+    category: 'Extended Reach Drilling',
+    challenge:
+      'High torque and drag limiting extended-reach capabilities to 8,500 feet, impacting completion efficiency and production potential.',
+    solution:
+      'Optimized oil-based mud system with enhanced lubricity package, real-time rheology management, and comprehensive torque and drag modeling.',
+    results: [
+      { metric: '60%', description: 'Reduction in Torque & Drag' },
+      { metric: '1,200 ft', description: 'Lateral Length Extension' },
+      { metric: '25%', description: 'Improved Rate of Penetration' },
+      { metric: '18 Hours', description: 'Faster Drilling vs. Offset' },
+    ],
+    highlights: [
+      'Advanced lubricity testing and optimization',
+      'Continuous rheology monitoring and adjustment',
+      'Torque and drag modeling for trajectory optimization',
+      'Seamless transition to completion operations',
+    ],
+    duration: '28 Days',
+    wells: 1,
+  },
+  {
+    id: 'denver-julesburg-wellbore',
+    title: 'Denver-Julesburg Basin Wellbore Stability',
+    location: 'Weld County, CO',
+    client: 'Regional Drilling Contractor',
+    image: industrialStorageTanks,
+    category: 'Wellbore Stability',
+    challenge:
+      'Recurring wellbore instability in reactive shale formations causing stuck pipe incidents, wellbore collapse, and extended NPT.',
+    solution:
+      'Inhibitive water-based mud system with customized shale stabilization chemistry, comprehensive formation compatibility testing, and on-site technical support.',
+    results: [
+      { metric: '0', description: 'Stuck Pipe Incidents' },
+      { metric: '95%', description: 'Reduction in Wellbore Issues' },
+      { metric: '8 Days', description: 'Time Saved Per Well' },
+      { metric: '$280K', description: 'NPT Cost Savings' },
+    ],
+    highlights: [
+      'Formation compatibility testing in mud lab',
+      'Custom shale inhibition chemistry program',
+      'Drive-by mud checks every 12 hours',
+      'Immediate response to formation changes',
+    ],
+    duration: '60 Days',
+    wells: 4,
+  },
+  {
+    id: 'niobrara-horizontal',
+    title: 'Niobrara Horizontal Development',
+    location: 'Wattenberg Field, CO',
+    client: 'Fortune 500 E&P Company',
+    image: constructionSiteAtSunset,
+    category: 'Horizontal Drilling',
+    challenge:
+      'Complex directional drilling through multiple formations requiring precise mud weight control and cuttings removal efficiency.',
+    solution:
+      'Versatile oil-based mud system with advanced solids control, automated mud weight management, and 24/7 engineering support across multi-well pad.',
+    results: [
+      { metric: '100%', description: 'Drilling Plan Achievement' },
+      { metric: '30%', description: 'Faster Hole Cleaning' },
+      { metric: '15%', description: 'ROP Improvement' },
+      { metric: '0', description: 'Lost-Time Safety Incidents' },
+    ],
+    highlights: [
+      'Multi-well pad coordination and planning',
+      'Advanced solids control management',
+      'Automated mud weight tracking system',
+      'Seamless handoff to completion team',
+    ],
+    duration: '90 Days',
+    wells: 8,
+  },
+  {
+    id: 'green-river-basin',
+    title: 'Green River Basin Deep Gas Well',
+    location: 'Sublette County, WY',
+    client: 'Natural Gas Producer',
+    image: oilRigWorker,
+    category: 'High Pressure / High Temperature',
+    challenge:
+      'Ultra-deep (18,500 ft) gas well with high bottomhole temperatures (325°F) and narrow pressure windows requiring precise mud properties.',
+    solution:
+      'Specialized high-temperature OBM formulation, continuous barite management, comprehensive rheology testing, and experienced HPHT engineering team.',
+    results: [
+      { metric: '325°F', description: 'Maximum BHT Handled' },
+      { metric: '0', description: 'Kicks or Well Control Issues' },
+      { metric: '18,500 ft', description: 'Total Depth Achieved' },
+      { metric: '100%', description: 'Mud Property Stability' },
+    ],
+    highlights: [
+      'HPHT formulation with thermal stability',
+      'Continuous high-temperature rheology testing',
+      'Precision barite management for narrow MW window',
+      'Zero well control incidents',
+    ],
+    duration: '42 Days',
+    wells: 1,
+  },
+  {
+    id: 'montana-cbm',
+    title: 'Montana Coalbed Methane Program',
+    location: 'Powder River Basin, MT',
+    client: 'CBM Specialist Operator',
+    image: industrialFacility,
+    category: 'Coalbed Methane',
+    challenge:
+      'Cost-sensitive coalbed methane drilling requiring economical mud systems while managing coal fines and maintaining underbalanced conditions.',
+    solution:
+      'Economical water-based mud system optimized for coal formations, efficient solids control, technical consultation support, and logistics coordination.',
+    results: [
+      { metric: '35%', description: 'Mud Cost Reduction' },
+      { metric: '45', description: 'Wells Drilled Successfully' },
+      { metric: '100%', description: 'Zero Lost Time Incidents' },
+      { metric: '$425K', description: 'Total Program Savings' },
+    ],
+    highlights: [
+      'Cost-optimized mud formulation',
+      'Efficient coal fines management',
+      'Technical support across 45-well program',
+      'Reliable delivery to remote locations',
+    ],
+    duration: '6 Months',
+    wells: 45,
+  },
+];
+
+// Filter/category options
+const categories = [
+  'All Projects',
+  'Lost Circulation Management',
+  'Extended Reach Drilling',
+  'Wellbore Stability',
+  'Horizontal Drilling',
+  'High Pressure / High Temperature',
+  'Coalbed Methane',
+];
+---
+
+<Layout metadata={metadata}>
+  <!-- SECTION 1: HERO -->
+  <section class="relative bg-charcoal-900 overflow-hidden">
+    <div class="absolute inset-0 h-[32rem]">
+      <Image
+        src={oilRigStructure}
+        alt="Oil rig project - Mountain Mud case studies"
+        class="w-full h-full object-cover opacity-70"
+      />
+      <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/70 via-charcoal-900/80 to-charcoal-900"></div>
+    </div>
+    <div class="relative container mx-auto px-4 max-w-5xl text-center pt-32 pb-16">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white leading-tight tracking-tight">
+        Proven Results Across the Rockies
+      </h1>
+      <p class="text-xl md:text-2xl text-safety-orange font-black mb-6 uppercase tracking-wide">
+        Real Projects. Real Challenges. Real Solutions.
+      </p>
+      <p class="text-lg text-white/90 max-w-3xl mx-auto leading-relaxed font-medium">
+        Explore our portfolio of successful drilling fluid projects spanning the Powder River Basin, Bakken Formation,
+        Denver-Julesburg Basin, and beyond. These aren't theoretical case studies—they're real results from real
+        operations.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 2: STATS OVERVIEW -->
+  <section class="bg-charcoal-900 py-16">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="text-center bg-charcoal-800 p-8 rounded-xl border border-white/10">
+          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">150+</div>
+          <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Successful Projects</div>
+        </div>
+        <div class="text-center bg-charcoal-800 p-8 rounded-xl border border-white/10">
+          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">6</div>
+          <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Active Basins</div>
+        </div>
+        <div class="text-center bg-charcoal-800 p-8 rounded-xl border border-white/10">
+          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">$2M+</div>
+          <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Client Savings (2024)</div>
+        </div>
+        <div class="text-center bg-charcoal-800 p-8 rounded-xl border border-white/10">
+          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">100%</div>
+          <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Safety Record</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: FEATURED PROJECTS -->
+  <section class="bg-warm-white py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Featured Case Studies</h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+          Detailed breakdowns of our most challenging and successful drilling fluid projects. Each case study showcases
+          the problem, our solution, and the measurable results we delivered.
+        </p>
+      </div>
+
+      <!-- Project Cards -->
+      <div class="space-y-12">
+        {
+          projects.map((project, index) => (
+            <div
+              class="bg-warm-gray border-l-4 border-safety-orange rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all"
+              id={project.id}
+            >
+              <div class={`grid grid-cols-1 lg:grid-cols-2 gap-8 ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
+                {/* Image */}
+                <div class={index % 2 === 1 ? 'lg:col-start-2' : ''}>
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    class="w-full h-full min-h-96 object-cover"
+                  />
+                </div>
+
+                {/* Content */}
+                <div class={`p-8 lg:p-10 ${index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}`}>
+                  {/* Category Badge */}
+                  <div class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-5 uppercase tracking-wider">
+                    {project.category}
+                  </div>
+
+                  {/* Title & Location */}
+                  <h3 class="text-2xl md:text-3xl font-black mb-2 text-charcoal-900">{project.title}</h3>
+                  <p class="text-safety-orange font-bold mb-6 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                    {project.location}
+                  </p>
+
+                  {/* Challenge */}
+                  <div class="mb-6">
+                    <h4 class="font-black text-charcoal-900 mb-2 uppercase tracking-wide text-sm">The Challenge:</h4>
+                    <p class="text-charcoal-600 leading-relaxed font-medium">{project.challenge}</p>
+                  </div>
+
+                  {/* Solution */}
+                  <div class="mb-6">
+                    <h4 class="font-black text-charcoal-900 mb-2 uppercase tracking-wide text-sm">Our Solution:</h4>
+                    <p class="text-charcoal-600 leading-relaxed font-medium">{project.solution}</p>
+                  </div>
+
+                  {/* Results Grid */}
+                  <div class="grid grid-cols-2 gap-4 mb-6">
+                    {project.results.map((result) => (
+                      <div class="text-center p-5 bg-warm-white rounded-xl shadow-soft">
+                        <div class="text-3xl md:text-4xl font-black text-safety-orange mb-2 font-mono">
+                          {result.metric}
+                        </div>
+                        <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">
+                          {result.description}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Project Details */}
+                  <div class="flex gap-6 text-sm font-medium text-charcoal-600 mb-6">
+                    <div>
+                      <span class="font-black text-charcoal-900">Duration:</span> {project.duration}
+                    </div>
+                    <div>
+                      <span class="font-black text-charcoal-900">Wells:</span> {project.wells}
+                    </div>
+                  </div>
+
+                  {/* Key Highlights */}
+                  <div class="bg-safety-orange-50 p-5 rounded-xl">
+                    <h4 class="font-black text-charcoal-900 mb-3 uppercase tracking-wide text-sm">Key Highlights:</h4>
+                    <ul class="space-y-2">
+                      {project.highlights.map((highlight) => (
+                        <li class="flex items-start text-charcoal-700 text-sm">
+                          <svg
+                            class="w-5 h-5 text-safety-orange mr-2 flex-shrink-0 mt-0.5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                          </svg>
+                          <span class="font-medium">{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
+      {/* Disclaimer */}
+      <div class="mt-16 bg-warm-gray border-l-4 border-charcoal-400 p-8 rounded-xl">
+        <p class="text-sm text-charcoal-600 leading-relaxed font-medium">
+          <strong class="text-charcoal-900">Note:</strong> All case studies represent real Mountain Mud projects.
+          Specific client names and certain proprietary details have been generalized to protect client confidentiality.
+          Results are based on actual field data and documented performance metrics. Individual results may vary based
+          on formation characteristics, drilling parameters, and operational conditions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: PROJECT GALLERY -->
+  <section class="bg-warm-gray py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">From the Field</h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+          A visual look at our operations across the Rockies—from rig sites to mud labs, these images capture the
+          Mountain Mud team in action.
+        </p>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={constructionWorkerOperating}
+            alt="Field operations - heavy machinery"
+            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p class="text-white font-bold text-lg">Heavy Equipment Operations</p>
+          </div>
+        </div>
+
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={constructionSiteLoader}
+            alt="Construction site loader"
+            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p class="text-white font-bold text-lg">Site Preparation</p>
+          </div>
+        </div>
+
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={industrialTruck}
+            alt="Industrial delivery truck"
+            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p class="text-white font-bold text-lg">24/7 Delivery Fleet</p>
+          </div>
+        </div>
+
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={oilRigAndStorageTanks}
+            alt="Oil rig and storage tanks"
+            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p class="text-white font-bold text-lg">Rig Operations</p>
+          </div>
+        </div>
+
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={industrialConstructionSite}
+            alt="Industrial construction site"
+            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p class="text-white font-bold text-lg">Construction Management</p>
+          </div>
+        </div>
+
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={oilRigWorker}
+            alt="Oil rig field worker"
+            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+            <p class="text-white font-bold text-lg">Expert Field Team</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: CAPABILITIES OVERVIEW -->
+  <section class="bg-warm-white py-20 md:py-28">
+    <div class="container mx-auto px-4 max-w-6xl">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">
+          Our Project Capabilities
+        </h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+          From simple wellbore challenges to complex multi-well programs, we have the expertise, resources, and track
+          record to handle any drilling fluid project.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Capability Cards */}
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900">Lost Circulation Solutions</h3>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
+            Custom LCM blends, polymer systems, and real-time adjustments to eliminate lost returns and keep you
+            drilling.
+          </p>
+        </div>
+
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900">Extended Reach Drilling</h3>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
+            Advanced lubricity systems and torque management to maximize lateral lengths and drilling efficiency.
+          </p>
+        </div>
+
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900">Wellbore Stability</h3>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
+            Inhibitive chemistries and shale stabilization systems to prevent stuck pipe and wellbore collapse.
+          </p>
+        </div>
+
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900">HPHT Environments</h3>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
+            Specialized formulations for high-pressure, high-temperature wells with narrow mud weight windows.
+          </p>
+        </div>
+
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900">Multi-Well Programs</h3>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
+            Coordinated engineering, logistics, and technical support across pad drilling and development programs.
+          </p>
+        </div>
+
+        <div class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+            <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900">Cost Optimization</h3>
+          <p class="text-charcoal-600 leading-relaxed font-medium">
+            Economical formulations and efficient logistics to reduce your drilling fluid costs without sacrificing
+            performance.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: CTA -->
+  <section class="bg-safety-orange text-white py-20 md:py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-safety-orange-600 to-safety-orange-700 opacity-50"></div>
+    <div class="container mx-auto px-4 max-w-4xl text-center relative z-10">
+      <h2 class="text-3xl md:text-4xl font-black mb-7 tracking-tight">Ready to Add Your Success Story?</h2>
+      <p class="text-lg md:text-xl text-white/95 mb-10 leading-relaxed max-w-3xl mx-auto font-medium">
+        These case studies represent just a fraction of the projects we've successfully completed. Let's discuss how we
+        can bring this same level of expertise and results to your next drilling operation.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
+        <a
+          href="/contact"
+          class="bg-white text-safety-orange px-10 py-5 rounded-xl hover:bg-warm-white transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:shadow-orange-glow hover:-translate-y-0.5"
+        >
+          Start Your Project
+        </a>
+        <a
+          href="tel:307-682-8688"
+          class="bg-charcoal-900 text-white px-10 py-5 rounded-xl hover:bg-charcoal-800 transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:-translate-y-0.5"
+        >
+          Call 307-682-8688
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

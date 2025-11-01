@@ -1,5 +1,17 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+
+// Import images
+import oilRigWorker from '~/assets/images/Oil Rig Worker.jpg';
+import modernCoffeeLab from '~/assets/images/Modern Coffee Lab Interior.jpg';
+import industrialTruck from '~/assets/images/Industrial Truck at Construction Site.jpg';
+import industrialStorageTanks from '~/assets/images/Industrial Storage Tanks.jpg';
+import constructionWorker from '~/assets/images/Construction Worker On Site.jpg';
+import industrialFacility from '~/assets/images/Industrial Facility Aerial View.jpg';
+import warehouseInterior from '~/assets/images/Warehouse Interior With Forklift.jpg';
+import mtnMudTruck from '~/assets/images/Mountain Mud Truck.jpg';
+import oilRigAtSunset from '~/assets/images/Oil Rig At Sunset.jpg';
 
 const metadata = {
   title: 'MTN Mud - Service Based Drilling Fluids',
@@ -12,7 +24,7 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO - IMAGE TILES -->
   <section class="relative bg-warm-white overflow-hidden">
-    <div class="mx-auto max-w-7xl px-6 pt-36 pb-32 sm:pt-48 lg:px-8 lg:pt-32">
+    <div class="mx-auto max-w-7xl px-6 pt-24 pb-20 sm:pt-32 lg:px-8 lg:pt-24">
       <div class="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
         <!-- Left Column: Content -->
         <div class="relative w-full lg:max-w-xl lg:shrink-0 xl:max-w-2xl">
@@ -23,19 +35,12 @@ const metadata = {
             When drilling fluid challenges threaten your timeline and budget, you need a partner who delivers
             results—not excuses.
           </p>
-          <div class="mt-10 flex flex-col sm:flex-row items-start gap-4">
+          <div class="mt-10">
             <a
               href="/contact"
-              class="bg-safety-orange text-white px-8 py-4 rounded-lg hover:bg-safety-orange-700 transition-all font-bold text-base shadow-orange-glow hover:shadow-soft-xl hover:-translate-y-0.5"
+              class="bg-safety-orange text-white px-8 py-4 rounded-lg hover:bg-safety-orange-700 transition-all font-bold text-base shadow-orange-glow hover:shadow-soft-xl hover:-translate-y-0.5 inline-block"
             >
-              Get Expert Support Now
-            </a>
-            <a
-              href="#solutions"
-              class="text-base font-bold text-charcoal hover:text-safety-orange transition-colors group inline-flex items-center gap-2"
-            >
-              See Our Solutions
-              <span aria-hidden="true" class="group-hover:translate-x-1 transition-transform">→</span>
+              Work With Us Now
             </a>
           </div>
         </div>
@@ -47,47 +52,47 @@ const metadata = {
             class="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-0 xl:pt-80"
           >
             <div class="relative">
-              <div
-                class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-              >
-                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 1<br />Field Ops</span>
-              </div>
+              <Image
+                src={oilRigWorker}
+                alt="Oil rig field operations"
+                class="aspect-[2/3] w-full rounded-2xl shadow-soft-lg object-cover"
+              />
             </div>
           </div>
 
           <!-- Column 2 -->
           <div class="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
             <div class="relative">
-              <div
-                class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-              >
-                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 2<br />Mud Lab</span>
-              </div>
+              <Image
+                src={modernCoffeeLab}
+                alt="Mud lab testing facility"
+                class="aspect-[2/3] w-full rounded-2xl shadow-soft-lg object-cover"
+              />
             </div>
             <div class="relative">
-              <div
-                class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-              >
-                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 3<br />Testing</span>
-              </div>
+              <Image
+                src={industrialTruck}
+                alt="Industrial truck at site"
+                class="aspect-[2/3] w-full rounded-2xl shadow-soft-lg object-cover"
+              />
             </div>
           </div>
 
           <!-- Column 3 -->
           <div class="w-44 flex-none space-y-8 pt-32 sm:pt-0">
             <div class="relative">
-              <div
-                class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-              >
-                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 4<br />Equipment</span>
-              </div>
+              <Image
+                src={industrialStorageTanks}
+                alt="Industrial storage equipment"
+                class="aspect-[2/3] w-full rounded-2xl shadow-soft-lg object-cover"
+              />
             </div>
             <div class="relative">
-              <div
-                class="aspect-[2/3] w-full rounded-2xl bg-warm-gray-200 border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-              >
-                <span class="text-charcoal-400 text-xs text-center px-2 font-medium">Image 5<br />Team</span>
-              </div>
+              <Image
+                src={constructionWorker}
+                alt="Construction team member on site"
+                class="aspect-[2/3] w-full rounded-2xl shadow-soft-lg object-cover"
+              />
             </div>
           </div>
         </div>
@@ -169,11 +174,11 @@ const metadata = {
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <!-- Left Column: Image -->
         <div class="order-2 lg:order-1">
-          <div
-            class="h-96 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-          >
-            <span class="text-charcoal-400 text-center px-4 font-medium">Field operations or lab work image</span>
-          </div>
+          <Image
+            src={industrialFacility}
+            alt="Industrial facility aerial view"
+            class="h-96 w-full rounded-2xl shadow-soft-lg object-cover"
+          />
         </div>
 
         <!-- Right Column: Content -->
@@ -335,22 +340,22 @@ const metadata = {
             </div>
           </div>
 
-          <div
-            class="h-80 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-          >
-            <span class="text-charcoal-400 text-center px-4 font-medium">BEFORE/AFTER GRAPH</span>
-          </div>
+          <Image
+            src={oilRigAtSunset}
+            alt="Oil rig operations at sunset"
+            class="h-80 w-full rounded-2xl shadow-soft-lg object-cover"
+          />
         </div>
       </div>
 
       <!-- Case Study 2 -->
       <div class="bg-warm-gray border-l-4 border-safety-orange p-10 rounded-2xl shadow-soft-lg">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          <div
-            class="order-2 lg:order-1 h-80 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-          >
-            <span class="text-charcoal-400 text-center px-4 font-medium">TORQUE/DRAG GRAPH</span>
-          </div>
+          <Image
+            src={industrialStorageTanks}
+            alt="Industrial storage tanks facility"
+            class="order-2 lg:order-1 h-80 w-full rounded-2xl shadow-soft-lg object-cover"
+          />
 
           <div class="order-1 lg:order-2">
             <div
@@ -548,20 +553,20 @@ const metadata = {
             </li>
           </ul>
         </div>
-        <div
-          class="h-96 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-        >
-          <span class="text-charcoal-400 text-center px-4 font-medium">MUD LAB IMAGE</span>
-        </div>
+        <Image
+          src={modernCoffeeLab}
+          alt="Mud lab testing facility"
+          class="h-96 w-full rounded-2xl shadow-soft-lg object-cover"
+        />
       </div>
 
       <!-- Solution Block 2 (Reversed) -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
-        <div
-          class="order-2 lg:order-1 h-96 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-        >
-          <span class="text-charcoal-400 text-center px-4 font-medium">DELIVERY FLEET IMAGE</span>
-        </div>
+        <Image
+          src={mtnMudTruck}
+          alt="Mountain Mud delivery fleet"
+          class="order-2 lg:order-1 h-96 w-full rounded-2xl shadow-soft-lg object-cover"
+        />
         <div class="order-1 lg:order-2">
           <div class="flex items-center gap-4 mb-6">
             <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center flex-shrink-0">
@@ -700,11 +705,11 @@ const metadata = {
             </li>
           </ul>
         </div>
-        <div
-          class="h-96 bg-warm-gray-200 rounded-2xl border-2 border-dashed border-warm-gray-400 flex items-center justify-center shadow-soft-lg overflow-hidden"
-        >
-          <span class="text-charcoal-400 text-center px-4 font-medium">FIELD ENGINEER IMAGE</span>
-        </div>
+        <Image
+          src={warehouseInterior}
+          alt="Field engineer and warehouse operations"
+          class="h-96 w-full rounded-2xl shadow-soft-lg object-cover"
+        />
       </div>
     </div>
   </section>

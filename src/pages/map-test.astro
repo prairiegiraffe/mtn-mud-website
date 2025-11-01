@@ -1,0 +1,50 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import TerrainMapSection from '~/components/widgets/TerrainMapSection.astro';
+
+const metadata = {
+  title: '3D Map Test - MTN Mud',
+  description: 'Testing the interactive 3D terrain map',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- SECTION 1: HERO -->
+  <section class="bg-warm-white py-20">
+    <div class="container mx-auto px-4 max-w-5xl text-center">
+      <h1 class="text-4xl md:text-5xl font-black mb-6 text-charcoal-900">
+        3D Interactive Map Test
+      </h1>
+      <p class="text-lg text-charcoal-700">
+        Testing the new Three.js terrain map with glowing markers and camera animations
+      </p>
+    </div>
+  </section>
+
+  <!-- 3D MAP SECTION -->
+  <TerrainMapSection />
+
+  <!-- INFO SECTION -->
+  <section class="bg-warm-white py-20">
+    <div class="container mx-auto px-4 max-w-4xl">
+      <h2 class="text-3xl font-black mb-6 text-charcoal-900 text-center">How to Use</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-soft">
+          <div class="text-4xl mb-3">🖱️</div>
+          <h3 class="font-black text-lg mb-2 text-charcoal-900">Click Markers</h3>
+          <p class="text-charcoal-600 text-sm">Click on glowing orange markers to view location details</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-soft">
+          <div class="text-4xl mb-3">🔄</div>
+          <h3 class="font-black text-lg mb-2 text-charcoal-900">Rotate View</h3>
+          <p class="text-charcoal-600 text-sm">Drag to rotate the camera and explore different angles</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-soft">
+          <div class="text-4xl mb-3">🔍</div>
+          <h3 class="font-black text-lg mb-2 text-charcoal-900">Zoom</h3>
+          <p class="text-charcoal-600 text-sm">Scroll to zoom in and out for detailed or overview perspectives</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
