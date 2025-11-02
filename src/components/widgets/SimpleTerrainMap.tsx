@@ -810,6 +810,10 @@ export default function SimpleTerrainMap() {
             height: 60vh;
             min-height: 400px;
           }
+
+          .terrain-canvas-wrapper canvas {
+            border-radius: 16px 16px 0 0 !important;
+          }
         }
       `}</style>
       <div className="terrain-map-container">
