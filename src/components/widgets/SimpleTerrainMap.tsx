@@ -231,11 +231,7 @@ function Terrain() {
       {/* Main terrain with solid color */}
       <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} receiveShadow castShadow>
         <planeGeometry args={[TERRAIN_WIDTH, TERRAIN_HEIGHT, 300, 200]} />
-        <meshStandardMaterial
-          color="#6B5545"
-          roughness={1.0}
-          metalness={0.0}
-        />
+        <meshStandardMaterial color="#6B5545" roughness={1.0} metalness={0.0} />
       </mesh>
     </>
   );
@@ -265,44 +261,46 @@ function StateBorders() {
           return { x, z: -z };
         };
 
-        geojson.features.forEach((feature: { properties?: { name?: string }; geometry: { type: string; coordinates: unknown } }) => {
-          // Skip Alaska and Hawaii
-          const stateName = feature.properties?.name;
-          if (stateName === 'Alaska' || stateName === 'Hawaii') {
-            return;
-          }
-
-          const processCoordinates = (coords: unknown): void => {
-            if (!Array.isArray(coords) || coords.length === 0) return;
-
-            if (Array.isArray(coords[0])) {
-              if (typeof coords[0][0] === 'number') {
-                // This is a line of coordinates
-                const points: THREE.Vector3[] = [];
-                (coords as [number, number][]).forEach(([lon, lat]) => {
-                  const { x, z } = latLonToTerrain(lon, lat);
-                  const y = getHeight(x, z) + 0.08;
-                  points.push(new THREE.Vector3(x, y, z));
-                });
-                if (points.length > 1) {
-                  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-                  geometries.push(geometry);
-                }
-              } else {
-                // This is a polygon or multipolygon, recurse
-                coords.forEach((subCoords: unknown) => processCoordinates(subCoords));
-              }
+        geojson.features.forEach(
+          (feature: { properties?: { name?: string }; geometry: { type: string; coordinates: unknown } }) => {
+            // Skip Alaska and Hawaii
+            const stateName = feature.properties?.name;
+            if (stateName === 'Alaska' || stateName === 'Hawaii') {
+              return;
             }
-          };
 
-          if (feature.geometry.type === 'Polygon') {
-            processCoordinates(feature.geometry.coordinates);
-          } else if (feature.geometry.type === 'MultiPolygon') {
-            (feature.geometry.coordinates as unknown[]).forEach((polygon: unknown) => {
-              processCoordinates(polygon);
-            });
+            const processCoordinates = (coords: unknown): void => {
+              if (!Array.isArray(coords) || coords.length === 0) return;
+
+              if (Array.isArray(coords[0])) {
+                if (typeof coords[0][0] === 'number') {
+                  // This is a line of coordinates
+                  const points: THREE.Vector3[] = [];
+                  (coords as [number, number][]).forEach(([lon, lat]) => {
+                    const { x, z } = latLonToTerrain(lon, lat);
+                    const y = getHeight(x, z) + 0.08;
+                    points.push(new THREE.Vector3(x, y, z));
+                  });
+                  if (points.length > 1) {
+                    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                    geometries.push(geometry);
+                  }
+                } else {
+                  // This is a polygon or multipolygon, recurse
+                  coords.forEach((subCoords: unknown) => processCoordinates(subCoords));
+                }
+              }
+            };
+
+            if (feature.geometry.type === 'Polygon') {
+              processCoordinates(feature.geometry.coordinates);
+            } else if (feature.geometry.type === 'MultiPolygon') {
+              (feature.geometry.coordinates as unknown[]).forEach((polygon: unknown) => {
+                processCoordinates(polygon);
+              });
+            }
           }
-        });
+        );
 
         setBorderGeometries(geometries);
       });
