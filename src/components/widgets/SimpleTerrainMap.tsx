@@ -813,85 +813,85 @@ export default function SimpleTerrainMap() {
         }
       `}</style>
       <div className="terrain-map-container">
-      {isLoading && (
+        {isLoading && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 10000,
+              color: '#FF6600',
+              fontFamily: 'Roboto, sans-serif',
+              fontSize: '20px',
+              fontWeight: 900,
+              letterSpacing: '2px',
+              textTransform: 'uppercase',
+            }}
+          >
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '48px', marginBottom: '20px' }}>🗺️</div>
+              <div>Loading 3D Terrain...</div>
+            </div>
+          </div>
+        )}
+
+        <div className="terrain-canvas-wrapper" style={{ height: '100%' }}>
+          <Canvas
+            camera={{ position: [-3.6, 4, 5.1], fov: 45 }}
+            shadows
+            style={{
+              background: 'linear-gradient(to bottom, #1A2A3A 0%, #2A3A4A 100%)',
+              borderRadius: '16px',
+              cursor: controlsEnabled ? 'grab' : 'pointer',
+              height: '100%',
+            }}
+            onClick={handleInteractionStart}
+          >
+            <Scene
+              activeTown={activeTown}
+              setActiveTown={setActiveTown}
+              controlsEnabled={controlsEnabled}
+              onInteractionStart={handleInteractionStart}
+            />
+          </Canvas>
+        </div>
+
+        {/* Sidebar */}
+        <LocationSidebar
+          activeTown={activeTown}
+          onSelectTown={(town) => {
+            setActiveTown(town);
+            handleInteractionStart();
+          }}
+        />
+
         <div
           style={{
             position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10000,
-            color: '#FF6600',
+            bottom: '20px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            color: 'white',
+            padding: '14px 24px',
+            borderRadius: '12px',
             fontFamily: 'Roboto, sans-serif',
-            fontSize: '20px',
-            fontWeight: 900,
-            letterSpacing: '2px',
-            textTransform: 'uppercase',
+            fontSize: '13px',
+            fontWeight: 700,
+            textAlign: 'center',
+            border: '2px solid #FF6600',
+            pointerEvents: 'none',
           }}
         >
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '48px', marginBottom: '20px' }}>🗺️</div>
-            <div>Loading 3D Terrain...</div>
-          </div>
+          Click markers to fly to locations
         </div>
-      )}
-
-      <div className="terrain-canvas-wrapper" style={{ height: '100%' }}>
-        <Canvas
-          camera={{ position: [-3.6, 4, 5.1], fov: 45 }}
-          shadows
-          style={{
-            background: 'linear-gradient(to bottom, #1A2A3A 0%, #2A3A4A 100%)',
-            borderRadius: '16px',
-            cursor: controlsEnabled ? 'grab' : 'pointer',
-            height: '100%',
-          }}
-          onClick={handleInteractionStart}
-        >
-          <Scene
-            activeTown={activeTown}
-            setActiveTown={setActiveTown}
-            controlsEnabled={controlsEnabled}
-            onInteractionStart={handleInteractionStart}
-          />
-        </Canvas>
       </div>
-
-      {/* Sidebar */}
-      <LocationSidebar
-        activeTown={activeTown}
-        onSelectTown={(town) => {
-          setActiveTown(town);
-          handleInteractionStart();
-        }}
-      />
-
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '20px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: 'rgba(0, 0, 0, 0.9)',
-          color: 'white',
-          padding: '14px 24px',
-          borderRadius: '12px',
-          fontFamily: 'Roboto, sans-serif',
-          fontSize: '13px',
-          fontWeight: 700,
-          textAlign: 'center',
-          border: '2px solid #FF6600',
-          pointerEvents: 'none',
-        }}
-      >
-        Click markers to fly to locations
-      </div>
-    </div>
     </>
   );
 }
