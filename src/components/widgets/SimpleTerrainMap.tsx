@@ -265,19 +265,21 @@ function StateBorders() {
           return { x, z: -z };
         };
 
-        geojson.features.forEach((feature: any) => {
+        geojson.features.forEach((feature: { properties?: { name?: string }; geometry: { type: string; coordinates: unknown } }) => {
           // Skip Alaska and Hawaii
           const stateName = feature.properties?.name;
           if (stateName === 'Alaska' || stateName === 'Hawaii') {
             return;
           }
 
-          const processCoordinates = (coords: any) => {
-            if (coords.length > 0 && Array.isArray(coords[0])) {
+          const processCoordinates = (coords: unknown): void => {
+            if (!Array.isArray(coords) || coords.length === 0) return;
+
+            if (Array.isArray(coords[0])) {
               if (typeof coords[0][0] === 'number') {
                 // This is a line of coordinates
                 const points: THREE.Vector3[] = [];
-                coords.forEach(([lon, lat]: [number, number]) => {
+                (coords as [number, number][]).forEach(([lon, lat]) => {
                   const { x, z } = latLonToTerrain(lon, lat);
                   const y = getHeight(x, z) + 0.08;
                   points.push(new THREE.Vector3(x, y, z));
@@ -288,7 +290,7 @@ function StateBorders() {
                 }
               } else {
                 // This is a polygon or multipolygon, recurse
-                coords.forEach((subCoords: any) => processCoordinates(subCoords));
+                coords.forEach((subCoords: unknown) => processCoordinates(subCoords));
               }
             }
           };
@@ -296,7 +298,7 @@ function StateBorders() {
           if (feature.geometry.type === 'Polygon') {
             processCoordinates(feature.geometry.coordinates);
           } else if (feature.geometry.type === 'MultiPolygon') {
-            feature.geometry.coordinates.forEach((polygon: any) => {
+            (feature.geometry.coordinates as unknown[]).forEach((polygon: unknown) => {
               processCoordinates(polygon);
             });
           }
