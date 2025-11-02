@@ -107,7 +107,6 @@ function getHeight(x: number, z: number): number {
 // Terrain mesh with heightmap texture
 function Terrain() {
   const meshRef = useRef<THREE.Mesh>(null);
-  const [heightTexture, setHeightTexture] = useState<THREE.Texture | null>(null);
 
   useEffect(() => {
     const img = new Image();
@@ -310,7 +309,8 @@ function StateBorders() {
   return (
     <group>
       {borderGeometries.map((geometry, i) => (
-        <line key={i} geometry={geometry}>
+        <line key={i}>
+          <bufferGeometry attach="geometry" {...geometry} />
           <lineBasicMaterial color="#FF6600" linewidth={1} opacity={0.4} transparent />
         </line>
       ))}
