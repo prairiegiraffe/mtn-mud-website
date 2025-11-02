@@ -3,6 +3,14 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Html, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
+declare global {
+  interface Window {
+    __terrainColorCanvas?: HTMLCanvasElement;
+    __terrainColorDataUrl?: string;
+    __terrainMaterial?: THREE.MeshLambertMaterial;
+  }
+}
+
 // Heightmap aspect ratio (px) to keep north/south scaling accurate
 const HEIGHTMAP_WIDTH_PX = 1517;
 const HEIGHTMAP_HEIGHT_PX = 1119;
@@ -11,7 +19,7 @@ const HEIGHTMAP_ASPECT = HEIGHTMAP_HEIGHT_PX / HEIGHTMAP_WIDTH_PX;
 // Simple terrain dimensions sized for the cropped map
 const TERRAIN_WIDTH = 60;
 const TERRAIN_HEIGHT = TERRAIN_WIDTH * HEIGHTMAP_ASPECT;
-const HEIGHT_SCALE = 0.5;
+const HEIGHT_SCALE = 0.8;
 
 type Town = {
   id: string;
@@ -65,11 +73,14 @@ const towns: readonly Town[] = [
   },
 ] as const;
 
-const DEFAULT_CAMERA_POSITION = new THREE.Vector3(-12, 7, -10);
-const DEFAULT_CAMERA_TARGET = new THREE.Vector3(5, 2.5, 0.5);
+// Gillette coordinates: x: -7.6, z: -2.9
+// Camera positioned south-southeast at shallow angle: Cheyenne foreground, Gillette center, Williston top-right
+const DEFAULT_CAMERA_POSITION = new THREE.Vector3(-7.6 + 4, 4, -2.9 + 8);
+const DEFAULT_CAMERA_TARGET = new THREE.Vector3(-7.6 - 1, 1, -2.9 - 4);
 
 // Store heightmap globally
 let heightmapData: ImageData | null = null;
+let heightmapStats = { min: 0, max: 255 };
 
 // Get terrain height at position
 function getHeight(x: number, z: number): number {
@@ -87,8 +98,10 @@ function getHeight(x: number, z: number): number {
 
   const pixelIndex = (safeY * heightmapData.width + safeX) * 4;
   const brightness = heightmapData.data[pixelIndex];
+  const range = heightmapStats.max - heightmapStats.min || 1;
+  const normalized = THREE.MathUtils.clamp((brightness - heightmapStats.min) / range, 0, 1);
 
-  return (brightness / 255) * HEIGHT_SCALE;
+  return normalized * HEIGHT_SCALE;
 }
 
 // Terrain mesh with heightmap texture
@@ -99,7 +112,7 @@ function Terrain() {
   useEffect(() => {
     const img = new Image();
     img.crossOrigin = 'anonymous';
-    img.src = `/heightmap-north-america-cropped.png?v=${Date.now()}`;
+    img.src = `/heightmap-north-america-cropped.png?v=${Math.random()}`;
 
     img.onload = () => {
       if (!meshRef.current) return;
@@ -112,8 +125,17 @@ function Terrain() {
 
       ctx.drawImage(img, 0, 0);
       heightmapData = ctx.getImageData(0, 0, img.width, img.height);
+      let min = 255;
+      let max = 0;
+      for (let i = 0; i < heightmapData.data.length; i += 4) {
+        const value = heightmapData.data[i];
+        if (value < min) min = value;
+        if (value > max) max = value;
+      }
+      heightmapStats = { min, max };
 
       console.log('✅ Heightmap loaded:', img.width, 'x', img.height);
+      console.log('📈 Heightmap range:', min, 'to', max);
 
       // Create colorized texture from heightmap
       const colorCanvas = document.createElement('canvas');
@@ -126,26 +148,21 @@ function Terrain() {
       colorCtx.drawImage(img, 0, 0);
       const imageData = colorCtx.getImageData(0, 0, img.width, img.height);
 
-      // Colorize based on elevation with extra contrast
+      // Single color for the entire terrain
+      const terrainColor = new THREE.Color('#6B5D4F');
+
+      // Colorize based on elevation with contrast boost
       const { width, height } = imageData;
       const tmpColor = new THREE.Color();
 
       for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
           const idx = (y * width + x) * 4;
-          const sample = heightmapData.data[idx] / 255;
 
-          const elevation = Math.pow(sample, 0.95);
-          const hue = THREE.MathUtils.lerp(0.36, 0.03, elevation);
-          const sat = THREE.MathUtils.lerp(0.7, 0.5, elevation);
-          const light = THREE.MathUtils.lerp(0.32, 0.82, elevation);
+          // Use single color for entire terrain
+          tmpColor.copy(terrainColor);
 
-          tmpColor.setHSL(hue, sat, light);
-          let r = tmpColor.r * 255;
-          let g = tmpColor.g * 255;
-          let b = tmpColor.b * 255;
-
-          // Simple slope-based shading for extra definition
+          // Simple slope-based shading for subtle depth
           const leftIdx = (y * width + Math.max(x - 1, 0)) * 4;
           const rightIdx = (y * width + Math.min(x + 1, width - 1)) * 4;
           const upIdx = (Math.max(y - 1, 0) * width + x) * 4;
@@ -155,11 +172,11 @@ function Terrain() {
           const dy = (heightmapData.data[downIdx] - heightmapData.data[upIdx]) / 255;
 
           const slope = Math.sqrt(dx * dx + dy * dy);
-          const shade = THREE.MathUtils.clamp(1.22 - slope * 2.4 + elevation * 0.4, 0.85, 1.35);
+          const shade = THREE.MathUtils.clamp(1.0 - slope * 0.3, 0.7, 1.3);
 
-          r = THREE.MathUtils.clamp(r * shade, 0, 255);
-          g = THREE.MathUtils.clamp(g * shade, 0, 255);
-          b = THREE.MathUtils.clamp(b * shade, 0, 255);
+          const r = THREE.MathUtils.clamp(tmpColor.r * 255 * shade, 0, 255);
+          const g = THREE.MathUtils.clamp(tmpColor.g * 255 * shade, 0, 255);
+          const b = THREE.MathUtils.clamp(tmpColor.b * 255 * shade, 0, 255);
 
           imageData.data[idx] = Math.round(r);
           imageData.data[idx + 1] = Math.round(g);
@@ -170,15 +187,27 @@ function Terrain() {
       colorCtx.putImageData(imageData, 0, 0);
       console.log('🎨 Colorized sample:', imageData.data[0], imageData.data[1], imageData.data[2]);
       console.log('✅ Colorized texture created');
+      const topLeft = colorCtx.getImageData(0, 0, 1, 1).data;
+      console.log('🧪 Canvas top-left pixel:', topLeft[0], topLeft[1], topLeft[2]);
 
       const texture = new THREE.CanvasTexture(colorCanvas);
+      if (typeof window !== 'undefined') {
+        window.__terrainColorCanvas = colorCanvas;
+        window.__terrainColorDataUrl = colorCanvas.toDataURL('image/png');
+        console.log('🧪 Debug texture URL preview:', window.__terrainColorDataUrl.slice(0, 80), '...');
+      }
       texture.colorSpace = THREE.SRGBColorSpace;
       texture.wrapS = THREE.ClampToEdgeWrapping;
       texture.wrapT = THREE.ClampToEdgeWrapping;
       texture.flipY = false; // THREE.js flips textures by default, we want it NOT flipped
       texture.anisotropy = 8;
       texture.needsUpdate = true;
-      setHeightTexture(texture);
+
+      console.log('🎨 Texture created:', texture);
+      console.log('📊 Canvas dimensions:', colorCanvas.width, 'x', colorCanvas.height);
+
+      // Don't apply the texture - we're using solid color instead
+      // setHeightTexture(texture);
 
       // Apply heights to terrain geometry
       const geometry = meshRef.current.geometry as THREE.PlaneGeometry;
@@ -200,16 +229,92 @@ function Terrain() {
 
   return (
     <>
-      {/* Main terrain with colorized heightmap texture */}
+      {/* Main terrain with solid color */}
       <mesh ref={meshRef} rotation={[-Math.PI / 2, 0, 0]} receiveShadow castShadow>
-        <planeGeometry args={[TERRAIN_WIDTH, TERRAIN_HEIGHT, 250, 150]} />
-        {heightTexture ? (
-          <meshStandardMaterial map={heightTexture} metalness={0} roughness={0.95} />
-        ) : (
-          <meshStandardMaterial color="#8B7355" metalness={0.15} roughness={0.85} />
-        )}
+        <planeGeometry args={[TERRAIN_WIDTH, TERRAIN_HEIGHT, 300, 200]} />
+        <meshStandardMaterial
+          color="#6B5545"
+          roughness={1.0}
+          metalness={0.0}
+        />
       </mesh>
     </>
+  );
+}
+
+// State border lines from GeoJSON
+function StateBorders() {
+  const [borderGeometries, setBorderGeometries] = useState<THREE.BufferGeometry[]>([]);
+
+  useEffect(() => {
+    fetch('/us-states.geojson')
+      .then((res) => res.json())
+      .then((geojson) => {
+        const geometries: THREE.BufferGeometry[] = [];
+
+        // Lat/Lon bounds for North America view including Pacific and Canada
+        const minLat = 22; // Southern Mexico/Caribbean
+        const maxLat = 61.5; // Northern Canada
+        const minLon = -136; // Pacific Ocean
+        const maxLon = -53.5; // Atlantic Ocean
+
+        // Convert lat/lon to terrain coordinates
+        const latLonToTerrain = (lon: number, lat: number) => {
+          const x = ((lon - minLon) / (maxLon - minLon)) * TERRAIN_WIDTH - TERRAIN_WIDTH / 2;
+          const z = ((lat - minLat) / (maxLat - minLat)) * TERRAIN_HEIGHT - TERRAIN_HEIGHT / 2;
+          // Flip Z because latitude increases north but Z increases south in the map
+          return { x, z: -z };
+        };
+
+        geojson.features.forEach((feature: any) => {
+          // Skip Alaska and Hawaii
+          const stateName = feature.properties?.name;
+          if (stateName === 'Alaska' || stateName === 'Hawaii') {
+            return;
+          }
+
+          const processCoordinates = (coords: any) => {
+            if (coords.length > 0 && Array.isArray(coords[0])) {
+              if (typeof coords[0][0] === 'number') {
+                // This is a line of coordinates
+                const points: THREE.Vector3[] = [];
+                coords.forEach(([lon, lat]: [number, number]) => {
+                  const { x, z } = latLonToTerrain(lon, lat);
+                  const y = getHeight(x, z) + 0.08;
+                  points.push(new THREE.Vector3(x, y, z));
+                });
+                if (points.length > 1) {
+                  const geometry = new THREE.BufferGeometry().setFromPoints(points);
+                  geometries.push(geometry);
+                }
+              } else {
+                // This is a polygon or multipolygon, recurse
+                coords.forEach((subCoords: any) => processCoordinates(subCoords));
+              }
+            }
+          };
+
+          if (feature.geometry.type === 'Polygon') {
+            processCoordinates(feature.geometry.coordinates);
+          } else if (feature.geometry.type === 'MultiPolygon') {
+            feature.geometry.coordinates.forEach((polygon: any) => {
+              processCoordinates(polygon);
+            });
+          }
+        });
+
+        setBorderGeometries(geometries);
+      });
+  }, []);
+
+  return (
+    <group>
+      {borderGeometries.map((geometry, i) => (
+        <line key={i} geometry={geometry}>
+          <lineBasicMaterial color="#FF6600" linewidth={1} opacity={0.4} transparent />
+        </line>
+      ))}
+    </group>
   );
 }
 
@@ -253,7 +358,7 @@ function TownMarker({ town, isActive, onClick }: { town: Town; isActive: boolean
       <pointLight color="#FF6600" intensity={isActive ? 6 : 3} distance={12} />
 
       {/* Label */}
-      <Html position={[0, 1, 0]} center>
+      <Html position={[0, 1, 0]} center zIndexRange={[0, 0]}>
         <div
           style={{
             background: 'rgba(0, 0, 0, 0.9)',
@@ -278,7 +383,15 @@ function TownMarker({ town, isActive, onClick }: { town: Town; isActive: boolean
 }
 
 // Camera rig with orbit controls and smooth fly-to-town animation
-function CameraRig({ activeTown }: { activeTown: Town | null }) {
+function CameraRig({
+  activeTown,
+  onInteractionStart,
+  controlsEnabled,
+}: {
+  activeTown: Town | null;
+  onInteractionStart: () => void;
+  controlsEnabled: boolean;
+}) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const controlsRef = useRef<any>(null);
   const { camera } = useThree();
@@ -347,16 +460,28 @@ function CameraRig({ activeTown }: { activeTown: Town | null }) {
       enableDamping
       dampingFactor={0.08}
       enablePan={false}
+      enabled={controlsEnabled}
       minDistance={6}
       maxDistance={80}
       minPolarAngle={Math.PI / 5}
       maxPolarAngle={(Math.PI * 0.95) / 2}
+      onChange={onInteractionStart}
     />
   );
 }
 
 // Main scene
-function Scene({ activeTown, setActiveTown }: { activeTown: Town | null; setActiveTown: (town: Town | null) => void }) {
+function Scene({
+  activeTown,
+  setActiveTown,
+  controlsEnabled,
+  onInteractionStart,
+}: {
+  activeTown: Town | null;
+  setActiveTown: (town: Town | null) => void;
+  controlsEnabled: boolean;
+  onInteractionStart: () => void;
+}) {
   const [isAutoPlaying, setIsAutoPlaying] = useState(false);
   const autoPlayIndex = useRef(0);
 
@@ -373,16 +498,17 @@ function Scene({ activeTown, setActiveTown }: { activeTown: Town | null; setActi
 
   return (
     <>
-      {/* Enhanced lighting for better terrain visibility */}
-      <ambientLight intensity={1.8} />
-      <directionalLight position={[10, 20, 10]} intensity={2.5} castShadow />
-      <directionalLight position={[-10, 15, -5]} intensity={1.8} />
-      <directionalLight position={[0, 10, -20]} intensity={1.2} />
-      <hemisphereLight color="#ffffff" groundColor="#4A3A2A" intensity={2} />
-      <pointLight position={[0, 30, 0]} intensity={1.5} color="#FFE5CC" distance={100} />
+      {/* Enhanced lighting for dramatic map-like shadows */}
+      <ambientLight intensity={0.05} />
+      <directionalLight position={[12, 18, 10]} intensity={2.3} castShadow color="#fff5e6" />
+      <directionalLight position={[-14, 12, -6]} intensity={0.15} color="#dfe7ff" />
+      <hemisphereLight color="#fff3cc" groundColor="#050200" intensity={0.1} />
 
       {/* Terrain */}
       <Terrain />
+
+      {/* State Borders */}
+      <StateBorders />
 
       {/* Towns */}
       {towns.map((town) => (
@@ -393,12 +519,13 @@ function Scene({ activeTown, setActiveTown }: { activeTown: Town | null; setActi
           onClick={() => {
             setActiveTown(town);
             setIsAutoPlaying(false);
+            onInteractionStart();
           }}
         />
       ))}
 
       {/* Camera */}
-      <CameraRig activeTown={activeTown} />
+      <CameraRig activeTown={activeTown} onInteractionStart={onInteractionStart} controlsEnabled={controlsEnabled} />
     </>
   );
 }
@@ -411,20 +538,27 @@ function LocationSidebar({
   activeTown: Town | null;
   onSelectTown: (town: Town) => void;
 }) {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <div
       style={{
-        position: 'fixed',
-        right: 0,
-        top: 0,
-        width: '400px',
-        height: '100vh',
+        position: 'absolute',
+        right: isMobile ? 'auto' : 0,
+        left: isMobile ? 0 : 'auto',
+        bottom: isMobile ? 0 : 'auto',
+        top: isMobile ? 'auto' : 0,
+        width: '100%',
+        maxWidth: isMobile ? '100%' : '400px',
+        height: isMobile ? '40%' : '100%',
         background: 'rgba(26, 26, 26, 0.95)',
         backdropFilter: 'blur(10px)',
-        borderLeft: '3px solid #FF6600',
+        borderLeft: isMobile ? 'none' : '3px solid #FF6600',
+        borderTop: isMobile ? '3px solid #FF6600' : 'none',
+        borderRadius: isMobile ? '16px 16px 0 0' : '16px 0 0 16px',
         zIndex: 1000,
         overflowY: 'auto',
-        padding: '30px',
+        padding: '20px',
         fontFamily: 'Roboto, sans-serif',
       }}
     >
@@ -625,13 +759,30 @@ function LocationSidebar({
 export default function SimpleTerrainMap() {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTown, setActiveTown] = useState<Town | null>(null);
+  const [controlsEnabled, setControlsEnabled] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1200);
   }, []);
 
+  const handleInteractionStart = () => {
+    if (!controlsEnabled) {
+      setControlsEnabled(true);
+    }
+  };
+
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', overflow: 'hidden' }}>
+    <div
+      style={{
+        width: '100%',
+        maxWidth: '90vw',
+        height: '85vh',
+        margin: '0 auto',
+        position: 'relative',
+        overflow: 'hidden',
+        borderRadius: '16px',
+      }}
+    >
       {isLoading && (
         <div
           style={{
@@ -661,15 +812,31 @@ export default function SimpleTerrainMap() {
       )}
 
       <Canvas
-        camera={{ position: [-12, 7, -10], fov: 55 }}
+        camera={{ position: [-3.6, 4, 5.1], fov: 45 }}
         shadows
-        style={{ background: 'linear-gradient(to bottom, #1A2A3A 0%, #2A3A4A 100%)' }}
+        style={{
+          background: 'linear-gradient(to bottom, #1A2A3A 0%, #2A3A4A 100%)',
+          borderRadius: '16px',
+          cursor: controlsEnabled ? 'grab' : 'pointer',
+        }}
+        onClick={handleInteractionStart}
       >
-        <Scene activeTown={activeTown} setActiveTown={setActiveTown} />
+        <Scene
+          activeTown={activeTown}
+          setActiveTown={setActiveTown}
+          controlsEnabled={controlsEnabled}
+          onInteractionStart={handleInteractionStart}
+        />
       </Canvas>
 
       {/* Sidebar */}
-      <LocationSidebar activeTown={activeTown} onSelectTown={setActiveTown} />
+      <LocationSidebar
+        activeTown={activeTown}
+        onSelectTown={(town) => {
+          setActiveTown(town);
+          handleInteractionStart();
+        }}
+      />
 
       <div
         style={{
