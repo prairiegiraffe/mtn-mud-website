@@ -538,27 +538,10 @@ function LocationSidebar({
   activeTown: Town | null;
   onSelectTown: (town: Town) => void;
 }) {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
   return (
     <div
+      className="location-sidebar"
       style={{
-        position: 'absolute',
-        right: isMobile ? 'auto' : 0,
-        left: isMobile ? 0 : 'auto',
-        bottom: isMobile ? 0 : 'auto',
-        top: isMobile ? 'auto' : 0,
-        width: '100%',
-        maxWidth: isMobile ? '100%' : '400px',
-        height: isMobile ? '40%' : '100%',
-        background: 'rgba(26, 26, 26, 0.95)',
-        backdropFilter: 'blur(10px)',
-        borderLeft: isMobile ? 'none' : '3px solid #FF6600',
-        borderTop: isMobile ? '3px solid #FF6600' : 'none',
-        borderRadius: isMobile ? '16px 16px 0 0' : '16px 0 0 16px',
-        zIndex: 1000,
-        overflowY: 'auto',
-        padding: '20px',
         fontFamily: 'Roboto, sans-serif',
       }}
     >
@@ -772,17 +755,64 @@ export default function SimpleTerrainMap() {
   };
 
   return (
-    <div
-      style={{
-        width: '100%',
-        maxWidth: '90vw',
-        height: '85vh',
-        margin: '0 auto',
-        position: 'relative',
-        overflow: 'hidden',
-        borderRadius: '16px',
-      }}
-    >
+    <>
+      <style>{`
+        .terrain-map-container {
+          width: 100%;
+          max-width: 90vw;
+          height: 85vh;
+          margin: 0 auto;
+          position: relative;
+          overflow: hidden;
+          border-radius: 16px;
+        }
+
+        .location-sidebar {
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 100%;
+          max-width: 400px;
+          height: 100%;
+          background: rgba(26, 26, 26, 0.95);
+          backdrop-filter: blur(10px);
+          border-left: 3px solid #FF6600;
+          border-radius: 16px 0 0 16px;
+          z-index: 1000;
+          overflow-y: auto;
+          padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+          .terrain-map-container {
+            max-width: 100vw;
+            height: auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            border-radius: 0;
+          }
+
+          .location-sidebar {
+            position: relative;
+            right: auto;
+            top: auto;
+            max-width: 100%;
+            height: auto;
+            border-left: none;
+            border-top: 3px solid #FF6600;
+            border-radius: 0;
+            order: 2;
+          }
+
+          .terrain-canvas-wrapper {
+            order: 1;
+            height: 60vh;
+            min-height: 400px;
+          }
+        }
+      `}</style>
+      <div className="terrain-map-container">
       {isLoading && (
         <div
           style={{
@@ -811,23 +841,26 @@ export default function SimpleTerrainMap() {
         </div>
       )}
 
-      <Canvas
-        camera={{ position: [-3.6, 4, 5.1], fov: 45 }}
-        shadows
-        style={{
-          background: 'linear-gradient(to bottom, #1A2A3A 0%, #2A3A4A 100%)',
-          borderRadius: '16px',
-          cursor: controlsEnabled ? 'grab' : 'pointer',
-        }}
-        onClick={handleInteractionStart}
-      >
-        <Scene
-          activeTown={activeTown}
-          setActiveTown={setActiveTown}
-          controlsEnabled={controlsEnabled}
-          onInteractionStart={handleInteractionStart}
-        />
-      </Canvas>
+      <div className="terrain-canvas-wrapper" style={{ height: '100%' }}>
+        <Canvas
+          camera={{ position: [-3.6, 4, 5.1], fov: 45 }}
+          shadows
+          style={{
+            background: 'linear-gradient(to bottom, #1A2A3A 0%, #2A3A4A 100%)',
+            borderRadius: '16px',
+            cursor: controlsEnabled ? 'grab' : 'pointer',
+            height: '100%',
+          }}
+          onClick={handleInteractionStart}
+        >
+          <Scene
+            activeTown={activeTown}
+            setActiveTown={setActiveTown}
+            controlsEnabled={controlsEnabled}
+            onInteractionStart={handleInteractionStart}
+          />
+        </Canvas>
+      </div>
 
       {/* Sidebar */}
       <LocationSidebar
@@ -859,5 +892,6 @@ export default function SimpleTerrainMap() {
         Click markers to fly to locations
       </div>
     </div>
+    </>
   );
 }
