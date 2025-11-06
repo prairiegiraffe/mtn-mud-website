@@ -22,11 +22,15 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO - Full-width with overlay -->
-  <section
-    class="relative bg-charcoal-900 overflow-hidden"
-    style={`background-image: url(${mountainMudStorageTanks.src}); background-size: cover; background-position: center;`}
-  >
+  <section class="relative bg-charcoal-900 overflow-hidden min-h-[600px] md:min-h-[700px]">
+    <!-- Background Image -->
+    <div
+      class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={`background-image: url('${mountainMudStorageTanks.src}');`}
+    ></div>
+    <!-- Dark Overlay -->
     <div class="absolute inset-0 bg-charcoal-900/40"></div>
+    <!-- Gradient Overlay -->
     <div class="absolute inset-0 bg-gradient-to-r from-charcoal-900/90 via-charcoal-900/70 to-transparent"></div>
 
     <div class="container mx-auto px-10 py-32 md:py-48 max-w-7xl relative z-10">

@@ -11,6 +11,7 @@ import react from '@astrojs/react';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 import type { AstroIntegration } from 'astro';
+import PinyAstro from '@pinegrow/piny-astro';
 
 import astrowind from './vendor/integration';
 
@@ -71,6 +72,8 @@ export default defineConfig({
     astrowind({
       config: './src/config.yaml',
     }),
+
+    PinyAstro(),
   ],
 
   image: {

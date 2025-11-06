@@ -21,11 +21,15 @@ const activeJobs = allJobs
 
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
-  <section
-    class="relative bg-charcoal-900 overflow-hidden"
-    style={`background-image: url(${constructionWorkerOnSite.src}); background-size: cover; background-position: center;`}
-  >
+  <section class="relative bg-charcoal-900 overflow-hidden min-h-[600px] md:min-h-[700px]">
+    <!-- Background Image -->
+    <div
+      class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={`background-image: url('${constructionWorkerOnSite.src}');`}
+    ></div>
+    <!-- Dark Overlay -->
     <div class="absolute inset-0 bg-charcoal-900/50"></div>
+    <!-- Gradient Overlay -->
     <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/80 via-charcoal-900/70 to-charcoal-900"></div>
 
     <div class="container mx-auto px-4 max-w-5xl py-28 md:py-40 text-center relative z-10">
