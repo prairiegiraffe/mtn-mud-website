@@ -21,15 +21,12 @@ const activeJobs = allJobs
 
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
-  <section class="relative bg-charcoal-900 overflow-hidden min-h-[100svh] md:min-h-0">
-    <div class="absolute inset-0 min-h-[100svh] md:min-h-0">
-      <Image
-        src={constructionWorkerOnSite}
-        alt="Join the Mountain Mud team"
-        class="w-full h-full min-h-[100svh] md:min-h-0 object-cover opacity-50"
-      />
-      <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/80 via-charcoal-900/70 to-charcoal-900"></div>
-    </div>
+  <section
+    class="relative bg-charcoal-900 overflow-hidden"
+    style={`background-image: url(${constructionWorkerOnSite.src}); background-size: cover; background-position: center;`}
+  >
+    <div class="absolute inset-0 bg-charcoal-900/50"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/80 via-charcoal-900/70 to-charcoal-900"></div>
 
     <div class="container mx-auto px-4 max-w-5xl py-28 md:py-40 text-center relative z-10">
       <div
