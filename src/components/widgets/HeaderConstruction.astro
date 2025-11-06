@@ -396,7 +396,7 @@ const isActivePath = (path: string) => {
     line-height: 1;
   }
 
-  /* Hide hamburger toggle on mobile */
+  /* Hide hamburger toggle on desktop, show on mobile */
   .navbar-right.d-inline-flex {
     display: none !important;
   }
@@ -404,7 +404,7 @@ const isActivePath = (path: string) => {
   /* Override any conflicting Bootstrap classes */
   @media (max-width: 991px) {
     .navbar-right.d-lg-none {
-      display: none !important;
+      display: inline-flex !important;
     }
   }
 
