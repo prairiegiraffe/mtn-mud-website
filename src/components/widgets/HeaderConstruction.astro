@@ -1,5 +1,4 @@
 ---
-import { Image } from 'astro:assets';
 import mtnMudLogo from '~/assets/images/Logos/mtn-mud-logo-color.svg';
 
 // This header uses the Construz template styles
@@ -49,12 +48,24 @@ const isActivePath = (path: string) => {
                 <ul>
                   <li>
                     <div class="social-links">
-                      <a href="https://www.facebook.com/mtnmud" target="_blank" rel="noopener noreferrer"><i class="ri-facebook-fill"></i></a>
-                      <a href="https://www.instagram.com/MTN_MUD" target="_blank" rel="noopener noreferrer"><i class="ri-instagram-line"></i></a>
-                      <a href="https://www.tiktok.com/@mtn_mud" target="_blank" rel="noopener noreferrer"><i class="ri-tiktok-fill"></i></a>
-                      <a href="https://www.linkedin.com/company/mountainmud/" target="_blank" rel="noopener noreferrer"><i class="ri-linkedin-fill"></i></a>
-                      <a href="https://www.youtube.com/@MTN_MUD" target="_blank" rel="noopener noreferrer"><i class="ri-youtube-fill"></i></a>
-                      <a href="https://linktr.ee/MTN_MUD" target="_blank" rel="noopener noreferrer"><i class="ri-links-line"></i></a>
+                      <a href="https://www.facebook.com/mtnmud" target="_blank" rel="noopener noreferrer"
+                        ><i class="ri-facebook-fill"></i></a
+                      >
+                      <a href="https://www.instagram.com/MTN_MUD" target="_blank" rel="noopener noreferrer"
+                        ><i class="ri-instagram-line"></i></a
+                      >
+                      <a href="https://www.tiktok.com/@mtn_mud" target="_blank" rel="noopener noreferrer"
+                        ><i class="ri-tiktok-fill"></i></a
+                      >
+                      <a href="https://www.linkedin.com/company/mountainmud/" target="_blank" rel="noopener noreferrer"
+                        ><i class="ri-linkedin-fill"></i></a
+                      >
+                      <a href="https://www.youtube.com/@MTN_MUD" target="_blank" rel="noopener noreferrer"
+                        ><i class="ri-youtube-fill"></i></a
+                      >
+                      <a href="https://linktr.ee/MTN_MUD" target="_blank" rel="noopener noreferrer"
+                        ><i class="ri-links-line"></i></a
+                      >
                     </div>
                   </li>
                 </ul>
@@ -108,7 +119,11 @@ const isActivePath = (path: string) => {
                   <li class={isActivePath('/') ? 'active' : ''}>
                     <a href="/">HOME</a>
                   </li>
-                  <li class={isActivePath('/about') || isActivePath('/team') || isActivePath('/safety') ? 'active menu-item-has-children' : 'menu-item-has-children'}>
+                  <li
+                    class={isActivePath('/about') || isActivePath('/team') || isActivePath('/safety')
+                      ? 'active menu-item-has-children'
+                      : 'menu-item-has-children'}
+                  >
                     <a href="/about">ABOUT</a>
                     <ul class="sub-menu">
                       <li><a href="/about">About Us</a></li>
@@ -116,7 +131,11 @@ const isActivePath = (path: string) => {
                       <li><a href="/safety">Safety</a></li>
                     </ul>
                   </li>
-                  <li class={isActivePath('/services') || isActivePath('/mud-lab') ? 'active menu-item-has-children' : 'menu-item-has-children'}>
+                  <li
+                    class={isActivePath('/services') || isActivePath('/mud-lab')
+                      ? 'active menu-item-has-children'
+                      : 'menu-item-has-children'}
+                  >
                     <a href="/services">SERVICES</a>
                     <ul class="sub-menu">
                       <li><a href="/services">All Services</a></li>
@@ -430,7 +449,7 @@ const isActivePath = (path: string) => {
 
 <script is:inline>
   // Wait for DOM to be fully loaded
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     // Sticky Header
     const stickyWrapper = document.getElementById('stickyWrapper');
 
@@ -472,7 +491,7 @@ const isActivePath = (path: string) => {
       toggle: mobileMenuToggle,
       menu: mobileMenu,
       close: mobileMenuClose,
-      overlay: mobileMenuOverlay
+      overlay: mobileMenuOverlay,
     });
 
     mobileMenuToggle?.addEventListener('click', (e) => {

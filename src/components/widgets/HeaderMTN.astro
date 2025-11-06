@@ -546,7 +546,6 @@ const isActivePath = (path: string) => {
 
 <script>
   // Sticky Header
-  let lastScroll = 0;
   const stickyHeader = document.getElementById('stickyHeader');
 
   window.addEventListener('scroll', () => {
@@ -556,7 +555,6 @@ const isActivePath = (path: string) => {
     } else {
       stickyHeader?.classList.remove('sticky-active');
     }
-    lastScroll = currentScroll;
   });
 
   // Search Popup
@@ -594,11 +592,7 @@ const isActivePath = (path: string) => {
   // Close mobile menu when clicking outside
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
-    if (
-      mobileMenu?.classList.contains('show') &&
-      !mobileMenu.contains(target) &&
-      target !== mobileMenuToggle
-    ) {
+    if (mobileMenu?.classList.contains('show') && !mobileMenu.contains(target) && target !== mobileMenuToggle) {
       mobileMenu.classList.remove('show');
     }
   });

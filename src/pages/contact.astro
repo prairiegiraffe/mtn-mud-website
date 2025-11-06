@@ -13,7 +13,11 @@ const metadata = {
   <section class="relative bg-charcoal-900 overflow-hidden">
     <div class="absolute inset-0">
       <div class="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900"></div>
-      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(221, 94, 38, 0.15) 1px, transparent 0); background-size: 40px 40px;"></div>
+      <div
+        class="absolute inset-0 opacity-10"
+        style="background-image: radial-gradient(circle at 2px 2px, rgba(221, 94, 38, 0.15) 1px, transparent 0); background-size: 40px 40px;"
+      >
+      </div>
     </div>
 
     <div class="container mx-auto px-10 py-32 md:py-48 max-w-7xl relative z-10">
@@ -27,7 +31,8 @@ const metadata = {
           Let's Talk About<br />Your Project
         </h1>
         <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed mb-10">
-          Have questions about our drilling fluid services, products, or capabilities? Need immediate technical support? Want to discuss a custom solution for your next project? We're here to help—24 hours a day, 7 days a week.
+          Have questions about our drilling fluid services, products, or capabilities? Need immediate technical support?
+          Want to discuss a custom solution for your next project? We're here to help—24 hours a day, 7 days a week.
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
           <a class="btn style2" href="#contact-form">Send Us a Message <i class="ri-arrow-right-up-line"></i></a>
@@ -255,7 +260,9 @@ const metadata = {
                 aria-label="LinkTree"
               >
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M13.511 5.853l4.005-4.117 2.325 2.381-4.201 4.005h5.909v3.305h-5.937l4.229 4.108-2.325 2.334-5.741-5.769-5.741 5.769-2.325-2.325 4.229-4.108H2V8.122h5.909L3.708 4.117l2.325-2.381 4.005 4.117V0h3.473v5.853zM10.038 16.16h3.473v7.842h-3.473V16.16z"/>
+                  <path
+                    d="M13.511 5.853l4.005-4.117 2.325 2.381-4.201 4.005h5.909v3.305h-5.937l4.229 4.108-2.325 2.334-5.741-5.769-5.741 5.769-2.325-2.325 4.229-4.108H2V8.122h5.909L3.708 4.117l2.325-2.381 4.005 4.117V0h3.473v5.853zM10.038 16.16h3.473v7.842h-3.473V16.16z"
+                  ></path>
                 </svg>
               </a>
             </div>
@@ -426,6 +433,7 @@ const metadata = {
     // Store map instance globally to manage lifecycle
     window.contactMap = null;
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     function initializeMap() {
       // Check if Leaflet is loaded
       if (typeof L === 'undefined') {
@@ -463,24 +471,24 @@ const metadata = {
           scrollWheelZoom: true,
           dragging: true,
           zoomControl: true,
-          preferCanvas: false
+          preferCanvas: false,
         });
 
         // Store map instance globally
         window.contactMap = map;
 
-      // Add modern tile layer with terrain
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 20,
-      }).addTo(map);
+        // Add modern tile layer with terrain
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          subdomains: 'abcd',
+          maxZoom: 20,
+        }).addTo(map);
 
-      // Custom orange marker icon
-      const orangeIcon = L.divIcon({
-        className: 'custom-marker',
-        html: `
+        // Custom orange marker icon
+        const orangeIcon = L.divIcon({
+          className: 'custom-marker',
+          html: `
           <div style="
             position: relative;
             width: 40px;
@@ -505,14 +513,14 @@ const metadata = {
             "></div>
           </div>
         `,
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-        popupAnchor: [0, -40],
-      });
+          iconSize: [40, 40],
+          iconAnchor: [20, 40],
+          popupAnchor: [0, -40],
+        });
 
-      // Add pulsing animation
-      const style = document.createElement('style');
-      style.textContent = `
+        // Add pulsing animation
+        const style = document.createElement('style');
+        style.textContent = `
         @keyframes pulse {
           0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
           50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
@@ -531,44 +539,44 @@ const metadata = {
           background: #FFFFFF;
         }
       `;
-      document.head.appendChild(style);
+        document.head.appendChild(style);
 
-      // Location data
-      const locations = [
-        {
-          coords: [44.2914, -105.5008],
-          title: 'Gillette, WY',
-          badge: 'HEADQUARTERS',
-          address: '103 E. Lincoln St.<br>Gillette, WY 82716',
-          phone: '307-682-8688',
-          email: 'alicia@kutthru.com',
-          services: ['Full mud engineering', '24/7 delivery', 'Mud lab', 'Technical support'],
-        },
-        {
-          coords: [41.14, -104.8202],
-          title: 'Cheyenne, WY',
-          badge: null,
-          address: 'Contact us for details',
-          phone: '307-682-8688',
-          email: null,
-          services: ['Drilling fluid supplies', 'Delivery services', 'Technical support'],
-        },
-        {
-          coords: [48.147, -103.6179],
-          title: 'Williston, ND',
-          badge: null,
-          address: 'Contact us for details',
-          phone: '307-682-8688',
-          email: null,
-          services: ['Full functional mud lab', 'Particle size analysis', 'Drilling fluid supplies'],
-        },
-      ];
+        // Location data
+        const locations = [
+          {
+            coords: [44.2914, -105.5008],
+            title: 'Gillette, WY',
+            badge: 'HEADQUARTERS',
+            address: '103 E. Lincoln St.<br>Gillette, WY 82716',
+            phone: '307-682-8688',
+            email: 'alicia@kutthru.com',
+            services: ['Full mud engineering', '24/7 delivery', 'Mud lab', 'Technical support'],
+          },
+          {
+            coords: [41.14, -104.8202],
+            title: 'Cheyenne, WY',
+            badge: null,
+            address: 'Contact us for details',
+            phone: '307-682-8688',
+            email: null,
+            services: ['Drilling fluid supplies', 'Delivery services', 'Technical support'],
+          },
+          {
+            coords: [48.147, -103.6179],
+            title: 'Williston, ND',
+            badge: null,
+            address: 'Contact us for details',
+            phone: '307-682-8688',
+            email: null,
+            services: ['Full functional mud lab', 'Particle size analysis', 'Drilling fluid supplies'],
+          },
+        ];
 
-      // Add markers with popups
-      locations.forEach((location) => {
-        const marker = L.marker(location.coords, { icon: orangeIcon }).addTo(map);
+        // Add markers with popups
+        locations.forEach((location) => {
+          const marker = L.marker(location.coords, { icon: orangeIcon }).addTo(map);
 
-        const popupContent = `
+          const popupContent = `
           <div style="min-width: 250px;">
             ${location.badge ? `<div style="display: inline-block; background: #FF6600; color: white; padding: 4px 12px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 1px; margin-bottom: 12px;">${location.badge}</div>` : ''}
             <h3 style="font-size: 20px; font-weight: 900; color: #FF6600; margin: 0 0 12px 0;">${location.title}</h3>
@@ -605,27 +613,27 @@ const metadata = {
           </div>
         `;
 
-        marker.bindPopup(popupContent, {
-          maxWidth: 350,
-          className: 'custom-popup',
+          marker.bindPopup(popupContent, {
+            maxWidth: 350,
+            className: 'custom-popup',
+          });
+
+          // Open popup on hover
+          marker.on('mouseover', function () {
+            this.openPopup();
+          });
         });
 
-        // Open popup on hover
-        marker.on('mouseover', function () {
-          this.openPopup();
-        });
-      });
+        // Fix map size after a short delay to ensure proper rendering
+        setTimeout(function () {
+          map.invalidateSize();
+        }, 250);
 
-      // Fix map size after a short delay to ensure proper rendering
-      setTimeout(function() {
-        map.invalidateSize();
-      }, 250);
-
-      console.log('Map initialized successfully');
-    } catch (error) {
-      console.error('Error initializing map:', error);
+        console.log('Map initialized successfully');
+      } catch (error) {
+        console.error('Error initializing map:', error);
+      }
     }
-  }
   </script>
 
   <!-- Leaflet JS - Load with async and initialize after -->
@@ -639,8 +647,8 @@ const metadata = {
   <!-- Handle Astro navigation and page load events -->
   <script is:inline>
     // Handle regular page load
-    window.addEventListener('load', function() {
-      setTimeout(function() {
+    window.addEventListener('load', function () {
+      setTimeout(function () {
         if (typeof L !== 'undefined' && document.getElementById('map')) {
           initializeMap();
         }
@@ -648,9 +656,9 @@ const metadata = {
     });
 
     // Handle Astro view transitions (if enabled)
-    document.addEventListener('astro:page-load', function() {
+    document.addEventListener('astro:page-load', function () {
       console.log('Astro page load event detected');
-      setTimeout(function() {
+      setTimeout(function () {
         if (typeof L !== 'undefined' && document.getElementById('map')) {
           initializeMap();
         }
@@ -658,7 +666,7 @@ const metadata = {
     });
 
     // Handle navigation away - cleanup
-    document.addEventListener('astro:before-preparation', function() {
+    document.addEventListener('astro:before-preparation', function () {
       if (window.contactMap) {
         try {
           window.contactMap.remove();

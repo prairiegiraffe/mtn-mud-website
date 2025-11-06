@@ -9,12 +9,7 @@ import industrialStorageTanks from '~/assets/images/Industrial Storage Tanks.jpg
 import constructionSiteAtSunset from '~/assets/images/Construction Site at Sunset.jpg';
 import oilRigWorker from '~/assets/images/Oil Rig Worker.jpg';
 import industrialFacility from '~/assets/images/Industrial Facility Aerial View.jpg';
-import constructionWorkerOperating from '~/assets/images/Construction Worker Operating Heavy Machinery.jpg';
 import oilRigStructure from '~/assets/images/Oil Rig Structure.jpg';
-import constructionSiteLoader from '~/assets/images/Construction Site Loader.jpg';
-import industrialTruck from '~/assets/images/Industrial Truck at Construction Site.jpg';
-import oilRigAndStorageTanks from '~/assets/images/Oil Rig And Storage Tanks.jpg';
-import industrialConstructionSite from '~/assets/images/Industrial Construction Site.jpg';
 
 const metadata = {
   title: 'Projects & Case Studies - MTN Mud',
@@ -206,7 +201,9 @@ const projects = [
           Proven Results Across the Rockies
         </h1>
         <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed mb-10">
-          Explore our portfolio of successful drilling fluid projects spanning the Powder River Basin, Bakken Formation, Denver-Julesburg Basin, and beyond. These aren't theoretical case studies—they're real results from real operations.
+          Explore our portfolio of successful drilling fluid projects spanning the Powder River Basin, Bakken Formation,
+          Denver-Julesburg Basin, and beyond. These aren't theoretical case studies—they're real results from real
+          operations.
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
           <a class="btn style2" href="#case-studies">View Case Studies <i class="ri-arrow-right-up-line"></i></a>
@@ -254,7 +251,7 @@ const projects = [
       <!-- Project Cards -->
       <div class="space-y-12">
         {
-          projects.map((project, index) => (
+          projects.map((project) => (
             <div
               class="bg-warm-white border-l-4 border-safety-orange rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all"
               id={project.id}
