@@ -1,0 +1,158 @@
+---
+import mtnMudLogoWhite from '~/assets/images/Logos/mtn-mud-logo-white.svg';
+
+// Footer based on Construz template Home 1 design
+---
+
+<footer
+  class="footer-wrapper footer-layout1 background-image"
+  style="background-image: url('/assets/img/bg/footer-bg1-1.png');"
+>
+  <div class="container">
+    <!-- Footer Top -->
+    <div class="footer-top-1">
+      <div class="footer-logo">
+        <a href="/">
+          <img src={mtnMudLogoWhite.src} alt="MTN Mud" style="height: 50px; width: auto;" />
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer Widget Area -->
+    <div class="widget-area">
+      <div class="row justify-content-between">
+        <!-- About Company -->
+        <div class="col-md-6 col-xl-3">
+          <div class="widget widget-about footer-widget">
+            <h3 class="widget_title">About MTN Mud</h3>
+            <p class="about-text">
+              Mountain Mud provides expert drilling fluid solutions across the Rocky Mountain region. Zero lost-time
+              accidents since 2006.
+            </p>
+            <h4 class="about-year">Since 2006</h4>
+            <h5 class="about-subtitle">WE ARE AVAILABLE</h5>
+            <p class="about-text"><span class="text-theme">24/7</span> Emergency Service</p>
+          </div>
+        </div>
+
+        <!-- Useful Links -->
+        <div class="col-md-6 col-xl-auto">
+          <div class="widget widget_nav_menu footer-widget">
+            <h3 class="widget_title">Useful Links</h3>
+            <div class="menu-all-pages-container grid-style">
+              <ul class="menu">
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/services">Our Services</a></li>
+                <li><a href="/projects">Case Studies</a></li>
+                <li><a href="/products">Products</a></li>
+                <li><a href="/careers">Careers</a></li>
+              </ul>
+              <ul class="menu">
+                <li><a href="/locations">Our Locations</a></li>
+                <li><a href="/mud-lab">Mud Lab</a></li>
+                <li><a href="/team">Our Team</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="/safety">Safety</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Office Address -->
+        <div class="col-md-6 col-xl-auto">
+          <div class="widget footer-widget widget-contact">
+            <h3 class="widget_title">Headquarters</h3>
+            <p class="contact-text">103 E. Lincoln St.<br />Gillette, WY 82716</p>
+            <h3 class="widget_title">Email Address</h3>
+            <p class="text-white footer-text">Get in Touch!</p>
+            <p class="footer-text"><a href="mailto:alicia@kutthru.com">alicia@kutthru.com</a></p>
+          </div>
+        </div>
+
+        <!-- Phone & Social -->
+        <div class="col-md-6 col-xl-auto">
+          <div class="widget footer-widget">
+            <h3 class="widget_title">Phone Number</h3>
+            <p class="footer-text"><a href="tel:307-682-8688">307-682-8688</a></p>
+            <p class="footer-text"><a href="tel:307-682-8688">24/7 Emergency Line</a></p>
+            <h3 class="widget_title">Follow Us</h3>
+            <div class="social-btn style2">
+              <a href="https://www.facebook.com/mtnmud" target="_blank" rel="noopener noreferrer"><i class="ri-facebook-fill"></i></a>
+              <a href="https://www.instagram.com/MTN_MUD" target="_blank" rel="noopener noreferrer"><i class="ri-instagram-line"></i></a>
+              <a href="https://www.tiktok.com/@mtn_mud" target="_blank" rel="noopener noreferrer"><i class="ri-tiktok-fill"></i></a>
+              <a href="https://www.linkedin.com/company/mountainmud/" target="_blank" rel="noopener noreferrer"><i class="ri-linkedin-fill"></i></a>
+              <a href="https://www.youtube.com/@MTN_MUD" target="_blank" rel="noopener noreferrer"><i class="ri-youtube-fill"></i></a>
+              <a href="https://linktr.ee/MTN_MUD" target="_blank" rel="noopener noreferrer"><i class="ri-links-line"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="container">
+    <div class="copyright-wrap">
+      <div class="row gy-3 justify-content-md-between justify-content-center">
+        <div class="col-auto align-self-center">
+          <p class="copyright-text text-center">
+            © 2025 <a href="/">Mountain Mud</a> | All rights reserved
+          </p>
+        </div>
+        <div class="col-auto">
+          <div class="footer-links">
+            <a href="/terms">Terms & Condition</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/contact">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Additional MTN Mud branding */
+  .footer-wrapper .text-theme {
+    color: #ff6600;
+  }
+
+  .footer-wrapper .btn.style2 {
+    background-color: #ff6600;
+    border-color: #ff6600;
+  }
+
+  .footer-wrapper .btn.style2:hover {
+    background-color: #e55a00;
+    border-color: #e55a00;
+  }
+
+  .footer-wrapper .social-btn.style2 a {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-wrapper .social-btn.style2 a:hover {
+    background-color: #ff6600;
+  }
+
+  .footer-wrapper .widget_title {
+    color: white;
+  }
+
+  .footer-wrapper a {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .footer-wrapper a:hover {
+    color: #ff6600;
+  }
+
+  .copyright-text a {
+    color: #ff6600;
+    font-weight: 700;
+  }
+
+  .copyright-text a:hover {
+    color: #e55a00;
+  }
+</style>

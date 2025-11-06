@@ -1,0 +1,517 @@
+---
+import { Image } from 'astro:assets';
+import mtnMudLogo from '~/assets/images/Logos/mtn-mud-logo-color.svg';
+
+// This header uses the Construz template styles
+const currentPath = Astro.url.pathname;
+
+const isActivePath = (path: string) => {
+  if (path === '/' && currentPath === '/') return true;
+  if (path !== '/' && currentPath.startsWith(path)) return true;
+  return false;
+};
+---
+
+<!-- Link to template CSS in the head -->
+<link rel="stylesheet" href="/construz-bootstrap.css" />
+<link rel="stylesheet" href="/remixicon.css" />
+<link rel="stylesheet" href="/construz-header-styles.css" />
+
+<!-- Custom button style overrides -->
+<style>
+  /* Ensure style3 (black/dark) buttons have white text on hover */
+  .btn.style3:hover,
+  .btn.style3:focus,
+  .btn.style3:active {
+    color: var(--white-color) !important;
+  }
+</style>
+
+<div class="header-decoration">
+  <!-- Search Popup -->
+  <div class="popup-search-box" id="searchPopup">
+    <button class="searchClose" id="searchClose"><i class="ri-close-line"></i></button>
+    <form action="/search">
+      <input type="text" name="q" placeholder="Search Here.." />
+      <button type="submit"><i class="ri-search-line"></i></button>
+    </form>
+  </div>
+
+  <!-- Header -->
+  <header class="nav-header header-layout1 header-decoration">
+    <!-- Header Top -->
+    <div class="header-top">
+      <div class="container">
+        <div class="row justify-content-center justify-content-lg-between align-items-center gy-2">
+          <div class="col-auto d-none d-lg-block">
+            <div class="header-top-left">
+              <div class="header-links">
+                <ul>
+                  <li>
+                    <div class="social-links">
+                      <a href="https://www.facebook.com/mtnmud" target="_blank" rel="noopener noreferrer"><i class="ri-facebook-fill"></i></a>
+                      <a href="https://www.instagram.com/MTN_MUD" target="_blank" rel="noopener noreferrer"><i class="ri-instagram-line"></i></a>
+                      <a href="https://www.tiktok.com/@mtn_mud" target="_blank" rel="noopener noreferrer"><i class="ri-tiktok-fill"></i></a>
+                      <a href="https://www.linkedin.com/company/mountainmud/" target="_blank" rel="noopener noreferrer"><i class="ri-linkedin-fill"></i></a>
+                      <a href="https://www.youtube.com/@MTN_MUD" target="_blank" rel="noopener noreferrer"><i class="ri-youtube-fill"></i></a>
+                      <a href="https://linktr.ee/MTN_MUD" target="_blank" rel="noopener noreferrer"><i class="ri-links-line"></i></a>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <div class="header-top-right">
+              <div class="header-links ps-0">
+                <ul>
+                  <li><i class="ri-time-line"></i>24/7 Service Available</li>
+                  <li>
+                    <i class="ri-map-pin-line"></i><a href="https://www.google.com/maps"
+                      >103 E. Lincoln St., Gillette, WY 82716</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Menu Area -->
+    <div class="sticky-wrapper" id="stickyWrapper">
+      <div class="menu-area">
+        <!-- Logo (Left Triangle) -->
+        <div class="header-navbar-logo">
+          <a href="/">
+            <img src={mtnMudLogo.src} alt="MTN Mud" style="height: 40px; width: auto;" />
+          </a>
+        </div>
+        <div class="logo-bg"></div>
+
+        <div class="container">
+          <div class="row align-items-center justify-content-lg-start justify-content-between">
+            <!-- Mobile Logo -->
+            <div class="col-auto d-xxl-none d-block">
+              <div class="header-logo">
+                <a href="/">
+                  <img src={mtnMudLogo.src} alt="MTN Mud" style="height: 35px; width: auto;" />
+                </a>
+              </div>
+            </div>
+
+            <!-- Menu -->
+            <div class="col-auto menu-bar ms-xxl-0">
+              <nav class="main-menu d-none d-lg-inline-block">
+                <ul>
+                  <li class={isActivePath('/') ? 'active' : ''}>
+                    <a href="/">HOME</a>
+                  </li>
+                  <li class={isActivePath('/about') || isActivePath('/team') || isActivePath('/safety') ? 'active menu-item-has-children' : 'menu-item-has-children'}>
+                    <a href="/about">ABOUT</a>
+                    <ul class="sub-menu">
+                      <li><a href="/about">About Us</a></li>
+                      <li><a href="/team">Our Team</a></li>
+                      <li><a href="/safety">Safety</a></li>
+                    </ul>
+                  </li>
+                  <li class={isActivePath('/services') || isActivePath('/mud-lab') ? 'active menu-item-has-children' : 'menu-item-has-children'}>
+                    <a href="/services">SERVICES</a>
+                    <ul class="sub-menu">
+                      <li><a href="/services">All Services</a></li>
+                      <li><a href="/mud-lab">Mud Lab</a></li>
+                    </ul>
+                  </li>
+                  <li class={isActivePath('/products') ? 'active' : ''}>
+                    <a href="/products">PRODUCTS</a>
+                  </li>
+                  <li class={isActivePath('/projects') ? 'active' : ''}>
+                    <a href="/projects">PROJECTS</a>
+                  </li>
+                  <li class={isActivePath('/locations') ? 'active' : ''}>
+                    <a href="/locations">LOCATIONS</a>
+                  </li>
+                </ul>
+              </nav>
+              <div class="navbar-right d-inline-flex d-lg-none">
+                <button type="button" class="menu-toggle" id="mobileMenuToggle">
+                  <i class="ri-menu-line"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Header Buttons -->
+            <div class="col-auto d-xl-block d-none ms-auto">
+              <div class="header-button">
+                <a class="btn style2" href="/careers">APPLY NOW <i class="ri-user-add-line"></i></a>
+                <a class="btn style3" href="/contact">GET IN TOUCH <i class="ri-arrow-right-up-line"></i></a>
+                <button type="button" class="search-btn searchBoxToggler simple-icon" id="searchToggle">
+                  <i class="ri-search-line"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone CTA (Right Corner) -->
+        <div class="navbar-right-desc d-xxl-flex d-none">
+          <div class="icon-btn">
+            <i class="ri-phone-fill"></i>
+          </div>
+          <div class="navbar-right-desc-details">
+            <h6 class="title">Call us any time</h6>
+            <a class="link" href="tel:307-682-8688">307-682-8688</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-wrapper" id="mobileMenu">
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu-visible">
+      <div class="mobile-menu-content">
+        <div class="mobile-menu-logo">
+          <a href="/">
+            <img src={mtnMudLogo.src} alt="MTN Mud" style="height: 35px; width: auto;" />
+          </a>
+        </div>
+        <button class="mobile-menu-close" id="mobileMenuClose">
+          <i class="ri-close-line"></i>
+        </button>
+        <nav class="mobile-menu-nav">
+          <ul>
+            <li><a href="/">HOME</a></li>
+            <li class="menu-item-has-children">
+              <a href="/about">ABOUT</a>
+              <ul class="sub-menu">
+                <li><a href="/about">About Us</a></li>
+                <li><a href="/team">Our Team</a></li>
+                <li><a href="/safety">Safety</a></li>
+              </ul>
+            </li>
+            <li class="menu-item-has-children">
+              <a href="/services">SERVICES</a>
+              <ul class="sub-menu">
+                <li><a href="/services">All Services</a></li>
+                <li><a href="/mud-lab">Mud Lab</a></li>
+              </ul>
+            </li>
+            <li><a href="/products">PRODUCTS</a></li>
+            <li><a href="/projects">PROJECTS</a></li>
+            <li><a href="/locations">LOCATIONS</a></li>
+            <li><a href="/careers">APPLY NOW</a></li>
+            <li><a href="/contact">CONTACT</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Additional custom styles for MTN Mud branding */
+  .header-decoration .btn {
+    background-color: #ff6600;
+    border-color: #ff6600;
+  }
+
+  .header-decoration .btn:hover {
+    background-color: #e55a00;
+    border-color: #e55a00;
+  }
+
+  .main-menu > ul > li.active > a {
+    color: #ff6600;
+  }
+
+  .mobile-menu-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 99999;
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility 0s linear 0.3s;
+  }
+
+  .mobile-menu-wrapper.show {
+    pointer-events: auto;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 99999;
+    pointer-events: none;
+  }
+
+  .mobile-menu-wrapper.show .mobile-menu-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-menu-visible {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 85% !important;
+    max-width: 320px !important;
+    height: 100vh !important;
+    background: white !important;
+    z-index: 100000 !important;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease !important;
+    overflow-y: auto !important;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .mobile-menu-wrapper.show .mobile-menu-visible {
+    transform: translateX(0) !important;
+    display: block !important;
+  }
+
+  .mobile-menu-content {
+    padding: 2rem;
+    background: white;
+    min-height: 100%;
+  }
+
+  .mobile-menu-logo {
+    margin-bottom: 2rem;
+    display: block !important;
+  }
+
+  .mobile-menu-logo img {
+    display: block !important;
+  }
+
+  .mobile-menu-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #f5f5f5 !important;
+    border: 2px solid #1a1a1a !important;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    color: #1a1a1a !important;
+    transition: all 0.3s ease;
+    z-index: 100000;
+  }
+
+  .mobile-menu-close:hover {
+    background: #ff6600 !important;
+    border-color: #ff6600 !important;
+    color: white !important;
+  }
+
+  .mobile-menu-nav ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .mobile-menu-nav li {
+    margin-bottom: 0.5rem;
+    display: block !important;
+  }
+
+  .mobile-menu-nav a {
+    color: #1a1a1a !important;
+    font-weight: 700 !important;
+    font-size: 1.125rem !important;
+    text-decoration: none !important;
+    display: block !important;
+    padding: 0.5rem 0 !important;
+    transition: color 0.3s;
+  }
+
+  .mobile-menu-nav a:hover {
+    color: #ff6600 !important;
+  }
+
+  /* Mobile submenu styles */
+  .mobile-menu-nav .menu-item-has-children > .sub-menu {
+    list-style: none !important;
+    padding-left: 1rem !important;
+    margin-top: 0.5rem !important;
+    display: block !important;
+  }
+
+  .mobile-menu-nav .menu-item-has-children > .sub-menu li {
+    margin-bottom: 0.5rem;
+    display: block !important;
+  }
+
+  .mobile-menu-nav .menu-item-has-children > .sub-menu a {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 0 !important;
+  }
+
+  /* Mobile menu toggle button */
+  .menu-toggle {
+    background: transparent !important;
+    border: 2px solid #1a1a1a !important;
+    cursor: pointer !important;
+    padding: 0.75rem !important;
+    font-size: 1.5rem !important;
+    color: #1a1a1a !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 45px !important;
+    height: 45px !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .menu-toggle:hover {
+    color: #ff6600 !important;
+    border-color: #ff6600 !important;
+    background: #ff6600 !important;
+    color: white !important;
+  }
+
+  .menu-toggle i {
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  /* Hide hamburger toggle on mobile */
+  .navbar-right.d-inline-flex {
+    display: none !important;
+  }
+
+  /* Override any conflicting Bootstrap classes */
+  @media (max-width: 991px) {
+    .navbar-right.d-lg-none {
+      display: none !important;
+    }
+  }
+
+  /* Header button spacing */
+  .header-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* Ensure style3 buttons work correctly */
+  .header-button .btn.style3 {
+    background-color: #1a1a1a;
+    border-color: #1a1a1a;
+    color: white;
+  }
+
+  .header-button .btn.style3:hover {
+    background-color: #2a2a2a;
+    border-color: #2a2a2a;
+  }
+</style>
+
+<script is:inline>
+  // Wait for DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    // Sticky Header
+    const stickyWrapper = document.getElementById('stickyWrapper');
+
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      if (currentScroll > 500) {
+        stickyWrapper?.classList.add('sticky');
+      } else {
+        stickyWrapper?.classList.remove('sticky');
+      }
+    });
+
+    // Search Popup
+    const searchToggle = document.getElementById('searchToggle');
+    const searchPopup = document.getElementById('searchPopup');
+    const searchClose = document.getElementById('searchClose');
+
+    searchToggle?.addEventListener('click', () => {
+      searchPopup?.classList.add('show');
+    });
+
+    searchClose?.addEventListener('click', () => {
+      searchPopup?.classList.remove('show');
+    });
+
+    searchPopup?.addEventListener('click', (e) => {
+      if (e.target === searchPopup) {
+        searchPopup.classList.remove('show');
+      }
+    });
+
+    // Mobile Menu
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuClose = document.getElementById('mobileMenuClose');
+    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+    console.log('Mobile menu elements:', {
+      toggle: mobileMenuToggle,
+      menu: mobileMenu,
+      close: mobileMenuClose,
+      overlay: mobileMenuOverlay
+    });
+
+    mobileMenuToggle?.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('Mobile menu toggle clicked');
+      mobileMenu?.classList.add('show', 'body-visible');
+
+      const menuVisible = mobileMenu?.querySelector('.mobile-menu-visible');
+      if (menuVisible) {
+        menuVisible.style.transform = 'translateX(0)';
+        console.log('Set transform to translateX(0)');
+      }
+
+      document.body.style.overflow = 'hidden';
+    });
+
+    mobileMenuClose?.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('Mobile menu close clicked');
+      mobileMenu?.classList.remove('show', 'body-visible');
+
+      const menuVisible = mobileMenu?.querySelector('.mobile-menu-visible');
+      if (menuVisible) {
+        menuVisible.style.transform = 'translateX(-100%)';
+      }
+
+      document.body.style.overflow = '';
+    });
+
+    mobileMenuOverlay?.addEventListener('click', () => {
+      console.log('Mobile menu overlay clicked');
+      mobileMenu?.classList.remove('show', 'body-visible');
+
+      const menuVisible = mobileMenu?.querySelector('.mobile-menu-visible');
+      if (menuVisible) {
+        menuVisible.style.transform = 'translateX(-100%)';
+      }
+
+      document.body.style.overflow = '';
+    });
+  });
+</script>

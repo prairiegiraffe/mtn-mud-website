@@ -20,31 +20,39 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
   <section class="relative bg-charcoal-900 overflow-hidden">
-    <div class="absolute inset-0 h-[32rem]">
+    <div class="absolute inset-0">
       <Image
         src={oilRigAtDusk}
         alt="Oil rig at dusk - Mountain Mud locations"
-        class="w-full h-full object-cover opacity-80"
+        class="w-full h-full object-cover opacity-60"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/60 via-charcoal-900/70 to-charcoal-900"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-charcoal-900/90 via-charcoal-900/70 to-transparent"></div>
     </div>
-    <div class="relative container mx-auto px-4 max-w-5xl text-center pt-32 pb-16">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white leading-tight tracking-tight">
-        Strategically Located to Serve You
-      </h1>
-      <p class="text-xl md:text-2xl text-safety-orange font-black mb-6 uppercase tracking-wide">
-        Three Locations Across the Rockies
-      </p>
-      <p class="text-lg text-white/90 max-w-3xl mx-auto leading-relaxed font-medium">
-        With strategically positioned facilities in Wyoming and North Dakota, we're positioned to deliver drilling fluid
-        solutions where you need them, when you need them—24/7, 365 days a year.
-      </p>
+
+    <div class="container mx-auto px-10 py-32 md:py-48 max-w-7xl relative z-10">
+      <div class="max-w-3xl">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
+        >
+          Three Locations Across the Rockies
+        </div>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-8 text-white leading-tight tracking-tight">
+          Strategically Located to Serve You
+        </h1>
+        <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed mb-10">
+          With strategically positioned facilities in Wyoming and North Dakota, we're positioned to deliver drilling fluid solutions where you need them, when you need them—24/7, 365 days a year.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a class="btn style2" href="#locations">View All Locations <i class="ri-arrow-right-up-line"></i></a>
+          <a class="btn style6" href="tel:307-682-8688">Call 307-682-8688 <i class="ri-arrow-right-up-line"></i></a>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- SECTION 2: LOCATION OVERVIEW -->
   <section class="py-20 md:py-28 bg-charcoal-900">
-    <div class="container mx-auto px-4 max-w-6xl">
+    <div class="container mx-auto max-w-6xl p-10">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-20">
         <div>
           <h2 class="text-3xl md:text-4xl font-black mb-8 text-white tracking-tight">
@@ -59,18 +67,18 @@ const metadata = {
             you need a single pallet or bulk shipments, technical consultation or 24-hour on-site engineering.
           </p>
 
-          <div class="grid grid-cols-3 gap-4 mt-8">
-            <div class="text-center bg-charcoal-800 p-6 rounded-xl border border-white/10">
-              <div class="text-4xl font-black text-safety-orange mb-2 font-mono">3</div>
-              <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Strategic Locations</div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+            <div class="text-center bg-charcoal-800 p-4 sm:p-6 rounded-xl border border-white/10">
+              <div class="text-3xl sm:text-4xl font-black text-safety-orange mb-1 sm:mb-2 font-mono">3</div>
+              <div class="text-xs sm:text-sm font-bold text-white/70 uppercase tracking-wider">Strategic Locations</div>
             </div>
-            <div class="text-center bg-charcoal-800 p-6 rounded-xl border border-white/10">
-              <div class="text-4xl font-black text-safety-orange mb-2 font-mono">65+</div>
-              <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Trailers in Fleet</div>
+            <div class="text-center bg-charcoal-800 p-4 sm:p-6 rounded-xl border border-white/10">
+              <div class="text-3xl sm:text-4xl font-black text-safety-orange mb-1 sm:mb-2 font-mono">65+</div>
+              <div class="text-xs sm:text-sm font-bold text-white/70 uppercase tracking-wider">Trailers in Fleet</div>
             </div>
-            <div class="text-center bg-charcoal-800 p-6 rounded-xl border border-white/10">
-              <div class="text-4xl font-black text-safety-orange mb-2 font-mono">24/7</div>
-              <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Delivery Service</div>
+            <div class="text-center bg-charcoal-800 p-4 sm:p-6 rounded-xl border border-white/10">
+              <div class="text-3xl sm:text-4xl font-black text-safety-orange mb-1 sm:mb-2 font-mono">24/7</div>
+              <div class="text-xs sm:text-sm font-bold text-white/70 uppercase tracking-wider">Delivery Service</div>
             </div>
           </div>
         </div>
@@ -88,27 +96,27 @@ const metadata = {
 
   <!-- SECTION 3: INTERACTIVE 3D MAP -->
   <section class="bg-warm-gray py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-7xl">
+    <div class="container mx-auto max-w-7xl p-10">
       <div class="text-center mb-12">
         <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">
-          Explore Our Locations in 3D
+          Our Strategic Location Network
         </h2>
         <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
-          Our strategic locations across Wyoming and North Dakota put us close to major drilling operations in the
-          Rockies. Click on a location to fly there!
+          Positioned across Wyoming and North Dakota to serve major drilling operations throughout the Rockies. Click on any location to view details.
         </p>
       </div>
 
       <!-- 3D Terrain Map -->
-      <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden border-4 border-white">
+      <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden border-4 border-white min-h-[400px] md:min-h-[600px]">
         <SimpleTerrainMap client:load />
       </div>
     </div>
   </section>
 
   <!-- SECTION 4: LOCATION SHOWCASE -->
-  <section class="bg-warm-white py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-6xl">
+  <!-- COMMENTED OUT - May bring back later if needed
+  <section id="locations" class="bg-warm-white py-20 md:py-28">
+    <div class="container mx-auto max-w-6xl p-10">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Visit Our Facilities</h2>
         <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
@@ -118,7 +126,6 @@ const metadata = {
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Card 1 - Gillette, WY (Headquarters) -->
         <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
           <div class="relative overflow-hidden">
             <Image
@@ -164,7 +171,6 @@ const metadata = {
           </div>
         </div>
 
-        <!-- Card 2 - Cheyenne, WY -->
         <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
           <div class="relative overflow-hidden">
             <Image
@@ -203,7 +209,6 @@ const metadata = {
           </div>
         </div>
 
-        <!-- Card 3 - Williston, ND -->
         <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
           <div class="relative overflow-hidden">
             <Image
@@ -244,21 +249,18 @@ const metadata = {
       </div>
     </div>
   </section>
+  -->
 
   <!-- SECTION 5: CTA -->
-  <section class="bg-safety-orange text-white py-20 md:py-24">
-    <div class="container mx-auto px-4 max-w-4xl text-center">
+  <section class="bg-safety-orange text-white py-20 md:py-24 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-safety-orange-600 to-safety-orange-700 opacity-50"></div>
+    <div class="container mx-auto max-w-4xl text-center relative z-10 p-10">
       <h2 class="text-3xl md:text-4xl font-black mb-7 tracking-tight">Ready to Work Together?</h2>
-      <p class="text-lg md:text-xl text-white/95 mb-10 leading-relaxed max-w-3xl mx-auto font-medium">
+      <p class="text-lg md:text-xl text-white/95 leading-relaxed max-w-3xl mx-auto font-medium mb-12">
         No matter which location you work with, you'll receive the same exceptional service, technical expertise, and
         commitment to your success that Mountain Mud is known for.
       </p>
-      <a
-        href="/contact"
-        class="bg-white text-safety-orange px-10 py-5 rounded-xl hover:bg-warm-white transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:shadow-orange-glow hover:-translate-y-0.5"
-      >
-        Contact Your Nearest Location
-      </a>
+      <a class="btn style6" href="/contact">Contact Us <i class="ri-arrow-right-up-line"></i></a>
     </div>
   </section>
 </Layout>

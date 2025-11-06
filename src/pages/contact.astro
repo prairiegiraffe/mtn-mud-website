@@ -10,26 +10,36 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
-  <section class="bg-warm-white py-20 md:py-32">
-    <div class="container mx-auto px-4 max-w-5xl text-center">
-      <div
-        class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
-      >
-        Get in Touch
+  <section class="relative bg-charcoal-900 overflow-hidden">
+    <div class="absolute inset-0">
+      <div class="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900"></div>
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(221, 94, 38, 0.15) 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+
+    <div class="container mx-auto px-10 py-32 md:py-48 max-w-7xl relative z-10">
+      <div class="max-w-3xl">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
+        >
+          Get in Touch
+        </div>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-8 text-white leading-tight tracking-tight">
+          Let's Talk About<br />Your Project
+        </h1>
+        <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed mb-10">
+          Have questions about our drilling fluid services, products, or capabilities? Need immediate technical support? Want to discuss a custom solution for your next project? We're here to help—24 hours a day, 7 days a week.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a class="btn style2" href="#contact-form">Send Us a Message <i class="ri-arrow-right-up-line"></i></a>
+          <a class="btn style6" href="tel:307-682-8688">Call 307-682-8688 <i class="ri-arrow-right-up-line"></i></a>
+        </div>
       </div>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-charcoal-900 leading-tight tracking-tight">
-        Let's Talk About<br />Your Project
-      </h1>
-      <p class="text-xl text-charcoal-700 leading-relaxed max-w-4xl mx-auto">
-        Have questions about our drilling fluid services, products, or capabilities? Need immediate technical support?
-        Want to discuss a custom solution for your next project? We're here to help—24 hours a day, 7 days a week.
-      </p>
     </div>
   </section>
 
   <!-- SECTION 2: CONTACT INFO & FORM -->
-  <section class="bg-charcoal-900 py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-7xl">
+  <section id="contact-form" class="bg-charcoal-900 p-10">
+    <div class="container mx-auto max-w-7xl">
       <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
         <!-- Left Column - Contact Information (40%) -->
         <div class="lg:col-span-2 space-y-6">
@@ -236,6 +246,18 @@ const metadata = {
                   ></path>
                 </svg>
               </a>
+
+              <a
+                href="https://linktr.ee/MTN_MUD"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-white hover:bg-safety-orange transition-all"
+                aria-label="LinkTree"
+              >
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M13.511 5.853l4.005-4.117 2.325 2.381-4.201 4.005h5.909v3.305h-5.937l4.229 4.108-2.325 2.334-5.741-5.769-5.741 5.769-2.325-2.325 4.229-4.108H2V8.122h5.909L3.708 4.117l2.325-2.381 4.005 4.117V0h3.473v5.853zM10.038 16.16h3.473v7.842h-3.473V16.16z"/>
+                </svg>
+              </a>
             </div>
           </div>
         </div>
@@ -333,11 +355,8 @@ const metadata = {
               </div>
 
               <div>
-                <button
-                  type="submit"
-                  class="w-full bg-safety-orange text-white px-10 py-5 rounded-xl hover:bg-orange-600 transition-all font-black text-lg shadow-soft-lg hover:shadow-soft-xl uppercase tracking-wider"
-                >
-                  Send Message
+                <button type="submit" class="btn style2 w-full">
+                  Send Message <i class="ri-arrow-right-up-line"></i>
                 </button>
               </div>
 
@@ -355,8 +374,8 @@ const metadata = {
   </section>
 
   <!-- SECTION 3: INTERACTIVE MAP -->
-  <section class="bg-warm-gray py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-6xl">
+  <section class="bg-warm-gray p-10">
+    <div class="container mx-auto max-w-6xl">
       <div class="text-center mb-12">
         <div
           class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
@@ -402,24 +421,53 @@ const metadata = {
     crossorigin=""
   />
 
-  <!-- Leaflet JS -->
-  <script
-    is:inline
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
-
   <!-- Custom Map Script -->
   <script is:inline>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Initialize the map centered on Wyoming/North Dakota region
-      const map = L.map('map', {
-        center: [45.5, -104.0],
-        zoom: 6,
-        scrollWheelZoom: true,
-        dragging: true,
-        zoomControl: true,
-      });
+    // Store map instance globally to manage lifecycle
+    window.contactMap = null;
+
+    function initializeMap() {
+      // Check if Leaflet is loaded
+      if (typeof L === 'undefined') {
+        console.error('Leaflet library not loaded');
+        return;
+      }
+
+      // Check if map container exists
+      const mapContainer = document.getElementById('map');
+      if (!mapContainer) {
+        console.error('Map container not found');
+        return;
+      }
+
+      // If map already exists and is initialized, remove it first
+      if (window.contactMap) {
+        try {
+          window.contactMap.remove();
+          window.contactMap = null;
+        } catch (e) {
+          console.log('Error removing old map:', e);
+        }
+      }
+
+      // Clear any existing Leaflet instance from the container
+      if (mapContainer._leaflet_id) {
+        mapContainer._leaflet_id = null;
+      }
+
+      try {
+        // Initialize the map centered on Wyoming/North Dakota region
+        const map = L.map('map', {
+          center: [45.5, -104.0],
+          zoom: 6,
+          scrollWheelZoom: true,
+          dragging: true,
+          zoomControl: true,
+          preferCanvas: false
+        });
+
+        // Store map instance globally
+        window.contactMap = map;
 
       // Add modern tile layer with terrain
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
@@ -567,23 +615,93 @@ const metadata = {
           this.openPopup();
         });
       });
+
+      // Fix map size after a short delay to ensure proper rendering
+      setTimeout(function() {
+        map.invalidateSize();
+      }, 250);
+
+      console.log('Map initialized successfully');
+    } catch (error) {
+      console.error('Error initializing map:', error);
+    }
+  }
+  </script>
+
+  <!-- Leaflet JS - Load with async and initialize after -->
+  <script
+    is:inline
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+    onload="setTimeout(initializeMap, 100)"></script>
+
+  <!-- Handle Astro navigation and page load events -->
+  <script is:inline>
+    // Handle regular page load
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        if (typeof L !== 'undefined' && document.getElementById('map')) {
+          initializeMap();
+        }
+      }, 200);
+    });
+
+    // Handle Astro view transitions (if enabled)
+    document.addEventListener('astro:page-load', function() {
+      console.log('Astro page load event detected');
+      setTimeout(function() {
+        if (typeof L !== 'undefined' && document.getElementById('map')) {
+          initializeMap();
+        }
+      }, 100);
+    });
+
+    // Handle navigation away - cleanup
+    document.addEventListener('astro:before-preparation', function() {
+      if (window.contactMap) {
+        try {
+          window.contactMap.remove();
+          window.contactMap = null;
+        } catch (e) {
+          console.log('Error cleaning up map:', e);
+        }
+      }
     });
   </script>
 
   <!-- SECTION 4: CTA -->
   <section class="bg-safety-orange text-white py-20 md:py-24">
-    <div class="container mx-auto px-4 max-w-4xl text-center">
+    <div class="container mx-auto max-w-4xl text-center p-10">
       <h2 class="text-3xl md:text-4xl font-black mb-7 tracking-tight">Ready to Work Together?</h2>
-      <p class="text-lg md:text-xl text-white/95 mb-10 leading-relaxed max-w-3xl mx-auto font-medium">
+      <p class="text-lg md:text-xl text-white/95 mb-12 leading-relaxed max-w-3xl mx-auto font-medium">
         Let's discuss how Mountain Mud can optimize your drilling operations with our proven fluids expertise,
         responsive service, and commitment to your success.
       </p>
-      <a
-        href="/services"
-        class="bg-white text-safety-orange px-10 py-5 rounded-xl hover:bg-warm-white transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:shadow-orange-glow hover:-translate-y-0.5 uppercase tracking-wider"
-      >
-        Explore Our Services
-      </a>
+      <a class="btn style6" href="/services">Explore Our Services <i class="ri-arrow-right-up-line"></i></a>
     </div>
   </section>
 </Layout>
+
+<style>
+  /* Override Bootstrap form-control focus styles to maintain proper visibility */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    background-color: #3a3734 !important; /* charcoal-700 */
+    color: #ffffff !important;
+    border-color: #dd5e26 !important; /* safety-orange */
+  }
+
+  /* Ensure placeholder text is visible */
+  input::placeholder,
+  textarea::placeholder {
+    color: #9ca3af !important; /* warm-gray-400 */
+  }
+
+  /* Ensure select option text is visible */
+  select option {
+    background-color: #3a3734;
+    color: #ffffff;
+  }
+</style>

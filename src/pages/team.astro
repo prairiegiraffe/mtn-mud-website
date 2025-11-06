@@ -9,11 +9,13 @@ import oilRigWorker from '~/assets/images/Oil Rig Worker.jpg';
 import constructionWorkerOnSite from '~/assets/images/Construction Worker On Site.jpg';
 import nighttimeOilRigWorker from '~/assets/images/Nighttime Oil Rig Worker.jpg';
 import manStandingInFrontOfTruck from '~/assets/images/Man Standing In Front Of Truck.jpg';
+import constructionSiteLoader from '~/assets/images/Construction Site Loader.jpg';
 
 const metadata = {
   title: 'Our Team - The People Behind the Performance | MTN Mud',
   description:
     'Meet the Mountain Mud team. Decades of combined experience, zero lost-time accidents since 2006, and a genuine commitment to your success. Expert drilling fluids professionals available 24/7.',
+  ignoreTitleTemplate: true,
 };
 
 // Placeholder team members - client will provide actual data
@@ -52,80 +54,63 @@ const teamMembers = [
 ---
 
 <Layout metadata={metadata}>
-  <!-- SECTION 1: HERO - Centered with stats overlay -->
-  <section class="relative bg-warm-white py-20 md:py-32">
-    <div class="container mx-auto px-4 max-w-7xl">
-      <!-- Top Content -->
-      <div class="text-center mb-12">
+  <!-- SECTION 1: HERO -->
+  <section class="relative bg-charcoal-900 overflow-hidden">
+    <div class="absolute inset-0">
+      <Image
+        src={constructionSiteDiscussion}
+        alt="Mountain Mud team collaboration"
+        class="w-full h-full object-cover opacity-60"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-charcoal-900/90 via-charcoal-900/70 to-transparent"></div>
+    </div>
+
+    <div class="container mx-auto px-10 py-32 md:py-48 max-w-7xl relative z-10">
+      <div class="max-w-3xl">
         <div
           class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
         >
           Our Greatest Asset
         </div>
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-charcoal-900 leading-tight tracking-tight">
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-8 text-white leading-tight tracking-tight">
           The People Behind<br />the Performance
         </h1>
-        <p class="text-xl text-charcoal-700 leading-relaxed max-w-4xl mx-auto mb-12">
-          Our greatest asset isn't our equipment or our inventory—it's our people. With decades of combined experience
-          and a genuine commitment to your success, the Mountain Mud team brings unmatched expertise, responsiveness,
-          and partnership to every project.
+        <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed mb-10">
+          Our greatest asset isn't our equipment or our inventory—it's our people. Decades of combined experience,
+          zero lost-time accidents since 2006, and an unwavering commitment to your success.
         </p>
-      </div>
 
-      <!-- Image Grid with Stats Overlay -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Large Image Left -->
-        <div class="lg:col-span-2 relative rounded-2xl overflow-hidden shadow-soft-lg h-96 lg:h-auto">
-          <Image
-            src={constructionSiteDiscussion}
-            alt="Mountain Mud team collaboration"
-            class="w-full h-full object-cover"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/40 to-transparent"></div>
-          <div class="absolute bottom-8 left-8 right-8">
-            <div class="grid grid-cols-2 gap-6">
-              <div>
-                <div class="text-5xl font-black text-safety-orange mb-2 font-mono">0</div>
-                <div class="text-sm font-bold text-white uppercase tracking-wider">Lost-Time Accidents Since 2006</div>
-              </div>
-              <div>
-                <div class="text-5xl font-black text-safety-orange mb-2 font-mono">24/7</div>
-                <div class="text-sm font-bold text-white uppercase tracking-wider">Expert Support Available</div>
-              </div>
-            </div>
+        <!-- Key Team Stats -->
+        <div class="grid grid-cols-2 gap-4 mb-16">
+          <div class="bg-white/5 backdrop-blur-sm p-4 rounded-xl text-center border border-white/10">
+            <div class="text-5xl font-black text-safety-orange mb-2 font-mono">0</div>
+            <div class="text-xs font-bold text-white/70 uppercase tracking-wider">Lost-Time Accidents Since 2006</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm p-4 rounded-xl text-center border border-white/10">
+            <div class="text-5xl font-black text-safety-orange mb-2 font-mono">24/7</div>
+            <div class="text-xs font-bold text-white/70 uppercase tracking-wider">Expert Support Available</div>
           </div>
         </div>
 
-        <!-- Small Images Right -->
-        <div class="space-y-6">
-          <div class="relative rounded-2xl overflow-hidden shadow-soft-lg h-44">
-            <Image
-              src={constructionWorkerPointing}
-              alt="Mountain Mud field engineer"
-              class="w-full h-full object-cover"
-            />
-            <div class="absolute inset-0 bg-charcoal-900/20"></div>
-          </div>
-          <div class="relative rounded-2xl overflow-hidden shadow-soft-lg h-44">
-            <Image src={oilRigWorker} alt="Mountain Mud on-site specialist" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-charcoal-900/20"></div>
-          </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a class="btn style2" href="#leadership-team">Meet the Team <i class="ri-arrow-right-up-line"></i></a>
+          <a class="btn style6" href="/careers">Join Our Team <i class="ri-user-add-line"></i></a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- SECTION 2: LEADERSHIP TEAM -->
-  <section class="bg-charcoal-900 py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-7xl">
+  <section id="leadership-team" class="bg-warm-white p-10">
+    <div class="container mx-auto max-w-7xl">
       <div class="text-center mb-16">
         <div
-          class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
         >
           Meet the Team
         </div>
-        <h2 class="text-4xl md:text-5xl font-black mb-4 text-white">Leadership Team</h2>
-        <p class="text-warm-gray-300 text-center italic">
+        <h2 class="text-4xl md:text-5xl font-black mb-4 text-charcoal-900">Leadership Team</h2>
+        <p class="text-charcoal-600 text-center italic">
           Leadership roster with headshots (to be provided at later date)
         </p>
       </div>
@@ -133,19 +118,19 @@ const teamMembers = [
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {
           teamMembers.map((member) => (
-            <div class="bg-charcoal-800 rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border border-white/10 hover:border-safety-orange/50 group">
+            <div class="bg-warm-white rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border-l-4 border-safety-orange group">
               {/* Headshot placeholder */}
-              <div class="aspect-square bg-charcoal-700 border-b border-white/10 flex items-center justify-center relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-charcoal-900/40" />
+              <div class="aspect-square bg-warm-gray-200 flex items-center justify-center relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-charcoal-900/10" />
                 <span class="text-warm-gray-500 text-sm font-bold uppercase tracking-wider">Headshot Placeholder</span>
               </div>
 
-              <div class="p-6">
-                <h3 class="text-xl font-black mb-2 text-white uppercase tracking-tight group-hover:text-safety-orange transition-colors">
+              <div class="p-8">
+                <h3 class="text-xl font-black mb-2 text-charcoal-900 uppercase tracking-tight group-hover:text-safety-orange transition-colors">
                   {member.name}
                 </h3>
                 <p class="text-safety-orange font-bold mb-4 text-sm uppercase tracking-wider">{member.title}</p>
-                <p class="text-warm-gray-300 leading-relaxed text-sm">{member.bio}</p>
+                <p class="text-charcoal-700 leading-relaxed text-sm">{member.bio}</p>
               </div>
             </div>
           ))
@@ -154,12 +139,90 @@ const teamMembers = [
     </div>
   </section>
 
-  <!-- SECTION 3: WHAT MAKES US DIFFERENT -->
-  <section class="bg-warm-white py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-7xl">
+  <!-- SECTION 3: TEAM IN ACTION -->
+  <section class="bg-warm-gray p-10">
+    <div class="container mx-auto max-w-7xl">
+      <div class="text-center mb-16">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+        >
+          Team in Action
+        </div>
+        <h2 class="text-4xl md:text-5xl font-black mb-6 text-charcoal-900">
+          Expertise You Can See
+        </h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto">
+          From the field to the lab, our team delivers expert drilling fluids solutions around the clock.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Image 1 -->
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all h-80">
+          <div class="absolute inset-0 w-full h-full">
+            <Image
+              src={constructionWorkerPointing}
+              alt="Mountain Mud field engineer"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              style="display: block; width: 100%; height: 100%;"
+            />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/40 to-transparent"></div>
+          <div class="absolute inset-0 flex flex-col justify-end p-6">
+            <h3 class="text-xl font-black mb-2 text-white">Field Engineering</h3>
+            <p class="text-white/95 font-medium text-sm">
+              On-site expertise when you need it most
+            </p>
+          </div>
+        </div>
+
+        <!-- Image 2 -->
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all h-80">
+          <div class="absolute inset-0 w-full h-full">
+            <Image
+              src={oilRigWorker}
+              alt="Mountain Mud on-site specialist"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              style="display: block; width: 100%; height: 100%;"
+            />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/40 to-transparent"></div>
+          <div class="absolute inset-0 flex flex-col justify-end p-6">
+            <h3 class="text-xl font-black mb-2 text-white">Operations Excellence</h3>
+            <p class="text-white/95 font-medium text-sm">
+              Precision and safety in every operation
+            </p>
+          </div>
+        </div>
+
+        <!-- Image 3 -->
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all h-80">
+          <div class="absolute inset-0 w-full h-full">
+            <Image
+              src={nighttimeOilRigWorker}
+              alt="24/7 field support"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              style="display: block; width: 100%; height: 100%;"
+            />
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/40 to-transparent"></div>
+          <div class="absolute inset-0 flex flex-col justify-end p-6">
+            <h3 class="text-xl font-black mb-2 text-white">24/7 Support</h3>
+            <p class="text-white/95 font-medium text-sm">
+              Available around the clock for your success
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: WHAT MAKES US DIFFERENT -->
+  <section class="bg-warm-white p-10">
+    <div class="container mx-auto max-w-7xl">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* Right Column: Content */}
-        <div class="order-2 lg:order-1">
+        {/* Left Column: Content */}
+        <div>
           <div
             class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
           >
@@ -255,23 +318,40 @@ const teamMembers = [
           </div>
         </div>
 
-        {/* Left Column: Images */}
-        <div class="order-1 lg:order-2 space-y-6">
-          <div class="relative rounded-2xl overflow-hidden shadow-soft-lg">
-            <Image
-              src={constructionWorkerOnSite}
-              alt="Mountain Mud team member on site"
-              class="w-full h-80 object-cover"
-            />
+        {/* Right Column: Images */}
+        <div class="space-y-6">
+          <div class="relative rounded-2xl overflow-hidden shadow-soft-lg h-80">
+            <div class="absolute inset-0 w-full h-full">
+              <Image
+                src={constructionWorkerOnSite}
+                alt="Mountain Mud team member on site"
+                class="w-full h-full object-cover"
+                style="display: block; width: 100%; height: 100%;"
+              />
+            </div>
             <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/40 to-transparent"></div>
           </div>
           <div class="grid grid-cols-2 gap-6">
-            <div class="relative rounded-2xl overflow-hidden shadow-soft-lg">
-              <Image src={nighttimeOilRigWorker} alt="24/7 field support" class="w-full h-48 object-cover" />
+            <div class="relative rounded-2xl overflow-hidden shadow-soft-lg h-48">
+              <div class="absolute inset-0 w-full h-full">
+                <Image
+                  src={constructionSiteLoader}
+                  alt="Team collaboration"
+                  class="w-full h-full object-cover"
+                  style="display: block; width: 100%; height: 100%;"
+                />
+              </div>
               <div class="absolute inset-0 bg-charcoal-900/20"></div>
             </div>
-            <div class="relative rounded-2xl overflow-hidden shadow-soft-lg">
-              <Image src={manStandingInFrontOfTruck} alt="Mountain Mud professional" class="w-full h-48 object-cover" />
+            <div class="relative rounded-2xl overflow-hidden shadow-soft-lg h-48">
+              <div class="absolute inset-0 w-full h-full">
+                <Image
+                  src={manStandingInFrontOfTruck}
+                  alt="Mountain Mud professional"
+                  class="w-full h-full object-cover"
+                  style="display: block; width: 100%; height: 100%;"
+                />
+              </div>
               <div class="absolute inset-0 bg-charcoal-900/20"></div>
             </div>
           </div>
@@ -280,9 +360,9 @@ const teamMembers = [
     </div>
   </section>
 
-  <!-- SECTION 4: JOIN OUR TEAM -->
-  <section class="bg-charcoal-900 py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-5xl text-center">
+  <!-- SECTION 5: JOIN OUR TEAM -->
+  <section class="bg-charcoal-900 p-10">
+    <div class="container mx-auto max-w-5xl text-center">
       <div
         class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
       >
@@ -295,18 +375,16 @@ const teamMembers = [
         and your family, we'd love to hear from you.
       </p>
 
-      <a
-        href="/careers"
-        class="bg-safety-orange text-white px-10 py-5 rounded-xl hover:bg-orange-600 transition-all font-black text-lg inline-flex items-center justify-center shadow-soft-lg hover:shadow-soft-xl uppercase tracking-wider"
-      >
-        View Open Positions
-      </a>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a class="btn style2" href="/careers">View Open Positions <i class="ri-arrow-right-up-line"></i></a>
+        <a class="btn style6" href="/contact">Contact Us <i class="ri-mail-line"></i></a>
+      </div>
     </div>
   </section>
 
-  <!-- SECTION 5: CLIENT LOGOS -->
-  <section class="bg-warm-white py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-7xl">
+  <!-- SECTION 6: CLIENT LOGOS -->
+  <section class="bg-warm-white p-10">
+    <div class="container mx-auto max-w-7xl">
       <div class="text-center mb-12">
         <div
           class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"

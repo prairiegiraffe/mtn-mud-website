@@ -1,0 +1,605 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  isSticky?: boolean;
+}
+
+const { isSticky = true } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+
+const isActivePath = (path: string) => {
+  if (path === '/' && currentPath === '/') return true;
+  if (path !== '/' && currentPath.startsWith(path)) return true;
+  return false;
+};
+---
+
+<div class="header-decoration-mtn">
+  <!-- Search Popup -->
+  <div class="popup-search-box" id="searchPopup">
+    <button class="searchClose" id="searchClose">
+      <Icon name="tabler:x" class="w-6 h-6" />
+    </button>
+    <form action="/search" method="get">
+      <input type="text" name="q" placeholder="Search Here.." />
+      <button type="submit">
+        <Icon name="tabler:search" class="w-6 h-6" />
+      </button>
+    </form>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-wrapper" id="mobileMenu">
+    <div class="mobile-menu-content">
+      <button class="closeButton" id="mobileMenuClose">
+        <Icon name="tabler:x" class="w-6 h-6" />
+      </button>
+      <div class="mobile-menu-nav">
+        <ul>
+          <li><a href="/">HOME</a></li>
+          <li><a href="/about">ABOUT</a></li>
+          <li><a href="/services">SERVICES</a></li>
+          <li><a href="/products">PRODUCTS</a></li>
+          <li><a href="/projects">PROJECTS</a></li>
+          <li><a href="/locations">LOCATIONS</a></li>
+          <li><a href="/contact">CONTACT</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <header class="nav-header-mtn header-layout-mtn">
+    <!-- Header Top Bar -->
+    <div class="header-top-mtn">
+      <div class="container mx-auto px-4">
+        <div class="flex justify-center lg:justify-between items-center py-2">
+          <!-- Social Links (Desktop) -->
+          <div class="hidden lg:block">
+            <div class="header-social-links">
+              <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">
+                <Icon name="tabler:brand-facebook" class="w-4 h-4" />
+              </a>
+              <a href="https://www.twitter.com/" target="_blank" rel="noopener noreferrer">
+                <Icon name="tabler:brand-x" class="w-4 h-4" />
+              </a>
+              <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+                <Icon name="tabler:brand-instagram" class="w-4 h-4" />
+              </a>
+              <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
+                <Icon name="tabler:brand-linkedin" class="w-4 h-4" />
+              </a>
+            </div>
+          </div>
+
+          <!-- Header Info -->
+          <div class="header-info-links">
+            <div class="info-item">
+              <Icon name="tabler:clock" class="w-4 h-4" />
+              <span>24/7 Service Available</span>
+            </div>
+            <div class="info-item hidden md:flex">
+              <Icon name="tabler:map-pin" class="w-4 h-4" />
+              <a href="https://www.google.com/maps" target="_blank" rel="noopener noreferrer"
+                >103 E. Lincoln St., Gillette, WY 82716</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class:list={['sticky-wrapper-mtn', { 'sticky-active': isSticky }]} id="stickyHeader">
+      <div class="menu-area-mtn">
+        <!-- Logo (Left side special position) -->
+        <div class="header-navbar-logo-mtn">
+          <a href="/" class="logo-text-mtn">
+            <span class="logo-mtn">MTN</span>
+            <span class="logo-mud">MUD</span>
+          </a>
+        </div>
+        <div class="logo-bg-mtn"></div>
+
+        <div class="container mx-auto px-4">
+          <div class="flex items-center justify-between">
+            <!-- Mobile Logo -->
+            <div class="block xxl:hidden">
+              <div class="header-logo-mobile">
+                <a href="/" class="logo-text-mobile">
+                  <span class="logo-mtn">MTN</span>
+                  <span class="logo-mud">MUD</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="menu-bar-mtn">
+              <nav class="main-menu-mtn hidden lg:inline-block">
+                <ul>
+                  <li class:list={[{ active: isActivePath('/') }]}>
+                    <a href="/">HOME</a>
+                  </li>
+                  <li class:list={[{ active: isActivePath('/about') }]}>
+                    <a href="/about">ABOUT</a>
+                  </li>
+                  <li class:list={[{ active: isActivePath('/services') }]}>
+                    <a href="/services">SERVICES</a>
+                  </li>
+                  <li class:list={[{ active: isActivePath('/products') }]}>
+                    <a href="/products">PRODUCTS</a>
+                  </li>
+                  <li class:list={[{ active: isActivePath('/projects') }]}>
+                    <a href="/projects">PROJECTS</a>
+                  </li>
+                  <li class:list={[{ active: isActivePath('/locations') }]}>
+                    <a href="/locations">LOCATIONS</a>
+                  </li>
+                  <li class:list={[{ active: isActivePath('/contact') }]}>
+                    <a href="/contact">CONTACT</a>
+                  </li>
+                </ul>
+              </nav>
+
+              <!-- Mobile Menu Toggle -->
+              <div class="navbar-right-mobile lg:hidden">
+                <button type="button" class="menu-toggle icon-btn" id="mobileMenuToggle">
+                  <Icon name="tabler:menu-2" class="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+
+            <!-- Header CTA Buttons (Desktop) -->
+            <div class="hidden xl:flex items-center gap-3">
+              <a href="/contact" class="btn-header-mtn">
+                GET IN TOUCH
+                <Icon name="tabler:arrow-up-right" class="w-5 h-5 ml-1" />
+              </a>
+              <button type="button" class="search-btn-mtn" id="searchToggle">
+                <Icon name="tabler:search" class="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Phone CTA (Desktop Right Corner) -->
+        <div class="navbar-phone-cta hidden xxl:flex">
+          <div class="icon-btn-mtn">
+            <Icon name="tabler:phone" class="w-6 h-6" />
+          </div>
+          <div class="phone-details">
+            <h6 class="title">Call us any time</h6>
+            <a class="link" href="tel:307-682-8688">307-682-8688</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+
+<style>
+  /* Header Top Bar */
+  .header-top-mtn {
+    background: #1a1a1a;
+    color: white;
+    font-size: 0.875rem;
+  }
+
+  .header-social-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .header-social-links a {
+    color: white;
+    transition: color 0.3s;
+  }
+
+  .header-social-links a:hover {
+    color: #ff6600;
+  }
+
+  .header-info-links {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .info-item a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .info-item a:hover {
+    color: #ff6600;
+  }
+
+  /* Header Main */
+  .nav-header-mtn {
+    position: relative;
+    background: white;
+  }
+
+  .sticky-wrapper-mtn {
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .sticky-wrapper-mtn.sticky-active {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu-area-mtn {
+    position: relative;
+    background: white;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  /* Logo Styles */
+  .logo-text-mtn,
+  .logo-text-mobile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 1.75rem;
+  }
+
+  .logo-text-mobile {
+    font-size: 1.5rem;
+  }
+
+  .logo-mtn {
+    color: white;
+  }
+
+  .logo-mud {
+    color: #1a1a1a;
+  }
+
+  .logo-text-mobile .logo-mtn {
+    color: #ff6600;
+  }
+
+  .logo-text-mobile .logo-mud {
+    color: #1a1a1a;
+  }
+
+  /* Special Logo Position (Left Triangle) */
+  .header-navbar-logo-mtn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    background: #ff6600;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+    z-index: 10;
+  }
+
+  @media (min-width: 1536px) {
+    .header-navbar-logo-mtn {
+      display: flex;
+    }
+  }
+
+  .logo-bg-mtn {
+    display: none;
+  }
+
+  @media (min-width: 1536px) {
+    .logo-bg-mtn {
+      display: block;
+      width: 200px;
+    }
+  }
+
+  /* Navigation Menu */
+  .main-menu-mtn ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 1rem 0;
+    gap: 2rem;
+  }
+
+  .main-menu-mtn a {
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    text-decoration: none;
+    transition: color 0.3s;
+    letter-spacing: 0.5px;
+  }
+
+  .main-menu-mtn li.active a,
+  .main-menu-mtn a:hover {
+    color: #ff6600;
+  }
+
+  /* CTA Button */
+  .btn-header-mtn {
+    display: inline-flex;
+    align-items: center;
+    background: #ff6600;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-header-mtn:hover {
+    background: #e55a00;
+    transform: translateY(-2px);
+  }
+
+  /* Search & Menu Buttons */
+  .search-btn-mtn,
+  .menu-toggle {
+    background: transparent;
+    border: 1px solid #e5e5e5;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .search-btn-mtn:hover,
+  .menu-toggle:hover {
+    background: #ff6600;
+    border-color: #ff6600;
+    color: white;
+  }
+
+  /* Phone CTA Corner */
+  .navbar-phone-cta {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: #ff6600;
+    background-image: none !important;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .navbar-phone-cta::before,
+  .navbar-phone-cta::after {
+    display: none !important;
+  }
+
+  .icon-btn-mtn {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+
+  .phone-details .title {
+    color: white;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+  }
+
+  .phone-details .link {
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  /* Search Popup */
+  .popup-search-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+  .popup-search-box.show {
+    display: flex;
+  }
+
+  .popup-search-box form {
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+  }
+
+  .popup-search-box input {
+    width: 100%;
+    padding: 1.5rem 4rem 1.5rem 2rem;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    outline: none;
+  }
+
+  .popup-search-box button[type='submit'] {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ff6600;
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+
+  .searchClose {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mobile Menu */
+  .mobile-menu-wrapper {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 300px;
+    height: 100vh;
+    background: white;
+    z-index: 9999;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .mobile-menu-wrapper.show {
+    left: 0;
+  }
+
+  .mobile-menu-content {
+    padding: 2rem;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-menu-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+  }
+
+  .mobile-menu-nav li {
+    margin-bottom: 1rem;
+  }
+
+  .mobile-menu-nav a {
+    color: #1a1a1a;
+    font-weight: 700;
+    font-size: 1.125rem;
+    text-decoration: none;
+    display: block;
+    padding: 0.75rem 0;
+    transition: color 0.3s;
+  }
+
+  .mobile-menu-nav a:hover {
+    color: #ff6600;
+  }
+</style>
+
+<script>
+  // Sticky Header
+  let lastScroll = 0;
+  const stickyHeader = document.getElementById('stickyHeader');
+
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll > 500) {
+      stickyHeader?.classList.add('sticky-active');
+    } else {
+      stickyHeader?.classList.remove('sticky-active');
+    }
+    lastScroll = currentScroll;
+  });
+
+  // Search Popup
+  const searchToggle = document.getElementById('searchToggle');
+  const searchPopup = document.getElementById('searchPopup');
+  const searchClose = document.getElementById('searchClose');
+
+  searchToggle?.addEventListener('click', () => {
+    searchPopup?.classList.add('show');
+  });
+
+  searchClose?.addEventListener('click', () => {
+    searchPopup?.classList.remove('show');
+  });
+
+  searchPopup?.addEventListener('click', (e) => {
+    if (e.target === searchPopup) {
+      searchPopup.classList.remove('show');
+    }
+  });
+
+  // Mobile Menu
+  const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileMenuClose = document.getElementById('mobileMenuClose');
+
+  mobileMenuToggle?.addEventListener('click', () => {
+    mobileMenu?.classList.add('show');
+  });
+
+  mobileMenuClose?.addEventListener('click', () => {
+    mobileMenu?.classList.remove('show');
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (
+      mobileMenu?.classList.contains('show') &&
+      !mobileMenu.contains(target) &&
+      target !== mobileMenuToggle
+    ) {
+      mobileMenu.classList.remove('show');
+    }
+  });
+</script>

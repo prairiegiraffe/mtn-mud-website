@@ -1,0 +1,548 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Image } from 'astro:assets';
+
+// Import images
+import oilRigSafetySign from '~/assets/images/Oil Rig Safety Sign.jpg';
+import constructionVehicleDirtRoad from '~/assets/images/Construction Vehicle On Dirt Road.jpg';
+import trainWorkerInspecting from '~/assets/images/Train Worker Inspecting Freight Cars.jpg';
+import constructionSiteDiscussion from '~/assets/images/Construction Site Discussion.jpg';
+import industrialWorkerAtNight from '~/assets/images/Industrial Worker at Night.jpg';
+import constructionFatherDaughter from '~/assets/images/Construction Site Father And Daughter.jpg';
+
+const metadata = {
+  title: 'Safety First - Zero Lost-Time Accidents Since 2006 | MTN Mud',
+  description:
+    'Safety is at the core of everything we do at Mountain Mud. Zero lost-time accidents since 2006. Comprehensive safety training, protocols, and commitment to our team and partners.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- SECTION 1: HERO -->
+  <section class="relative bg-charcoal-900 overflow-hidden">
+    <div class="absolute inset-0">
+      <Image
+        src={oilRigSafetySign}
+        alt="Safety First - Mountain Mud commitment"
+        class="w-full h-full object-cover opacity-60"
+      />
+      <div class="absolute inset-0 bg-gradient-to-r from-charcoal-900/90 via-charcoal-900/70 to-transparent"></div>
+    </div>
+
+    <div class="container mx-auto px-10 py-32 md:py-48 max-w-7xl relative z-10">
+      <div class="max-w-3xl">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
+        >
+          Our Commitment
+        </div>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-8 text-white leading-tight tracking-tight">
+          Safety First.<br />Every Job. Every Time.
+        </h1>
+        <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed mb-10">
+          At Mountain Mud, safety isn't just a priority—it's the foundation of everything we do. Zero lost-time
+          accidents since January 1, 2006. That's not luck. That's culture.
+        </p>
+
+        <!-- Key Safety Stats -->
+        <div class="grid grid-cols-3 gap-4 mb-16">
+          <div class="bg-white/5 backdrop-blur-sm p-4 rounded-xl text-center border border-white/10">
+            <div class="text-5xl font-black text-safety-orange mb-2 font-mono">0</div>
+            <div class="text-xs font-bold text-white/70 uppercase tracking-wider">Lost-Time Accidents Since 2006</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm p-4 rounded-xl text-center border border-white/10">
+            <div class="text-5xl font-black text-safety-orange mb-2 font-mono">100%</div>
+            <div class="text-xs font-bold text-white/70 uppercase tracking-wider">Safety Training Compliance</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm p-4 rounded-xl text-center border border-white/10">
+            <div class="text-5xl font-black text-safety-orange mb-2 font-mono">24/7</div>
+            <div class="text-xs font-bold text-white/70 uppercase tracking-wider">Safety Support Available</div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a class="btn style2" href="#safety-culture">Our Safety Culture <i class="ri-arrow-right-up-line"></i></a>
+          <a class="btn style6" href="/contact">Get In Touch <i class="ri-arrow-right-up-line"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: SAFETY CULTURE -->
+  <section id="safety-culture" class="bg-warm-white p-10">
+    <div class="container mx-auto max-w-6xl">
+      <div class="text-center mb-16">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+        >
+          Core Values
+        </div>
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">
+          Safety is Our Foundation
+        </h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+          The safety of our team members, partners, and their families is at the heart of everything we do. It's not
+          just about compliance—it's about sending everyone home safely, every single day.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-16">
+        <!-- Left: Image -->
+        <div>
+          <Image
+            src={constructionVehicleDirtRoad}
+            alt="Construction vehicle on dirt road"
+            class="w-full h-full min-h-96 rounded-2xl shadow-soft-lg object-cover"
+          />
+        </div>
+
+        <!-- Right: Content -->
+        <div>
+          <h3 class="text-2xl md:text-3xl font-black mb-6 text-charcoal-900">
+            Zero Lost-Time Accidents Since 2006
+          </h3>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-6 font-medium">
+            This isn't just a statistic—it's a testament to our unwavering commitment to safety excellence. Every day
+            for nearly two decades, our team has proven that productivity and safety aren't mutually exclusive. They're
+            inseparable.
+          </p>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-6 font-medium">
+            We achieve this through comprehensive training, rigorous protocols, continuous improvement, and most
+            importantly—a culture where every team member has the authority and responsibility to stop work if
+            something doesn't look right.
+          </p>
+
+          <div class="bg-safety-orange-50 border-l-4 border-safety-orange p-6 rounded-lg">
+            <p class="text-lg text-charcoal-900 leading-relaxed font-bold">
+              "No job is so important that we can't take the time to do it safely. Period."
+            </p>
+            <p class="text-sm text-charcoal-600 font-medium mt-2">— Mountain Mud Safety Philosophy</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: SAFETY PROGRAMS -->
+  <section class="bg-warm-gray p-10">
+    <div class="container mx-auto max-w-6xl">
+      <div class="text-center mb-16">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+        >
+          Comprehensive Programs
+        </div>
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">
+          Our Safety Programs & Training
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Program 1 -->
+        <div
+          class="bg-warm-white p-8 rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all border-t-4 border-safety-orange group"
+        >
+          <div
+            class="w-14 h-14 bg-safety-orange/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-safety-orange transition-all"
+          >
+            <svg
+              class="w-7 h-7 text-safety-orange group-hover:text-white transition-all"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900 uppercase tracking-tight">
+            New Hire Safety Orientation
+          </h3>
+          <p class="text-charcoal-700 leading-relaxed">
+            Comprehensive safety training for all new team members before they ever step foot on a job site. No
+            exceptions.
+          </p>
+        </div>
+
+        <!-- Program 2 -->
+        <div
+          class="bg-warm-white p-8 rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all border-t-4 border-safety-orange group"
+        >
+          <div
+            class="w-14 h-14 bg-safety-orange/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-safety-orange transition-all"
+          >
+            <svg
+              class="w-7 h-7 text-safety-orange group-hover:text-white transition-all"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900 uppercase tracking-tight">
+            Monthly Safety Meetings
+          </h3>
+          <p class="text-charcoal-700 leading-relaxed">
+            Regular team meetings to discuss safety topics, review incidents, share best practices, and reinforce our
+            safety-first culture.
+          </p>
+        </div>
+
+        <!-- Program 3 -->
+        <div
+          class="bg-warm-white p-8 rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all border-t-4 border-safety-orange group"
+        >
+          <div
+            class="w-14 h-14 bg-safety-orange/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-safety-orange transition-all"
+          >
+            <svg
+              class="w-7 h-7 text-safety-orange group-hover:text-white transition-all"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900 uppercase tracking-tight">
+            Site-Specific Training
+          </h3>
+          <p class="text-charcoal-700 leading-relaxed">
+            Customized safety training for specific job sites, client requirements, and operational conditions.
+          </p>
+        </div>
+
+        <!-- Program 4 -->
+        <div
+          class="bg-warm-white p-8 rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all border-t-4 border-safety-orange group"
+        >
+          <div
+            class="w-14 h-14 bg-safety-orange/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-safety-orange transition-all"
+          >
+            <svg
+              class="w-7 h-7 text-safety-orange group-hover:text-white transition-all"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900 uppercase tracking-tight">JSA & Risk Assessment</h3>
+          <p class="text-charcoal-700 leading-relaxed">
+            Job Safety Analysis conducted before every job to identify hazards, assess risks, and implement controls.
+          </p>
+        </div>
+
+        <!-- Program 5 -->
+        <div
+          class="bg-warm-white p-8 rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all border-t-4 border-safety-orange group"
+        >
+          <div
+            class="w-14 h-14 bg-safety-orange/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-safety-orange transition-all"
+          >
+            <svg
+              class="w-7 h-7 text-safety-orange group-hover:text-white transition-all"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
+              ></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900 uppercase tracking-tight">
+            Emergency Response Training
+          </h3>
+          <p class="text-charcoal-700 leading-relaxed">
+            Preparation for emergency situations including first aid, spill response, evacuation procedures, and crisis
+            communication.
+          </p>
+        </div>
+
+        <!-- Program 6 -->
+        <div
+          class="bg-warm-white p-8 rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all border-t-4 border-safety-orange group"
+        >
+          <div
+            class="w-14 h-14 bg-safety-orange/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-safety-orange transition-all"
+          >
+            <svg
+              class="w-7 h-7 text-safety-orange group-hover:text-white transition-all"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-black mb-4 text-charcoal-900 uppercase tracking-tight">
+            Continuous Improvement
+          </h3>
+          <p class="text-charcoal-700 leading-relaxed">
+            Regular safety audits, incident investigations, lessons learned, and program updates to stay ahead of
+            evolving hazards.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: EQUIPMENT & PPE -->
+  <section class="bg-warm-white p-10">
+    <div class="container mx-auto max-w-6xl">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Content -->
+        <div>
+          <div
+            class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+          >
+            Properly Equipped
+          </div>
+          <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">
+            Safety Equipment & PPE
+          </h2>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-6 font-medium">
+            We provide all necessary Personal Protective Equipment and safety gear to our team members at no cost.
+            Because proper protection shouldn't be optional—it's required.
+          </p>
+
+          <h3 class="text-xl font-black mb-4 text-charcoal-900">Standard PPE Provided:</h3>
+          <ul class="space-y-3 text-charcoal-700 mb-8">
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="font-medium">Hard hats and safety helmets</span>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="font-medium">Safety glasses and face shields</span>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="font-medium">Steel-toe boots and protective footwear</span>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="font-medium">Hi-visibility clothing and FR apparel</span>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="font-medium">Work gloves and chemical-resistant gloves</span>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="font-medium">Respiratory protection and hearing protection</span>
+            </li>
+            <li class="flex items-start">
+              <svg
+                class="w-6 h-6 text-safety-orange mr-3 flex-shrink-0 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="font-medium">Fall protection equipment when required</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Right: Image -->
+        <div>
+          <Image
+            src={trainWorkerInspecting}
+            alt="Worker properly equipped with safety gear"
+            class="w-full h-full min-h-96 rounded-2xl shadow-soft-lg object-cover"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5: SAFETY CULTURE IMAGES -->
+  <section class="bg-warm-gray p-10">
+    <div class="container mx-auto max-w-6xl">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">
+          Safety in Action
+        </h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+          Our commitment to safety is visible in everything we do—from job site protocols to team discussions to the
+          way we support each other every day.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Image 1: Site Discussion -->
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={constructionSiteDiscussion}
+            alt="Team safety discussion on construction site"
+            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/50 to-transparent"></div>
+          <div class="absolute inset-0 flex flex-col justify-end p-8">
+            <h3 class="text-2xl font-black mb-2 text-white">Pre-Job Safety Briefings</h3>
+            <p class="text-white/95 font-medium">
+              Every job starts with a comprehensive safety discussion and hazard identification.
+            </p>
+          </div>
+        </div>
+
+        <!-- Image 2: Night Worker -->
+        <div class="relative group overflow-hidden rounded-2xl shadow-soft-lg hover:shadow-soft-xl transition-all">
+          <Image
+            src={industrialWorkerAtNight}
+            alt="Industrial worker demonstrating 24/7 safety commitment"
+            class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/90 via-charcoal-900/50 to-transparent"></div>
+          <div class="absolute inset-0 flex flex-col justify-end p-8">
+            <h3 class="text-2xl font-black mb-2 text-white">24/7 Safety Standards</h3>
+            <p class="text-white/95 font-medium">
+              Our safety commitment doesn't end when the sun goes down. Same standards, day or night.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6: FAMILY FIRST -->
+  <section class="bg-warm-white p-10">
+    <div class="container mx-auto max-w-6xl">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <!-- Left: Image -->
+        <div>
+          <Image
+            src={constructionFatherDaughter}
+            alt="Construction worker with family - representing our family-first values"
+            class="w-full h-full min-h-96 rounded-2xl shadow-soft-lg object-cover"
+          />
+        </div>
+
+        <!-- Right: Content -->
+        <div>
+          <div
+            class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+          >
+            Why It Matters
+          </div>
+          <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">
+            Family First. Always.
+          </h2>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-6 font-medium">
+            Behind every safety statistic is a real person. A parent, spouse, child, sibling, friend. Our zero
+            lost-time accident record isn't just about numbers—it's about making sure everyone on our team gets to go
+            home to their families every single day.
+          </p>
+          <p class="text-lg text-charcoal-600 leading-relaxed mb-6 font-medium">
+            We value our employees as teammates and respect the importance of their families. That's why safety isn't
+            negotiable. It's personal.
+          </p>
+
+          <div class="bg-charcoal-900 p-8 rounded-2xl text-white">
+            <h3 class="text-xl font-black mb-4 text-safety-orange uppercase tracking-tight">
+              Stop Work Authority
+            </h3>
+            <p class="text-white/90 leading-relaxed font-medium mb-4">
+              Every team member has the authority—and the responsibility—to stop work if they observe unsafe conditions
+              or behaviors. No questions asked. No repercussions. Ever.
+            </p>
+            <p class="text-white/90 leading-relaxed font-medium">
+              We'd rather explain a delay than attend a funeral.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7: CTA -->
+  <section class="bg-safety-orange text-white p-10 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-safety-orange-600 to-safety-orange-700 opacity-50"></div>
+    <div class="container mx-auto max-w-4xl text-center relative z-10">
+      <h2 class="text-3xl md:text-4xl font-black mb-7 tracking-tight">
+        Work With a Company That Puts Safety First
+      </h2>
+      <p class="text-lg md:text-xl text-white/95 mb-8 leading-relaxed max-w-3xl mx-auto font-medium">
+        When you partner with Mountain Mud, you're working with a company that has proven—day after day, year after
+        year—that safety and productivity go hand in hand.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
+        <a class="btn style6" href="/contact">
+          Contact Our Team <i class="ri-arrow-right-up-line"></i>
+        </a>
+        <a class="btn style6" href="tel:307-682-8688">
+          Call 307-682-8688 <i class="ri-phone-line"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

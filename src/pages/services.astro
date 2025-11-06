@@ -12,6 +12,8 @@ import constructionSiteDiscussion from '~/assets/images/Construction Site Discus
 import industrialStorageTank from '~/assets/images/Industrial Storage Tank.jpg';
 import mountainMudTruck from '~/assets/images/Mountain Mud Truck.jpg';
 import oilRigAtSunset from '~/assets/images/Oil Rig At Sunset.jpg';
+import oilRigAtDusk from '~/assets/images/Oil Rig At Dusk.jpg';
+import mountainMudStorageTanks from '~/assets/images/Mountain Mud Storage Tanks.jpg';
 
 const metadata = {
   title: 'Services & Support - Complete Drilling Fluids Solutions | MTN Mud',
@@ -25,17 +27,17 @@ const metadata = {
   <section class="relative bg-charcoal-900 overflow-hidden">
     <div class="absolute inset-0">
       <Image
-        src={oilRigAtNight}
+        src={mountainMudStorageTanks}
         alt="24/7 on-site drilling fluids engineering"
         class="w-full h-full object-cover opacity-60"
       />
       <div class="absolute inset-0 bg-gradient-to-r from-charcoal-900/90 via-charcoal-900/70 to-transparent"></div>
     </div>
 
-    <div class="container mx-auto px-4 max-w-7xl py-32 md:py-48 relative z-10">
+    <div class="container mx-auto px-10 py-32 md:py-48 max-w-7xl relative z-10">
       <div class="max-w-3xl">
         <div
-          class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider shadow-lg"
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
         >
           Complete Drilling Fluids Solutions
         </div>
@@ -47,26 +49,16 @@ const metadata = {
           solutions backed by decades of experience and cutting-edge technology.
         </p>
         <div class="flex flex-col sm:flex-row gap-4">
-          <a
-            href="/contact"
-            class="bg-safety-orange text-white px-8 py-4 rounded-xl hover:bg-orange-600 transition-all font-black text-lg inline-flex items-center justify-center shadow-soft-lg hover:shadow-soft-xl uppercase tracking-wider"
-          >
-            Get Engineering Support
-          </a>
-          <a
-            href="tel:307-687-3060"
-            class="bg-white/10 backdrop-blur-sm border-2 border-white text-white px-8 py-4 rounded-xl hover:bg-white hover:text-charcoal-900 transition-all font-black text-lg inline-flex items-center justify-center uppercase tracking-wider"
-          >
-            Call 307-687-3060
-          </a>
+          <a class="btn style2" href="/contact">Get Engineering Support <i class="ri-arrow-right-up-line"></i></a>
+          <a class="btn style6" href="tel:307-682-8688">Call 307-682-8688 <i class="ri-arrow-right-up-line"></i></a>
         </div>
       </div>
     </div>
   </section>
 
   <!-- SECTION 2: MUD ENGINEERING SERVICES -->
-  <section class="bg-warm-white py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-7xl">
+  <section class="bg-warm-white">
+    <div class="container mx-auto max-w-7xl p-10">
       <div class="text-center mb-16">
         <div
           class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
@@ -255,11 +247,11 @@ const metadata = {
   </section>
 
   <!-- SECTION 3: FLUID SYSTEMS -->
-  <section class="bg-charcoal-900 py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-7xl">
+  <section class="bg-charcoal-900">
+    <div class="container mx-auto max-w-7xl p-10">
       <div class="text-center mb-16">
         <div
-          class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
         >
           Fluid Technologies
         </div>
@@ -275,11 +267,11 @@ const metadata = {
         <div
           class="bg-charcoal-800 rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border border-white/10 hover:border-safety-orange/50 group"
         >
-          <div class="relative overflow-hidden h-64">
+          <div class="relative overflow-hidden h-80 bg-charcoal-700">
             <Image
               src={warehouseInterior}
               alt="Water-based mud systems inventory"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              class="absolute inset-0 w-full h-full min-h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
@@ -327,11 +319,11 @@ const metadata = {
         <div
           class="bg-charcoal-800 rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border border-white/10 hover:border-safety-orange/50 group"
         >
-          <div class="relative overflow-hidden h-64">
+          <div class="relative overflow-hidden h-80 bg-charcoal-700">
             <Image
               src={industrialStorageTank}
               alt="Non-aqueous fluid systems"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              class="absolute inset-0 w-full h-full min-h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
@@ -379,11 +371,11 @@ const metadata = {
         <div
           class="bg-charcoal-800 rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border border-white/10 hover:border-safety-orange/50 group"
         >
-          <div class="relative overflow-hidden h-64">
+          <div class="relative overflow-hidden h-80 bg-charcoal-700">
             <Image
               src={industrialFacilityAerial}
               alt="Oil-based mud systems facility"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              class="absolute inset-0 w-full h-full min-h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent"></div>
             <div class="absolute bottom-4 left-4">
@@ -431,8 +423,8 @@ const metadata = {
   </section>
 
   <!-- SECTION 4: CASE STUDIES -->
-  <section class="bg-warm-white py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-7xl">
+  <section class="bg-warm-white">
+    <div class="container mx-auto max-w-7xl p-10">
       <div class="text-center mb-16">
         <div
           class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
@@ -456,7 +448,7 @@ const metadata = {
             </div>
             <div class="lg:col-span-3 p-10">
               <div
-                class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+                class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
               >
                 Powder River Basin
               </div>
@@ -510,7 +502,7 @@ const metadata = {
           <div class="grid grid-cols-1 lg:grid-cols-5 gap-0">
             <div class="lg:col-span-3 p-10 order-2 lg:order-1">
               <div
-                class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+                class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
               >
                 Bakken Formation
               </div>
@@ -571,11 +563,11 @@ const metadata = {
   </section>
 
   <!-- SECTION 5: ADDITIONAL SERVICES -->
-  <section class="bg-charcoal-900 py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-7xl">
+  <section class="bg-charcoal-900">
+    <div class="container mx-auto max-w-7xl p-10">
       <div class="text-center mb-16">
         <div
-          class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
         >
           Beyond Engineering
         </div>
@@ -596,7 +588,7 @@ const metadata = {
           </div>
           <div class="relative rounded-2xl overflow-hidden shadow-soft-lg">
             <Image
-              src={constructionSiteDiscussion}
+              src={oilRigAtDusk}
               alt="On-site consultation and support"
               class="w-full h-64 object-cover"
             />
@@ -717,7 +709,7 @@ const metadata = {
       <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/80 to-charcoal-900/60"></div>
     </div>
 
-    <div class="container mx-auto px-4 max-w-4xl text-center relative z-10">
+    <div class="container mx-auto p-10 max-w-4xl text-center relative z-10">
       <h2 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white leading-tight">
         Ready to Optimize Your<br />Drilling Operations?
       </h2>
@@ -727,18 +719,8 @@ const metadata = {
       </p>
 
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a
-          href="/contact"
-          class="bg-safety-orange text-white px-10 py-5 rounded-xl hover:bg-orange-600 transition-all font-black text-lg inline-flex items-center justify-center shadow-soft-lg hover:shadow-soft-xl uppercase tracking-wider"
-        >
-          Request Engineering Support
-        </a>
-        <a
-          href="tel:307-687-3060"
-          class="border-2 border-white text-white px-10 py-5 rounded-xl hover:bg-white hover:text-charcoal-900 transition-all font-black text-lg inline-flex items-center justify-center uppercase tracking-wider"
-        >
-          Call 307-687-3060
-        </a>
+        <a class="btn style2" href="/contact">Request Engineering Support <i class="ri-arrow-right-up-line"></i></a>
+        <a class="btn style6" href="tel:307-682-8688">Call 307-682-8688 <i class="ri-arrow-right-up-line"></i></a>
       </div>
     </div>
   </section>

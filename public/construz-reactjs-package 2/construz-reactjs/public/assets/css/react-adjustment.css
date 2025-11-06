@@ -1,0 +1,2059 @@
+/* All New Style Here Start  */
+
+/* Header Two Css */
+.space-left {
+  margin-left: auto !important;
+}
+
+/* Home-1 Process Section Css */
+.text-left {
+  text-align: left !important;
+}
+
+/* Client Section Css */
+.client-logo {
+  display: flex;
+  justify-content: center;
+}
+
+.blog-area-1 .slider-padding {
+  padding: 0px 12px !important;
+}
+
+/* Home Portfolio Slick css */
+.slick-dots li button {
+  width: 5px !important;
+  height: 5px !important;
+  background: #CCCCCD !important;
+}
+
+.slick-dots li {
+  margin: 40px 0px 0px 0px !important;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 0 !important;
+}
+
+
+/* Home One client css */
+.home-one-client .slick-track .slick-slide {
+  min-width: 273px;
+  padding: 0px 12px !important;
+}
+
+
+
+/* Home Three Portfolio Css */
+.portfolio-slider3 .custom-slide {
+  padding: 0px 15px !important;
+}
+
+
+/* Video Popup Css start */
+body .disable-scroll {
+  overflow: hidden;
+}
+
+.popup-video {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999 !important;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: rgba(11, 11, 11, 0.8);
+}
+
+.video-one__video-btn,
+.video-btn {
+  cursor: pointer;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  width: 900px;
+  height: 510px;
+  max-width: 900px;
+  border: 5px dashed rgba(0, 0, 0, 0.7);
+  z-index: 999999 !important;
+}
+
+.video-wrapper #youtube-video {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 1280px) {
+  .video-wrapper {
+    width: 70%;
+    height: 450px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .video-wrapper {
+    height: 350px;
+  }
+}
+
+@media (max-width: 780px) {
+  .video-wrapper {
+    height: 300px;
+  }
+}
+
+@media (max-width: 560px) {
+  .video-wrapper {
+    height: 170px;
+  }
+}
+
+.popup {
+  display: flex;
+}
+
+.popdown {
+  display: none;
+}
+
+.mfp-close {
+  position: absolute;
+  top: -45px;
+  right: -5px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  border: 2px solid rgba(0, 0, 0, 0.7);
+  border-radius: 0%;
+  padding: 0;
+  text-align: center;
+  line-height: 38px;
+}
+
+@media (max-width: 1024px) {
+  .mfp-close {
+    top: -40px;
+    width: 35px;
+    height: 35px;
+    font-size: 24px;
+  }
+}
+
+/* Vieo popup css end */
+
+/* Service Section Css */
+.right-end {
+  text-align: right !important;
+}
+
+
+/* Home Two Css */
+
+/* home two testimonial css */
+.testimonial-area-2 .testi-slider2 .slick-dots li.slick-active button {
+  width: 26px !important;
+  background-color: #EA5501 !important;
+}
+
+.testimonial-area-2 .testi-slider2 .slick-dots li button {
+  width: 26px !important;
+  margin-left: 15px;
+  background-color: #3A3A3A !important;
+}
+
+/* Home Two Portfolio section css */
+.portfolio-area-4 .portfolio-card,
+.portfolio-area-2 .portfolio-card {
+  margin: 0px 15px;
+}
+
+/* Home Two Blog Section */
+.blog-area-4 .blog-card,
+.blog-area-2 .blog-card {
+  margin: 0px 12px;
+}
+
+
+/* Home Four Css */
+/* home four hero circle */
+.home-four-circle-text span {
+  color: #fff !important;
+}
+
+textPath {
+  font-family: "Archivo", sans-serif;
+}
+
+.circleWrap3 {
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.circleWrap3 svg {
+  animation: rotate 15s linear infinite;
+  width: 190px;
+  height: 190px;
+  position: absolute;
+  bottom: -165px;
+  left: -26px;
+  overflow: hidden;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.circleWrap3 .circle-text3 {
+  font: 79px/60px times;
+  letter-spacing: 17.5px;
+  width: 100%;
+  fill: white;
+}
+
+.circleWrap4 .circle-text4 {
+  font: 79px/60px times;
+  letter-spacing: 17.5px;
+  width: 100%;
+  fill: black;
+}
+
+.circle-text-4-new svg {
+  bottom: -150px;
+  left: -40px;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+
+
+/* home four service section css */
+.service-area-6 .slick-dots li {
+  width: 8px !important;
+  height: 8px !important;
+  background: #CCCCCD !important;
+  margin: 0px 15px 0px 0px !important;
+  border-radius: 50%;
+}
+
+.service-area-6 li.slick-active {
+  width: 8px !important;
+  height: 8px !important;
+  background-color: #EA5501 !important;
+  border-radius: 50%;
+}
+
+.service-area-6 .slick-dots li button {
+  display: none !important;
+}
+
+/* home four why choose css */
+
+
+@media only screen and (min-width: 1400px) {
+  .why-area-left {
+    margin-left: 16.66666667% !important;
+    margin-right: 0% !important;
+  }
+
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Home four Portfolio css */
+.portfolio-area-4 .extra-space-top {
+  margin-top: 33px;
+}
+
+
+
+/* Home two Hero Css */
+/* .home-two-slider-navigation-dots ul.slick-dots {
+  position: absolute;
+  z-index: 1;
+  bottom: 56px;
+  right: 20%;
+} */
+.home-two-slider-navigation-dots ul.custom-dots {
+  position: absolute;
+  z-index: 1;
+  bottom: 16px;
+  right: 18.5%;
+  display: flex !important;
+}
+
+.home-two-slider-navigation-dots ul.custom-dots li {
+  list-style: none;
+}
+
+.home-two-slider-navigation-dots .custom-dots li button {
+  width: 30px !important;
+  height: 2px !important;
+  background: #737373 !important;
+  margin-left: 10px;
+  color: transparent;
+  border: none;
+}
+
+.home-two-slider-navigation-dots .custom-dots li.slick-active button {
+  width: 50px !important;
+  height: 2px !important;
+  background-color: #EA5501 !important;
+}
+
+
+/* Home two circle css */
+
+.hero-wrapper .text {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: textRotation 20s linear infinite;
+  z-index: 999;
+}
+
+@keyframes textRotation {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.hero-wrapper .text span {
+  position: absolute;
+  left: 50%;
+  font-size: 14px;
+  transform-origin: 0 60px;
+  white-space: nowrap;
+  color: #737373;
+}
+
+.hero-wrapper .text2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+  /* To avoid extra spacing */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: textRotation 20s linear infinite;
+  z-index: 999;
+}
+
+@keyframes textRotation {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.hero-wrapper .text2 span {
+  position: absolute;
+  left: 50%;
+  font-size: 14px;
+  transform-origin: 0 60px;
+  white-space: nowrap;
+  color: #737373;
+}
+
+.hero-wrapper .text3 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  font-size: 0;
+  /* To avoid extra spacing */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: textRotation 20s linear infinite;
+  z-index: 999;
+}
+
+@keyframes textRotation {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.hero-wrapper .text3 span {
+  position: absolute;
+  left: 50%;
+  font-size: 14px;
+  transform-origin: 0 60px;
+  white-space: nowrap;
+  color: #737373;
+}
+
+/* home two accordion css */
+.accordion-card .accordion-body,
+.accordion-card .accordion-body p {
+  font-family: "Titillium Web", sans-serif;
+}
+
+
+/* Home Four circle css */
+.hero-wrapper .text4 {
+  position: absolute;
+  width: 141px;
+  height: 135px;
+  font-size: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: textRotation 20s linear infinite;
+  z-index: 999;
+}
+
+@keyframes textRotation {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.hero-wrapper .text4 span {
+  position: absolute;
+  left: 50%;
+  font-size: 14px;
+  transform-origin: 0 60px;
+  white-space: nowrap;
+}
+
+.hero-wrapper .text5 {
+  position: absolute;
+  width: 141px;
+  height: 135px;
+  font-size: 0;
+  /* To avoid extra spacing */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: textRotation 20s linear infinite;
+  z-index: 999;
+}
+
+@keyframes textRotation {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.hero-wrapper .text5 span {
+  position: absolute;
+  left: 50%;
+  font-size: 14px;
+  transform-origin: 0 60px;
+  white-space: nowrap;
+}
+
+.hero-wrapper .text6 {
+  position: absolute;
+  width: 141px;
+  height: 135px;
+  font-size: 0;
+  /* To avoid extra spacing */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: textRotation 20s linear infinite;
+  z-index: 999;
+}
+
+@keyframes textRotation {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.hero-wrapper .text6 span {
+  position: absolute;
+  left: 50%;
+  font-size: 14px;
+  transform-origin: 0 60px;
+  white-space: nowrap;
+}
+
+/* Home Four Service Slider Dots Style */
+.service-area-6 .slick-list {
+  margin-bottom: 40px;
+}
+
+/* Service Details section css */
+.service-details-absolute-container .process-grid-list .process-grid-list-bg-text {
+  right: -120px;
+}
+
+/* Accordion */
+.accordion {
+  --bs-accordion-border-color: none !important;
+}
+
+/* Home three Testimonial Css */
+.testimonial-area-3 .testi-card {
+  margin: 0px 12px;
+}
+
+
+
+/* Home Five Css */
+
+/* home five hero css */
+.testimonial-area-5 .slick-dots li.slick-active button,
+.hero-slider5 .slick-dots li.slick-active button {
+  background: var(--theme-color) !important;
+}
+
+.testimonial-area-5 .slick-dots li button,
+.hero-slider5 .slick-dots li button {
+  width: 10px !important;
+  height: 10px !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.hero-slider5 .slick-dots {
+  position: absolute !important;
+}
+
+.hero-slider5 .slick-dots li {
+  margin-top: 30px !important;
+}
+
+.testimonial-area-5 .slick-dots li {
+  margin-right: 25px !important;
+}
+
+/* Dot Border Style */
+
+
+.portfolio-area-1 .slick-dots .slick-active {
+  border-radius: 50%;
+  background-color: #F2F2F2 !important;
+  margin-top: 2px;
+}
+
+.portfolio-area-1 ul.slick-dots li {
+  padding: 5px !important;
+}
+
+.testimonial-area-5 .slick-dots .slick-active {
+  border: 1px solid #ffffff33 !important;
+  border-radius: 50%;
+  padding: 6px;
+
+}
+
+.hero-five-banner-img {
+  max-height: 693px;
+}
+
+
+/* Service Page Testimonial Css */
+.testimonial-area-3 ul.slick-dots {
+  margin-top: 0px !important;
+}
+
+.testimonial-area-3 .services-slider .slick-dots li {
+  padding: 8px;
+}
+
+
+/* Project Page Img Popup Css */
+.ril__caption,
+.ril__toolbar {
+  background-color: transparent !important;
+}
+
+.ril__navButtonNext {
+  /* background: transparent !important; */
+}
+
+@media only screen and (min-width: 1200px) {
+  .ril__toolbar {
+    top: 19.9% !important;
+    height: 50px;
+    width: 812px !important;
+    left: 28.8% !important;
+  }
+
+  .extra-style .ril-toolbar.ril__toolbar {
+    max-width: 434px !important;
+  }
+}
+
+.no-scroll {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* Project Details page Select Css */
+.nice-select.wide {
+  background-color: #F5F5F5 !important;
+  height: 50px !important;
+}
+
+.nice-select.open,
+.nice-select:active,
+.nice-select:focus {
+  border-color: var(--theme-color) !important;
+}
+
+.nice-select {
+  border-radius: 0px !important;
+  font-size: 16px;
+}
+
+
+/* About Page Team Css  */
+.team-card {
+  height: 593.78px;
+}
+
+.team-area-2 .home-three-white-space-none {
+  height: 486px;
+}
+
+
+/* Shop Page Filter css */
+.rc-slider-handle {
+  background-color: #EA5501 !important;
+  border: solid 1px #EA5501 !important;
+}
+
+.rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+  border-color: #EA5501 !important;
+  box-shadow: none !important;
+}
+
+.shop-page-select-width .nice-select {
+  border: none !important;
+}
+
+/* ! New Dev style started ------------------------------------ */
+@keyframes progressAnimationOne {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 89%;
+  }
+}
+
+@keyframes progressAnimationTwo {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 92%;
+  }
+}
+
+@keyframes progressAnimationThree {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 78%;
+  }
+}
+
+.progress-barOne {
+  animation: progressAnimationOne 2.7s ease-out forwards;
+}
+
+.progress-barTwo {
+  animation: progressAnimationTwo 2.5s ease-out forwards;
+}
+
+.progress-barThree {
+  animation: progressAnimationThree 2.9s ease-out forwards;
+}
+
+.counter-number {
+  position: relative;
+  display: inline-block;
+}
+
+.product-card {
+  margin: 0 0.5rem;
+}
+
+.product-card-title {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+}
+
+.client-click-slider-gap {
+  margin: 0 0.7rem;
+}
+
+.services-title-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+}
+
+/* services slider dots customize */
+.services-slider .slick-dots li {
+  padding: 1rem;
+}
+
+.services-slider .slick-dots li button {
+  padding: 5px;
+}
+
+.custom-accordion .accordion-button::after {
+  display: none;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: transparent !important;
+}
+
+.accordion-button:not(.collapsed)::after {
+  background-image: none !important;
+}
+
+.accordion-item:not(:first-of-type) {
+  border-top: 1px solid #dee2e6 !important;
+}
+
+.accordion-item:first-of-type {
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+.accordion-item:first-of-type .accordion-button {
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+}
+
+.custom-border.accordion-card:has(.accordion-button:not(.collapsed)) {
+  border-top: 2px solid #ea5501 !important;
+}
+
+.process-fixed-height {
+  height: 100%;
+}
+
+.custom-team-card {
+  height: 100%;
+}
+
+.custom-team-card>.team-card_content>.team-card_title {
+  width: 120%;
+}
+
+.homeTwo-testimonial-dots>.slick-dots>li {
+  padding: 0px 5px;
+}
+
+.homeTwo-testimonial-dots>.slick-dots>li>button {
+  padding: 0px 15px;
+  background-color: #3a3a3a !important;
+}
+
+.homeTwo-testimonial-dots>.slick-dots>li.slick-active>button {
+  background-color: #ea5501 !important;
+}
+
+.homeTwo-custom-accordion-card>.accordion-card:has(.accordion-button:not(.collapsed)) {
+  border: 2px solid transparent !important;
+}
+
+.homeTwo-custom-accordion-card>.accordion-card {
+  border: 2px solid e3e3e4 !important;
+}
+
+/* home three why we do section implement animation */
+
+@keyframes customFadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.custom-animation>.tab-pane.custom-fadeIn {
+  animation: customFadeIn 0.5s ease-in-out;
+}
+
+.homeThree-custom-titleOne {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  width: 120%;
+  margin-bottom: 0px;
+}
+
+.custom-form-design>.nice-select {
+  border-radius: 0px;
+  border: none;
+  outline: none;
+  background-color: #f5f5f5;
+}
+
+.custom-form-design>.nice-select.open {
+  transition: all 0.9s ease-in-out;
+  outline: 1px solid #999999;
+}
+
+.custom-form-design>.nice-select.open>ul>li>.option {
+  border: 1px solid black;
+}
+
+.nice-select .option.focus {
+  font-weight: bold !important;
+  color: #999999 !important;
+  font-size: 17px !important;
+}
+
+/* page five slider dots customization */
+
+.custom-dot2>.slick-dots>li>button {
+  background-color: #353537 !important;
+}
+
+.custom-dot2>.slick-dots>li {
+  position: relative;
+  padding: 7px;
+  color: #ea5501;
+}
+
+.custom-dot2>.slick-dots>li:nth-child(2) {
+  margin: 0 10px !important;
+}
+
+.custom-dot2>.slick-dots>li>button {
+  padding: 5px;
+  z-index: 1;
+  background-color: transparent;
+  border: none;
+}
+
+.custom-dot2>.slick-dots>li.slick-active>button {
+  background-color: #ea5501 !important;
+}
+
+.custom-dot2>.slick-dots>li.slick-active::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border: 1px solid #353537;
+  border-radius: 50%;
+  box-sizing: border-box;
+  padding: 1px;
+  pointer-events: none;
+}
+
+.page4-testimonial-title {
+  margin-left: -10px;
+}
+
+/* page four award card height fix */
+.custom-award-card {
+  height: 100%;
+}
+
+/* Team card section height fixing */
+
+.custom-team-card {
+  height: 100%;
+}
+
+.custom-blog-card {
+  height: 100% !important;
+}
+
+
+
+
+/* Select Option Style */
+span.current,
+.select-style {
+  font-size: 16px;
+}
+
+.nice-select .option.focus {
+  font-weight: 400 !important;
+  color: #999999 !important;
+  font-size: 16px !important;
+}
+
+.custom-form-design>.nice-select.open {
+  transition: all 0.2s ease-in-out;
+  outline: 1px solid #EA5501;
+}
+
+
+/* Cart Page Css  */
+.cart_table .actions>.btn {
+  margin-right: 17px;
+}
+
+/* Shop details Css */
+i.ri-star-fill {
+  padding-right: 3px;
+}
+
+.space-extra-top .title-area.text-md-start.text-center.product-card-title {
+  margin-bottom: 30px;
+}
+
+.btn-px-space-none {
+  padding: 0px 6px;
+}
+
+/* Shop page Css */
+
+.product-px-space {
+  padding: 0px 8px;
+}
+
+.product-space-none {
+  padding: 0px 4px;
+}
+
+/* Team Page Css */
+
+.max-width-reset-team {
+  max-width: 300px;
+}
+
+.team-card-white-space-none {
+  margin-top: 85px !important;
+}
+
+/* footer Two css */
+.btn-footer-two {
+  background-color: #EA5501 !important;
+  color: #ffffff !important;
+  padding: 19px 30px !important;
+  display: inline-flex !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+  overflow: hidden !important;
+  align-items: center !important;
+}
+
+.btn-footer-two:hover {
+  color: #15161C !important;
+}
+
+.accordion-card {
+  border: 2px solid rgba(21, 22, 28, 0.1) !important;
+}
+
+/* Service Section Css  */
+.global-carousel.slider-shadow .slick-list {
+  padding: 24px 0px 36px 0px !important;
+}
+
+.testimonial-area-bottom-space-row {
+  margin-bottom: 30px !important;
+}
+
+/* Contact Dropdown Css */
+.nice-select.wide {
+  background-color: #F5F5F5 !important;
+  height: 48px !important;
+  display: flex;
+  align-items: center;
+}
+
+.nice-select:after {
+  right: 20px;
+  height: 6px;
+  width: 11px;
+  transform: rotate(0);
+  border-top: solid 6px var(--body-color);
+  border-bottom: transparent;
+  border-left: solid 5px transparent;
+  border-right: solid 5px transparent;
+  margin-top: -1px;
+  transform-origin: center;
+}
+
+.nice-select.open:after {
+  transform: rotate(-180deg);
+}
+
+/* About Page css */
+.process-area-1 .process-card .process-card-text {
+  font-size: 17px;
+}
+
+/* Home Three Css */
+.portfolio-slider3 .global-carousel .slick-slide.slick-current .portfolio-card .portfolio-card-thumb .icon-btn {
+  opacity: 1;
+  top: 75px;
+}
+
+/* Extra Content Heading Style */
+.content-text-extra-style {
+  text-align: center !important;
+}
+
+.home-two-header-justify-content-extra {
+  justify-content: space-between !important;
+}
+
+.client-space-extra {
+  padding: 60px 0px;
+}
+
+/* slick testimonial css  */
+.home-one-testimonial .slick-slide {
+  padding: 0px 20px;
+}
+
+/* Header One New Style */
+.header-one-extra-style {
+  position: relative !important;
+  z-index: 2 !important;
+  vertical-align: middle;
+  display: inline-flex;
+  gap: 15px;
+  border: none;
+  border-radius: 0px !important;
+  text-align: center;
+  background-color: #EA5501 !important;
+  color: #ffffff !important;
+  font-family: var(--title-font);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 19px 30px;
+  overflow: hidden;
+  align-items: center;
+}
+
+.header-one-extra-style:focus,
+.header-one-extra-style:hover,
+.header-one-extra-style:active {
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* Service Area Testimonial css */
+.service-testimonial-align {
+  align-items: center !important;
+}
+
+.service-area-content-text-extra-style {
+  text-align: center !important;
+}
+
+/* home three why are css */
+.why-three-extra {
+  display: flex;
+  justify-content: center;
+}
+
+/* Home Four Blog Extra Css  */
+.white-space-hidden {
+  padding: 0px;
+}
+
+.testimonial-extra-padding,
+.portfolio-extra-padding,
+.blog-extra-padding {
+  padding: 0px 26px;
+}
+
+/* Service Details style  */
+.service-details-top-extra-space {
+  margin-top: 40px;
+}
+
+/* Home Four Hero Slider  */
+.hero-four-slider-text-inline-flex {
+  display: inline-flex;
+}
+
+/* Home Two Pricing Text Align  */
+.home-two-pricing-align {
+  text-align: center;
+}
+
+.portfolio-area-content-text-extra-style {
+  text-align: center;
+}
+
+/* Home Five Page Style */
+.home-five-hero-five-flex {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.home-five-hero .slick-list {
+  margin-left: 0px !important;
+}
+
+.blog-area-4 .slick-list {
+  margin-left: 0px !important;
+}
+
+.testimonial-area-3 .slick-list {
+  margin-left: 0px !important;
+}
+
+.blog-area-2 .slick-list {
+  margin-left: 0px !important;
+}
+
+.portfolio-area-2 .slick-list {
+  margin-left: 0px !important;
+}
+
+/* Home Two Style  */
+.home-two-pricing-button-align {
+  text-align: center !important;
+}
+
+.home-two-hero-space {
+  max-height: 998px !important;
+}
+
+/* Sidebar Space */
+.space-right-sidebar-icon {
+  margin-right: 8px;
+}
+
+
+
+/* Shop Details card Heading style */
+.shop-details-card-extra-style {
+  justify-content: center;
+}
+
+/* Product Card Style */
+.product-card-extra-style-space {
+  margin: 0px 12px;
+}
+
+.shop-details-card .slick-list {
+  margin-right: 24px !important;
+}
+
+.shop-details-card-space-none {
+  padding: 0px !important;
+}
+
+.testimonial-area-3 .services-slider .slick-dots li {
+  padding: 6px;
+}
+
+.testimonial-area-3 .slick-dots li button {
+  width: 2px !important;
+  height: 2px !important;
+}
+
+.testimonial-area-3 .slick-dots .slick-active {
+  border: 1px solid #d8d8d88b;
+  border-radius: 50%;
+}
+
+.testimonial-area-5 .slick-dots .slick-active {
+  border: 1px solid #d8d8d88b;
+  border-radius: 50%;
+}
+
+.testimonial-area-3 .slick-dots .slick-active {
+  border: 1px solid #d8d8d88b;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 7.5px !important;
+}
+
+.service-area-6 .slick-list {
+  margin-left: 0px !important;
+}
+
+/* Team Page Team Card Style  */
+.team-page-team-card .team-card {
+  height: 534.45px;
+}
+
+.team-page-team-card .team-card-white-space-none {
+  margin-top: 30px !important;
+}
+
+.testimonial-area-5 .testi-slider5 .slick-dots {
+  margin-top: 0px;
+}
+
+/* All Video cursor  */
+.play-btn-wrap {
+  cursor: pointer;
+}
+
+.ri-play-fill {
+  cursor: pointer;
+}
+
+/* Shop Card Popup style  */
+.react-responsive-modal-modal {
+  max-width: 1386px !important;
+  margin: 7.5rem 0rem !important;
+  padding: 0rem !important;
+  overflow: hidden !important;
+}
+
+.space-top-none-card {
+  margin-top: 0px;
+}
+
+.shop-btn-close-icon {
+  color: #15161C;
+  top: 0px;
+  right: 0px;
+}
+
+.nav-item {
+  cursor: pointer;
+}
+
+
+/* Home two service card dots Style */
+.service-card-dots {
+  display: flex !important;
+  gap: 16px;
+  justify-content: center;
+}
+
+.service-card-dots li {
+  list-style: none;
+  width: 8px;
+  height: 8px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.service-card-dots li button {
+  color: transparent;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background-color: #CCCCCD;
+}
+
+.service-card-dots .slick-active button {
+  background-color: #ea5501;
+}
+
+/* landing Page Sidebar CSS */
+
+
+
+.hero-number-slider2 .slick-dots li button:before {
+  height: 2px !important;
+}
+
+.hero-number-slider2 .slick-dots li button::after {
+  margin-left: 10px;
+}
+
+.hero-number-slider2 .slick-dots li button {
+  height: 2px !important;
+  padding: 0px 5px !important;
+  margin-left: 10px !important;
+}
+
+.hero-number-slider2 .hero-wrapper li.slick-active button {
+  margin-left: 10px !important;
+}
+
+.hero-number-slider2 .slick-dots li {
+  height: 2px !important;
+}
+
+
+.menu-bar {
+  display: flex;
+  justify-content: end;
+  justify-items: end;
+  max-width: 100%;
+}
+
+.common-about-number-style {
+  display: flex;
+
+}
+
+.hero-four-home-four-flex {
+  display: flex;
+  gap: 8px;
+}
+
+.footer-img img {
+  width: 183px;
+  height: auto;
+}
+
+.display-none {
+  display: none;
+}
+
+.cta-text-align {
+  text-align: center;
+}
+
+.blog-area-content-text-extra-style {
+  text-align: center !important;
+}
+
+.pricing-area-content-text-extra-style {
+  text-align: center !important;
+}
+
+@media only screen and (min-width: 768px) {
+  .cta-text-align {
+    text-align: left;
+  }
+
+  .shop-details-card-extra-style {
+    text-align: left !important;
+    padding-left: 12px;
+  }
+
+  .wishlist-product-price-flex {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 121px;
+    justify-content: center;
+  }
+
+  /* wishlist table border   */
+  td.product-price.wishlist-product-price-flex {
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+
+}
+
+
+.demo-two-possition-img {
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 560px) {
+  .demo-two-possition-img {
+    max-width: 480px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .demo-two-possition-img {
+    max-width: 640px;
+  }
+
+  .team-area-2 .home-three-white-space-none {
+    height: 479px;
+  }
+
+  /* home two and home five client css  */
+  .home-two-five-client .slick-track .slick-slide {
+    min-width: 273px;
+    padding: 0px 44px !important;
+  }
+
+  .slick-list {
+    margin-left: 15px !important;
+  }
+
+  .content-text-extra-style {
+    text-align: left !important;
+  }
+
+
+  .service-testimonial-align {
+    align-items: start !important;
+  }
+
+  .home-one-testimonial .slick-slide {
+    padding: 0px 0px;
+  }
+
+  .shop-page-select-width {
+    width: 200px;
+  }
+
+  .team-page-team-card .team-card-white-space-none {
+    margin-top: 30px !important;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .wishlist-product-price-flex {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    height: 120px;
+    justify-content: center;
+  }
+
+  .wishlist-product-price-flex {
+    height: 122px;
+  }
+
+  .portfolio-area-content-text-extra-style {
+    text-align: left;
+  }
+
+  .home-two-hero-space {
+    max-height: 998px !important;
+  }
+
+  .blog-area-content-text-extra-style {
+    text-align: left !important;
+  }
+
+  .team-page-team-card .team-card-white-space-none {
+    margin-top: 30px !important;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .demo-two-possition-img {
+    max-width: 880px;
+  }
+
+  .team-area-2 .home-three-white-space-none {
+    height: 421px;
+  }
+
+  .client-space-extra {
+    padding: 100px 0px 0px 0px;
+  }
+
+  .service-details-top-extra-space {
+    margin-top: 0px;
+  }
+
+  /* About Page portfolio css */
+  .portfolio-card .portfolio-card-thumb img {
+    min-height: 448px !important;
+    object-fit: cover;
+  }
+
+  .portfolio-card-thumb img {
+    min-height: 461px !important;
+    object-fit: cover;
+  }
+
+  .portfolio-card:after {
+    min-height: 448px;
+  }
+
+  .slick-list {
+    margin-left: 15px !important;
+  }
+
+  .home-five-hero .slick-list {
+    margin-left: 0px !important;
+  }
+
+
+}
+
+@media only screen and (min-width: 1200px) {
+  .demo-two-possition-img {
+    max-width: 1060px;
+  }
+
+  .react-responsive-modal-modal {
+    max-height: 666px !important;
+  }
+
+  .larger-no-space {
+    padding: 0px;
+  }
+
+  .wishlist-product-price-flex {
+    height: 120.57px;
+  }
+
+  .service-area-content-text-extra-style {
+    text-align: left !important;
+  }
+
+  .team-area-2 .home-three-white-space-none {
+    height: 489px;
+  }
+
+  .team-card-white-space-none {
+    margin-top: 65px !important;
+  }
+
+  .team-page-team-card .team-card-white-space-none {
+    margin-top: 10px !important;
+  }
+}
+
+@media only screen and (min-width: 1400px) {
+  .team-area-2 .home-three-white-space-none {
+    height: 594px;
+  }
+
+  .home-two-pricing-button-align {
+    text-align: left !important;
+  }
+
+  .pricing-area-content-text-extra-style {
+    text-align: left !important;
+  }
+
+  .home-two-pricing-align {
+    text-align: left;
+  }
+
+  .testimonial-area-5.home-one-testimonial.overflow-hidden.space.position-relative {
+    max-height: 692.16px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  .demo-two-possition-img {
+    max-width: 1296px;
+  }
+
+  .team-card-white-space-none {
+    margin-top: -18px !important;
+  }
+
+  .team-page-team-card .team-card-white-space-none {
+    margin-top: -80px !important;
+  }
+
+  .team-area-2 .home-three-white-space-none {
+    height: 594px;
+  }
+}
+
+.link-text {
+  text-decoration: none;
+}
+
+.portfolio-image-align img {
+  height: 100%;
+}
+
+.item-decoration a {
+  text-decoration: none;
+}
+
+.accordion-decoration {
+  border-bottom: none !important;
+}
+
+/* .service-card-underline a {
+  text-decoration: none;
+} */
+
+.service-text-adjustment {
+  font-size: 36px;
+  line-height: 1.278;
+}
+
+@media (max-width: 1199px) {
+  .service-text-adjustment {
+    font-size: 40px;
+  }
+}
+
+@media (max-width:767px) {
+  .service-text-adjustment {
+    font-size: 34px;
+    line-height: 1.3;
+  }
+}
+
+@media (max-width: 575px) {
+  .service-text-adjustment {
+    font-size: 30px;
+  }
+}
+
+.header-decoration a {
+  text-decoration: none !important;
+}
+
+.header-underline .header-layout1 .header-top {
+
+  border-bottom: 1px solid transparent !important;
+}
+
+
+.preloader{
+  opacity: 1;
+  transition: opacity .4s;
+}
+.preloader.loaded{
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* All New Style Here End  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* All New Style Here End  */

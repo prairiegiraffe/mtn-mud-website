@@ -65,6 +65,36 @@ const postCollection = defineCollection({
   }),
 });
 
+const productCollection = defineCollection({
+  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/content/products' }),
+  schema: z.object({
+    title: z.string(),
+    category: z.string(),
+    size: z.string().optional(),
+    price: z.string().optional(),
+    datasheet: z.string().optional(),
+    description: z.string().optional(),
+    order: z.number().default(0),
+    inStock: z.boolean().default(true),
+  }),
+});
+
+const jobPostingCollection = defineCollection({
+  loader: glob({ pattern: ['*.md', '*.mdx'], base: 'src/content/jobs' }),
+  schema: z.object({
+    title: z.string(),
+    locations: z.string(),
+    description: z.string().optional(),
+    requirements: z.array(z.string()).optional(),
+    responsibilities: z.array(z.string()).optional(),
+    publishDate: z.date().optional(),
+    active: z.boolean().default(true),
+    order: z.number().default(0),
+  }),
+});
+
 export const collections = {
   post: postCollection,
+  products: productCollection,
+  jobs: jobPostingCollection,
 };

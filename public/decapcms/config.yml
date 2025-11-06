@@ -27,3 +27,69 @@ collections:
       - { label: 'Publish Date', name: 'publishDate', widget: 'datetime', required: false }
       - { label: 'Author', name: 'author', widget: 'string' }
       - { label: 'Content', name: 'body', widget: 'markdown' }
+
+  - name: 'product'
+    label: 'Products'
+    folder: 'src/content/products'
+    create: true
+    slug: '{{category}}-{{slug}}'
+    fields:
+      - { label: 'Product Name', name: 'title', widget: 'string' }
+      - {
+          label: 'Category',
+          name: 'category',
+          widget: 'select',
+          options: [
+            'Bentonite',
+            'PAC Polymers Drispac Liquid',
+            'Lost Circulation',
+            'Polymers & Detergents',
+            'Foamers & Defoamers',
+            'Specialty Chemicals',
+            'Cementing and Frac',
+            'Thinners',
+            'Pit Liners',
+            'Erosion Control',
+            'Float Equipment'
+          ]
+        }
+      - { label: 'Package Size', name: 'size', widget: 'string', required: false, hint: 'e.g., 50 LBS, 100 LBS, TON, 5 GAL' }
+      - { label: 'Price', name: 'price', widget: 'string', required: false, hint: 'Leave blank if no pricing' }
+      - { label: 'Data Sheet URL', name: 'datasheet', widget: 'string', required: false, hint: 'URL to PDF or leave blank' }
+      - { label: 'Description', name: 'description', widget: 'text', required: false }
+      - { label: 'Sort Order', name: 'order', widget: 'number', default: 0, required: false, hint: 'Lower numbers appear first' }
+      - { label: 'In Stock', name: 'inStock', widget: 'boolean', default: true }
+
+  - name: 'jobs'
+    label: 'Job Postings'
+    folder: 'src/content/jobs'
+    create: true
+    slug: '{{slug}}'
+    fields:
+      - { label: 'Job Title', name: 'title', widget: 'string' }
+      - { label: 'Locations', name: 'locations', widget: 'string', hint: 'e.g., Gillette WY, Cheyenne WY, Williston ND' }
+      - { label: 'Description', name: 'description', widget: 'text', required: false }
+      - {
+          label: 'Requirements',
+          name: 'requirements',
+          widget: 'list',
+          required: false,
+          allow_add: true,
+          allow_delete: true,
+          collapsed: false,
+          field: { label: 'Requirement', name: 'requirement', widget: 'string' }
+        }
+      - {
+          label: 'Responsibilities',
+          name: 'responsibilities',
+          widget: 'list',
+          required: false,
+          allow_add: true,
+          allow_delete: true,
+          collapsed: false,
+          field: { label: 'Responsibility', name: 'responsibility', widget: 'string' }
+        }
+      - { label: 'Publish Date', name: 'publishDate', widget: 'datetime', required: false }
+      - { label: 'Active', name: 'active', widget: 'boolean', default: true, hint: 'Uncheck to hide this job posting' }
+      - { label: 'Sort Order', name: 'order', widget: 'number', default: 0, required: false, hint: 'Lower numbers appear first' }
+      - { label: 'Content', name: 'body', widget: 'markdown', required: false }

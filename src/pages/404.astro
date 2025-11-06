@@ -6,18 +6,32 @@ const title = `Error 404`;
 ---
 
 <Layout metadata={{ title }}>
-  <section class="flex items-center h-full p-16">
-    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-      <div class="max-w-md text-center">
-        <h2 class="mb-8 font-bold text-9xl">
-          <span class="sr-only">Error</span>
-          <span class="text-primary">404</span>
-        </h2>
-        <p class="text-3xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
-        <p class="mt-4 mb-8 text-lg text-muted dark:text-slate-400">
-          But dont worry, you can find plenty of other things on our homepage.
+  <section class="relative bg-charcoal-900 overflow-hidden min-h-screen flex items-center">
+    <div class="absolute inset-0">
+      <div class="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900"></div>
+      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, rgba(221, 94, 38, 0.15) 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+
+    <div class="container mx-auto px-10 py-32 max-w-7xl relative z-10">
+      <div class="max-w-3xl mx-auto text-center">
+        <div class="mb-8">
+          <span class="text-9xl md:text-[12rem] font-black text-safety-orange leading-none font-mono">404</span>
+        </div>
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
+        >
+          Page Not Found
+        </div>
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-8 text-white leading-tight tracking-tight">
+          Sorry, we couldn't find this page.
+        </h1>
+        <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed mb-10">
+          But don't worry, you can find plenty of other things on our homepage—including our complete drilling fluids solutions, product catalog, and expert support.
         </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ml-4">Back to homepage</a>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a rel="noopener noreferrer" href={getHomePermalink()} class="btn style2">Back to Homepage <i class="ri-arrow-right-up-line"></i></a>
+          <a class="btn style6" href="/contact">Contact Us <i class="ri-arrow-right-up-line"></i></a>
+        </div>
       </div>
     </div>
   </section>

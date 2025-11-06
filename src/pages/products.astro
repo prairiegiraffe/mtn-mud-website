@@ -1,15 +1,10 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 
 // Import images
 import industrialStorageTanks from '~/assets/images/Industrial Storage Tanks.jpg';
-import warehouseInterior from '~/assets/images/Warehouse Interior With Forklift.jpg';
-import mountainMudStorageTanks from '~/assets/images/Mountain Mud Storage Tanks.jpg';
-import industrialFacility from '~/assets/images/Industrial Facility Aerial View.jpg';
-import warehouseStorage from '~/assets/images/Warehouse Storage Area.jpg';
-import industrialSiteWithTruck from '~/assets/images/Industrial Site With Truck.jpg';
-import modernCoffeeLab from '~/assets/images/Modern Coffee Lab Interior.jpg';
 import mtnMudTruck from '~/assets/images/Mountain Mud Truck.jpg';
 
 const metadata = {
@@ -18,320 +13,231 @@ const metadata = {
     'Premium products for every drilling challenge. Over 1 million pounds of bulk barite and 20,000+ barrels of OBM in stock.',
 };
 
-// Sample product data for the table
-const sampleProducts = [
-  { name: 'BARITE', size: '100 LBS', price: '$21.55' },
-  { name: 'BARITE BULK', size: 'TON', price: '$265.00' },
-  { name: 'GEL 100LBS', size: '100 LBS', price: '$7.85' },
-  { name: 'SALT GEL', size: '50 LBS', price: '$28.00' },
-  { name: 'SEA GEL', size: '50 LBS', price: '$28.00' },
-  { name: 'BENTONITE', size: '100 LBS', price: '$18.25' },
-  { name: 'PAC-L (POLY ANIONIC CELLULOSE)', size: '50 LBS', price: '$95.00' },
-  { name: 'PAC-R (POLY ANIONIC CELLULOSE)', size: '50 LBS', price: '$105.00' },
-  { name: 'CAUSTIC SODA', size: '50 LBS', price: '$35.50' },
-  { name: 'SODA ASH (LIGHT)', size: '50 LBS', price: '$24.00' },
-];
+// Get all products from the collection
+const allProducts = await getCollection('products');
+
+// Group products by category and sort by order
+const productsByCategory = allProducts.reduce((acc, product) => {
+  const category = product.data.category;
+  if (!acc[category]) {
+    acc[category] = [];
+  }
+  acc[category].push(product);
+  return acc;
+}, {} as Record<string, typeof allProducts>);
+
+// Sort products within each category by order
+Object.keys(productsByCategory).forEach((category) => {
+  productsByCategory[category].sort((a, b) => a.data.order - b.data.order);
+});
+
+// Get category names sorted alphabetically
+const categories = Object.keys(productsByCategory).sort();
 ---
 
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
   <section class="relative bg-charcoal-900 overflow-hidden">
-    <div class="absolute inset-0 h-[32rem]">
+    <div class="absolute inset-0">
       <Image
         src={industrialStorageTanks}
         alt="Mountain Mud product inventory - industrial storage"
-        class="w-full h-full object-cover opacity-70"
+        class="w-full h-full object-cover opacity-60"
       />
-      <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/70 via-charcoal-900/80 to-charcoal-900"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-charcoal-900/90 via-charcoal-900/70 to-transparent"></div>
     </div>
-    <div class="relative container mx-auto px-4 max-w-5xl text-center pt-32 pb-16">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white leading-tight tracking-tight">
-        Premium Products for Every Drilling Challenge
-      </h1>
-      <p class="text-xl md:text-2xl text-safety-orange font-black mb-6 uppercase tracking-wide">
-        Always in Stock. Always Ready.
-      </p>
-      <p class="text-lg text-white/90 max-w-3xl mx-auto leading-relaxed font-medium">
-        From standard drilling mud additives to specialty products for unique geological formations, Mountain Mud
-        delivers the quality and consistency your operations demand. With over 1 million pounds of bulk barite and
-        20,000+ barrels of OBM in stock, we're ready to support projects of any scale.
-      </p>
-    </div>
-  </section>
 
-  <!-- SECTION 1.5: INVENTORY STATS -->
-  <section class="bg-charcoal-900 py-16">
-    <div class="container mx-auto px-4 max-w-6xl">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="text-center bg-charcoal-800 p-8 rounded-xl border border-white/10">
-          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">1M+</div>
-          <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Pounds of Bulk Barite</div>
+    <div class="container mx-auto px-10 py-32 md:py-48 max-w-7xl relative z-10">
+      <div class="max-w-3xl">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-6 uppercase tracking-wider"
+        >
+          Always in Stock. Always Ready.
         </div>
-        <div class="text-center bg-charcoal-800 p-8 rounded-xl border border-white/10">
-          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">20K+</div>
-          <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Barrels of OBM in Stock</div>
-        </div>
-        <div class="text-center bg-charcoal-800 p-8 rounded-xl border border-white/10">
-          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">24/7</div>
-          <div class="text-sm font-bold text-white/70 uppercase tracking-wider">Product Availability</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 2: PRODUCT CATEGORIES -->
-  <section class="bg-warm-white py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-6xl">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Product Categories</h2>
-        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
-          Comprehensive drilling fluid solutions organized by system type. Every product in stock, tested in our labs,
-          and ready for immediate delivery.
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-8 text-white leading-tight tracking-tight">
+          Premium Products for Every Drilling Challenge
+        </h1>
+        <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed mb-10">
+          From standard drilling mud additives to specialty products for unique geological formations, Mountain Mud
+          delivers the quality and consistency your operations demand.
         </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Card 1: Water-Based Mud Additives -->
-        <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
-          <div class="relative overflow-hidden">
-            <Image
-              src={warehouseInterior}
-              alt="Water-based mud additives inventory"
-              class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            <div class="absolute top-4 left-4">
-              <div
-                class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg"
-              >
-                Most Popular
-              </div>
-            </div>
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-black mb-4 text-charcoal-900">Water-Based Mud Additives</h3>
-            <p class="text-charcoal-600 leading-relaxed mb-6 font-medium">
-              Comprehensive solutions for water-based drilling operations including bentonite, polymers, fluid loss
-              control agents, thinners, and viscosifiers. Designed for optimal performance across all geological
-              formations.
-            </p>
-            <a
-              href="#products"
-              class="w-full bg-safety-orange text-white px-6 py-3 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-sm inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
-            >
-              View Products
-            </a>
-          </div>
-        </div>
-
-        <!-- Card 2: Oil-Based Mud Additives -->
-        <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
-          <div class="relative overflow-hidden">
-            <Image
-              src={mountainMudStorageTanks}
-              alt="Oil-based mud storage tanks"
-              class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            <div class="absolute top-4 left-4">
-              <div
-                class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg"
-              >
-                20K+ Barrels
-              </div>
-            </div>
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-black mb-4 text-charcoal-900">Oil-Based Mud Additives</h3>
-            <p class="text-charcoal-600 leading-relaxed mb-6 font-medium">
-              Advanced OBM solutions including emulsifiers, organoclays, rheology modifiers, and wetting agents. Over
-              20,000 barrels in stock at our Wyoming headquarters—the Powder River Basin's only full-service OBM
-              supplier.
-            </p>
-            <a
-              href="#products"
-              class="w-full bg-safety-orange text-white px-6 py-3 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-sm inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
-            >
-              View Products
-            </a>
-          </div>
-        </div>
-
-        <!-- Card 3: Salt Water-Based Mud Additives -->
-        <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
-          <div class="relative overflow-hidden">
-            <Image
-              src={industrialFacility}
-              alt="Salt water-based mud facility"
-              class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-black mb-4 text-charcoal-900">Salt Water-Based Mud Additives</h3>
-            <p class="text-charcoal-600 leading-relaxed mb-6 font-medium">
-              Specialized non-aqueous solutions for saltwater applications, including salt gel systems and additives
-              designed for challenging brine environments and salt-sensitive formations.
-            </p>
-            <a
-              href="#products"
-              class="w-full bg-safety-orange text-white px-6 py-3 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-sm inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
-            >
-              View Products
-            </a>
-          </div>
-        </div>
-
-        <!-- Card 4: Lubricants -->
-        <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
-          <div class="relative overflow-hidden">
-            <Image
-              src={warehouseStorage}
-              alt="Lubricant product inventory"
-              class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-black mb-4 text-charcoal-900">Lubricants</h3>
-            <p class="text-charcoal-600 leading-relaxed mb-6 font-medium">
-              High-performance lubrication solutions including MTN Beads, Lube X, and premium drilling lubricants
-              designed to reduce torque, drag, and equipment wear in demanding drilling conditions.
-            </p>
-            <a
-              href="#products"
-              class="w-full bg-safety-orange text-white px-6 py-3 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-sm inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
-            >
-              View Products
-            </a>
-          </div>
-        </div>
-
-        <!-- Card 5: Lost Circulation Materials -->
-        <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
-          <div class="relative overflow-hidden">
-            <Image
-              src={industrialSiteWithTruck}
-              alt="Lost circulation materials delivery"
-              class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            <div class="absolute top-4 left-4">
-              <div
-                class="inline-block bg-safety-orange text-white px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider shadow-lg"
-              >
-                Specialty Blends
-              </div>
-            </div>
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-black mb-4 text-charcoal-900">Lost Circulation Materials</h3>
-            <p class="text-charcoal-600 leading-relaxed mb-6 font-medium">
-              Comprehensive LCM solutions including fiber products, graphite, mica, walnut shells, and proprietary
-              blends like MTN Magic and Surface Sweep for controlling fluid loss in fractured formations.
-            </p>
-            <a
-              href="#products"
-              class="w-full bg-safety-orange text-white px-6 py-3 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-sm inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
-            >
-              View Products
-            </a>
-          </div>
-        </div>
-
-        <!-- Card 6: Specialty Products -->
-        <div class="bg-warm-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all group">
-          <div class="relative overflow-hidden">
-            <Image
-              src={modernCoffeeLab}
-              alt="Specialty products and mud lab"
-              class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-          </div>
-          <div class="p-8">
-            <h3 class="text-2xl font-black mb-4 text-charcoal-900">Specialty Products</h3>
-            <p class="text-charcoal-600 leading-relaxed mb-6 font-medium">
-              Custom solutions for unique drilling challenges including corrosion inhibitors, biocides, defoamers, and
-              specialized chemical additives. If you don't see it listed, we can special order it.
-            </p>
-            <a
-              href="#products"
-              class="w-full bg-safety-orange text-white px-6 py-3 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-sm inline-flex items-center justify-center shadow-soft hover:shadow-soft-lg"
-            >
-              View Products
-            </a>
-          </div>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a class="btn style2" href="#products">View Product Catalog <i class="ri-arrow-right-up-line"></i></a>
+          <a class="btn style6" href="tel:307-682-8688">Call 307-682-8688 <i class="ri-arrow-right-up-line"></i></a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 3: SAMPLE PRODUCT TABLE -->
-  <section id="products" class="bg-warm-gray py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-6xl">
+  <!-- SECTION 2: INVENTORY STATS -->
+  <section class="bg-warm-white">
+    <div class="container mx-auto max-w-6xl p-10">
       <div class="text-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Sample Product Listing</h2>
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+        >
+          Industry-Leading Inventory
+        </div>
+        <h2 class="text-4xl md:text-5xl font-black mb-6 text-charcoal-900">Always Ready to Deliver</h2>
+        <p class="text-lg text-charcoal-700 leading-relaxed max-w-3xl mx-auto">
+          With massive inventory levels across all product categories, we have what you need when you need it—no
+          back-orders, no delays.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="text-center bg-white p-8 rounded-2xl shadow-soft-lg border-t-4 border-safety-orange">
+          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">1M+</div>
+          <div class="text-sm font-bold text-charcoal-600 uppercase tracking-wider">Pounds of Bulk Barite</div>
+        </div>
+        <div class="text-center bg-white p-8 rounded-2xl shadow-soft-lg border-t-4 border-safety-orange">
+          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">20K+</div>
+          <div class="text-sm font-bold text-charcoal-600 uppercase tracking-wider">Barrels of OBM in Stock</div>
+        </div>
+        <div class="text-center bg-white p-8 rounded-2xl shadow-soft-lg border-t-4 border-safety-orange">
+          <div class="text-5xl font-black text-safety-orange mb-3 font-mono">24/7</div>
+          <div class="text-sm font-bold text-charcoal-600 uppercase tracking-wider">Product Availability</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: PRODUCTS WITH TABS -->
+  <section id="products" class="bg-warm-gray py-20 md:py-28">
+    <div class="container mx-auto max-w-7xl p-10">
+      <div class="text-center mb-12">
+        <div
+          class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+        >
+          Complete Catalog
+        </div>
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Our Products</h2>
         <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium mb-8">
-          Weight materials, clays, and common additives. This is just a sample—our full catalog includes hundreds of
-          products across all categories.
+          Browse our complete catalog organized by category. All products are in stock and ready for immediate delivery.
         </p>
       </div>
 
-      <!-- Responsive Table -->
-      <div class="overflow-x-auto bg-warm-white rounded-2xl shadow-soft-lg border-4 border-white">
-        <table class="w-full">
-          <thead class="bg-charcoal-900 border-b-4 border-safety-orange">
-            <tr>
-              <th class="px-6 py-5 text-left font-black text-white uppercase tracking-wider text-sm">Product Name</th>
-              <th class="px-6 py-5 text-left font-black text-white uppercase tracking-wider text-sm">Size</th>
-              <th class="px-6 py-5 text-left font-black text-white uppercase tracking-wider text-sm">Price</th>
-              <th class="px-6 py-5 text-left font-black text-white uppercase tracking-wider text-sm">Data Sheet</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-warm-gray-200">
+      <!-- Tab Navigation -->
+      <div class="mb-8 flex items-center gap-4">
+        <!-- Left Arrow -->
+        <button
+          id="scroll-left"
+          class="hidden lg:flex flex-shrink-0 bg-safety-orange text-white p-3 rounded-full shadow-lg hover:bg-safety-orange-600 transition-all items-center justify-center"
+          aria-label="Scroll left"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+
+        <!-- Tabs Container -->
+        <div id="tabs-container" class="overflow-x-auto scrollbar-hide scroll-smooth flex-1">
+          <div class="flex gap-2 min-w-max md:flex-wrap md:justify-center">
             {
-              sampleProducts.map((product, index) => (
-                <tr class={index % 2 === 0 ? 'bg-warm-white' : 'bg-warm-gray'}>
-                  <td class="px-6 py-5 font-bold text-charcoal-900">{product.name}</td>
-                  <td class="px-6 py-5 text-charcoal-600 font-medium">{product.size}</td>
-                  <td class="px-6 py-5 text-safety-orange font-black text-lg">{product.price}</td>
-                  <td class="px-6 py-5">
-                    <a
-                      href="#"
-                      class="text-safety-orange hover:text-safety-orange-700 font-bold inline-flex items-center gap-2 hover:underline transition-all"
-                    >
-                      <svg
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2.5"
-                          d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        />
-                      </svg>
-                      <span class="text-sm">PDF</span>
-                    </a>
-                  </td>
-                </tr>
+              categories.map((category, index) => (
+                <button
+                  class:list={[
+                    'tab-button px-6 py-3 font-bold text-sm uppercase tracking-wide rounded-lg transition-all whitespace-nowrap',
+                    index === 0
+                      ? 'bg-safety-orange text-white'
+                      : 'bg-white text-charcoal-700 hover:bg-safety-orange/10',
+                  ]}
+                  data-tab={category}
+                >
+                  {category}
+                </button>
               ))
             }
-          </tbody>
-        </table>
+          </div>
+        </div>
+
+        <!-- Right Arrow -->
+        <button
+          id="scroll-right"
+          class="hidden lg:flex flex-shrink-0 bg-safety-orange text-white p-3 rounded-full shadow-lg hover:bg-safety-orange-600 transition-all items-center justify-center"
+          aria-label="Scroll right"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
       </div>
+
+      <!-- Tab Content -->
+      {
+        categories.map((category, index) => (
+          <div
+            class:list={['tab-content', index !== 0 && 'hidden']}
+            data-content={category}
+          >
+            <div class="bg-warm-white rounded-2xl shadow-soft-lg border-4 border-white overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full">
+                  <thead class="bg-charcoal-900 border-b-4 border-safety-orange">
+                    <tr>
+                      <th class="px-6 py-4 text-left font-black text-white uppercase tracking-wider text-sm">
+                        Product Name
+                      </th>
+                      <th class="px-6 py-4 text-left font-black text-white uppercase tracking-wider text-sm">Size</th>
+                      <th class="px-6 py-4 text-left font-black text-white uppercase tracking-wider text-sm">
+                        Data Sheet
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-warm-gray-200">
+                    {productsByCategory[category].map((product, idx) => (
+                      <tr class={idx % 2 === 0 ? 'bg-warm-white' : 'bg-warm-gray'}>
+                        <td class="px-6 py-4 font-bold text-charcoal-900">{product.data.title}</td>
+                        <td class="px-6 py-4 text-charcoal-600 font-medium">{product.data.size || '-'}</td>
+                        <td class="px-6 py-4">
+                          {product.data.datasheet ? (
+                            <a
+                              href={product.data.datasheet}
+                              class="text-safety-orange hover:text-safety-orange-700 font-bold inline-flex items-center gap-2 hover:underline transition-all"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  stroke-width="2.5"
+                                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                                />
+                              </svg>
+                              <span class="text-sm">PDF</span>
+                            </a>
+                          ) : (
+                            <span class="text-charcoal-400 text-sm">-</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        ))
+      }
 
       <div class="mt-10 bg-warm-white border-l-4 border-safety-orange p-8 rounded-xl shadow-soft">
         <p class="text-charcoal-600 leading-relaxed font-medium">
-          <strong class="text-charcoal-900">Complete Catalog Available:</strong> This sample listing represents only a fraction
-          of our available inventory. Contact us for our complete product catalog with pricing, technical specifications,
-          and availability across all categories—organized by system type for easy reference.
+          <strong class="text-charcoal-900">Need pricing or additional information?</strong> Contact our team for current
+          pricing, technical specifications, and availability. We can also special order any product not listed here.
         </p>
       </div>
     </div>
   </section>
 
   <!-- SECTION 4: DELIVERY & LOGISTICS -->
-  <section class="bg-warm-white py-20 md:py-28">
-    <div class="container mx-auto px-4 max-w-6xl">
+  <section class="bg-warm-white">
+    <div class="container mx-auto max-w-6xl p-10">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <!-- Left: Image -->
         <div>
@@ -344,13 +250,18 @@ const sampleProducts = [
 
         <!-- Right: Content -->
         <div>
+          <div
+            class="inline-block bg-safety-orange/10 text-safety-orange px-4 py-2 rounded-lg text-xs font-black mb-4 uppercase tracking-wider"
+          >
+            Logistics & Delivery
+          </div>
           <h2 class="text-3xl md:text-4xl font-black mb-8 text-charcoal-900 tracking-tight">
             Fast, Reliable Product Delivery
           </h2>
           <p class="text-lg text-charcoal-600 leading-relaxed mb-6 font-medium">
             Having the right products in stock means nothing if we can't get them to your location on time. That's why
-            we operate our own fleet of 65+ trailers and 15+ trucks—ensuring 24/7 delivery capability across the Rockies
-            and beyond.
+            we operate our own fleet of 65+ trailers and 15+ trucks—ensuring 24/7 delivery capability across the
+            Rockies and beyond.
           </p>
 
           <ul class="space-y-4 text-charcoal-700 mb-8">
@@ -400,11 +311,8 @@ const sampleProducts = [
             </li>
           </ul>
 
-          <a
-            href="/locations"
-            class="bg-safety-orange text-white px-8 py-4 rounded-xl hover:bg-safety-orange-700 transition-all font-bold text-base shadow-soft hover:shadow-soft-lg inline-flex items-center justify-center"
-          >
-            View Our Locations
+          <a href="/contact" class="btn style2">
+            Request Delivery Quote <i class="ri-arrow-right-up-line"></i>
           </a>
         </div>
       </div>
@@ -412,29 +320,119 @@ const sampleProducts = [
   </section>
 
   <!-- SECTION 5: CTA -->
-  <section class="bg-safety-orange text-white py-20 md:py-24 relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-safety-orange-600 to-safety-orange-700 opacity-50"></div>
-    <div class="container mx-auto px-4 max-w-4xl text-center relative z-10">
-      <h2 class="text-3xl md:text-4xl font-black mb-7 tracking-tight">Can't Find What You Need?</h2>
-      <p class="text-lg md:text-xl text-white/95 mb-10 leading-relaxed max-w-3xl mx-auto font-medium">
+  <section class="relative bg-charcoal-900 py-28 md:py-36 overflow-hidden">
+    <div class="absolute inset-0">
+      <Image
+        src={industrialStorageTanks}
+        alt="Industrial storage tanks"
+        class="w-full h-full object-cover opacity-20"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/80 to-charcoal-900/60"></div>
+    </div>
+
+    <div class="container mx-auto max-w-4xl text-center relative z-10 p-10">
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-black mb-6 text-white leading-tight">
+        Can't Find What You Need?
+      </h2>
+      <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed mb-12 max-w-3xl mx-auto">
         Any item not listed can be special ordered at any time. Contact our team for availability, pricing, or custom
         formulations tailored to your specific drilling requirements.
       </p>
 
-      <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
-        <a
-          href="/contact"
-          class="bg-white text-safety-orange px-10 py-5 rounded-xl hover:bg-warm-white transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:shadow-orange-glow hover:-translate-y-0.5"
-        >
-          Contact Product Specialists
-        </a>
-        <a
-          href="tel:307-682-8688"
-          class="bg-charcoal-900 text-white px-10 py-5 rounded-xl hover:bg-charcoal-800 transition-all font-bold text-lg inline-flex items-center justify-center shadow-soft-xl hover:-translate-y-0.5"
-        >
-          Call 307-682-8688
-        </a>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a class="btn style2" href="/contact">Contact Product Specialists <i class="ri-arrow-right-up-line"></i></a>
+        <a class="btn style6" href="tel:307-682-8688">Call 307-682-8688 <i class="ri-arrow-right-up-line"></i></a>
       </div>
     </div>
   </section>
 </Layout>
+
+<script>
+  // Tab switching functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const tabsContainer = document.getElementById('tabs-container');
+    const scrollLeftBtn = document.getElementById('scroll-left');
+    const scrollRightBtn = document.getElementById('scroll-right');
+
+    // Tab switching
+    tabButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const targetTab = button.getAttribute('data-tab');
+
+        // Remove active class from all buttons
+        tabButtons.forEach((btn) => {
+          btn.classList.remove('bg-safety-orange', 'text-white');
+          btn.classList.add('bg-white', 'text-charcoal-700');
+        });
+
+        // Add active class to clicked button
+        button.classList.remove('bg-white', 'text-charcoal-700');
+        button.classList.add('bg-safety-orange', 'text-white');
+
+        // Hide all tab contents
+        tabContents.forEach((content) => {
+          content.classList.add('hidden');
+        });
+
+        // Show target tab content
+        const targetContent = document.querySelector(`[data-content="${targetTab}"]`);
+        if (targetContent) {
+          targetContent.classList.remove('hidden');
+        }
+      });
+    });
+
+    // Scroll functionality
+    if (scrollLeftBtn && scrollRightBtn && tabsContainer) {
+      scrollLeftBtn.addEventListener('click', () => {
+        tabsContainer.scrollBy({ left: -300, behavior: 'smooth' });
+      });
+
+      scrollRightBtn.addEventListener('click', () => {
+        tabsContainer.scrollBy({ left: 300, behavior: 'smooth' });
+      });
+
+      // Update arrow visibility based on scroll position
+      const updateArrows = () => {
+        const { scrollLeft, scrollWidth, clientWidth } = tabsContainer;
+
+        // Hide left arrow if at start
+        if (scrollLeft <= 0) {
+          scrollLeftBtn.style.opacity = '0.3';
+          scrollLeftBtn.style.pointerEvents = 'none';
+        } else {
+          scrollLeftBtn.style.opacity = '1';
+          scrollLeftBtn.style.pointerEvents = 'auto';
+        }
+
+        // Hide right arrow if at end
+        if (scrollLeft + clientWidth >= scrollWidth - 10) {
+          scrollRightBtn.style.opacity = '0.3';
+          scrollRightBtn.style.pointerEvents = 'none';
+        } else {
+          scrollRightBtn.style.opacity = '1';
+          scrollRightBtn.style.pointerEvents = 'auto';
+        }
+      };
+
+      tabsContainer.addEventListener('scroll', updateArrows);
+      window.addEventListener('resize', updateArrows);
+      updateArrows(); // Initial check
+    }
+  });
+</script>
+
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+</style>

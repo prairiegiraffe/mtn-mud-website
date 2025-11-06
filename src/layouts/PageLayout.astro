@@ -1,9 +1,7 @@
 ---
 import Layout from '~/layouts/Layout.astro';
-import WithRightAlignedNav from '~/components/ui/elements/headers/WithRightAlignedNav';
-import Footer from '~/components/widgets/Footer.astro';
-
-import { footerData } from '~/navigation';
+import HeaderConstruction from '~/components/widgets/HeaderConstruction.astro';
+import FooterConstruction from '~/components/widgets/FooterConstruction.astro';
 
 import type { MetaData } from '~/types';
 
@@ -19,12 +17,12 @@ const { metadata } = Astro.props;
     <Announcement />
   </slot> -->
   <slot name="header">
-    <WithRightAlignedNav client:load />
+    <HeaderConstruction />
   </slot>
-  <main class="pt-20">
+  <main>
     <slot />
   </main>
   <slot name="footer">
-    <Footer {...footerData} />
+    <FooterConstruction />
   </slot>
 </Layout>

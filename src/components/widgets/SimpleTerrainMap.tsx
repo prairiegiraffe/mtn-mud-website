@@ -778,7 +778,7 @@ export default function SimpleTerrainMap() {
           backdrop-filter: blur(10px);
           border-left: 3px solid #FF6600;
           border-radius: 16px 0 0 16px;
-          z-index: 1000;
+          z-index: 10;
           overflow-y: auto;
           padding: 20px;
         }
