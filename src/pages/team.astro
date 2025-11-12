@@ -118,19 +118,19 @@ const teamMembers = [
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {
           teamMembers.map((member) => (
-            <div class="bg-warm-white rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border-l-4 border-safety-orange group">
+            <div class="bg-charcoal-800 rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border-l-4 border-safety-orange group">
               {/* Headshot placeholder */}
-              <div class="aspect-square bg-warm-gray-200 flex items-center justify-center relative overflow-hidden">
+              <div class="aspect-square bg-charcoal-700 flex items-center justify-center relative overflow-hidden">
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent to-charcoal-900/10" />
-                <span class="text-warm-gray-500 text-sm font-bold uppercase tracking-wider">Headshot Placeholder</span>
+                <span class="text-warm-gray-400 text-sm font-bold uppercase tracking-wider">Headshot Placeholder</span>
               </div>
 
               <div class="p-8">
-                <h3 class="text-xl font-black mb-2 text-charcoal-900 uppercase tracking-tight group-hover:text-safety-orange transition-colors">
+                <h3 class="text-xl font-black mb-2 text-white uppercase tracking-tight group-hover:text-safety-orange transition-colors">
                   {member.name}
                 </h3>
                 <p class="text-safety-orange font-bold mb-4 text-sm uppercase tracking-wider">{member.title}</p>
-                <p class="text-charcoal-700 leading-relaxed text-sm">{member.bio}</p>
+                <p class="text-warm-gray-200 leading-relaxed text-sm">{member.bio}</p>
               </div>
             </div>
           ))

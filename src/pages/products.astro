@@ -88,24 +88,24 @@ const categories = Object.keys(productsByCategory).sort();
         </p>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="text-center bg-white p-8 rounded-2xl shadow-soft-lg border-t-4 border-safety-orange">
+        <div class="text-center bg-charcoal-800 p-8 rounded-2xl shadow-soft-lg border-t-4 border-safety-orange">
           <div class="text-5xl font-black text-safety-orange mb-3 font-mono">1M+</div>
-          <div class="text-sm font-bold text-charcoal-600 uppercase tracking-wider">Pounds of Bulk Barite</div>
+          <div class="text-sm font-bold text-warm-gray-200 uppercase tracking-wider">Pounds of Bulk Barite</div>
         </div>
-        <div class="text-center bg-white p-8 rounded-2xl shadow-soft-lg border-t-4 border-safety-orange">
+        <div class="text-center bg-charcoal-800 p-8 rounded-2xl shadow-soft-lg border-t-4 border-safety-orange">
           <div class="text-5xl font-black text-safety-orange mb-3 font-mono">20K+</div>
-          <div class="text-sm font-bold text-charcoal-600 uppercase tracking-wider">Barrels of OBM in Stock</div>
+          <div class="text-sm font-bold text-warm-gray-200 uppercase tracking-wider">Barrels of OBM in Stock</div>
         </div>
-        <div class="text-center bg-white p-8 rounded-2xl shadow-soft-lg border-t-4 border-safety-orange">
+        <div class="text-center bg-charcoal-800 p-8 rounded-2xl shadow-soft-lg border-t-4 border-safety-orange">
           <div class="text-5xl font-black text-safety-orange mb-3 font-mono">24/7</div>
-          <div class="text-sm font-bold text-charcoal-600 uppercase tracking-wider">Product Availability</div>
+          <div class="text-sm font-bold text-warm-gray-200 uppercase tracking-wider">Product Availability</div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- SECTION 3: PRODUCTS WITH TABS -->
-  <section id="products" class="bg-warm-gray py-20 md:py-28">
+  <section id="products" class="bg-charcoal-900 py-20 md:py-28">
     <div class="container mx-auto max-w-7xl p-10">
       <div class="text-center mb-12">
         <div
@@ -113,8 +113,8 @@ const categories = Object.keys(productsByCategory).sort();
         >
           Complete Catalog
         </div>
-        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Our Products</h2>
-        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium mb-8">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-white tracking-tight">Our Products</h2>
+        <p class="text-lg text-warm-gray-200 max-w-3xl mx-auto font-medium mb-8">
           Browse our complete catalog organized by category. All products are in stock and ready for immediate delivery.
         </p>
       </div>
@@ -142,7 +142,7 @@ const categories = Object.keys(productsByCategory).sort();
                     'tab-button px-6 py-3 font-bold text-sm uppercase tracking-wide rounded-lg transition-all whitespace-nowrap',
                     index === 0
                       ? 'bg-safety-orange text-white'
-                      : 'bg-white text-charcoal-700 hover:bg-safety-orange/10',
+                      : 'bg-charcoal-800 text-white hover:bg-safety-orange/20',
                   ]}
                   data-tab={category}
                 >
@@ -169,7 +169,7 @@ const categories = Object.keys(productsByCategory).sort();
       {
         categories.map((category, index) => (
           <div class:list={['tab-content', index !== 0 && 'hidden']} data-content={category}>
-            <div class="bg-warm-white rounded-2xl shadow-soft-lg border-4 border-white overflow-hidden">
+            <div class="bg-charcoal-900 rounded-2xl shadow-soft-lg border-4 border-charcoal-800 overflow-hidden">
               <div class="overflow-x-auto">
                 <table class="w-full">
                   <thead class="bg-charcoal-900 border-b-4 border-safety-orange">
@@ -183,11 +183,11 @@ const categories = Object.keys(productsByCategory).sort();
                       </th>
                     </tr>
                   </thead>
-                  <tbody class="divide-y divide-warm-gray-200">
+                  <tbody class="divide-y divide-charcoal-700">
                     {productsByCategory[category].map((product, idx) => (
-                      <tr class={idx % 2 === 0 ? 'bg-warm-white' : 'bg-warm-gray'}>
-                        <td class="px-6 py-4 font-bold text-charcoal-900">{product.data.title}</td>
-                        <td class="px-6 py-4 text-charcoal-600 font-medium">{product.data.size || '-'}</td>
+                      <tr class={idx % 2 === 0 ? 'bg-charcoal-800' : 'bg-charcoal-700'}>
+                        <td class="px-6 py-4 font-bold text-white">{product.data.title}</td>
+                        <td class="px-6 py-4 text-warm-gray-200 font-medium">{product.data.size || '-'}</td>
                         <td class="px-6 py-4">
                           {product.data.datasheet ? (
                             <a
@@ -226,9 +226,9 @@ const categories = Object.keys(productsByCategory).sort();
         ))
       }
 
-      <div class="mt-10 bg-warm-white border-l-4 border-safety-orange p-8 rounded-xl shadow-soft">
-        <p class="text-charcoal-600 leading-relaxed font-medium">
-          <strong class="text-charcoal-900">Need pricing or additional information?</strong> Contact our team for current
+      <div class="mt-10 bg-charcoal-800 border-l-4 border-safety-orange p-8 rounded-xl shadow-soft">
+        <p class="text-warm-gray-200 leading-relaxed font-medium">
+          <strong class="text-white">Need pricing or additional information?</strong> Contact our team for current
           pricing, technical specifications, and availability. We can also special order any product not listed here.
         </p>
       </div>
@@ -363,12 +363,12 @@ const categories = Object.keys(productsByCategory).sort();
 
         // Remove active class from all buttons
         tabButtons.forEach((btn) => {
-          btn.classList.remove('bg-safety-orange', 'text-white');
-          btn.classList.add('bg-white', 'text-charcoal-700');
+          btn.classList.remove('bg-safety-orange');
+          btn.classList.add('bg-charcoal-800', 'text-white');
         });
 
         // Add active class to clicked button
-        button.classList.remove('bg-white', 'text-charcoal-700');
+        button.classList.remove('bg-charcoal-800');
         button.classList.add('bg-safety-orange', 'text-white');
 
         // Hide all tab contents

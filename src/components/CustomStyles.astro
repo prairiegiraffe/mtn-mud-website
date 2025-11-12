@@ -58,26 +58,31 @@ import '@fontsource/space-grotesk/700.css';
     --aw-font-mono: 'Space Grotesk', 'SF Mono', Monaco, 'Courier New', monospace;
 
     /* MTN Mud Brand Colors in dark mode */
-    --aw-color-primary: rgb(221 94 38);
-    --aw-color-secondary: rgb(255 255 255);
-    --aw-color-accent: rgb(221 94 38);
+    --aw-color-primary: rgb(221 94 38); /* Safety Orange - keep for brand */
+    --aw-color-secondary: rgb(31 30 29); /* Very dark charcoal */
+    --aw-color-accent: rgb(221 94 38); /* Safety Orange for accents */
 
     --aw-color-safety-orange: rgb(221 94 38);
     --aw-color-safety-orange-light: rgb(245 163 121);
     --aw-color-safety-orange-dark: rgb(194 73 26);
 
-    --aw-color-charcoal: rgb(52 50 48);
-    --aw-color-warm-white: rgb(253 252 251);
-    --aw-color-warm-gray: rgb(247 246 244);
+    --aw-color-charcoal: rgb(18 18 18); /* Nearly black */
+    --aw-color-charcoal-light: rgb(38 38 38);
+    --aw-color-charcoal-dark: rgb(10 10 10);
 
-    /* Text colors for dark mode */
+    /* White reserved for text/accents only */
+    --aw-color-warm-white: rgb(255 255 255);
+    --aw-color-warm-gray: rgb(64 64 64);
+
+    /* Text colors for dark mode - white/light grey */
     --aw-color-text-heading: rgb(255 255 255);
-    --aw-color-text-default: rgb(255 255 255 / 95%);
-    --aw-color-text-muted: rgb(255 255 255 / 70%);
+    --aw-color-text-default: rgb(245 245 245);
+    --aw-color-text-muted: rgb(163 163 163);
 
-    /* Background for dark mode */
-    --aw-color-bg-page: rgb(52 50 48);
-    --aw-color-bg-light: rgb(74 71 68);
+    /* Dark backgrounds - blacks and dark greys */
+    --aw-color-bg-page: rgb(18 18 18); /* Nearly black primary background */
+    --aw-color-bg-light: rgb(28 28 28); /* Slightly lighter for cards/sections */
+    --aw-color-bg-page-dark: rgb(10 10 10); /* True black for contrast sections */
 
     ::selection {
       background-color: rgb(221 94 38 / 40%);
@@ -110,5 +115,172 @@ import '@fontsource/space-grotesk/700.css';
   .social-btn.style2 a:focus i,
   .social-btn.style2 a:active i {
     color: #ffffff !important;
+  }
+
+  /* Dark theme overrides for entire site */
+  .dark {
+    /* Override Construz template CSS variables for dark mode */
+    --white-color: rgb(18 18 18) !important; /* Nearly black instead of white */
+    --smoke-color: rgb(28 28 28) !important; /* Dark grey for cards */
+    --smoke-color2: rgb(32 32 32) !important;
+    --smoke-color3: rgb(36 36 36) !important;
+    --smoke-color4: rgb(40 40 40) !important;
+    --smoke-color5: rgb(44 44 44) !important;
+    --black-color: rgb(10 10 10) !important; /* True black for contrast */
+    --gray-color: rgb(64 64 64) !important;
+    --body-color: rgb(245 245 245) !important; /* Light text */
+    --title-color: rgb(255 255 255) !important; /* White headings */
+    --theme-color: rgb(221 94 38) !important; /* Keep orange brand */
+    --light-color: rgb(163 163 163) !important; /* Muted text */
+    --border-color: rgba(255 255 255 0.1) !important; /* Subtle borders */
+  }
+
+  .dark body {
+    background-color: rgb(18 18 18) !important;
+    color: rgb(245 245 245) !important;
+  }
+
+  /* Override white backgrounds in dark mode */
+  .dark .bg-white,
+  .dark [style*="background-color: white"],
+  .dark [style*="background-color:#fff"],
+  .dark [style*="background: white"],
+  .dark [class*="bg-smoke"],
+  .dark section:not([class*="bg-black"]):not([class*="bg-title"]) {
+    background-color: rgb(18 18 18) !important;
+  }
+
+  /* Card and container dark backgrounds */
+  .dark .card,
+  .dark .box,
+  .dark .service-card,
+  .dark .team-card,
+  .dark .project-card,
+  .dark .product-card {
+    background-color: rgb(28 28 28) !important;
+    border-color: rgb(38 38 38) !important;
+  }
+
+  /* Ensure text is light in dark mode */
+  .dark p,
+  .dark span,
+  .dark li,
+  .dark a:not(.btn),
+  .dark .text-title,
+  .dark .text-body {
+    color: rgb(245 245 245) !important;
+  }
+
+  .dark h1,
+  .dark h2,
+  .dark h3,
+  .dark h4,
+  .dark h5,
+  .dark h6,
+  .dark .title,
+  .dark th {
+    color: rgb(255 255 255) !important;
+  }
+
+  /* Fix table cell text */
+  .dark td {
+    color: rgb(245 245 245) !important;
+  }
+
+  /* Fix button text */
+  .dark button,
+  .dark .tab-button {
+    color: rgb(255 255 255) !important;
+  }
+
+  /* Keep orange accents */
+  .dark .text-theme,
+  .dark .link-hover:hover,
+  .dark a:hover:not(.btn) {
+    color: rgb(221 94 38) !important;
+  }
+
+  /* Dark borders */
+  .dark [class*="border"] {
+    border-color: rgb(38 38 38) !important;
+  }
+
+  /* Header dark background */
+  .dark header,
+  .dark .header,
+  .dark #header,
+  .dark .nav-header,
+  .dark .header-layout1 {
+    background-color: rgb(18 18 18) !important;
+  }
+
+  /* Header top bar */
+  .dark .header-top {
+    background-color: rgb(10 10 10) !important;
+    color: rgb(245 245 245) !important;
+  }
+
+  /* Menu area */
+  .dark .menu-area {
+    background-color: rgb(18 18 18) !important;
+  }
+
+  /* Sticky header */
+  .dark .sticky-wrapper.is-sticky .menu-area,
+  .dark .sticky-wrapper.active .menu-area {
+    background-color: rgb(18 18 18) !important;
+    border-bottom: 1px solid rgb(38 38 38) !important;
+  }
+
+  /* Navigation links */
+  .dark .main-menu a,
+  .dark .menu-area a,
+  .dark nav a:not(.btn) {
+    color: rgb(245 245 245) !important;
+  }
+
+  .dark .main-menu a:hover,
+  .dark .menu-area a:hover,
+  .dark nav a:not(.btn):hover {
+    color: rgb(221 94 38) !important;
+  }
+
+  /* Dropdown menus */
+  .dark .mega-menu,
+  .dark .sub-menu,
+  .dark .dropdown-menu {
+    background-color: rgb(28 28 28) !important;
+    border-color: rgb(38 38 38) !important;
+  }
+
+  /* Header links and icons */
+  .dark .header-links,
+  .dark .header-links li,
+  .dark .header-links a {
+    color: rgb(245 245 245) !important;
+  }
+
+  /* Social media icons - orange for brand */
+  .dark .social-links a,
+  .dark .social-links a i {
+    color: rgb(221 94 38) !important;
+  }
+
+  .dark .social-links a:hover,
+  .dark .social-links a:hover i {
+    color: rgb(245 163 121) !important;
+  }
+
+  /* Mobile menu toggle */
+  .dark .mobile-menu-toggle,
+  .dark .menu-toggle {
+    color: rgb(245 245 245) !important;
+  }
+
+  /* Footer dark background */
+  .dark footer,
+  .dark .footer,
+  .dark .footer-wrapper {
+    background-color: rgb(10 10 10) !important;
   }
 </style>
