@@ -237,11 +237,11 @@ const projects = [
   </section>
 
   <!-- SECTION 3: FEATURED PROJECTS -->
-  <section id="case-studies" class="bg-warm-white py-20 md:py-28">
+  <section id="case-studies" class="bg-charcoal-900 py-20 md:py-28">
     <div class="container mx-auto max-w-6xl p-10">
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Featured Case Studies</h2>
-        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-white tracking-tight">Featured Case Studies</h2>
+        <p class="text-lg text-warm-gray-200 max-w-3xl mx-auto font-medium">
           Detailed breakdowns of our most challenging and successful drilling fluid projects. Each case study showcases
           the problem, our solution, and the measurable results we delivered.
         </p>
@@ -252,7 +252,7 @@ const projects = [
         {
           projects.map((project) => (
             <div
-              class="bg-warm-white border-l-4 border-safety-orange rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all"
+              class="bg-charcoal-800 border-l-4 border-safety-orange rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all"
               id={project.id}
             >
               {/* Content Grid - Two columns on desktop */}
@@ -265,7 +265,7 @@ const projects = [
                   </div>
 
                   {/* Title & Location */}
-                  <h3 class="text-2xl md:text-3xl font-black mb-2 text-charcoal-900">{project.title}</h3>
+                  <h3 class="text-2xl md:text-3xl font-black mb-2 text-white">{project.title}</h3>
                   <p class="text-safety-orange font-bold mb-6 flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path
@@ -286,37 +286,37 @@ const projects = [
 
                   {/* Challenge */}
                   <div class="mb-5">
-                    <h4 class="font-black text-charcoal-900 mb-2 uppercase tracking-wide text-sm">The Challenge:</h4>
-                    <p class="text-charcoal-600 leading-relaxed font-medium text-sm">{project.challenge}</p>
+                    <h4 class="font-black text-white mb-2 uppercase tracking-wide text-sm">The Challenge:</h4>
+                    <p class="text-warm-gray-200 leading-relaxed font-medium text-sm">{project.challenge}</p>
                   </div>
 
                   {/* Solution */}
                   <div class="mb-6">
-                    <h4 class="font-black text-charcoal-900 mb-2 uppercase tracking-wide text-sm">Our Solution:</h4>
-                    <p class="text-charcoal-600 leading-relaxed font-medium text-sm">{project.solution}</p>
+                    <h4 class="font-black text-white mb-2 uppercase tracking-wide text-sm">Our Solution:</h4>
+                    <p class="text-warm-gray-200 leading-relaxed font-medium text-sm">{project.solution}</p>
                   </div>
 
                   {/* Project Details */}
-                  <div class="flex gap-6 text-sm font-medium text-charcoal-600">
+                  <div class="flex gap-6 text-sm font-medium text-warm-gray-200">
                     <div>
-                      <span class="font-black text-charcoal-900">Duration:</span> {project.duration}
+                      <span class="font-black text-white">Duration:</span> {project.duration}
                     </div>
                     <div>
-                      <span class="font-black text-charcoal-900">Wells:</span> {project.wells}
+                      <span class="font-black text-white">Wells:</span> {project.wells}
                     </div>
                   </div>
                 </div>
 
                 {/* Right Column - Results */}
                 <div>
-                  <h4 class="font-black text-charcoal-900 mb-5 uppercase tracking-wide text-sm">Results:</h4>
+                  <h4 class="font-black text-white mb-5 uppercase tracking-wide text-sm">Results:</h4>
                   <div class="grid grid-cols-2 gap-3">
                     {project.results.map((result) => (
-                      <div class="text-center p-4 bg-warm-gray rounded-xl border border-safety-orange/20">
+                      <div class="text-center p-4 bg-charcoal-700 rounded-xl border border-safety-orange/20">
                         <div class="text-2xl md:text-3xl font-black text-safety-orange mb-1 font-mono">
                           {result.metric}
                         </div>
-                        <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wide leading-tight">
+                        <div class="text-xs font-bold text-warm-gray-200 uppercase tracking-wide leading-tight">
                           {result.description}
                         </div>
                       </div>
@@ -326,11 +326,11 @@ const projects = [
               </div>
 
               {/* Key Highlights - Full width at bottom */}
-              <div class="bg-safety-orange-50 p-8 md:p-10 border-t border-safety-orange/20">
-                <h4 class="font-black text-charcoal-900 mb-4 uppercase tracking-wide text-sm">Key Highlights:</h4>
+              <div class="bg-charcoal-700 p-8 md:p-10 border-t border-safety-orange/20">
+                <h4 class="font-black text-white mb-4 uppercase tracking-wide text-sm">Key Highlights:</h4>
                 <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {project.highlights.map((highlight) => (
-                    <li class="flex items-start text-charcoal-700 text-sm">
+                    <li class="flex items-start text-warm-gray-200 text-sm">
                       <svg
                         class="w-5 h-5 text-safety-orange mr-2 flex-shrink-0 mt-0.5"
                         fill="none"
@@ -350,9 +350,9 @@ const projects = [
       </div>
 
       {/* Disclaimer */}
-      <div class="mt-16 bg-warm-gray border-l-4 border-charcoal-400 p-8 rounded-xl">
-        <p class="text-sm text-charcoal-600 leading-relaxed font-medium">
-          <strong class="text-charcoal-900">Note:</strong> All case studies represent real Mountain Mud projects. Specific
+      <div class="mt-16 bg-charcoal-800 border-l-4 border-safety-orange p-8 rounded-xl">
+        <p class="text-sm text-warm-gray-200 leading-relaxed font-medium">
+          <strong class="text-white">Note:</strong> All case studies represent real Mountain Mud projects. Specific
           client names and certain proprietary details have been generalized to protect client confidentiality. Results are
           based on actual field data and documented performance metrics. Individual results may vary based on formation characteristics,
           drilling parameters, and operational conditions.
@@ -362,11 +362,11 @@ const projects = [
   </section>
 
   <!-- SECTION 4: CAPABILITIES OVERVIEW -->
-  <section class="bg-warm-white py-20 md:py-28">
+  <section class="bg-charcoal-900 py-20 md:py-28">
     <div class="container mx-auto max-w-6xl p-10">
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-black mb-6 text-charcoal-900 tracking-tight">Our Project Capabilities</h2>
-        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto font-medium">
+        <h2 class="text-3xl md:text-4xl font-black mb-6 text-white tracking-tight">Our Project Capabilities</h2>
+        <p class="text-lg text-warm-gray-200 max-w-3xl mx-auto font-medium">
           From simple wellbore challenges to complex multi-well programs, we have the expertise, resources, and track
           record to handle any drilling fluid project.
         </p>
@@ -375,9 +375,9 @@ const projects = [
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Capability Cards */}
         <div
-          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+          class="bg-charcoal-800 border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
         >
-          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange/20 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -387,32 +387,32 @@ const projects = [
               ></path>
             </svg>
           </div>
-          <h3 class="text-xl font-black mb-4 text-charcoal-900">Lost Circulation Solutions</h3>
-          <p class="text-charcoal-600 leading-relaxed font-medium">
+          <h3 class="text-xl font-black mb-4 text-white">Lost Circulation Solutions</h3>
+          <p class="text-warm-gray-200 leading-relaxed font-medium">
             Custom LCM blends, polymer systems, and real-time adjustments to eliminate lost returns and keep you
             drilling.
           </p>
         </div>
 
         <div
-          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+          class="bg-charcoal-800 border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
         >
-          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange/20 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
               ></path>
             </svg>
           </div>
-          <h3 class="text-xl font-black mb-4 text-charcoal-900">Extended Reach Drilling</h3>
-          <p class="text-charcoal-600 leading-relaxed font-medium">
+          <h3 class="text-xl font-black mb-4 text-white">Extended Reach Drilling</h3>
+          <p class="text-warm-gray-200 leading-relaxed font-medium">
             Advanced lubricity systems and torque management to maximize lateral lengths and drilling efficiency.
           </p>
         </div>
 
         <div
-          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+          class="bg-charcoal-800 border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
         >
-          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange/20 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -422,16 +422,16 @@ const projects = [
               ></path>
             </svg>
           </div>
-          <h3 class="text-xl font-black mb-4 text-charcoal-900">Wellbore Stability</h3>
-          <p class="text-charcoal-600 leading-relaxed font-medium">
+          <h3 class="text-xl font-black mb-4 text-white">Wellbore Stability</h3>
+          <p class="text-warm-gray-200 leading-relaxed font-medium">
             Inhibitive chemistries and shale stabilization systems to prevent stuck pipe and wellbore collapse.
           </p>
         </div>
 
         <div
-          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+          class="bg-charcoal-800 border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
         >
-          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange/20 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -441,16 +441,16 @@ const projects = [
               ></path>
             </svg>
           </div>
-          <h3 class="text-xl font-black mb-4 text-charcoal-900">HPHT Environments</h3>
-          <p class="text-charcoal-600 leading-relaxed font-medium">
+          <h3 class="text-xl font-black mb-4 text-white">HPHT Environments</h3>
+          <p class="text-warm-gray-200 leading-relaxed font-medium">
             Specialized formulations for high-pressure, high-temperature wells with narrow mud weight windows.
           </p>
         </div>
 
         <div
-          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+          class="bg-charcoal-800 border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
         >
-          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange/20 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -460,16 +460,16 @@ const projects = [
               ></path>
             </svg>
           </div>
-          <h3 class="text-xl font-black mb-4 text-charcoal-900">Multi-Well Programs</h3>
-          <p class="text-charcoal-600 leading-relaxed font-medium">
+          <h3 class="text-xl font-black mb-4 text-white">Multi-Well Programs</h3>
+          <p class="text-warm-gray-200 leading-relaxed font-medium">
             Coordinated engineering, logistics, and technical support across pad drilling and development programs.
           </p>
         </div>
 
         <div
-          class="bg-warm-gray border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
+          class="bg-charcoal-800 border-l-4 border-safety-orange p-8 rounded-xl shadow-soft hover:shadow-soft-lg transition-all"
         >
-          <div class="w-14 h-14 rounded-xl bg-safety-orange-50 flex items-center justify-center mb-5">
+          <div class="w-14 h-14 rounded-xl bg-safety-orange/20 flex items-center justify-center mb-5">
             <svg class="w-8 h-8 text-safety-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 stroke-linecap="round"
@@ -479,8 +479,8 @@ const projects = [
               ></path>
             </svg>
           </div>
-          <h3 class="text-xl font-black mb-4 text-charcoal-900">Cost Optimization</h3>
-          <p class="text-charcoal-600 leading-relaxed font-medium">
+          <h3 class="text-xl font-black mb-4 text-white">Cost Optimization</h3>
+          <p class="text-warm-gray-200 leading-relaxed font-medium">
             Economical formulations and efficient logistics to reduce your drilling fluid costs without sacrificing
             performance.
           </p>
