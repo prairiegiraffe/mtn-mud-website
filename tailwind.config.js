@@ -40,6 +40,19 @@ export default {
           700: '#4A4744',
           800: '#343230',
           900: '#1F1E1D',
+          950: '#0A0A0A',
+        },
+        // Dark theme greys and blacks
+        'dark-bg': {
+          DEFAULT: '#121212', /* Nearly black primary */
+          light: '#1C1C1C', /* Card/section backgrounds */
+          lighter: '#262626', /* Hover states */
+          dark: '#0A0A0A', /* True black for contrast */
+        },
+        'dark-text': {
+          DEFAULT: '#F5F5F5', /* Primary text */
+          muted: '#A3A3A3', /* Secondary text */
+          heading: '#FFFFFF', /* Headings */
         },
         // Warm Backgrounds
         'warm-white': '#FDFCFB',
