@@ -11,6 +11,13 @@ import nighttimeOilRigWorker from '~/assets/images/new/Oil Rig Worker At Dusk.we
 import manStandingInFrontOfTruck from '~/assets/images/new/Man Standing In Front Of Truck.webp';
 import constructionSiteLoader from '~/assets/images/new/Construction Site Loader.webp';
 
+// Team member headshots
+import adolfoPic from '~/assets/images/Team/Adolfo.webp';
+import brentPic from '~/assets/images/Team/Brent.webp';
+import chadPic from '~/assets/images/Team/Chad.webp';
+import justinPic from '~/assets/images/Team/Justin.webp';
+import mitchPic from '~/assets/images/Team/Mitch.webp';
+
 const metadata = {
   title: 'Our Team - The People Behind the Performance | MTN Mud',
   description:
@@ -18,37 +25,37 @@ const metadata = {
   ignoreTitleTemplate: true,
 };
 
-// Placeholder team members - client will provide actual data
+// Team members
 const teamMembers = [
   {
-    name: 'Team Member Name',
+    name: 'Adolfo',
     title: 'Position Title',
     bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
+    photo: adolfoPic,
   },
   {
-    name: 'Team Member Name',
+    name: 'Brent',
     title: 'Position Title',
     bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
+    photo: brentPic,
   },
   {
-    name: 'Team Member Name',
+    name: 'Chad',
     title: 'Position Title',
     bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
+    photo: chadPic,
   },
   {
-    name: 'Team Member Name',
+    name: 'Justin',
     title: 'Position Title',
     bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
+    photo: justinPic,
   },
   {
-    name: 'Team Member Name',
+    name: 'Mitch',
     title: 'Position Title',
     bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
-  },
-  {
-    name: 'Team Member Name',
-    title: 'Position Title',
-    bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
+    photo: mitchPic,
   },
 ];
 ---
@@ -109,9 +116,9 @@ const teamMembers = [
         >
           Meet the Team
         </div>
-        <h2 class="text-4xl md:text-5xl font-black mb-4 text-charcoal-900">Leadership Team</h2>
-        <p class="text-charcoal-600 text-center italic">
-          Leadership roster with headshots (to be provided at later date)
+        <h2 class="text-4xl md:text-5xl font-black mb-6 text-charcoal-900">Leadership Team</h2>
+        <p class="text-lg text-charcoal-600 max-w-3xl mx-auto">
+          Experienced professionals dedicated to delivering excellence in drilling fluids and technical services.
         </p>
       </div>
 
@@ -119,10 +126,14 @@ const teamMembers = [
         {
           teamMembers.map((member) => (
             <div class="bg-charcoal-800 rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border-l-4 border-safety-orange group">
-              {/* Headshot placeholder */}
-              <div class="aspect-square bg-charcoal-700 flex items-center justify-center relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-charcoal-900/10" />
-                <span class="text-warm-gray-400 text-sm font-bold uppercase tracking-wider">Headshot Placeholder</span>
+              {/* Headshot */}
+              <div class="aspect-square relative overflow-hidden">
+                <Image
+                  src={member.photo}
+                  alt={`${member.name} - ${member.title}`}
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-0 bg-gradient-to-b from-transparent to-charcoal-900/20" />
               </div>
 
               <div class="p-8">
