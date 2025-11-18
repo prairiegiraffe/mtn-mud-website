@@ -11,5 +11,94 @@
   "yaml.schemas": {
     "./.vscode/astrowind/config-schema.json": "/src/config.yaml"
   },
-  "eslint.useFlatConfig": true
+  "eslint.useFlatConfig": true,
+  "piny.project_settings": {
+    "open-pages": [
+      "pinyfakepage.html"
+    ],
+    "tw-external-config": {
+      "external_config_url": "tailwind.config.js",
+      "external_source_url": "src/assets/styles/tailwind.css"
+    },
+    "source-folders": null,
+    "preview-url": "http://localhost:4321/",
+    "ai-project-brief": null,
+    "component-settings": {
+      "src/pages/team.astro:::team": {
+        "route": "/about"
+      },
+      "src/layouts/Layout.astro:::Layout": {
+        "route": "/about"
+      }
+    },
+    "app-routes": {
+      "routes": [
+        "/",
+        "/404",
+        "/about",
+        "/careers",
+        "/contact",
+        "/dev-components",
+        "/dev-components/404-pages",
+        "/dev-components/about-sections",
+        "/dev-components/banners",
+        "/dev-components/bento-grids",
+        "/dev-components/blog-sections",
+        "/dev-components/contact-sections",
+        "/dev-components/content-sections",
+        "/dev-components/cta-sections",
+        "/dev-components/faqs",
+        "/dev-components/feature-sections",
+        "/dev-components/flyout-menus",
+        "/dev-components/footers",
+        "/dev-components/header-sections",
+        "/dev-components/headers",
+        "/dev-components/hero-sections",
+        "/dev-components/heroes",
+        "/dev-components/landing-pages",
+        "/dev-components/logo-clouds",
+        "/dev-components/newsletter-sections",
+        "/dev-components/pricing",
+        "/dev-components/pricing-pages",
+        "/dev-components/pricing-sections",
+        "/dev-components/stats",
+        "/dev-components/team-sections",
+        "/dev-components/testimonials",
+        "/homes/mobile-app",
+        "/homes/personal",
+        "/homes/saas",
+        "/homes/startup",
+        "/landing/click-through",
+        "/landing/lead-generation",
+        "/landing/pre-launch",
+        "/landing/product",
+        "/landing/sales",
+        "/landing/subscription",
+        "/locations",
+        "/map-simple",
+        "/map-test",
+        "/mud-lab",
+        "/partners",
+        "/pricing",
+        "/products",
+        "/projects",
+        "/rss.xml",
+        "/safety",
+        "/services",
+        "/styles-guide",
+        "/team"
+      ],
+      "current_route": "/team"
+    },
+    "urls": {
+      "pinyfakepage.html": {
+        "open-page-views": [
+          {
+            "w": 480,
+            "h": 0
+          }
+        ]
+      }
+    }
+  }
 }
