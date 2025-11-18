@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Force Montserrat font globally with maximum specificity */
+@layer base {
+  * {
+    font-family: 'Montserrat Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  }
+}
+
 @layer utilities {
   .bg-page {
     background-color: var(--aw-color-bg-page);
