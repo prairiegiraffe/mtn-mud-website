@@ -349,7 +349,7 @@ const categories = Object.keys(productsByCategory).sort();
 
 <script>
   // Tab switching functionality
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
     const tabsContainer = document.getElementById('tabs-container');
