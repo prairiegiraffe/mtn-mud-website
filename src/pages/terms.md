@@ -17,7 +17,7 @@ The words of which the initial letter is capitalized have meanings defined under
 
 For the purposes of these Terms and Conditions:
 
-- **Company** (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to Mountain Mud Company, doing business as MTN Mud, with locations in Gillette, WY, Cheyenne, WY, and Williston, ND.
+- **Company** (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to MTN Mud Company, doing business as MTN Mud, with locations in Gillette, WY, Cheyenne, WY, and Williston, ND.
 
 - **Services** refers to the drilling fluid products, mud engineering services, technical support, delivery services, and related offerings provided by the Company.
 

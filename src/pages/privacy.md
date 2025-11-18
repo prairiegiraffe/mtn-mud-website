@@ -5,7 +5,7 @@ layout: '~/layouts/MarkdownLayout.astro'
 
 _Last updated_: January 2025
 
-This Privacy Policy describes how Mountain Mud Company (doing business as MTN Mud) collects, uses, and discloses your information when you use our website and services.
+This Privacy Policy describes how MTN Mud Company (doing business as MTN Mud) collects, uses, and discloses your information when you use our website and services.
 
 ## Interpretation and Definitions
 
@@ -17,7 +17,7 @@ The words of which the initial letter is capitalized have meanings defined under
 
 For the purposes of this Privacy Policy:
 
-- **Company** (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to Mountain Mud Company, doing business as MTN Mud, 103 E. Lincoln St., Gillette, WY 82716.
+- **Company** (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to MTN Mud Company, doing business as MTN Mud, 103 E. Lincoln St., Gillette, WY 82716.
 
 - **Cookies** are small files that are placed on your computer, mobile device or any other device by a website, containing details of your browsing history on that website.
 
