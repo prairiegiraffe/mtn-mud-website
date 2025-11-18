@@ -20,15 +20,20 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- SECTION 1: HERO - CENTERED WITH BACKGROUND IMAGE -->
+  <!-- SECTION 1: HERO - CENTERED WITH BACKGROUND VIDEO -->
   <section class="relative overflow-hidden min-h-screen flex items-center justify-center pt-32 pb-24">
-    <!-- Background Image -->
+    <!-- Background Video -->
     <div class="absolute inset-0">
-      <Image
-        src={mtnMudBuildingExterior}
-        alt="MTN Mud headquarters and facility"
+      <video
+        autoplay
+        muted
+        loop
+        playsinline
         class="w-full h-full object-cover"
-      />
+        aria-label="MTN Mud drilling operations"
+      >
+        <source src="/MTN MUD-Website-background loop-10.mp4" type="video/mp4" />
+      </video>
       <!-- Dark Overlay -->
       <div class="absolute inset-0 bg-black/70"></div>
     </div>
