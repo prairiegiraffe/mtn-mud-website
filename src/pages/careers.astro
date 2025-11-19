@@ -711,7 +711,7 @@ const activeJobs = allJobs
         } else {
           throw new Error('Failed to submit application');
         }
-      } catch (error) {
+      } catch {
         // Error
         messageDiv.className =
           'p-4 rounded-xl bg-red-500/10 border-2 border-red-500 text-red-500 text-center font-bold';
