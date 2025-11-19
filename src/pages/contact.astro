@@ -315,28 +315,6 @@ const metadata = {
               </div>
 
               <div>
-                <label for="subject" class="block text-white font-bold mb-2 text-sm uppercase tracking-wider">
-                  Subject <span class="text-safety-orange">*</span>
-                </label>
-                <select
-                  id="subject"
-                  name="subject"
-                  required
-                  class="w-full px-4 py-3 border-2 border-warm-gray-600 bg-charcoal-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-safety-orange focus:border-safety-orange transition-all placeholder-warm-gray-400"
-                >
-                  <option value="">Select a subject...</option>
-                  <option value="general">General Inquiry</option>
-                  <option value="product">Product Information</option>
-                  <option value="service">Service Request</option>
-                  <option value="technical">Technical Support</option>
-                  <option value="pricing">Pricing Quote</option>
-                  <option value="partnership">Partnership Opportunity</option>
-                  <option value="career">Career/Employment</option>
-                  <option value="other">Other</option>
-                </select>
-              </div>
-
-              <div>
                 <label for="message" class="block text-white font-bold mb-2 text-sm uppercase tracking-wider">
                   Message <span class="text-safety-orange">*</span>
                 </label>
@@ -719,16 +697,6 @@ const metadata = {
 
   /* Force select dropdowns to have white text */
   form select {
-    color: white !important;
-  }
-
-  /* Force select element to have white text - additional specificity */
-  select#subject {
-    color: white !important;
-  }
-
-  /* Ensure all options including placeholder are white */
-  select#subject option {
     color: white !important;
   }
 </style>
