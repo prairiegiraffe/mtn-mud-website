@@ -302,7 +302,7 @@ import { UI } from 'astrowind:config';
 
       const elements = document.querySelectorAll(selectors.join(','));
 
-      elements.forEach((el, index) => {
+      elements.forEach((el) => {
         // Skip elements that are already animated or in header/footer
         if (
           el.classList.contains('fade-up') ||
