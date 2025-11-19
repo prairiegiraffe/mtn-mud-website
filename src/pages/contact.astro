@@ -721,4 +721,14 @@ const metadata = {
   form select {
     color: white !important;
   }
+
+  /* Force select element to have white text - additional specificity */
+  select#subject {
+    color: white !important;
+  }
+
+  /* Ensure all options including placeholder are white */
+  select#subject option {
+    color: white !important;
+  }
 </style>
