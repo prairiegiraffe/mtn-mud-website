@@ -388,21 +388,24 @@ const metadata = {
           50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
         }
         .leaflet-popup-content-wrapper {
-          background: #FFFFFF !important;
+          background: #2A2A2A !important;
           border-radius: 12px;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.5);
           padding: 8px;
         }
         .leaflet-popup-content {
           margin: 16px;
           font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-          color: #1A1A1A !important;
+          color: #FFFFFF !important;
         }
         .leaflet-popup-content * {
           color: inherit;
         }
         .leaflet-popup-tip {
-          background: #FFFFFF !important;
+          background: #2A2A2A !important;
+        }
+        .leaflet-popup-close-button {
+          color: #FFFFFF !important;
         }
       `;
         document.head.appendChild(style);
@@ -445,30 +448,30 @@ const metadata = {
           const popupContent = `
           <div style="min-width: 250px;">
             ${location.badge ? `<div style="display: inline-block; background: #FF6600; color: white; padding: 4px 12px; border-radius: 6px; font-size: 10px; font-weight: 900; letter-spacing: 1px; margin-bottom: 12px;">${location.badge}</div>` : ''}
-            <h3 style="font-size: 20px; font-weight: 900; color: #FF6600; margin: 0 0 12px 0;">${location.title}</h3>
-            <div style="margin-bottom: 12px; color: #4A4A4A; line-height: 1.5;">
-              <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Address</strong>
+            <h3 style="font-size: 20px; font-weight: 900; color: #FFFFFF; margin: 0 0 12px 0;">${location.title}</h3>
+            <div style="margin-bottom: 12px; color: #E0E0E0; line-height: 1.5;">
+              <strong style="display: block; color: #FFFFFF; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Address</strong>
               ${location.address}
             </div>
             <div style="margin-bottom: 12px;">
-              <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Phone</strong>
+              <strong style="display: block; color: #FFFFFF; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Phone</strong>
               <a href="tel:${location.phone}" style="color: #FF6600; font-weight: 700; text-decoration: none;">${location.phone}</a>
             </div>
             ${
               location.email
                 ? `<div style="margin-bottom: 12px;">
-              <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Email</strong>
+              <strong style="display: block; color: #FFFFFF; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Email</strong>
               <a href="mailto:${location.email}" style="color: #FF6600; font-weight: 700; text-decoration: none;">${location.email}</a>
             </div>`
                 : ''
             }
-            <div style="background: #FFF5F0; padding: 12px; border-radius: 8px; margin-top: 12px;">
-              <strong style="display: block; color: #1A1A1A; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Services</strong>
+            <div style="background: rgba(255, 102, 0, 0.1); padding: 12px; border-radius: 8px; margin-top: 12px; border: 1px solid rgba(255, 102, 0, 0.2);">
+              <strong style="display: block; color: #FFFFFF; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Services</strong>
               <ul style="margin: 0; padding: 0; list-style: none;">
                 ${location.services
                   .map(
                     (service) => `
-                  <li style="color: #4A4A4A; font-size: 13px; margin-bottom: 4px; display: flex; align-items: center;">
+                  <li style="color: #E0E0E0; font-size: 13px; margin-bottom: 4px; display: flex; align-items: center;">
                     <span style="color: #FF6600; margin-right: 8px;">✓</span>${service}
                   </li>
                 `
