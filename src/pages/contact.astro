@@ -1,6 +1,9 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
+// Image imports
+import modernConferenceRoom from '~/assets/images/new/Modern Conference Room.webp';
+
 const metadata = {
   title: 'Contact Us - Get Expert Support 24/7 | MTN Mud',
   description:
@@ -10,15 +13,17 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
-  <section class="relative bg-charcoal-900 overflow-hidden">
-    <div class="absolute inset-0">
-      <div class="absolute inset-0 bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-charcoal-900"></div>
-      <div
-        class="absolute inset-0 opacity-10"
-        style="background-image: radial-gradient(circle at 2px 2px, rgba(221, 94, 38, 0.15) 1px, transparent 0); background-size: 40px 40px;"
-      >
-      </div>
+  <section class="relative bg-charcoal-900 overflow-hidden min-h-[600px] md:min-h-[700px]">
+    <!-- Background Image -->
+    <div
+      class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      style={`background-image: url('${modernConferenceRoom.src}');`}
+    >
     </div>
+    <!-- Dark Overlay -->
+    <div class="absolute inset-0 bg-charcoal-900/60"></div>
+    <!-- Gradient Overlay -->
+    <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/80 via-charcoal-900/70 to-charcoal-900"></div>
 
     <div class="container mx-auto px-10 py-32 md:py-48 max-w-7xl relative z-10">
       <div class="max-w-3xl">
