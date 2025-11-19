@@ -77,8 +77,10 @@ const metadata = {
         muted
         loop
         playsinline
+        preload="auto"
         class="w-full h-full object-cover"
         aria-label="MTN Mud drilling operations"
+        id="heroVideo"
       >
         <source src="/MTN MUD-Website-background loop-10.mp4" type="video/mp4" />
       </video>
@@ -88,7 +90,7 @@ const metadata = {
 
     <!-- Content -->
     <div class="relative z-10 mx-auto max-w-5xl px-6 text-center">
-      <h1 class="text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-white mb-6 leading-[1.05]">
+      <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-white mb-6 leading-[1.05]">
         Service-Based<br />Drilling Fluids
       </h1>
       <p class="text-xl md:text-2xl text-white/90 leading-relaxed font-medium mb-12 max-w-3xl mx-auto">
@@ -238,21 +240,21 @@ const metadata = {
           </p>
 
           <!-- Stats -->
-          <div class="grid grid-cols-3 gap-6">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="text-center bg-warm-gray rounded-xl p-4">
-              <div class="text-4xl md:text-5xl font-black text-safety-orange mb-2 font-mono">0</div>
+              <div class="text-3xl md:text-4xl lg:text-5xl font-black text-safety-orange mb-2 font-mono">0</div>
               <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">
                 Lost-Time Accidents Since 2006
               </div>
             </div>
             <div class="text-center bg-warm-gray rounded-xl p-4">
-              <div class="text-4xl md:text-5xl font-black text-safety-orange mb-2 font-mono">24/7</div>
+              <div class="text-3xl md:text-4xl lg:text-5xl font-black text-safety-orange mb-2 font-mono">24/7</div>
               <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">
                 Technical Support & Delivery
               </div>
             </div>
             <div class="text-center bg-warm-gray rounded-xl p-4">
-              <div class="text-4xl md:text-5xl font-black text-safety-orange mb-2 font-mono">20K+</div>
+              <div class="text-3xl md:text-4xl lg:text-5xl font-black text-safety-orange mb-2 font-mono">20K+</div>
               <div class="text-xs font-bold text-charcoal-600 uppercase tracking-wider">Barrels OBM In Stock</div>
             </div>
           </div>
@@ -368,14 +370,14 @@ const metadata = {
             </div>
 
             <div class="grid grid-cols-2 gap-4 mt-6">
-              <div class="text-center p-5 bg-warm-white dark:bg-dark-bg-lighter rounded-xl shadow-soft">
-                <div class="text-4xl font-black text-safety-orange mb-2 font-mono">85%</div>
+              <div class="text-center p-3 sm:p-5 bg-warm-white dark:bg-dark-bg-lighter rounded-xl shadow-soft">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-black text-safety-orange mb-2 font-mono">85%</div>
                 <div class="text-xs font-bold text-charcoal-600 dark:text-dark-text-muted uppercase tracking-wider">
                   Reduction in Lost Circulation Incidents
                 </div>
               </div>
-              <div class="text-center p-5 bg-warm-white dark:bg-dark-bg-lighter rounded-xl shadow-soft">
-                <div class="text-4xl font-black text-safety-orange mb-2 font-mono">40%</div>
+              <div class="text-center p-3 sm:p-5 bg-warm-white dark:bg-dark-bg-lighter rounded-xl shadow-soft">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-black text-safety-orange mb-2 font-mono">40%</div>
                 <div class="text-xs font-bold text-charcoal-600 dark:text-dark-text-muted uppercase tracking-wider">
                   Decrease in Non-Productive Time
                 </div>
@@ -426,14 +428,14 @@ const metadata = {
             </div>
 
             <div class="grid grid-cols-2 gap-4 mt-6">
-              <div class="text-center p-5 bg-warm-white dark:bg-dark-bg-lighter rounded-xl shadow-soft">
-                <div class="text-4xl font-black text-safety-orange mb-2 font-mono">60%</div>
+              <div class="text-center p-3 sm:p-5 bg-warm-white dark:bg-dark-bg-lighter rounded-xl shadow-soft">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-black text-safety-orange mb-2 font-mono">60%</div>
                 <div class="text-xs font-bold text-charcoal-600 dark:text-dark-text-muted uppercase tracking-wider">
                   Reduction in Torque & Drag
                 </div>
               </div>
-              <div class="text-center p-5 bg-warm-white dark:bg-dark-bg-lighter rounded-xl shadow-soft">
-                <div class="text-4xl font-black text-safety-orange mb-2 font-mono">25%</div>
+              <div class="text-center p-3 sm:p-5 bg-warm-white dark:bg-dark-bg-lighter rounded-xl shadow-soft">
+                <div class="text-2xl sm:text-3xl md:text-4xl font-black text-safety-orange mb-2 font-mono">25%</div>
                 <div class="text-xs font-bold text-charcoal-600 dark:text-dark-text-muted uppercase tracking-wider">
                   Improved Rate of Penetration
                 </div>
@@ -774,3 +776,23 @@ const metadata = {
     animation-play-state: paused;
   }
 </style>
+
+<script is:inline>
+  // Ensure video autoplays on mobile
+  document.addEventListener('DOMContentLoaded', function() {
+    const video = document.getElementById('heroVideo');
+    if (video) {
+      // Attempt to play the video
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(function() {
+          // Auto-play was prevented, try playing on user interaction
+          document.addEventListener('touchstart', function playOnTouch() {
+            video.play();
+            document.removeEventListener('touchstart', playOnTouch);
+          }, { once: true });
+        });
+      }
+    }
+  });
+</script>
