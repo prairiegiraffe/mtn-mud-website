@@ -653,10 +653,10 @@ const activeJobs = allJobs
   }
 </style>
 
-<script>
+<script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('careersForm') as HTMLFormElement | null;
-    const submitButton = document.getElementById('careersFormSubmit') as HTMLButtonElement | null;
+    const form = document.getElementById('careersForm');
+    const submitButton = document.getElementById('careersFormSubmit');
     const buttonText = document.getElementById('careersButtonText');
     const buttonIcon = document.getElementById('careersButtonIcon');
     const messageDiv = document.getElementById('careersFormMessage');

@@ -706,10 +706,10 @@ const metadata = {
   }
 </style>
 
-<script>
+<script is:inline>
   document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('contactForm') as HTMLFormElement | null;
-    const submitButton = document.getElementById('contactFormSubmit') as HTMLButtonElement | null;
+    const form = document.getElementById('contactForm');
+    const submitButton = document.getElementById('contactFormSubmit');
     const buttonText = document.getElementById('contactButtonText');
     const buttonIcon = document.getElementById('contactButtonIcon');
     const messageDiv = document.getElementById('contactFormMessage');
