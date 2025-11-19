@@ -279,3 +279,95 @@ import { UI } from 'astrowind:config';
     Observer.start();
   });
 </script>
+
+<script is:inline>
+  /* Fade-up animations on scroll */
+  const FadeUpAnimations = {
+    observer: null,
+
+    init() {
+      // Auto-apply fade-up class to common elements
+      const selectors = [
+        'h1:not(.no-animate)',
+        'h2:not(.no-animate)',
+        'h3:not(.no-animate)',
+        'h4:not(.no-animate)',
+        '.btn:not(.no-animate)',
+        'button:not(.no-animate)',
+        'img:not(.no-animate)',
+        'p:not(.no-animate)',
+        '.card:not(.no-animate)',
+        'section > div:not(.no-animate)',
+      ];
+
+      const elements = document.querySelectorAll(selectors.join(','));
+
+      elements.forEach((el, index) => {
+        // Skip elements that are already animated or in header/footer
+        if (
+          el.classList.contains('fade-up') ||
+          el.closest('header') ||
+          el.closest('footer') ||
+          el.closest('[data-no-animate]')
+        ) {
+          return;
+        }
+
+        el.classList.add('fade-up');
+
+        // Add staggered delays within sections
+        const section = el.closest('section');
+        if (section) {
+          const sectionElements = Array.from(section.querySelectorAll('.fade-up'));
+          const elementIndex = sectionElements.indexOf(el);
+          if (elementIndex < 5) {
+            el.classList.add(`delay-${(elementIndex + 1) * 100}`);
+          }
+        }
+      });
+
+      this.observe();
+    },
+
+    observe() {
+      const callback = (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate');
+          }
+        });
+      };
+
+      this.observer = new IntersectionObserver(callback, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px',
+      });
+
+      const fadeUpElements = document.querySelectorAll('.fade-up');
+      fadeUpElements.forEach((el) => {
+        this.observer.observe(el);
+      });
+    },
+
+    reset() {
+      if (this.observer) {
+        this.observer.disconnect();
+      }
+    },
+  };
+
+  // Initialize on load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      FadeUpAnimations.init();
+    });
+  } else {
+    FadeUpAnimations.init();
+  }
+
+  // Re-initialize on page transitions
+  document.addEventListener('astro:after-swap', () => {
+    FadeUpAnimations.reset();
+    FadeUpAnimations.init();
+  });
+</script>

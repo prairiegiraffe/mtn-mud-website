@@ -64,6 +64,41 @@
   .industrial-section {
     @apply py-16 md:py-24;
   }
+
+  /* Fade-up animation utilities */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  .fade-up.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Animation delays for staggered effects */
+  .delay-100 {
+    transition-delay: 100ms;
+  }
+
+  .delay-200 {
+    transition-delay: 200ms;
+  }
+
+  .delay-300 {
+    transition-delay: 300ms;
+  }
+
+  .delay-400 {
+    transition-delay: 400ms;
+  }
+
+  .delay-500 {
+    transition-delay: 500ms;
+  }
 }
 
 @layer components {
