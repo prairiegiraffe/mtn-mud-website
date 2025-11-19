@@ -413,29 +413,32 @@ const metadata = {
         // Location data
         const locations = [
           {
-            coords: [44.2914, -105.5008],
+            coords: [44.2816, -105.5061],
             title: 'Gillette, WY',
             badge: 'HEADQUARTERS',
-            address: '103 E. Lincoln St.<br>Gillette, WY 82716',
-            phone: '307-682-8688',
+            address: '1301 Lincoln St.<br>Gillette, WY 82716',
+            phone: '605-210-3366',
+            contact: 'Mitch O\'Brien',
             email: null,
             services: ['Full mud engineering', '24/7 delivery', 'Mud lab', 'Technical support'],
           },
           {
-            coords: [41.14, -104.8202],
+            coords: [41.0861, -104.7608],
             title: 'Cheyenne, WY',
             badge: null,
-            address: 'Contact us for details',
-            phone: '307-682-8688',
+            address: '6415 Clear Creek Parkway<br>Cheyenne, WY 82007',
+            phone: '605-210-3366',
+            contact: 'Mitch O\'Brien',
             email: null,
             services: ['Drilling fluid supplies', 'Delivery services', 'Technical support'],
           },
           {
-            coords: [48.147, -103.6179],
+            coords: [48.1691, -103.6108],
             title: 'Williston, ND',
             badge: null,
-            address: 'Contact us for details',
-            phone: '307-682-8688',
+            address: '514 22nd Ave NE<br>Williston, ND 58801',
+            phone: '605-210-3366',
+            contact: 'Mitch O\'Brien',
             email: null,
             services: ['Full functional mud lab', 'Particle size analysis', 'Drilling fluid supplies'],
           },
@@ -454,17 +457,10 @@ const metadata = {
               ${location.address}
             </div>
             <div style="margin-bottom: 12px;">
-              <strong style="display: block; color: #FFFFFF; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Phone</strong>
+              <strong style="display: block; color: #FFFFFF; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Contact</strong>
+              <p style="color: #E0E0E0; margin: 0 0 4px 0; font-weight: 600;">${location.contact}</p>
               <a href="tel:${location.phone}" style="color: #FF6600; font-weight: 700; text-decoration: none;">${location.phone}</a>
             </div>
-            ${
-              location.email
-                ? `<div style="margin-bottom: 12px;">
-              <strong style="display: block; color: #FFFFFF; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Email</strong>
-              <a href="mailto:${location.email}" style="color: #FF6600; font-weight: 700; text-decoration: none;">${location.email}</a>
-            </div>`
-                : ''
-            }
             <div style="background: rgba(255, 102, 0, 0.1); padding: 12px; border-radius: 8px; margin-top: 12px; border: 1px solid rgba(255, 102, 0, 0.2);">
               <strong style="display: block; color: #FFFFFF; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Services</strong>
               <ul style="margin: 0; padding: 0; list-style: none;">
