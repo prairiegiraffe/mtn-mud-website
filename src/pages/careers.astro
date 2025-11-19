@@ -626,8 +626,17 @@ const activeJobs = allJobs
     color: white !important;
   }
 
-  /* Force select dropdowns and date inputs to have white text */
-  form select,
+  /* Force all form inputs to have white text */
+  form input,
+  form textarea,
+  form select {
+    color: white !important;
+  }
+
+  /* Force specific input types to have white text */
+  form input[type='text'],
+  form input[type='email'],
+  form input[type='tel'],
   form input[type='date'] {
     color: white !important;
   }
