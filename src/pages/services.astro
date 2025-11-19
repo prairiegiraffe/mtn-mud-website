@@ -442,7 +442,8 @@ const metadata = {
               <Image
                 src={constructionWorkerOperating}
                 alt="On-site mud engineering at multi-well pad"
-                class="absolute inset-0 w-full h-full object-cover .bg-white"
+                class="absolute inset-0 w-full object-cover"
+                style="height: 100%;"
               />
               <div class="absolute inset-0 bg-gradient-to-r from-transparent to-charcoal-900/20"></div>
             </div>
@@ -552,7 +553,8 @@ const metadata = {
               <Image
                 src={oilRigWorker}
                 alt="Extended-reach drilling with optimized OBM system"
-                class="absolute inset-0 w-full h-full object-cover"
+                class="absolute inset-0 w-full object-cover"
+                style="height: 100%;"
               />
               <div class="absolute inset-0 bg-gradient-to-l from-transparent to-charcoal-900/20"></div>
             </div>
@@ -721,10 +723,3 @@ const metadata = {
     </div>
   </section>
 </Layout>
-
-<style>
-  /* Override global img height:auto for case study images */
-  .bg-white img {
-    height: 100% !important;
-  }
-</style>
