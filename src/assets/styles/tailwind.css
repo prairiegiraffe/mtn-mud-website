@@ -5,7 +5,12 @@
 /* Force Montserrat font globally with maximum specificity */
 @layer base {
   * {
-    font-family: 'Montserrat Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-family:
+      'Montserrat Variable',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif !important;
   }
 }
 

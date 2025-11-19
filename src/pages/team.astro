@@ -43,10 +43,28 @@ import logoXTO from '~/assets/images/Partners/XTO ENERGY .svg';
 import logoZavanna from '~/assets/images/Partners/ZAVANNA, LLC.svg';
 
 const partnerLogos = [
-  logo1876, logoAEC, logoBallard, logoChord, logoContinental, logoCrescent,
-  logoDenbury, logoDevon, logoEOG, logoEagleMountain, logoHunt, logoImpact,
-  logoKoda, logoMarlo, logoNorthSilo, logoOildigger, logoRockies, logoRockport,
-  logoSilverHills, logoWhiteRock, logoXTO, logoZavanna
+  logo1876,
+  logoAEC,
+  logoBallard,
+  logoChord,
+  logoContinental,
+  logoCrescent,
+  logoDenbury,
+  logoDevon,
+  logoEOG,
+  logoEagleMountain,
+  logoHunt,
+  logoImpact,
+  logoKoda,
+  logoMarlo,
+  logoNorthSilo,
+  logoOildigger,
+  logoRockies,
+  logoRockport,
+  logoSilverHills,
+  logoWhiteRock,
+  logoXTO,
+  logoZavanna,
 ];
 
 const metadata = {
@@ -159,11 +177,7 @@ const teamMembers = [
             <div class="bg-charcoal-800 rounded-2xl overflow-hidden shadow-soft-lg hover:shadow-soft-xl transition-all border-l-4 border-safety-orange group">
               {/* Headshot */}
               <div class="aspect-square relative overflow-hidden">
-                <Image
-                  src={member.photo}
-                  alt={`${member.name} - ${member.title}`}
-                  class="w-full h-full object-cover"
-                />
+                <Image src={member.photo} alt={`${member.name} - ${member.title}`} class="w-full h-full object-cover" />
                 <div class="absolute inset-0 bg-gradient-to-b from-transparent to-charcoal-900/20" />
               </div>
 
@@ -430,13 +444,19 @@ const teamMembers = [
       </div>
 
       {/* Logo Scroller */}
-      <div class="relative overflow-hidden py-12 rounded-2xl shadow-soft-lg border border-warm-gray-200" style="background-color: white;">
+      <div
+        class="relative overflow-hidden py-12 rounded-2xl shadow-soft-lg border border-warm-gray-200"
+        style="background-color: white;"
+      >
         <div class="flex animate-scroll">
           {/* First set of logos */}
           <div class="flex items-center gap-16 px-8">
             {
               partnerLogos.map((logo) => (
-                <div class="flex-shrink-0 w-40 h-20 rounded-xl border border-warm-gray-200 flex items-center justify-center shadow-soft p-2" style="background-color: white;">
+                <div
+                  class="flex-shrink-0 w-40 h-20 rounded-xl border border-warm-gray-200 flex items-center justify-center shadow-soft p-2"
+                  style="background-color: white;"
+                >
                   <img src={logo.src} alt="Partner logo" class="w-full h-full object-contain" />
                 </div>
               ))
@@ -446,7 +466,10 @@ const teamMembers = [
           <div class="flex items-center gap-16 px-8">
             {
               partnerLogos.map((logo) => (
-                <div class="flex-shrink-0 w-40 h-20 rounded-xl border border-warm-gray-200 flex items-center justify-center shadow-soft p-2" style="background-color: white;">
+                <div
+                  class="flex-shrink-0 w-40 h-20 rounded-xl border border-warm-gray-200 flex items-center justify-center shadow-soft p-2"
+                  style="background-color: white;"
+                >
                   <img src={logo.src} alt="Partner logo" class="w-full h-full object-contain" />
                 </div>
               ))

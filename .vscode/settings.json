@@ -13,9 +13,7 @@
   },
   "eslint.useFlatConfig": true,
   "piny.project_settings": {
-    "open-pages": [
-      "pinyfakepage.html"
-    ],
+    "open-pages": ["pinyfakepage.html"],
     "tw-external-config": {
       "external_config_url": "tailwind.config.js",
       "external_source_url": "src/assets/styles/tailwind.css"
