@@ -526,7 +526,7 @@ const metadata = {
           50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.3; }
         }
         .leaflet-popup-content-wrapper {
-          background: #FFFFFF;
+          background: #FFFFFF !important;
           border-radius: 12px;
           box-shadow: 0 10px 30px rgba(0,0,0,0.2);
           padding: 8px;
@@ -534,9 +534,13 @@ const metadata = {
         .leaflet-popup-content {
           margin: 16px;
           font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          color: #1A1A1A !important;
+        }
+        .leaflet-popup-content * {
+          color: inherit;
         }
         .leaflet-popup-tip {
-          background: #FFFFFF;
+          background: #FFFFFF !important;
         }
       `;
         document.head.appendChild(style);
