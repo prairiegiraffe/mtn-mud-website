@@ -654,17 +654,21 @@ const activeJobs = allJobs
 </style>
 
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
+  function initCareersForm() {
     const form = document.getElementById('careersForm');
     const submitButton = document.getElementById('careersFormSubmit');
     const buttonText = document.getElementById('careersButtonText');
     const buttonIcon = document.getElementById('careersButtonIcon');
     const messageDiv = document.getElementById('careersFormMessage');
 
-    if (!form || !submitButton || !buttonText || !buttonIcon || !messageDiv) return;
+    if (!form || !submitButton || !buttonText || !buttonIcon || !messageDiv) {
+      console.log('Careers form elements not found');
+      return;
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      e.stopPropagation();
 
       // Disable button and show loading state
       submitButton.disabled = true;
@@ -733,5 +737,15 @@ const activeJobs = allJobs
         buttonIcon.className = 'ri-arrow-right-up-line';
       }
     });
-  });
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCareersForm);
+  } else {
+    initCareersForm();
+  }
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initCareersForm);
 </script>

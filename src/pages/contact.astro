@@ -707,17 +707,21 @@ const metadata = {
 </style>
 
 <script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
+  function initContactForm() {
     const form = document.getElementById('contactForm');
     const submitButton = document.getElementById('contactFormSubmit');
     const buttonText = document.getElementById('contactButtonText');
     const buttonIcon = document.getElementById('contactButtonIcon');
     const messageDiv = document.getElementById('contactFormMessage');
 
-    if (!form || !submitButton || !buttonText || !buttonIcon || !messageDiv) return;
+    if (!form || !submitButton || !buttonText || !buttonIcon || !messageDiv) {
+      console.log('Contact form elements not found');
+      return;
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      e.stopPropagation();
 
       // Disable button and show loading state
       submitButton.disabled = true;
@@ -770,5 +774,15 @@ const metadata = {
         buttonIcon.className = 'ri-arrow-right-up-line';
       }
     });
-  });
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initContactForm);
+  } else {
+    initContactForm();
+  }
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initContactForm);
 </script>
