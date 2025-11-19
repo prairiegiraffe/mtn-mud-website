@@ -168,12 +168,12 @@ const metadata = {
       </p>
 
       <!-- Logo Scroller -->
-      <div class="relative overflow-hidden bg-white py-10 rounded-2xl">
+      <div class="relative overflow-hidden py-10 rounded-2xl" style="background-color: white;">
         <div class="flex gap-12 animate-scroll">
           <!-- First set of logos -->
           {
             partnerLogos.map((logo) => (
-              <div class="flex-shrink-0 w-40 h-20 bg-white rounded-xl border border-warm-gray-300 flex items-center justify-center shadow-soft p-2">
+              <div class="flex-shrink-0 w-40 h-20 rounded-xl border border-warm-gray-300 flex items-center justify-center shadow-soft p-2" style="background-color: white;">
                 <img src={logo.src} alt="Partner logo" class="w-full h-full object-contain" />
               </div>
             ))
@@ -181,7 +181,7 @@ const metadata = {
           <!-- Duplicate set for seamless scroll -->
           {
             partnerLogos.map((logo) => (
-              <div class="flex-shrink-0 w-40 h-20 bg-white rounded-xl border border-warm-gray-300 flex items-center justify-center shadow-soft p-2">
+              <div class="flex-shrink-0 w-40 h-20 rounded-xl border border-warm-gray-300 flex items-center justify-center shadow-soft p-2" style="background-color: white;">
                 <img src={logo.src} alt="Partner logo" class="w-full h-full object-contain" />
               </div>
             ))
