@@ -18,6 +18,37 @@ import chadPic from '~/assets/images/Team/Chad.webp';
 import justinPic from '~/assets/images/Team/Justin.webp';
 import mitchPic from '~/assets/images/Team/Mitch.webp';
 
+// Import partner logos
+import logo1876 from '~/assets/images/Partners/1876 Resources.svg';
+import logoAEC from '~/assets/images/Partners/AEC.svg';
+import logoBallard from '~/assets/images/Partners/Ballard Petroleum.svg';
+import logoChord from '~/assets/images/Partners/Chord Energy.svg';
+import logoContinental from '~/assets/images/Partners/Continental Resources.svg';
+import logoCrescent from '~/assets/images/Partners/Crescent Point.svg';
+import logoDenbury from '~/assets/images/Partners/Denbury Inc.svg';
+import logoDevon from '~/assets/images/Partners/Devon Energy.svg';
+import logoEOG from '~/assets/images/Partners/EOG Resources.svg';
+import logoEagleMountain from '~/assets/images/Partners/Eagle Mountain Energy.svg';
+import logoHunt from '~/assets/images/Partners/Hunt Oil Compnay.svg';
+import logoImpact from '~/assets/images/Partners/Impact Energy.svg';
+import logoKoda from '~/assets/images/Partners/Koda.svg';
+import logoMarlo from '~/assets/images/Partners/MARLO OPERATING COMPANY.svg';
+import logoNorthSilo from '~/assets/images/Partners/NORTH SILO RESOURCES .svg';
+import logoOildigger from '~/assets/images/Partners/OILDIGGER RESOURCES .svg';
+import logoRockies from '~/assets/images/Partners/ROCKIES RESOURCES HOLDINGS .svg';
+import logoRockport from '~/assets/images/Partners/ROCKPORT ENERGY .svg';
+import logoSilverHills from '~/assets/images/Partners/Silver Hills Energy Operating.svg';
+import logoWhiteRock from '~/assets/images/Partners/WHITE ROCK OIL & GAS.svg';
+import logoXTO from '~/assets/images/Partners/XTO ENERGY .svg';
+import logoZavanna from '~/assets/images/Partners/ZAVANNA, LLC.svg';
+
+const partnerLogos = [
+  logo1876, logoAEC, logoBallard, logoChord, logoContinental, logoCrescent,
+  logoDenbury, logoDevon, logoEOG, logoEagleMountain, logoHunt, logoImpact,
+  logoKoda, logoMarlo, logoNorthSilo, logoOildigger, logoRockies, logoRockport,
+  logoSilverHills, logoWhiteRock, logoXTO, logoZavanna
+];
+
 const metadata = {
   title: 'Our Team - The People Behind the Performance | MTN Mud',
   description:
@@ -404,11 +435,9 @@ const teamMembers = [
           {/* First set of logos */}
           <div class="flex items-center gap-16 px-8">
             {
-              Array.from({ length: 12 }).map((_, i) => (
-                <div class="flex-shrink-0 w-40 h-20 bg-warm-white rounded-xl border-2 border-dashed border-warm-gray-300 flex items-center justify-center">
-                  <span class="text-warm-gray-400 text-xs text-center font-bold uppercase tracking-wider">
-                    Logo {i + 1}
-                  </span>
+              partnerLogos.map((logo) => (
+                <div class="flex-shrink-0 w-40 h-20 bg-warm-white rounded-xl border border-warm-gray-200 flex items-center justify-center p-4">
+                  <img src={logo.src} alt="Partner logo" class="max-w-full max-h-full object-contain" />
                 </div>
               ))
             }
@@ -416,19 +445,15 @@ const teamMembers = [
           {/* Duplicate set for seamless scroll */}
           <div class="flex items-center gap-16 px-8">
             {
-              Array.from({ length: 12 }).map((_, i) => (
-                <div class="flex-shrink-0 w-40 h-20 bg-warm-white rounded-xl border-2 border-dashed border-warm-gray-300 flex items-center justify-center">
-                  <span class="text-warm-gray-400 text-xs text-center font-bold uppercase tracking-wider">
-                    Logo {i + 1}
-                  </span>
+              partnerLogos.map((logo) => (
+                <div class="flex-shrink-0 w-40 h-20 bg-warm-white rounded-xl border border-warm-gray-200 flex items-center justify-center p-4">
+                  <img src={logo.src} alt="Partner logo" class="max-w-full max-h-full object-contain" />
                 </div>
               ))
             }
           </div>
         </div>
       </div>
-
-      <p class="text-sm text-warm-gray-500 text-center mt-6 italic">Logo list to be provided by MTN Mud</p>
     </div>
   </section>
 </Layout>
