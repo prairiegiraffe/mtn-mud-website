@@ -779,18 +779,22 @@ const metadata = {
 
 <script is:inline>
   // Ensure video autoplays on mobile
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const video = document.getElementById('heroVideo');
     if (video) {
       // Attempt to play the video
       const playPromise = video.play();
       if (playPromise !== undefined) {
-        playPromise.catch(function() {
+        playPromise.catch(function () {
           // Auto-play was prevented, try playing on user interaction
-          document.addEventListener('touchstart', function playOnTouch() {
-            video.play();
-            document.removeEventListener('touchstart', playOnTouch);
-          }, { once: true });
+          document.addEventListener(
+            'touchstart',
+            function playOnTouch() {
+              video.play();
+              document.removeEventListener('touchstart', playOnTouch);
+            },
+            { once: true }
+          );
         });
       }
     }
