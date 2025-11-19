@@ -569,7 +569,10 @@ const activeJobs = allJobs
 
         {/* Submit Button */}
         <div>
-          <button type="submit" class="btn style2 w-full justify-center">
+          <button
+            type="submit"
+            class="w-full bg-safety-orange hover:bg-safety-orange/90 text-white font-bold py-4 px-8 rounded-xl uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+          >
             Submit Application <i class="ri-arrow-right-up-line"></i>
           </button>
         </div>
@@ -605,5 +608,22 @@ const activeJobs = allJobs
   /* Force labels to be white */
   form label {
     color: white !important;
+  }
+
+  /* Force select dropdowns and date inputs to have white text */
+  form select,
+  form input[type='date'] {
+    color: white !important;
+  }
+
+  /* Fix select option colors */
+  form select option {
+    background-color: #2d2d2d;
+    color: white;
+  }
+
+  /* Date input calendar icon color fix */
+  form input[type='date']::-webkit-calendar-picker-indicator {
+    filter: invert(1);
   }
 </style>
