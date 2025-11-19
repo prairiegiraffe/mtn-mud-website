@@ -284,6 +284,7 @@ const metadata = {
                   id="name"
                   name="name"
                   required
+                  placeholder="Your name"
                   class="w-full px-4 py-3 border-2 border-warm-gray-600 bg-charcoal-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-safety-orange focus:border-safety-orange transition-all placeholder-warm-gray-400"
                 />
               </div>
@@ -296,6 +297,7 @@ const metadata = {
                   type="text"
                   id="company"
                   name="company"
+                  placeholder="Company name"
                   class="w-full px-4 py-3 border-2 border-warm-gray-600 bg-charcoal-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-safety-orange focus:border-safety-orange transition-all placeholder-warm-gray-400"
                 />
               </div>
@@ -309,6 +311,7 @@ const metadata = {
                   id="email"
                   name="email"
                   required
+                  placeholder="your.email@example.com"
                   class="w-full px-4 py-3 border-2 border-warm-gray-600 bg-charcoal-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-safety-orange focus:border-safety-orange transition-all placeholder-warm-gray-400"
                 />
               </div>
@@ -321,6 +324,7 @@ const metadata = {
                   type="tel"
                   id="phone"
                   name="phone"
+                  placeholder="(555) 123-4567"
                   class="w-full px-4 py-3 border-2 border-warm-gray-600 bg-charcoal-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-safety-orange focus:border-safety-orange transition-all placeholder-warm-gray-400"
                 />
               </div>
@@ -362,7 +366,10 @@ const metadata = {
               </div>
 
               <div>
-                <button type="submit" class="btn style2 w-full">
+                <button
+                  type="submit"
+                  class="w-full bg-safety-orange hover:bg-safety-orange/90 text-white font-bold py-4 px-8 rounded-xl uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                >
                   Send Message <i class="ri-arrow-right-up-line"></i>
                 </button>
               </div>
@@ -718,5 +725,15 @@ const metadata = {
   select option {
     background-color: #3a3734;
     color: #ffffff;
+  }
+
+  /* Force labels to be white */
+  form label {
+    color: white !important;
+  }
+
+  /* Force select dropdowns to have white text */
+  form select {
+    color: white !important;
   }
 </style>
