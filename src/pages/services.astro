@@ -439,8 +439,8 @@ const metadata = {
         <div class="bg-white rounded-2xl shadow-soft-lg overflow-hidden hover:shadow-soft-xl transition-all">
           <div class="grid grid-cols-1 lg:grid-cols-5 gap-0">
             <div
-              class="lg:col-span-2 relative overflow-hidden h-80 bg-cover bg-center bg-no-repeat"
-              style={`background-image: url('${constructionWorkerOperating.src}');`}
+              class="lg:col-span-2 relative overflow-hidden min-h-80 lg:min-h-0 bg-cover bg-center bg-no-repeat"
+              style={`background-image: url('${constructionWorkerOperating.src}'); background-size: cover;`}
             >
               <div class="absolute inset-0 bg-gradient-to-r from-transparent to-charcoal-900/20"></div>
             </div>
@@ -547,8 +547,8 @@ const metadata = {
               </div>
             </div>
             <div
-              class="lg:col-span-2 relative overflow-hidden h-80 order-1 lg:order-2 bg-cover bg-center bg-no-repeat"
-              style={`background-image: url('${oilRigWorker.src}');`}
+              class="lg:col-span-2 relative overflow-hidden min-h-80 lg:min-h-0 order-1 lg:order-2 bg-cover bg-center bg-no-repeat"
+              style={`background-image: url('${oilRigWorker.src}'); background-size: cover;`}
             >
               <div class="absolute inset-0 bg-gradient-to-l from-transparent to-charcoal-900/20"></div>
             </div>
