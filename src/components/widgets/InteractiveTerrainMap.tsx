@@ -42,7 +42,7 @@ const locationsData = [
     z: -0.4,
     address: '103 E. Lincoln St.<br/>Gillette, WY 82716',
     phone: '307-682-8688',
-    email: 'alicia@kutthru.com',
+    email: null,
     services: ['Full mud engineering', '24/7 delivery', 'Mud lab', 'Technical support'],
     description: 'Our headquarters in the heart of the Powder River Basin',
   },
