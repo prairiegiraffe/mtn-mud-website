@@ -2459,7 +2459,7 @@ textarea.is-invalid {
   display: inline-flex;
   gap: 15px;
   border: none;
-  border-radius: 0px !important;
+  border-radius: 10px !important;
   text-align: center;
   background-color: var(--theme-color);
   color: var(--white-color);
