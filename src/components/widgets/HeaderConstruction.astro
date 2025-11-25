@@ -79,7 +79,7 @@ const isActivePath = (path: string) => {
                   <li><i class="ri-time-line"></i>24/7 Service Available</li>
                   <li>
                     <i class="ri-map-pin-line"></i><a href="https://www.google.com/maps"
-                      >103 E. Lincoln St., Gillette, WY 82716</a
+                      >1301 Lincoln St., Gillette, WY 82716</a
                     >
                   </li>
                 </ul>
@@ -177,7 +177,7 @@ const isActivePath = (path: string) => {
           </div>
           <div class="navbar-right-desc-details">
             <h6 class="title">Call us any time</h6>
-            <a class="link" href="tel:307-682-8688">307-682-8688</a>
+            <a class="link" href="tel:605-210-3366">605-210-3366</a>
           </div>
         </div>
       </div>
@@ -437,16 +437,76 @@ const isActivePath = (path: string) => {
     }
 
     .header-button .btn {
-      font-size: 0.875rem;
+      font-size: 0.8rem;
+      padding: 0.4rem 0.8rem;
+      white-space: nowrap;
+    }
+
+    .main-menu > ul > li {
+      margin-right: 0.75rem;
+    }
+
+    .main-menu > ul > li > a {
+      font-size: 0.8rem;
+    }
+
+    /* Ensure no overflow */
+    .menu-area .container {
+      max-width: 100%;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  /* Larger tablet range - slightly less aggressive shrinking */
+  @media (min-width: 1200px) and (max-width: 1399px) {
+    .header-button {
+      gap: 0.6rem;
+    }
+
+    .header-button .btn {
+      font-size: 0.9rem;
       padding: 0.5rem 1rem;
     }
 
     .main-menu > ul > li {
-      margin-right: 1rem;
+      margin-right: 1.25rem;
     }
 
     .main-menu > ul > li > a {
-      font-size: 0.875rem;
+      font-size: 0.9rem;
+    }
+
+    /* Prevent overlap with absolutely positioned elements */
+    .menu-area .container {
+      max-width: 100%;
+    }
+  }
+
+  /* Fix overlap issues at all tablet sizes */
+  @media (min-width: 992px) and (max-width: 1399px) {
+    /* Ensure logo area doesn't overlap */
+    .header-navbar-logo {
+      display: none !important;
+    }
+
+    .menu-area .logo-bg {
+      display: none !important;
+    }
+
+    /* Ensure phone CTA doesn't overlap */
+    .navbar-right-desc {
+      display: none !important;
+    }
+
+    /* Remove margin that was accounting for logo */
+    .main-menu {
+      margin-left: 0 !important;
+    }
+
+    /* Ensure proper spacing in container */
+    .menu-area .row {
+      gap: 0.5rem;
     }
   }
 
