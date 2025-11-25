@@ -1,121 +1,117 @@
 ---
 import mtnMudLogoWhite from '~/assets/images/Logos/Long Logo Version 2.svg';
-
-// Footer based on Construz template Home 1 design
 ---
 
-<footer
-  class="footer-wrapper footer-layout1 background-image"
-  style="background-image: url('/assets/img/bg/footer-bg1-1.png');"
->
-  <div class="container">
-    <!-- Footer Top -->
-    <div class="footer-top-1">
-      <div class="footer-logo">
+<footer class="mtn-footer">
+  <!-- Main Footer Content -->
+  <div class="footer-main">
+    <div class="footer-container">
+      <!-- Footer Logo -->
+      <div class="footer-logo-section">
         <a href="/">
-          <img src={mtnMudLogoWhite.src} alt="MTN Mud" style="height: 50px; width: auto;" />
+          <img src={mtnMudLogoWhite.src} alt="MTN Mud" />
         </a>
       </div>
-    </div>
 
-    <!-- Footer Widget Area -->
-    <div class="widget-area">
-      <div class="row justify-content-between">
-        <!-- About Company -->
-        <div class="col-md-6 col-xl-3">
-          <div class="widget widget-about footer-widget">
-            <h3 class="widget_title">About MTN Mud</h3>
-            <p class="about-text">
-              MTN Mud provides expert drilling fluid solutions across the Rocky Mountain region. Zero lost-time
-              accidents since 2006.
-            </p>
-            <h4 class="about-year" style="color: #FF6600 !important; -webkit-text-stroke: 0px !important;">
-              Since 2006
-            </h4>
-            <h5 class="about-subtitle">WE ARE AVAILABLE</h5>
-            <p class="about-text"><span class="text-theme">24/7</span> Emergency Service</p>
+      <!-- Footer Columns -->
+      <div class="footer-columns">
+        <!-- About Column -->
+        <div class="footer-column">
+          <h3>About MTN Mud</h3>
+          <p>
+            MTN Mud provides expert drilling fluid solutions across the Rocky Mountain region. Zero lost-time accidents
+            since 2006.
+          </p>
+          <div class="footer-since">Since 2006</div>
+          <div class="footer-availability">
+            <h4>WE ARE AVAILABLE</h4>
+            <p><span class="highlight">24/7</span> Emergency Service</p>
           </div>
         </div>
 
-        <!-- Useful Links -->
-        <div class="col-md-6 col-xl-auto">
-          <div class="widget widget_nav_menu footer-widget">
-            <h3 class="widget_title">Useful Links</h3>
-            <div class="menu-all-pages-container grid-style">
-              <ul class="menu">
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/services">Our Services</a></li>
-                <!-- <li><a href="/projects">Case Studies</a></li> -->
-                <li><a href="/products">Products</a></li>
-                <li><a href="/careers">Careers</a></li>
-              </ul>
-              <ul class="menu">
-                <li><a href="/locations">Our Locations</a></li>
-                <li><a href="/mud-lab">Mud Lab</a></li>
-                <li><a href="/team">Our Team</a></li>
-                <li><a href="/contact">Contact Us</a></li>
-                <li><a href="/safety">Safety</a></li>
-              </ul>
-            </div>
+        <!-- Quick Links Column -->
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <div class="footer-links-grid">
+            <ul>
+              <li><a href="/about">About Us</a></li>
+              <li><a href="/services">Our Services</a></li>
+              <li><a href="/products">Products</a></li>
+              <li><a href="/careers">Careers</a></li>
+            </ul>
+            <ul>
+              <li><a href="/locations">Our Locations</a></li>
+              <li><a href="/mud-lab">Mud Lab</a></li>
+              <li><a href="/team">Our Team</a></li>
+              <li><a href="/safety">Safety</a></li>
+            </ul>
           </div>
         </div>
 
-        <!-- Office Address -->
-        <div class="col-md-6 col-xl-auto">
-          <div class="widget footer-widget widget-contact">
-            <h3 class="widget_title">Headquarters</h3>
-            <p class="contact-text">103 E. Lincoln St.<br />Gillette, WY 82716</p>
-          </div>
+        <!-- Contact Column -->
+        <div class="footer-column">
+          <h3>Headquarters</h3>
+          <p class="contact-info">
+            1301 Lincoln St.<br />
+            Gillette, WY 82716
+          </p>
+
+          <h3>Phone Number</h3>
+          <p class="contact-info">
+            <a href="tel:605-210-3366">605-210-3366</a><br />
+            <span class="subtitle">24/7 Emergency Line</span>
+          </p>
         </div>
 
-        <!-- Phone & Social -->
-        <div class="col-md-6 col-xl-auto">
-          <div class="widget footer-widget">
-            <h3 class="widget_title">Phone Number</h3>
-            <p class="footer-text"><a href="tel:307-682-8688">307-682-8688</a></p>
-            <p class="footer-text"><a href="tel:307-682-8688">24/7 Emergency Line</a></p>
-            <h3 class="widget_title">Follow Us</h3>
-            <div class="social-btn style2">
-              <a href="https://www.facebook.com/mtnmud" target="_blank" rel="noopener noreferrer"
-                ><i class="ri-facebook-fill"></i></a
-              >
-              <a href="https://www.instagram.com/MTN_MUD" target="_blank" rel="noopener noreferrer"
-                ><i class="ri-instagram-line"></i></a
-              >
-              <a href="https://www.tiktok.com/@mtn_mud" target="_blank" rel="noopener noreferrer"
-                ><i class="ri-tiktok-fill"></i></a
-              >
-              <a href="https://www.linkedin.com/company/mountainmud/" target="_blank" rel="noopener noreferrer"
-                ><i class="ri-linkedin-fill"></i></a
-              >
-              <a href="https://www.youtube.com/@MTN_MUD" target="_blank" rel="noopener noreferrer"
-                ><i class="ri-youtube-fill"></i></a
-              >
-              <a href="https://linktr.ee/MTN_MUD" target="_blank" rel="noopener noreferrer"
-                ><i class="ri-links-line"></i></a
-              >
-            </div>
+        <!-- Social Column -->
+        <div class="footer-column">
+          <h3>Follow Us</h3>
+          <div class="social-links">
+            <a href="https://www.facebook.com/mtnmud" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <i class="ri-facebook-fill"></i>
+            </a>
+            <a
+              href="https://www.instagram.com/MTN_MUD"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+            >
+              <i class="ri-instagram-line"></i>
+            </a>
+            <a href="https://www.tiktok.com/@mtn_mud" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+              <i class="ri-tiktok-fill"></i>
+            </a>
+            <a
+              href="https://www.linkedin.com/company/mountainmud/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+            >
+              <i class="ri-linkedin-fill"></i>
+            </a>
+            <a href="https://www.youtube.com/@MTN_MUD" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <i class="ri-youtube-fill"></i>
+            </a>
+            <a href="https://linktr.ee/MTN_MUD" target="_blank" rel="noopener noreferrer" aria-label="Linktree">
+              <i class="ri-links-line"></i>
+            </a>
           </div>
+
+          <a href="/contact" class="btn btn-orange">Get In Touch</a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Copyright -->
-  <div class="container">
-    <div class="copyright-wrap">
-      <div class="row gy-3 justify-content-md-between justify-content-center">
-        <div class="col-auto align-self-center">
-          <p class="copyright-text text-center">
-            © 2025 <a href="/">MTN Mud</a> | All rights reserved
-          </p>
-        </div>
-        <div class="col-auto">
-          <div class="footer-links">
-            <a href="/terms">Terms & Condition</a>
-            <a href="/privacy">Privacy Policy</a>
-            <a href="/contact">Contact Us</a>
-          </div>
+  <!-- Footer Bottom / Copyright -->
+  <div class="footer-bottom">
+    <div class="footer-container">
+      <div class="footer-bottom-content">
+        <p class="copyright">© 2025 <a href="/">MTN Mud</a> | All rights reserved</p>
+        <div class="footer-legal-links">
+          <a href="/terms">Terms & Condition</a>
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/contact">Contact Us</a>
         </div>
       </div>
     </div>
@@ -123,47 +119,320 @@ import mtnMudLogoWhite from '~/assets/images/Logos/Long Logo Version 2.svg';
 </footer>
 
 <style>
-  /* Additional MTN Mud branding */
-  .footer-wrapper .text-theme {
-    color: #ff6600;
+  /* ============================================
+     FOOTER VARIABLES
+     ============================================ */
+  :root {
+    --footer-bg: #1a1a1a;
+    --footer-bottom-bg: #0a0a0a;
+    --footer-text: rgba(255, 255, 255, 0.8);
+    --footer-heading: #ffffff;
+    --footer-orange: #ff6600;
+    --footer-orange-dark: #e55a00;
   }
 
-  .footer-wrapper .btn.style2 {
-    background-color: #ff6600;
-    border-color: #ff6600;
+  /* ============================================
+     FOOTER STRUCTURE
+     ============================================ */
+  .mtn-footer {
+    background: var(--footer-bg);
+    color: var(--footer-text);
+    width: 100%;
   }
 
-  .footer-wrapper .btn.style2:hover {
-    background-color: #e55a00;
-    border-color: #e55a00;
+  .footer-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
   }
 
-  .footer-wrapper .social-btn.style2 a {
-    background-color: rgba(255, 255, 255, 0.1);
+  /* ============================================
+     MAIN FOOTER
+     ============================================ */
+  .footer-main {
+    padding: 4rem 0 3rem;
   }
 
-  .footer-wrapper .social-btn.style2 a:hover {
-    background-color: #ff6600;
+  .footer-logo-section {
+    margin-bottom: 3rem;
+    text-align: center;
   }
 
-  .footer-wrapper .widget_title {
-    color: white;
+  .footer-logo-section img {
+    height: 60px;
+    width: auto;
   }
 
-  .footer-wrapper a {
-    color: rgba(255, 255, 255, 0.8);
+  /* ============================================
+     FOOTER COLUMNS
+     ============================================ */
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
   }
 
-  .footer-wrapper a:hover {
-    color: #ff6600;
+  .footer-column h3 {
+    color: var(--footer-heading);
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  .copyright-text a {
-    color: #ff6600;
+  .footer-column p {
+    color: var(--footer-text);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+  }
+
+  .footer-column a {
+    color: var(--footer-text);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-column a:hover {
+    color: var(--footer-orange);
+  }
+
+  /* About Section Specific */
+  .footer-since {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--footer-orange);
+    margin: 1.5rem 0;
+    letter-spacing: 1px;
+  }
+
+  .footer-availability h4 {
+    color: var(--footer-heading);
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+  }
+
+  .footer-availability .highlight {
+    color: var(--footer-orange);
     font-weight: 700;
   }
 
-  .copyright-text a:hover {
-    color: #e55a00;
+  /* Links Grid */
+  .footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .footer-links-grid ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .footer-links-grid li {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-links-grid a {
+    display: inline-block;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .footer-links-grid a:hover {
+    transform: translateX(5px);
+  }
+
+  /* Contact Info */
+  .contact-info {
+    font-weight: 600;
+  }
+
+  .contact-info a {
+    color: var(--footer-orange);
+    font-weight: 700;
+    font-size: 1.125rem;
+  }
+
+  .contact-info a:hover {
+    color: var(--footer-orange-dark);
+  }
+
+  .contact-info .subtitle {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--footer-text);
+    font-weight: 400;
+    margin-top: 0.25rem;
+  }
+
+  /* Social Links */
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--footer-heading);
+    font-size: 1.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .social-links a:hover {
+    background: var(--footer-orange);
+    transform: translateY(-3px);
+  }
+
+  /* CTA Button */
+  .btn {
+    display: inline-block;
+    padding: 0.875rem 2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+
+  .btn-orange {
+    background: var(--footer-orange);
+    color: #ffffff;
+  }
+
+  .btn-orange:hover {
+    background: var(--footer-orange-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
+  }
+
+  /* ============================================
+     FOOTER BOTTOM
+     ============================================ */
+  .footer-bottom {
+    background: var(--footer-bottom-bg);
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .copyright {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--footer-text);
+  }
+
+  .copyright a {
+    color: var(--footer-orange);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .copyright a:hover {
+    color: var(--footer-orange-dark);
+  }
+
+  .footer-legal-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .footer-legal-links a {
+    color: var(--footer-text);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .footer-legal-links a:hover {
+    color: var(--footer-orange);
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+
+  @media (max-width: 992px) {
+    .footer-columns {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-container {
+      padding: 0 1.5rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .footer-columns {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-main {
+      padding: 3rem 0 2rem;
+    }
+
+    .footer-logo-section {
+      margin-bottom: 2rem;
+    }
+
+    .footer-logo-section img {
+      height: 50px;
+    }
+
+    .footer-bottom-content {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .footer-legal-links {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .footer-links-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .footer-container {
+      padding: 0 1rem;
+    }
+
+    .footer-since {
+      font-size: 2rem;
+    }
+
+    .social-links {
+      justify-content: center;
+    }
+
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
   }
 </style>
