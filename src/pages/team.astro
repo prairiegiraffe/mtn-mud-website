@@ -77,34 +77,29 @@ const metadata = {
 // Team members
 const teamMembers = [
   {
-    name: 'Adolfo',
-    title: 'Position Title',
-    bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
-    photo: adolfoPic,
-  },
-  {
-    name: 'Brent',
-    title: 'Position Title',
-    bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
+    name: 'Brent Eischeid',
+    title: 'Owner',
     photo: brentPic,
   },
   {
-    name: 'Chad',
-    title: 'Position Title',
-    bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
+    name: 'Chad Eischeid',
+    title: 'Owner',
     photo: chadPic,
   },
   {
-    name: 'Justin',
-    title: 'Position Title',
-    bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
+    name: 'Mitch O\'Brien',
+    title: 'Procurement Manager',
+    photo: mitchPic,
+  },
+  {
+    name: 'Justin Teppo',
+    title: 'Operations Manager',
     photo: justinPic,
   },
   {
-    name: 'Mitch',
-    title: 'Position Title',
-    bio: 'Brief bio highlighting experience in drilling fluids industry, areas of expertise, and commitment to service excellence. Years with company and key accomplishments.',
-    photo: mitchPic,
+    name: 'Adolfo Bagnarello',
+    title: 'Office Manager',
+    photo: adolfoPic,
   },
 ];
 ---
@@ -185,8 +180,7 @@ const teamMembers = [
                 <h3 class="text-xl font-black mb-2 text-white uppercase tracking-tight group-hover:text-safety-orange transition-colors">
                   {member.name}
                 </h3>
-                <p class="text-safety-orange font-bold mb-4 text-sm uppercase tracking-wider">{member.title}</p>
-                <p class="text-warm-gray-200 leading-relaxed text-sm">{member.bio}</p>
+                <p class="text-safety-orange font-bold text-sm uppercase tracking-wider">{member.title}</p>
               </div>
             </div>
           ))
