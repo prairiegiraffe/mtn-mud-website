@@ -158,7 +158,7 @@ const isActivePath = (path: string) => {
             </div>
 
             <!-- Header Buttons -->
-            <div class="col-auto d-xl-block d-none ms-auto">
+            <div class="col-auto d-lg-block d-none ms-auto">
               <div class="header-button">
                 <a class="btn style2" href="/careers">APPLY NOW <i class="ri-user-add-line"></i></a>
                 <a class="btn style3" href="/contact">GET IN TOUCH <i class="ri-arrow-right-up-line"></i></a>
@@ -428,6 +428,26 @@ const isActivePath = (path: string) => {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+  }
+
+  /* Tablet responsiveness - reduce button sizes and gaps */
+  @media (min-width: 992px) and (max-width: 1199px) {
+    .header-button {
+      gap: 0.5rem;
+    }
+
+    .header-button .btn {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+    }
+
+    .main-menu > ul > li {
+      margin-right: 1rem;
+    }
+
+    .main-menu > ul > li > a {
+      font-size: 0.875rem;
+    }
   }
 
   /* Ensure style3 buttons work correctly */
