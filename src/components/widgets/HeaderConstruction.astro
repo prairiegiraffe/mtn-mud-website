@@ -450,12 +450,16 @@ const isActivePath = (path: string) => {
     background: transparent;
     border: 2px solid var(--mtn-white);
     border-radius: 6px;
-    padding: 0.5rem;
+    padding: 0;
     cursor: pointer;
     color: var(--mtn-white);
     font-size: 1.5rem;
     transition: all 0.3s ease;
     line-height: 1;
+    width: 45px;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
   }
 
   .mobile-menu-toggle:hover {
@@ -519,10 +523,15 @@ const isActivePath = (path: string) => {
     border-radius: 6px;
     color: var(--mtn-white);
     font-size: 1.5rem;
-    padding: 0.5rem;
+    padding: 0;
     cursor: pointer;
     transition: all 0.3s ease;
     line-height: 1;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .mobile-menu-close:hover {
