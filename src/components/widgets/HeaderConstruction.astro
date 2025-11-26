@@ -709,10 +709,24 @@ const isActivePath = (path: string) => {
     // Mobile submenu toggles
     const submenuToggles = document.querySelectorAll('.submenu-toggle');
     submenuToggles.forEach((toggle) => {
-      toggle.addEventListener('click', (e) => {
+      // Remove existing listeners to prevent duplicates
+      const newToggle = toggle.cloneNode(true) as HTMLElement;
+      toggle.parentNode?.replaceChild(newToggle, toggle);
+
+      newToggle.addEventListener('click', (e) => {
         e.preventDefault();
-        const submenu = toggle.nextElementSibling;
-        toggle.classList.toggle('active');
+        e.stopPropagation();
+        const submenu = newToggle.nextElementSibling;
+        newToggle.classList.toggle('active');
+        submenu?.classList.toggle('active');
+      });
+
+      // Also add touch event for better mobile support
+      newToggle.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const submenu = newToggle.nextElementSibling;
+        newToggle.classList.toggle('active');
         submenu?.classList.toggle('active');
       });
     });
