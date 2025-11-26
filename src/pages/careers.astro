@@ -6,9 +6,9 @@ import { getCollection } from 'astro:content';
 import constructionWorkerOnSite from '~/assets/images/new/Construction Workers On Site.webp';
 
 const metadata = {
-  title: 'Careers - Join the MTN Mud Team | MTN Mud',
+  title: 'Careers - Join the MTN MUD Team | MTN MUD',
   description:
-    'Join MTN Mud and be part of a team that values safety, service excellence, and innovation. Zero lost-time accidents since 2006. Competitive compensation and career growth opportunities.',
+    'Join MTN MUD and be part of a team that values safety, service excellence, and innovation. Zero lost-time accidents since 2006. Competitive compensation and career growth opportunities.',
 };
 
 // Fetch active job postings from the CMS
@@ -39,7 +39,7 @@ const activeJobs = allJobs
         Build Your Career
       </div>
       <h1 class="text-5xl md:text-6xl lg:text-7xl font-black mb-8 text-white leading-tight tracking-tight">
-        Join the MTN Mud Team
+        Join the MTN MUD Team
       </h1>
       <p class="text-xl md:text-2xl text-warm-gray-200 leading-relaxed max-w-4xl mx-auto mb-8">
         We're always looking for talented professionals who share our commitment to service excellence, safety, and
@@ -596,7 +596,7 @@ const activeJobs = allJobs
         {/* Equal Opportunity Note */}
         <div class="text-sm text-warm-gray-200 text-center pt-6 border-t-2 border-warm-gray-600">
           <p>
-            <strong class="text-white">MTN Mud is an Equal Opportunity Employer.</strong> We celebrate diversity and are
+            <strong class="text-white">MTN MUD is an Equal Opportunity Employer.</strong> We celebrate diversity and are
             committed to creating an inclusive environment for all employees.
           </p>
         </div>
@@ -650,6 +650,12 @@ const activeJobs = allJobs
   /* Date input calendar icon color fix */
   form input[type='date']::-webkit-calendar-picker-indicator {
     filter: invert(1);
+  }
+
+  /* Add padding to select dropdowns for arrow spacing */
+  form select {
+    padding-right: 2.5rem !important;
+    background-position: right 0.75rem center !important;
   }
 </style>
 
