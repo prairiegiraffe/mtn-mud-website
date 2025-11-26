@@ -220,10 +220,14 @@ const isActivePath = (path: string) => {
 
   .social-links a {
     color: var(--mtn-white);
-    font-size: 2em;
+    font-size: 2em !important;
     transition: color 0.3s ease;
     display: flex;
     align-items: center;
+  }
+
+  .social-links a i {
+    font-size: 2em !important;
   }
 
   .social-links a:hover {
