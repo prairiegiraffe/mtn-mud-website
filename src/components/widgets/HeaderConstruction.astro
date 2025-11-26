@@ -706,29 +706,35 @@ const isActivePath = (path: string) => {
     mobileMenuClose?.addEventListener('click', closeMobileMenu);
     mobileMenuOverlay?.addEventListener('click', closeMobileMenu);
 
-    // Mobile submenu toggles
+    // Mobile submenu toggles - simpler approach without cloning
     const submenuToggles = document.querySelectorAll('.submenu-toggle');
     submenuToggles.forEach((toggle) => {
-      // Remove existing listeners to prevent duplicates
-      const newToggle = toggle.cloneNode(true) as HTMLElement;
-      toggle.parentNode?.replaceChild(newToggle, toggle);
+      // Use a flag to prevent duplicate handlers
+      const toggleEl = toggle as HTMLElement & { _hasClickHandler?: boolean };
+      if (!toggleEl._hasClickHandler) {
+        toggleEl._hasClickHandler = true;
 
-      newToggle.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const submenu = newToggle.nextElementSibling;
-        newToggle.classList.toggle('active');
-        submenu?.classList.toggle('active');
-      });
+        toggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const submenu = toggle.nextElementSibling;
+          toggle.classList.toggle('active');
+          submenu?.classList.toggle('active');
+        });
 
-      // Also add touch event for better mobile support
-      newToggle.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const submenu = newToggle.nextElementSibling;
-        newToggle.classList.toggle('active');
-        submenu?.classList.toggle('active');
-      });
+        // Also add touch event for better mobile support
+        toggle.addEventListener(
+          'touchend',
+          (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const submenu = toggle.nextElementSibling;
+            toggle.classList.toggle('active');
+            submenu?.classList.toggle('active');
+          },
+          { passive: false }
+        );
+      }
     });
 
     // Close mobile menu on link click
