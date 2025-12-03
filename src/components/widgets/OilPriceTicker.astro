@@ -120,11 +120,11 @@
   // The API key will be injected at build time or can be set here
   const EIA_API_KEY = import.meta.env.PUBLIC_EIA_API_KEY || '';
 
-  // EIA API v2 endpoints for oil prices
+  // EIA API v2 series codes
   // WTI Cushing, OK Spot Price FOB
-  const WTI_SERIES_ID = 'PET.RWTC.D';
+  const WTI_SERIES = 'RWTC';
   // Brent Europe Spot Price FOB
-  const BRENT_SERIES_ID = 'PET.RBRTE.D';
+  const BRENT_SERIES = 'RBRTE';
 
   const EIA_API_BASE = 'https://api.eia.gov/v2/petroleum/pri/spt/data/';
 
@@ -133,6 +133,7 @@
       data: Array<{
         value: number;
         period: string;
+        series: string;
       }>;
     };
   }
@@ -147,30 +148,25 @@
   let lastFetchTime: number = 0;
   const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
 
-  async function fetchOilPrice(seriesId: string): Promise<{ current: number; previous: number } | null> {
+  async function fetchOilPrice(seriesCode: string): Promise<{ current: number; previous: number } | null> {
     if (!EIA_API_KEY) {
-      console.warn('EIA API key not configured');
+      console.warn('EIA API key not configured. Set PUBLIC_EIA_API_KEY in environment.');
       return null;
     }
 
     try {
-      // Extract the product code from series ID (e.g., RWTC from PET.RWTC.D)
-      const productCode = seriesId.split('.')[1];
+      // Build the URL with proper EIA API v2 format
+      const url = new URL(EIA_API_BASE);
+      url.searchParams.set('api_key', EIA_API_KEY);
+      url.searchParams.set('frequency', 'daily');
+      url.searchParams.append('data[]', 'value');
+      url.searchParams.append('facets[series][]', seriesCode);
+      url.searchParams.set('sort[0][column]', 'period');
+      url.searchParams.set('sort[0][direction]', 'desc');
+      url.searchParams.set('offset', '0');
+      url.searchParams.set('length', '2');
 
-      const params = new URLSearchParams({
-        api_key: EIA_API_KEY,
-        frequency: 'daily',
-        data: 'value',
-        sort: 'period',
-        sort_direction: 'desc',
-        offset: '0',
-        length: '2', // Get last 2 data points for change calculation
-      });
-
-      // Add product filter
-      params.append('facets[product][]', productCode);
-
-      const response = await fetch(`${EIA_API_BASE}?${params.toString()}`);
+      const response = await fetch(url.toString());
 
       if (!response.ok) {
         throw new Error(`EIA API error: ${response.status}`);
@@ -186,7 +182,7 @@
 
       return null;
     } catch (error) {
-      console.error(`Error fetching oil price for ${seriesId}:`, error);
+      console.error(`Error fetching oil price for ${seriesCode}:`, error);
       return null;
     }
   }
@@ -199,7 +195,7 @@
       return cachedPrices;
     }
 
-    const [wti, brent] = await Promise.all([fetchOilPrice(WTI_SERIES_ID), fetchOilPrice(BRENT_SERIES_ID)]);
+    const [wti, brent] = await Promise.all([fetchOilPrice(WTI_SERIES), fetchOilPrice(BRENT_SERIES)]);
 
     cachedPrices = {
       wti,
