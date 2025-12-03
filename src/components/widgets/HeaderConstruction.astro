@@ -1,5 +1,6 @@
 ---
 import mtnMudLogo from '~/assets/images/Logos/Long Logo Version 2.svg';
+import OilPriceTicker from './OilPriceTicker.astro';
 
 const currentPath = Astro.url.pathname;
 
@@ -42,6 +43,9 @@ const isActivePath = (path: string) => {
             <i class="ri-youtube-fill"></i>
           </a>
         </div>
+
+        <!-- Oil Price Ticker -->
+        <OilPriceTicker />
 
         <!-- Contact Info -->
         <div class="contact-info">

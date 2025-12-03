@@ -1,0 +1,294 @@
+---
+// Oil Price Ticker Component
+// Fetches WTI and Brent crude oil prices from EIA API
+// API Key should be set in environment variable EIA_API_KEY
+---
+
+<div class="oil-ticker" id="oilPriceTicker">
+  <div class="oil-ticker-inner">
+    <div class="oil-price" id="wtiPrice">
+      <span class="oil-label">WTI</span>
+      <span class="oil-value" id="wtiValue">--</span>
+      <span class="oil-change" id="wtiChange"></span>
+    </div>
+    <div class="oil-divider"></div>
+    <div class="oil-price" id="brentPrice">
+      <span class="oil-label">BRENT</span>
+      <span class="oil-value" id="brentValue">--</span>
+      <span class="oil-change" id="brentChange"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .oil-ticker {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 102, 0, 0.15);
+    border: 1px solid rgba(255, 102, 0, 0.3);
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    margin-left: auto;
+  }
+
+  .oil-ticker-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .oil-price {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .oil-label {
+    color: var(--mtn-orange, #ff6600);
+    font-weight: 700;
+    font-size: 0.6875rem;
+    letter-spacing: 0.5px;
+  }
+
+  .oil-value {
+    color: var(--mtn-white, #ffffff);
+    font-weight: 600;
+    font-family: 'Space Grotesk', monospace;
+  }
+
+  .oil-change {
+    font-size: 0.625rem;
+    font-weight: 600;
+  }
+
+  .oil-change.up {
+    color: #22c55e;
+  }
+
+  .oil-change.down {
+    color: #ef4444;
+  }
+
+  .oil-divider {
+    width: 1px;
+    height: 16px;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Loading state */
+  .oil-ticker.loading .oil-value {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Error state */
+  .oil-ticker.error {
+    opacity: 0.6;
+  }
+
+  /* Hide on smaller screens where top bar is hidden */
+  @media (max-width: 1024px) {
+    .oil-ticker {
+      display: none;
+    }
+  }
+
+  /* Adjust for medium screens */
+  @media (max-width: 1200px) and (min-width: 1025px) {
+    .oil-ticker {
+      padding: 0.25rem 0.5rem;
+    }
+
+    .oil-ticker-inner {
+      gap: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  // EIA API Configuration
+  // The API key will be injected at build time or can be set here
+  const EIA_API_KEY = import.meta.env.PUBLIC_EIA_API_KEY || '';
+
+  // EIA API v2 endpoints for oil prices
+  // WTI Cushing, OK Spot Price FOB
+  const WTI_SERIES_ID = 'PET.RWTC.D';
+  // Brent Europe Spot Price FOB
+  const BRENT_SERIES_ID = 'PET.RBRTE.D';
+
+  const EIA_API_BASE = 'https://api.eia.gov/v2/petroleum/pri/spt/data/';
+
+  interface EIAResponse {
+    response: {
+      data: Array<{
+        value: number;
+        period: string;
+      }>;
+    };
+  }
+
+  interface OilPrices {
+    wti: { current: number; previous: number } | null;
+    brent: { current: number; previous: number } | null;
+    lastUpdated: Date;
+  }
+
+  let cachedPrices: OilPrices | null = null;
+  let lastFetchTime: number = 0;
+  const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+
+  async function fetchOilPrice(seriesId: string): Promise<{ current: number; previous: number } | null> {
+    if (!EIA_API_KEY) {
+      console.warn('EIA API key not configured');
+      return null;
+    }
+
+    try {
+      // Extract the product code from series ID (e.g., RWTC from PET.RWTC.D)
+      const productCode = seriesId.split('.')[1];
+
+      const params = new URLSearchParams({
+        api_key: EIA_API_KEY,
+        frequency: 'daily',
+        data: 'value',
+        sort: 'period',
+        sort_direction: 'desc',
+        offset: '0',
+        length: '2' // Get last 2 data points for change calculation
+      });
+
+      // Add product filter
+      params.append('facets[product][]', productCode);
+
+      const response = await fetch(`${EIA_API_BASE}?${params.toString()}`);
+
+      if (!response.ok) {
+        throw new Error(`EIA API error: ${response.status}`);
+      }
+
+      const data: EIAResponse = await response.json();
+
+      if (data.response?.data && data.response.data.length >= 1) {
+        const current = data.response.data[0].value;
+        const previous = data.response.data.length > 1 ? data.response.data[1].value : current;
+        return { current, previous };
+      }
+
+      return null;
+    } catch (error) {
+      console.error(`Error fetching oil price for ${seriesId}:`, error);
+      return null;
+    }
+  }
+
+  async function fetchAllPrices(): Promise<OilPrices> {
+    const now = Date.now();
+
+    // Return cached data if still valid
+    if (cachedPrices && (now - lastFetchTime) < CACHE_DURATION) {
+      return cachedPrices;
+    }
+
+    const [wti, brent] = await Promise.all([
+      fetchOilPrice(WTI_SERIES_ID),
+      fetchOilPrice(BRENT_SERIES_ID)
+    ]);
+
+    cachedPrices = {
+      wti,
+      brent,
+      lastUpdated: new Date()
+    };
+    lastFetchTime = now;
+
+    return cachedPrices;
+  }
+
+  function formatPrice(price: number): string {
+    return `$${price.toFixed(2)}`;
+  }
+
+  function formatChange(current: number, previous: number): { text: string; direction: 'up' | 'down' | 'neutral' } {
+    const change = current - previous;
+    const percentChange = ((change / previous) * 100).toFixed(2);
+
+    if (change > 0) {
+      return { text: `+${percentChange}%`, direction: 'up' };
+    } else if (change < 0) {
+      return { text: `${percentChange}%`, direction: 'down' };
+    }
+    return { text: '0.00%', direction: 'neutral' };
+  }
+
+  function updateDisplay(prices: OilPrices): void {
+    const ticker = document.getElementById('oilPriceTicker');
+    const wtiValueEl = document.getElementById('wtiValue');
+    const wtiChangeEl = document.getElementById('wtiChange');
+    const brentValueEl = document.getElementById('brentValue');
+    const brentChangeEl = document.getElementById('brentChange');
+
+    if (!ticker) return;
+
+    ticker.classList.remove('loading', 'error');
+
+    if (prices.wti && wtiValueEl && wtiChangeEl) {
+      wtiValueEl.textContent = formatPrice(prices.wti.current);
+      const wtiChange = formatChange(prices.wti.current, prices.wti.previous);
+      wtiChangeEl.textContent = wtiChange.text;
+      wtiChangeEl.className = `oil-change ${wtiChange.direction}`;
+    }
+
+    if (prices.brent && brentValueEl && brentChangeEl) {
+      brentValueEl.textContent = formatPrice(prices.brent.current);
+      const brentChange = formatChange(prices.brent.current, prices.brent.previous);
+      brentChangeEl.textContent = brentChange.text;
+      brentChangeEl.className = `oil-change ${brentChange.direction}`;
+    }
+
+    if (!prices.wti && !prices.brent) {
+      ticker.classList.add('error');
+    }
+  }
+
+  async function initOilTicker(): Promise<void> {
+    const ticker = document.getElementById('oilPriceTicker');
+    if (!ticker) return;
+
+    // Show loading state
+    ticker.classList.add('loading');
+
+    try {
+      const prices = await fetchAllPrices();
+      updateDisplay(prices);
+    } catch (error) {
+      console.error('Error initializing oil ticker:', error);
+      ticker.classList.remove('loading');
+      ticker.classList.add('error');
+    }
+
+    // Set up hourly refresh
+    setInterval(async () => {
+      try {
+        // Force cache invalidation for refresh
+        lastFetchTime = 0;
+        const prices = await fetchAllPrices();
+        updateDisplay(prices);
+      } catch (error) {
+        console.error('Error refreshing oil prices:', error);
+      }
+    }, CACHE_DURATION);
+  }
+
+  // Initialize on load
+  initOilTicker();
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', () => {
+    initOilTicker();
+  });
+</script>
