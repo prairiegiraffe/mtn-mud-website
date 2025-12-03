@@ -14,8 +14,8 @@ const isActivePath = (path: string) => {
 <!-- Link to icon library -->
 <link rel="stylesheet" href="/remixicon.css" />
 
-<!-- Oil Price Ticker (includes both desktop and mobile versions) -->
-<OilPriceTicker />
+<!-- Mobile Oil Price Bar (shown above header on mobile/tablet) -->
+<OilPriceTicker variant="mobile" />
 
 <!-- New Modern Header -->
 <header class="mtn-header">
@@ -46,6 +46,9 @@ const isActivePath = (path: string) => {
             <i class="ri-youtube-fill"></i>
           </a>
         </div>
+
+        <!-- Desktop Oil Price Ticker (centered in top bar) -->
+        <OilPriceTicker variant="desktop" />
 
         <!-- Contact Info -->
         <div class="contact-info">

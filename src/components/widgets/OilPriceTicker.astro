@@ -2,41 +2,49 @@
 // Oil Price Ticker Component
 // Fetches WTI and Brent crude oil prices from EIA API
 // API Key should be set in environment variable EIA_API_KEY
+
+interface Props {
+  variant?: 'desktop' | 'mobile';
+}
+
+const { variant = 'desktop' } = Astro.props;
 ---
 
-<!-- Desktop Ticker (shown in top bar) -->
-<div class="oil-ticker oil-ticker-desktop" id="oilPriceTicker">
-  <div class="oil-ticker-inner">
-    <div class="oil-price">
-      <span class="oil-label">WTI</span>
-      <span class="oil-value wti-value">--</span>
-      <span class="oil-change wti-change"></span>
+{
+  variant === 'desktop' ? (
+    <div class="oil-ticker oil-ticker-desktop" id="oilPriceTicker">
+      <div class="oil-ticker-inner">
+        <div class="oil-price">
+          <span class="oil-label">WTI</span>
+          <span class="oil-value wti-value">--</span>
+          <span class="oil-change wti-change" />
+        </div>
+        <div class="oil-divider" />
+        <div class="oil-price">
+          <span class="oil-label">BRENT</span>
+          <span class="oil-value brent-value">--</span>
+          <span class="oil-change brent-change" />
+        </div>
+      </div>
     </div>
-    <div class="oil-divider"></div>
-    <div class="oil-price">
-      <span class="oil-label">BRENT</span>
-      <span class="oil-value brent-value">--</span>
-      <span class="oil-change brent-change"></span>
+  ) : (
+    <div class="oil-ticker-mobile" id="oilPriceTickerMobile">
+      <div class="oil-ticker-mobile-inner">
+        <div class="oil-price">
+          <span class="oil-label">WTI</span>
+          <span class="oil-value wti-value">--</span>
+          <span class="oil-change wti-change" />
+        </div>
+        <div class="oil-divider" />
+        <div class="oil-price">
+          <span class="oil-label">BRENT</span>
+          <span class="oil-value brent-value">--</span>
+          <span class="oil-change brent-change" />
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
-<!-- Mobile Bar (shown above nav on mobile) -->
-<div class="oil-ticker-mobile" id="oilPriceTickerMobile">
-  <div class="oil-ticker-mobile-inner">
-    <div class="oil-price">
-      <span class="oil-label">WTI</span>
-      <span class="oil-value wti-value">--</span>
-      <span class="oil-change wti-change"></span>
-    </div>
-    <div class="oil-divider"></div>
-    <div class="oil-price">
-      <span class="oil-label">BRENT</span>
-      <span class="oil-value brent-value">--</span>
-      <span class="oil-change brent-change"></span>
-    </div>
-  </div>
-</div>
+  )
+}
 
 <style>
   /* ============================================
