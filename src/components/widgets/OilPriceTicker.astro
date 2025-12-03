@@ -4,40 +4,44 @@
 // API Key should be set in environment variable EIA_API_KEY
 ---
 
-<div class="oil-ticker" id="oilPriceTicker">
+<!-- Desktop Ticker (shown in top bar) -->
+<div class="oil-ticker oil-ticker-desktop" id="oilPriceTicker">
   <div class="oil-ticker-inner">
-    <div class="oil-price" id="wtiPrice">
+    <div class="oil-price">
       <span class="oil-label">WTI</span>
-      <span class="oil-value" id="wtiValue">--</span>
-      <span class="oil-change" id="wtiChange"></span>
+      <span class="oil-value wti-value">--</span>
+      <span class="oil-change wti-change"></span>
     </div>
     <div class="oil-divider"></div>
-    <div class="oil-price" id="brentPrice">
+    <div class="oil-price">
       <span class="oil-label">BRENT</span>
-      <span class="oil-value" id="brentValue">--</span>
-      <span class="oil-change" id="brentChange"></span>
+      <span class="oil-value brent-value">--</span>
+      <span class="oil-change brent-change"></span>
+    </div>
+  </div>
+</div>
+
+<!-- Mobile Bar (shown above nav on mobile) -->
+<div class="oil-ticker-mobile" id="oilPriceTickerMobile">
+  <div class="oil-ticker-mobile-inner">
+    <div class="oil-price">
+      <span class="oil-label">WTI</span>
+      <span class="oil-value wti-value">--</span>
+      <span class="oil-change wti-change"></span>
+    </div>
+    <div class="oil-divider"></div>
+    <div class="oil-price">
+      <span class="oil-label">BRENT</span>
+      <span class="oil-value brent-value">--</span>
+      <span class="oil-change brent-change"></span>
     </div>
   </div>
 </div>
 
 <style>
-  .oil-ticker {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 102, 0, 0.15);
-    border: 1px solid rgba(255, 102, 0, 0.3);
-    border-radius: 4px;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.75rem;
-    margin-left: auto;
-  }
-
-  .oil-ticker-inner {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
+  /* ============================================
+     SHARED STYLES
+     ============================================ */
   .oil-price {
     display: flex;
     align-items: center;
@@ -77,7 +81,7 @@
   }
 
   /* Loading state */
-  .oil-ticker.loading .oil-value {
+  .loading .oil-value {
     animation: pulse 1.5s ease-in-out infinite;
   }
 
@@ -92,25 +96,75 @@
   }
 
   /* Error state */
-  .oil-ticker.error {
+  .error {
     opacity: 0.6;
   }
 
-  /* Hide on smaller screens where top bar is hidden */
+  /* ============================================
+     DESKTOP TICKER (in top bar)
+     ============================================ */
+  .oil-ticker-desktop {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    background: rgba(255, 102, 0, 0.15);
+    border: 1px solid rgba(255, 102, 0, 0.3);
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    z-index: 10;
+  }
+
+  .oil-ticker-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /* Hide desktop ticker on mobile/tablet */
   @media (max-width: 1024px) {
-    .oil-ticker {
+    .oil-ticker-desktop {
       display: none;
     }
   }
 
   /* Adjust for medium screens */
   @media (max-width: 1200px) and (min-width: 1025px) {
-    .oil-ticker {
+    .oil-ticker-desktop {
       padding: 0.25rem 0.5rem;
     }
 
     .oil-ticker-inner {
       gap: 0.5rem;
+    }
+  }
+
+  /* ============================================
+     MOBILE BAR (above header)
+     ============================================ */
+  .oil-ticker-mobile {
+    display: none;
+    width: 100%;
+    background: var(--mtn-dark, #1a1a1a);
+    border-bottom: 1px solid rgba(255, 102, 0, 0.3);
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  .oil-ticker-mobile-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  /* Show mobile bar only on mobile/tablet */
+  @media (max-width: 1024px) {
+    .oil-ticker-mobile {
+      display: block;
     }
   }
 </style>
@@ -226,49 +280,62 @@
   }
 
   function updateDisplay(prices: OilPrices): void {
-    const ticker = document.getElementById('oilPriceTicker');
-    const wtiValueEl = document.getElementById('wtiValue');
-    const wtiChangeEl = document.getElementById('wtiChange');
-    const brentValueEl = document.getElementById('brentValue');
-    const brentChangeEl = document.getElementById('brentChange');
+    const desktopTicker = document.getElementById('oilPriceTicker');
+    const mobileTicker = document.getElementById('oilPriceTickerMobile');
 
-    if (!ticker) return;
+    // Get all elements by class (both desktop and mobile)
+    const wtiValueEls = document.querySelectorAll('.wti-value');
+    const wtiChangeEls = document.querySelectorAll('.wti-change');
+    const brentValueEls = document.querySelectorAll('.brent-value');
+    const brentChangeEls = document.querySelectorAll('.brent-change');
 
-    ticker.classList.remove('loading', 'error');
+    // Remove loading/error states
+    desktopTicker?.classList.remove('loading', 'error');
+    mobileTicker?.classList.remove('loading', 'error');
 
-    if (prices.wti && wtiValueEl && wtiChangeEl) {
-      wtiValueEl.textContent = formatPrice(prices.wti.current);
+    if (prices.wti) {
       const wtiChange = formatChange(prices.wti.current, prices.wti.previous);
-      wtiChangeEl.textContent = wtiChange.text;
-      wtiChangeEl.className = `oil-change ${wtiChange.direction}`;
+      wtiValueEls.forEach((el) => (el.textContent = formatPrice(prices.wti!.current)));
+      wtiChangeEls.forEach((el) => {
+        el.textContent = wtiChange.text;
+        el.className = `oil-change wti-change ${wtiChange.direction}`;
+      });
     }
 
-    if (prices.brent && brentValueEl && brentChangeEl) {
-      brentValueEl.textContent = formatPrice(prices.brent.current);
+    if (prices.brent) {
       const brentChange = formatChange(prices.brent.current, prices.brent.previous);
-      brentChangeEl.textContent = brentChange.text;
-      brentChangeEl.className = `oil-change ${brentChange.direction}`;
+      brentValueEls.forEach((el) => (el.textContent = formatPrice(prices.brent!.current)));
+      brentChangeEls.forEach((el) => {
+        el.textContent = brentChange.text;
+        el.className = `oil-change brent-change ${brentChange.direction}`;
+      });
     }
 
     if (!prices.wti && !prices.brent) {
-      ticker.classList.add('error');
+      desktopTicker?.classList.add('error');
+      mobileTicker?.classList.add('error');
     }
   }
 
   async function initOilTicker(): Promise<void> {
-    const ticker = document.getElementById('oilPriceTicker');
-    if (!ticker) return;
+    const desktopTicker = document.getElementById('oilPriceTicker');
+    const mobileTicker = document.getElementById('oilPriceTickerMobile');
+
+    if (!desktopTicker && !mobileTicker) return;
 
     // Show loading state
-    ticker.classList.add('loading');
+    desktopTicker?.classList.add('loading');
+    mobileTicker?.classList.add('loading');
 
     try {
       const prices = await fetchAllPrices();
       updateDisplay(prices);
     } catch (error) {
       console.error('Error initializing oil ticker:', error);
-      ticker.classList.remove('loading');
-      ticker.classList.add('error');
+      desktopTicker?.classList.remove('loading');
+      desktopTicker?.classList.add('error');
+      mobileTicker?.classList.remove('loading');
+      mobileTicker?.classList.add('error');
     }
 
     // Set up hourly refresh

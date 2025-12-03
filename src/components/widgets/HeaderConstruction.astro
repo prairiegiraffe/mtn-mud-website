@@ -14,6 +14,9 @@ const isActivePath = (path: string) => {
 <!-- Link to icon library -->
 <link rel="stylesheet" href="/remixicon.css" />
 
+<!-- Oil Price Ticker (includes both desktop and mobile versions) -->
+<OilPriceTicker />
+
 <!-- New Modern Header -->
 <header class="mtn-header">
   <!-- Top Bar with Social & Info -->
@@ -43,9 +46,6 @@ const isActivePath = (path: string) => {
             <i class="ri-youtube-fill"></i>
           </a>
         </div>
-
-        <!-- Oil Price Ticker -->
-        <OilPriceTicker />
 
         <!-- Contact Info -->
         <div class="contact-info">
@@ -215,6 +215,7 @@ const isActivePath = (path: string) => {
     justify-content: space-between;
     align-items: center;
     gap: 2rem;
+    position: relative;
   }
 
   .social-links {
