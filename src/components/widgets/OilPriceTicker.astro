@@ -82,8 +82,13 @@
   }
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
   }
 
   /* Error state */
@@ -159,7 +164,7 @@
         sort: 'period',
         sort_direction: 'desc',
         offset: '0',
-        length: '2' // Get last 2 data points for change calculation
+        length: '2', // Get last 2 data points for change calculation
       });
 
       // Add product filter
@@ -190,19 +195,16 @@
     const now = Date.now();
 
     // Return cached data if still valid
-    if (cachedPrices && (now - lastFetchTime) < CACHE_DURATION) {
+    if (cachedPrices && now - lastFetchTime < CACHE_DURATION) {
       return cachedPrices;
     }
 
-    const [wti, brent] = await Promise.all([
-      fetchOilPrice(WTI_SERIES_ID),
-      fetchOilPrice(BRENT_SERIES_ID)
-    ]);
+    const [wti, brent] = await Promise.all([fetchOilPrice(WTI_SERIES_ID), fetchOilPrice(BRENT_SERIES_ID)]);
 
     cachedPrices = {
       wti,
       brent,
-      lastUpdated: new Date()
+      lastUpdated: new Date(),
     };
     lastFetchTime = now;
 
