@@ -387,7 +387,8 @@ const metadata = {
 
       <!-- Map Legend -->
       <div class="mt-8 bg-charcoal-800 p-6 rounded-xl shadow-soft-lg border border-white/10">
-        <div class="flex flex-wrap gap-8 justify-center items-center">
+        <!-- Locations Row -->
+        <div class="flex flex-wrap gap-8 justify-center items-center mb-6">
           <div class="flex items-center gap-3">
             <div class="w-4 h-4 rounded-full bg-safety-orange"></div>
             <span class="text-white font-bold text-sm">Gillette, WY (HQ)</span>
@@ -403,6 +404,17 @@ const metadata = {
           <div class="flex items-center gap-3">
             <div class="w-4 h-4 rounded-full bg-safety-orange"></div>
             <span class="text-white font-bold text-sm">Williston, ND</span>
+          </div>
+        </div>
+        <!-- Service Areas Row -->
+        <div class="flex flex-wrap gap-8 justify-center items-center pt-4 border-t border-charcoal-600">
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-4 rounded border-2 border-safety-orange bg-safety-orange/20"></div>
+            <span class="text-white font-medium text-sm">Current Service Areas</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-6 h-4 rounded border-2 border-dashed" style="border-color: #FFB347; background: rgba(255, 179, 71, 0.15);"></div>
+            <span class="text-white font-medium text-sm" style="color: #FFB347;">Coming Soon</span>
           </div>
         </div>
       </div>
@@ -474,6 +486,65 @@ const metadata = {
           maxZoom: 20,
         }).addTo(map);
 
+        // Current service states (safety orange)
+        const currentStates = ['Wyoming', 'North Dakota', 'South Dakota', 'Montana', 'Colorado', 'New Mexico', 'Arizona', 'Kansas'];
+
+        // Coming soon states (lighter orange/gold)
+        const comingSoonStates = ['Oklahoma', 'Texas'];
+
+        // Fetch US states GeoJSON and add state boundaries
+        fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json')
+          .then((response) => response.json())
+          .then((data) => {
+            L.geoJSON(data, {
+              style: function (feature) {
+                const stateName = feature.properties.name;
+                if (currentStates.includes(stateName)) {
+                  return {
+                    color: '#FF6600',
+                    weight: 3,
+                    fillColor: '#FF6600',
+                    fillOpacity: 0.15,
+                    opacity: 1,
+                  };
+                } else if (comingSoonStates.includes(stateName)) {
+                  return {
+                    color: '#FFB347',
+                    weight: 2,
+                    fillColor: '#FFB347',
+                    fillOpacity: 0.1,
+                    opacity: 0.8,
+                    dashArray: '5, 5',
+                  };
+                } else {
+                  return {
+                    color: 'transparent',
+                    weight: 0,
+                    fillColor: 'transparent',
+                    fillOpacity: 0,
+                  };
+                }
+              },
+              onEachFeature: function (feature, layer) {
+                const stateName = feature.properties.name;
+                if (currentStates.includes(stateName)) {
+                  layer.bindTooltip(stateName, {
+                    permanent: false,
+                    direction: 'center',
+                    className: 'state-tooltip-current',
+                  });
+                } else if (comingSoonStates.includes(stateName)) {
+                  layer.bindTooltip(stateName + ' - Coming Soon', {
+                    permanent: false,
+                    direction: 'center',
+                    className: 'state-tooltip-coming',
+                  });
+                }
+              },
+            }).addTo(map);
+          })
+          .catch((error) => console.error('Error loading state boundaries:', error));
+
         // Custom orange marker icon
         const orangeIcon = L.divIcon({
           className: 'custom-marker',
@@ -533,6 +604,30 @@ const metadata = {
         }
         .leaflet-popup-close-button {
           color: #FFFFFF !important;
+        }
+        .state-tooltip-current {
+          background: #FF6600 !important;
+          border: none !important;
+          border-radius: 6px !important;
+          color: white !important;
+          font-weight: 700 !important;
+          padding: 6px 12px !important;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        }
+        .state-tooltip-current::before {
+          border-top-color: #FF6600 !important;
+        }
+        .state-tooltip-coming {
+          background: #FFB347 !important;
+          border: none !important;
+          border-radius: 6px !important;
+          color: #333 !important;
+          font-weight: 700 !important;
+          padding: 6px 12px !important;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.2) !important;
+        }
+        .state-tooltip-coming::before {
+          border-top-color: #FFB347 !important;
         }
       `;
         document.head.appendChild(style);
