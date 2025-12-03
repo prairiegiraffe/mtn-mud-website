@@ -118,7 +118,8 @@
 <script>
   // EIA API Configuration
   // The API key will be injected at build time or can be set here
-  const EIA_API_KEY = import.meta.env.PUBLIC_EIA_API_KEY || '';
+  // Trim any accidental whitespace/newlines from the key
+  const EIA_API_KEY = (import.meta.env.PUBLIC_EIA_API_KEY || '').trim();
 
   // EIA API v2 series codes
   // WTI Cushing, OK Spot Price FOB
