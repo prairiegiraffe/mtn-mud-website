@@ -112,10 +112,6 @@ const { variant = 'desktop' } = Astro.props;
      DESKTOP TICKER (in top bar)
      ============================================ */
   .oil-ticker-desktop {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     background: rgba(255, 102, 0, 0.15);
@@ -123,7 +119,7 @@ const { variant = 'desktop' } = Astro.props;
     border-radius: 4px;
     padding: 0.25rem 0.75rem;
     font-size: 0.75rem;
-    z-index: 10;
+    flex-shrink: 0;
   }
 
   .oil-ticker-inner {
