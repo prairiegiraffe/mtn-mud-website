@@ -58,7 +58,7 @@ export async function onRequestPost(context) {
         headers: corsHeaders,
       }
     );
-  } catch (err) {
+  } catch {
     return new Response(JSON.stringify({ error: 'Server error' }), {
       status: 500,
       headers: corsHeaders,
