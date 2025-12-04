@@ -73,6 +73,7 @@ const productCollection = defineCollection({
     size: z.string().optional(),
     price: z.string().optional(),
     datasheet: z.string().optional(),
+    pdf: z.string().optional(),
     description: z.string().optional(),
     order: z.number().default(0),
     inStock: z.boolean().default(true),

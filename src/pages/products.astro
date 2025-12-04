@@ -189,9 +189,9 @@ const categories = Object.keys(productsByCategory).sort();
                         <td class="px-6 py-4 font-bold text-white">{product.data.title}</td>
                         <td class="px-6 py-4 text-warm-gray-200 font-medium">{product.data.size || '-'}</td>
                         <td class="px-6 py-4">
-                          {product.data.datasheet ? (
+                          {product.data.pdf ? (
                             <a
-                              href={product.data.datasheet}
+                              href={product.data.pdf}
                               class="text-safety-orange hover:text-safety-orange-700 font-bold inline-flex items-center gap-2 hover:underline transition-all"
                               target="_blank"
                               rel="noopener noreferrer"
