@@ -1063,6 +1063,19 @@
         const path = `${CONFIG.productsPath}/${slug}.md`;
         const isEdit = !!sha;
 
+        // For existing products, fetch the latest SHA to avoid conflicts
+        let currentSha = sha;
+        if (isEdit) {
+          try {
+            const latestFile = await apiRequest('get', path);
+            if (latestFile && latestFile.sha) {
+              currentSha = latestFile.sha;
+            }
+          } catch {
+            // File might not exist if it was just created, use existing sha
+          }
+        }
+
         try {
           // Handle PDF upload/removal
           if (pendingPdfFile) {
@@ -1126,7 +1139,7 @@ inStock: ${inStock}`;
 
           content += `\n---\n`;
 
-          await saveFile(path, content, sha || null, `${isEdit ? 'Update' : 'Add'} product: ${title}`);
+          await saveFile(path, content, currentSha || null, `${isEdit ? 'Update' : 'Add'} product: ${title}`);
           showRebuildNotice();
           updateStatus(`Product "${title}" saved successfully.`);
         } catch (err) {
@@ -1274,6 +1287,19 @@ inStock: ${inStock}`;
         const path = `${CONFIG.jobsPath}/${slug}.md`;
         const isEdit = !!sha;
 
+        // For existing jobs, fetch the latest SHA to avoid conflicts
+        let currentSha = sha;
+        if (isEdit) {
+          try {
+            const latestFile = await apiRequest('get', path);
+            if (latestFile && latestFile.sha) {
+              currentSha = latestFile.sha;
+            }
+          } catch {
+            // File might not exist if it was just created, use existing sha
+          }
+        }
+
         // Build the new/updated job object
         const updatedJob = {
           title,
@@ -1312,7 +1338,7 @@ ${body}
 `;
 
         try {
-          await saveFile(path, content, sha || null, `${isEdit ? 'Update' : 'Add'} job: ${title}`);
+          await saveFile(path, content, currentSha || null, `${isEdit ? 'Update' : 'Add'} job: ${title}`);
           showRebuildNotice();
           updateStatus(`Job "${title}" saved successfully.`);
         } catch (err) {
