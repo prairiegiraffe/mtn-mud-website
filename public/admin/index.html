@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>MTN MUD Admin</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+    /* Login */
+    .login-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-box {
+      background: #2a2a4a;
+      padding: 40px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .login-box h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ff6600;
+    }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #ccc;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #3a3a5a;
+      border-radius: 8px;
+      background: #1a1a2e;
+      color: #fff;
+      font-size: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #ff6600;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: #ff6600; color: #fff; width: 100%; }
+    .btn-primary:hover { background: #ff8533; }
+    .btn-primary:disabled { background: #666; cursor: not-allowed; }
+    .btn-secondary { background: #3a3a5a; color: #fff; }
+    .btn-secondary:hover { background: #4a4a6a; }
+    .btn-danger { background: #dc3545; color: #fff; }
+    .btn-danger:hover { background: #c82333; }
+    .btn-small { padding: 8px 16px; font-size: 14px; }
+
+    .error-message {
+      color: #ff6b6b;
+      text-align: center;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .success-message {
+      color: #4ade80;
+      text-align: center;
+      margin-top: 15px;
+      display: none;
+    }
+
+    /* Dashboard */
+    .dashboard { display: none; }
+    .dashboard.active { display: block; }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #3a3a5a;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .admin-header h1 { color: #ff6600; }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 12px 24px;
+      background: #2a2a4a;
+      border: none;
+      border-radius: 8px;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .tab:hover { background: #3a3a5a; }
+    .tab.active { background: #ff6600; color: #fff; }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* Table */
+    .table-container { overflow-x: auto; }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #2a2a4a;
+      border-radius: 12px;
+      overflow: hidden;
+      min-width: 600px;
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #3a3a5a;
+    }
+
+    .data-table th {
+      background: #1a1a2e;
+      color: #ff6600;
+      font-weight: 600;
+    }
+
+    .data-table tr:hover { background: #3a3a5a; }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge-success { background: #28a745; color: #fff; }
+    .badge-warning { background: #ffc107; color: #000; }
+    .badge-danger { background: #dc3545; color: #fff; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active { display: flex; }
+
+    .modal {
+      background: #2a2a4a;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal h2 { margin-bottom: 20px; color: #ff6600; }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+
+    .action-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+    .add-button { margin-bottom: 20px; }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #ccc;
+    }
+
+    .rebuild-notice {
+      background: #ff6600;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .rebuild-notice.active { display: block; }
+
+    .status-bar {
+      background: #2a2a4a;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="loginScreen" class="login-container">
+    <div class="login-box">
+      <h1>MTN MUD Admin</h1>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required placeholder="Enter admin password">
+        </div>
+        <button type="submit" class="btn btn-primary">Log In</button>
+        <p class="error-message" id="loginError">Invalid password. Please try again.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="dashboard">
+    <div class="container">
+      <div class="admin-header">
+        <h1>MTN MUD Admin</h1>
+        <button class="btn btn-secondary" id="logoutBtn">Log Out</button>
+      </div>
+
+      <div id="rebuildNotice" class="rebuild-notice">
+        Changes saved! The site will rebuild automatically. Changes will appear in 1-2 minutes.
+      </div>
+
+      <div class="status-bar" id="statusBar">
+        Loading content from GitHub...
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="products">Products</button>
+        <button class="tab" data-tab="jobs">Jobs</button>
+      </div>
+
+      <!-- Products Panel -->
+      <div class="panel active" id="products-panel">
+        <button class="btn btn-primary add-button" id="addProductBtn">+ Add Product</button>
+        <div id="productsLoading" class="loading">Loading products...</div>
+        <div class="table-container">
+          <table class="data-table" id="productsTable" style="display: none;">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Size</th>
+                <th>Order</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Jobs Panel -->
+      <div class="panel" id="jobs-panel">
+        <button class="btn btn-primary add-button" id="addJobBtn">+ Add Job</button>
+        <div id="jobsLoading" class="loading">Loading jobs...</div>
+        <div class="table-container">
+          <table class="data-table" id="jobsTable" style="display: none;">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Locations</th>
+                <th>Order</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="jobsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div class="modal-overlay" id="productModal">
+    <div class="modal">
+      <h2 id="productModalTitle">Add Product</h2>
+      <form id="productForm">
+        <input type="hidden" id="productSlug">
+        <input type="hidden" id="productSha">
+        <div class="form-group">
+          <label for="productTitle">Title *</label>
+          <input type="text" id="productTitle" required>
+        </div>
+        <div class="form-group">
+          <label for="productCategory">Category *</label>
+          <input type="text" id="productCategory" required placeholder="e.g., Bentonite, Lost Circulation">
+        </div>
+        <div class="form-group">
+          <label for="productSize">Size</label>
+          <input type="text" id="productSize" placeholder="e.g., 50 LBS">
+        </div>
+        <div class="form-group">
+          <label for="productOrder">Sort Order</label>
+          <input type="number" id="productOrder" value="0">
+        </div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="productInStock" checked>
+          <label for="productInStock">In Stock</label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="productSaveBtn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Job Modal -->
+  <div class="modal-overlay" id="jobModal">
+    <div class="modal">
+      <h2 id="jobModalTitle">Add Job</h2>
+      <form id="jobForm">
+        <input type="hidden" id="jobSlug">
+        <input type="hidden" id="jobSha">
+        <div class="form-group">
+          <label for="jobTitle">Title *</label>
+          <input type="text" id="jobTitle" required>
+        </div>
+        <div class="form-group">
+          <label for="jobLocations">Locations</label>
+          <input type="text" id="jobLocations" placeholder="e.g., Gillette, WY / Williston, ND">
+        </div>
+        <div class="form-group">
+          <label for="jobOrder">Sort Order</label>
+          <input type="number" id="jobOrder" value="0">
+        </div>
+        <div class="form-group checkbox-group">
+          <input type="checkbox" id="jobActive" checked>
+          <label for="jobActive">Active (visible on site)</label>
+        </div>
+        <div class="form-group">
+          <label for="jobBody">Job Description (Markdown)</label>
+          <textarea id="jobBody" rows="6" placeholder="Enter job description..."></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" onclick="closeJobModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="jobSaveBtn">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // ============================================
+    // CONFIGURATION - Set these in your environment
+    // ============================================
+    // These values will be injected at build time or set manually
+    // For Cloudflare, set these as environment variables
+    const CONFIG = {
+      // GitHub repository info
+      owner: 'yourusername',  // Your GitHub username or org
+      repo: 'mtn-mud-website', // Your repo name
+      branch: 'main',
+
+      // Paths in repo
+      productsPath: 'src/content/products',
+      jobsPath: 'src/content/jobs',
+
+      // Admin password hash (SHA-256 of the password)
+      // Generate with: echo -n "yourpassword" | shasum -a 256
+      passwordHash: '', // Will be set from localStorage config
+    };
+
+    // GitHub token (stored in session after login)
+    let githubToken = '';
+
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+
+    // Check for stored session
+    function checkSession() {
+      const session = sessionStorage.getItem('admin_session');
+      const storedToken = sessionStorage.getItem('github_token');
+      const storedConfig = localStorage.getItem('admin_config');
+
+      if (storedConfig) {
+        try {
+          const config = JSON.parse(storedConfig);
+          CONFIG.owner = config.owner || CONFIG.owner;
+          CONFIG.repo = config.repo || CONFIG.repo;
+          CONFIG.passwordHash = config.passwordHash || '';
+        } catch (e) {}
+      }
+
+      if (session && storedToken) {
+        githubToken = storedToken;
+        showDashboard();
+        loadData();
+      }
+    }
+
+    // ============================================
+    // AUTH
+    // ============================================
+
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('loginError');
+      errorEl.style.display = 'none';
+
+      // First-time setup: if no config exists, prompt for GitHub token
+      const storedConfig = localStorage.getItem('admin_config');
+
+      if (!storedConfig) {
+        // First time setup
+        const token = prompt('First-time setup: Enter your GitHub Personal Access Token:');
+        if (!token) {
+          errorEl.textContent = 'GitHub token is required for first-time setup.';
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        const owner = prompt('Enter your GitHub username:');
+        const repo = prompt('Enter your repository name:', 'mtn-mud-website');
+
+        if (!owner || !repo) {
+          errorEl.textContent = 'GitHub username and repo are required.';
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        // Test the token
+        try {
+          const testResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+            headers: { 'Authorization': `token ${token}` }
+          });
+
+          if (!testResponse.ok) {
+            throw new Error('Invalid token or repo');
+          }
+
+          // Save config
+          const hash = await hashPassword(password);
+          localStorage.setItem('admin_config', JSON.stringify({
+            owner,
+            repo,
+            passwordHash: hash
+          }));
+
+          CONFIG.owner = owner;
+          CONFIG.repo = repo;
+          CONFIG.passwordHash = hash;
+
+          // Save session
+          sessionStorage.setItem('admin_session', 'true');
+          sessionStorage.setItem('github_token', token);
+          githubToken = token;
+
+          showDashboard();
+          loadData();
+
+        } catch (err) {
+          errorEl.textContent = 'Invalid GitHub token or repository. Please try again.';
+          errorEl.style.display = 'block';
+        }
+        return;
+      }
+
+      // Normal login - verify password
+      const hash = await hashPassword(password);
+
+      if (hash === CONFIG.passwordHash) {
+        // Password correct, now need GitHub token
+        const token = prompt('Enter your GitHub Personal Access Token:');
+        if (!token) {
+          errorEl.textContent = 'GitHub token is required.';
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        // Test the token
+        try {
+          const testResponse = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}`, {
+            headers: { 'Authorization': `token ${token}` }
+          });
+
+          if (!testResponse.ok) {
+            throw new Error('Invalid token');
+          }
+
+          sessionStorage.setItem('admin_session', 'true');
+          sessionStorage.setItem('github_token', token);
+          githubToken = token;
+
+          showDashboard();
+          loadData();
+
+        } catch (err) {
+          errorEl.textContent = 'Invalid GitHub token. Please try again.';
+          errorEl.style.display = 'block';
+        }
+      } else {
+        errorEl.textContent = 'Invalid password.';
+        errorEl.style.display = 'block';
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      sessionStorage.removeItem('admin_session');
+      sessionStorage.removeItem('github_token');
+      githubToken = '';
+      location.reload();
+    });
+
+    function showDashboard() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboard').classList.add('active');
+    }
+
+    // ============================================
+    // TABS
+    // ============================================
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab + '-panel').classList.add('active');
+      });
+    });
+
+    // ============================================
+    // GITHUB API HELPERS
+    // ============================================
+
+    async function githubRequest(path, options = {}) {
+      const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${path}`;
+      const response = await fetch(url, {
+        ...options,
+        headers: {
+          'Authorization': `token ${githubToken}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+          ...options.headers
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`GitHub API error: ${response.status}`);
+      }
+
+      return response.json();
+    }
+
+    async function getFiles(path) {
+      try {
+        return await githubRequest(path);
+      } catch (err) {
+        console.error('Error fetching files:', err);
+        return [];
+      }
+    }
+
+    async function getFileContent(path) {
+      const file = await githubRequest(path);
+      const content = atob(file.content);
+      return { content, sha: file.sha };
+    }
+
+    async function saveFile(path, content, sha = null, message = 'Update via admin') {
+      const body = {
+        message,
+        content: btoa(content),
+        branch: CONFIG.branch
+      };
+
+      if (sha) {
+        body.sha = sha;
+      }
+
+      await githubRequest(path, {
+        method: 'PUT',
+        body: JSON.stringify(body)
+      });
+    }
+
+    async function deleteFile(path, sha, message = 'Delete via admin') {
+      await githubRequest(path, {
+        method: 'DELETE',
+        body: JSON.stringify({
+          message,
+          sha,
+          branch: CONFIG.branch
+        })
+      });
+    }
+
+    // ============================================
+    // PRODUCTS
+    // ============================================
+
+    let products = [];
+
+    async function loadProducts() {
+      const files = await getFiles(CONFIG.productsPath);
+      products = [];
+
+      for (const file of files) {
+        if (file.name.endsWith('.md')) {
+          try {
+            const { content, sha } = await getFileContent(file.path);
+            const product = parseMarkdown(content);
+            product.slug = file.name.replace('.md', '');
+            product.sha = sha;
+            product.path = file.path;
+            products.push(product);
+          } catch (err) {
+            console.error('Error loading product:', file.name, err);
+          }
+        }
+      }
+
+      products.sort((a, b) => {
+        if (a.category !== b.category) return (a.category || '').localeCompare(b.category || '');
+        return (a.order || 0) - (b.order || 0);
+      });
+
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const loading = document.getElementById('productsLoading');
+      const table = document.getElementById('productsTable');
+      const tbody = document.getElementById('productsBody');
+
+      loading.style.display = 'none';
+      table.style.display = 'table';
+
+      tbody.innerHTML = products.map(p => `
+        <tr>
+          <td>${escapeHtml(p.title || '')}</td>
+          <td>${escapeHtml(p.category || '')}</td>
+          <td>${escapeHtml(p.size || '-')}</td>
+          <td>${p.order || 0}</td>
+          <td><span class="badge ${p.inStock !== false ? 'badge-success' : 'badge-danger'}">${p.inStock !== false ? 'In Stock' : 'Out of Stock'}</span></td>
+          <td class="action-buttons">
+            <button class="btn btn-secondary btn-small" onclick="editProduct('${p.slug}')">Edit</button>
+            <button class="btn btn-danger btn-small" onclick="deleteProduct('${p.slug}')">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openProductModal(product = null) {
+      document.getElementById('productModalTitle').textContent = product ? 'Edit Product' : 'Add Product';
+      document.getElementById('productSlug').value = product?.slug || '';
+      document.getElementById('productSha').value = product?.sha || '';
+      document.getElementById('productTitle').value = product?.title || '';
+      document.getElementById('productCategory').value = product?.category || '';
+      document.getElementById('productSize').value = product?.size || '';
+      document.getElementById('productOrder').value = product?.order || 0;
+      document.getElementById('productInStock').checked = product?.inStock !== false;
+      document.getElementById('productModal').classList.add('active');
+    }
+
+    function closeProductModal() {
+      document.getElementById('productModal').classList.remove('active');
+    }
+
+    window.editProduct = function(slug) {
+      const product = products.find(p => p.slug === slug);
+      if (product) openProductModal(product);
+    };
+
+    window.deleteProduct = async function(slug) {
+      if (!confirm('Are you sure you want to delete this product?')) return;
+
+      const product = products.find(p => p.slug === slug);
+      if (!product) return;
+
+      try {
+        document.getElementById('statusBar').textContent = 'Deleting product...';
+        await deleteFile(product.path, product.sha, `Delete product: ${product.title}`);
+        showRebuildNotice();
+        await loadProducts();
+        document.getElementById('statusBar').textContent = 'Product deleted successfully.';
+      } catch (err) {
+        alert('Error deleting product: ' + err.message);
+        document.getElementById('statusBar').textContent = 'Error deleting product.';
+      }
+    };
+
+    document.getElementById('addProductBtn').addEventListener('click', () => openProductModal());
+
+    document.getElementById('productForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const saveBtn = document.getElementById('productSaveBtn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      const existingSlug = document.getElementById('productSlug').value;
+      const sha = document.getElementById('productSha').value;
+      const title = document.getElementById('productTitle').value;
+      const slug = existingSlug || slugify(title);
+
+      const content = `---
+title: ${title}
+category: ${document.getElementById('productCategory').value}
+size: ${document.getElementById('productSize').value}
+order: ${parseInt(document.getElementById('productOrder').value) || 0}
+inStock: ${document.getElementById('productInStock').checked}
+---
+`;
+
+      try {
+        const path = `${CONFIG.productsPath}/${slug}.md`;
+        await saveFile(path, content, sha || null, `${sha ? 'Update' : 'Add'} product: ${title}`);
+        closeProductModal();
+        showRebuildNotice();
+        await loadProducts();
+        document.getElementById('statusBar').textContent = 'Product saved successfully.';
+      } catch (err) {
+        alert('Error saving product: ' + err.message);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
+      }
+    });
+
+    // ============================================
+    // JOBS
+    // ============================================
+
+    let jobs = [];
+
+    async function loadJobs() {
+      const files = await getFiles(CONFIG.jobsPath);
+      jobs = [];
+
+      for (const file of files) {
+        if (file.name.endsWith('.md')) {
+          try {
+            const { content, sha } = await getFileContent(file.path);
+            const job = parseMarkdown(content);
+            job.slug = file.name.replace('.md', '');
+            job.sha = sha;
+            job.path = file.path;
+            jobs.push(job);
+          } catch (err) {
+            console.error('Error loading job:', file.name, err);
+          }
+        }
+      }
+
+      jobs.sort((a, b) => (a.order || 0) - (b.order || 0));
+      renderJobs();
+    }
+
+    function renderJobs() {
+      const loading = document.getElementById('jobsLoading');
+      const table = document.getElementById('jobsTable');
+      const tbody = document.getElementById('jobsBody');
+
+      loading.style.display = 'none';
+      table.style.display = 'table';
+
+      tbody.innerHTML = jobs.map(j => `
+        <tr>
+          <td>${escapeHtml(j.title || '')}</td>
+          <td>${escapeHtml(j.locations || 'All Locations')}</td>
+          <td>${j.order || 0}</td>
+          <td><span class="badge ${j.active !== false ? 'badge-success' : 'badge-warning'}">${j.active !== false ? 'Active' : 'Inactive'}</span></td>
+          <td class="action-buttons">
+            <button class="btn btn-secondary btn-small" onclick="editJob('${j.slug}')">Edit</button>
+            <button class="btn btn-danger btn-small" onclick="deleteJob('${j.slug}')">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openJobModal(job = null) {
+      document.getElementById('jobModalTitle').textContent = job ? 'Edit Job' : 'Add Job';
+      document.getElementById('jobSlug').value = job?.slug || '';
+      document.getElementById('jobSha').value = job?.sha || '';
+      document.getElementById('jobTitle').value = job?.title || '';
+      document.getElementById('jobLocations').value = job?.locations || '';
+      document.getElementById('jobOrder').value = job?.order || 0;
+      document.getElementById('jobActive').checked = job?.active !== false;
+      document.getElementById('jobBody').value = job?.body || '';
+      document.getElementById('jobModal').classList.add('active');
+    }
+
+    function closeJobModal() {
+      document.getElementById('jobModal').classList.remove('active');
+    }
+
+    window.editJob = function(slug) {
+      const job = jobs.find(j => j.slug === slug);
+      if (job) openJobModal(job);
+    };
+
+    window.deleteJob = async function(slug) {
+      if (!confirm('Are you sure you want to delete this job?')) return;
+
+      const job = jobs.find(j => j.slug === slug);
+      if (!job) return;
+
+      try {
+        document.getElementById('statusBar').textContent = 'Deleting job...';
+        await deleteFile(job.path, job.sha, `Delete job: ${job.title}`);
+        showRebuildNotice();
+        await loadJobs();
+        document.getElementById('statusBar').textContent = 'Job deleted successfully.';
+      } catch (err) {
+        alert('Error deleting job: ' + err.message);
+        document.getElementById('statusBar').textContent = 'Error deleting job.';
+      }
+    };
+
+    document.getElementById('addJobBtn').addEventListener('click', () => openJobModal());
+
+    document.getElementById('jobForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const saveBtn = document.getElementById('jobSaveBtn');
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      const existingSlug = document.getElementById('jobSlug').value;
+      const sha = document.getElementById('jobSha').value;
+      const title = document.getElementById('jobTitle').value;
+      const slug = existingSlug || slugify(title);
+      const body = document.getElementById('jobBody').value;
+
+      const content = `---
+title: ${title}
+locations: ${document.getElementById('jobLocations').value || 'All Locations'}
+active: ${document.getElementById('jobActive').checked}
+order: ${parseInt(document.getElementById('jobOrder').value) || 0}
+---
+${body}
+`;
+
+      try {
+        const path = `${CONFIG.jobsPath}/${slug}.md`;
+        await saveFile(path, content, sha || null, `${sha ? 'Update' : 'Add'} job: ${title}`);
+        closeJobModal();
+        showRebuildNotice();
+        await loadJobs();
+        document.getElementById('statusBar').textContent = 'Job saved successfully.';
+      } catch (err) {
+        alert('Error saving job: ' + err.message);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
+      }
+    });
+
+    // ============================================
+    // HELPERS
+    // ============================================
+
+    function slugify(text) {
+      return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function parseMarkdown(content) {
+      const result = { body: '' };
+      const match = content.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
+
+      if (match) {
+        const frontmatter = match[1];
+        result.body = match[2].trim();
+
+        frontmatter.split('\n').forEach(line => {
+          const colonIndex = line.indexOf(':');
+          if (colonIndex > 0) {
+            const key = line.substring(0, colonIndex).trim();
+            let value = line.substring(colonIndex + 1).trim();
+
+            if (value === 'true') value = true;
+            else if (value === 'false') value = false;
+            else if (!isNaN(Number(value)) && value !== '') value = Number(value);
+
+            result[key] = value;
+          }
+        });
+      }
+
+      return result;
+    }
+
+    function showRebuildNotice() {
+      const notice = document.getElementById('rebuildNotice');
+      notice.classList.add('active');
+      setTimeout(() => notice.classList.remove('active'), 10000);
+    }
+
+    async function loadData() {
+      document.getElementById('statusBar').textContent = 'Loading content from GitHub...';
+      try {
+        await Promise.all([loadProducts(), loadJobs()]);
+        document.getElementById('statusBar').textContent = `Loaded ${products.length} products and ${jobs.length} jobs.`;
+      } catch (err) {
+        document.getElementById('statusBar').textContent = 'Error loading data: ' + err.message;
+      }
+    }
+
+    // Initialize
+    checkSession();
+  </script>
+</body>
+</html>

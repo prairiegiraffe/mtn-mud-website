@@ -24,6 +24,7 @@
     "import:batch": "node scripts/import-components.js batch"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^12.6.12",
     "@astrojs/react": "^4.4.0",
     "@astrojs/rss": "^4.0.12",
     "@astrojs/sitemap": "^3.4.2",
