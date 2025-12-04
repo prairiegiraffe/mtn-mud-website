@@ -6,17 +6,97 @@
     <meta name="robots" content="noindex" />
     <title>Content Manager</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: #1a1a2e;
+        min-height: 100vh;
+      }
+      .setup-message {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+        color: white;
+        padding: 20px;
+      }
+      .setup-message h1 {
+        font-size: 24px;
+        margin-bottom: 16px;
+      }
+      .setup-message p {
+        font-size: 16px;
+        opacity: 0.8;
+        margin-bottom: 24px;
+      }
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-top-color: #FF6600;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
   </head>
   <body>
-    <!-- Include the script that builds the page and powers Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
-      // Initialize Netlify Identity with external URL (for hosting on Cloudflare)
-      // Replace 'mtnmud-cms' with your actual Netlify subdomain
+      // Check if we have a token in the URL BEFORE loading CMS
+      var hasToken = window.location.hash &&
+        (window.location.hash.includes('invite_token') ||
+         window.location.hash.includes('recovery_token') ||
+         window.location.hash.includes('confirmation_token'));
+
+      // Initialize Netlify Identity with external URL
       if (window.netlifyIdentity) {
         window.netlifyIdentity.init({
           APIUrl: 'https://mtnmud-cms.netlify.app/.netlify/identity',
         });
+
+        // After login, reload to show CMS
+        window.netlifyIdentity.on('login', function() {
+          document.location.reload();
+        });
+
+        // If there's a token, handle it before loading CMS
+        if (hasToken) {
+          // Show a message while the widget loads
+          document.body.innerHTML = '<div class="setup-message"><h1>Setting up your account...</h1><p>Please wait while we load the password form.</p><div class="loading-spinner"></div></div>';
+
+          // Function to open the widget
+          function openWidget() {
+            var user = window.netlifyIdentity.currentUser();
+            if (!user) {
+              window.netlifyIdentity.open();
+            }
+          }
+
+          // Try opening immediately (widget might already be ready)
+          setTimeout(openWidget, 100);
+
+          // Also try after a longer delay as backup
+          setTimeout(openWidget, 500);
+          setTimeout(openWidget, 1000);
+
+          // And listen for the init event just in case
+          window.netlifyIdentity.on('init', function(user) {
+            if (!user) {
+              window.netlifyIdentity.open();
+            }
+          });
+        } else {
+          // No token - load the CMS immediately
+          var script = document.createElement('script');
+          script.src = 'https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js';
+          document.body.appendChild(script);
+        }
       }
     </script>
   </body>

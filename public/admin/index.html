@@ -346,7 +346,7 @@
             <label for="password">Password</label>
             <input type="password" id="password" required placeholder="Enter admin password" />
           </div>
-          <button type="submit" class="btn btn-primary">Log In</button>
+          <button type="submit" class="btn btn-primary" id="loginBtn">Log In</button>
           <p class="error-message" id="loginError">Invalid password. Please try again.</p>
         </form>
       </div>
@@ -364,7 +364,7 @@
           Changes saved! The site will rebuild automatically. Changes will appear in 1-2 minutes.
         </div>
 
-        <div class="status-bar" id="statusBar">Loading content from GitHub...</div>
+        <div class="status-bar" id="statusBar">Loading content...</div>
 
         <div class="tabs">
           <button class="tab active" data-tab="products">Products</button>
@@ -486,174 +486,73 @@
 
     <script>
       // ============================================
-      // CONFIGURATION - Set these in your environment
+      // CONFIGURATION
       // ============================================
-      // These values will be injected at build time or set manually
-      // For Cloudflare, set these as environment variables
       const CONFIG = {
-        // GitHub repository info
-        owner: 'yourusername', // Your GitHub username or org
-        repo: 'mtn-mud-website', // Your repo name
-        branch: 'main',
-
-        // Paths in repo
         productsPath: 'src/content/products',
         jobsPath: 'src/content/jobs',
-
-        // Admin password hash (SHA-256 of the password)
-        // Generate with: echo -n "yourpassword" | shasum -a 256
-        passwordHash: '', // Will be set from localStorage config
       };
 
-      // GitHub token (stored in session after login)
-      let githubToken = '';
+      // Session token from auth
+      let sessionToken = '';
 
       // ============================================
       // INITIALIZATION
       // ============================================
 
-      // Check for stored session
       function checkSession() {
-        const session = sessionStorage.getItem('admin_session');
-        const storedToken = sessionStorage.getItem('github_token');
-        const storedConfig = localStorage.getItem('admin_config');
-
-        if (storedConfig) {
-          try {
-            const config = JSON.parse(storedConfig);
-            CONFIG.owner = config.owner || CONFIG.owner;
-            CONFIG.repo = config.repo || CONFIG.repo;
-            CONFIG.passwordHash = config.passwordHash || '';
-          } catch (e) {}
-        }
-
-        if (session && storedToken) {
-          githubToken = storedToken;
+        const storedToken = sessionStorage.getItem('admin_token');
+        if (storedToken) {
+          sessionToken = storedToken;
           showDashboard();
           loadData();
         }
       }
 
       // ============================================
-      // AUTH
+      // AUTH - Now uses serverless function
       // ============================================
-
-      async function hashPassword(password) {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(password);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-      }
 
       document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const password = document.getElementById('password').value;
         const errorEl = document.getElementById('loginError');
+        const loginBtn = document.getElementById('loginBtn');
+
         errorEl.style.display = 'none';
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Logging in...';
 
-        // First-time setup: if no config exists, prompt for GitHub token
-        const storedConfig = localStorage.getItem('admin_config');
+        try {
+          const response = await fetch('/api/auth', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password }),
+          });
 
-        if (!storedConfig) {
-          // First time setup
-          const token = prompt('First-time setup: Enter your GitHub Personal Access Token:');
-          if (!token) {
-            errorEl.textContent = 'GitHub token is required for first-time setup.';
-            errorEl.style.display = 'block';
-            return;
-          }
+          const data = await response.json();
 
-          const owner = prompt('Enter your GitHub username:');
-          const repo = prompt('Enter your repository name:', 'mtn-mud-website');
-
-          if (!owner || !repo) {
-            errorEl.textContent = 'GitHub username and repo are required.';
-            errorEl.style.display = 'block';
-            return;
-          }
-
-          // Test the token
-          try {
-            const testResponse = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
-              headers: { Authorization: `token ${token}` },
-            });
-
-            if (!testResponse.ok) {
-              throw new Error('Invalid token or repo');
-            }
-
-            // Save config
-            const hash = await hashPassword(password);
-            localStorage.setItem(
-              'admin_config',
-              JSON.stringify({
-                owner,
-                repo,
-                passwordHash: hash,
-              })
-            );
-
-            CONFIG.owner = owner;
-            CONFIG.repo = repo;
-            CONFIG.passwordHash = hash;
-
-            // Save session
-            sessionStorage.setItem('admin_session', 'true');
-            sessionStorage.setItem('github_token', token);
-            githubToken = token;
-
+          if (response.ok && data.success) {
+            sessionToken = data.token;
+            sessionStorage.setItem('admin_token', sessionToken);
             showDashboard();
             loadData();
-          } catch (err) {
-            errorEl.textContent = 'Invalid GitHub token or repository. Please try again.';
+          } else {
+            errorEl.textContent = data.error || 'Invalid password.';
             errorEl.style.display = 'block';
           }
-          return;
-        }
-
-        // Normal login - verify password
-        const hash = await hashPassword(password);
-
-        if (hash === CONFIG.passwordHash) {
-          // Password correct, now need GitHub token
-          const token = prompt('Enter your GitHub Personal Access Token:');
-          if (!token) {
-            errorEl.textContent = 'GitHub token is required.';
-            errorEl.style.display = 'block';
-            return;
-          }
-
-          // Test the token
-          try {
-            const testResponse = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}`, {
-              headers: { Authorization: `token ${token}` },
-            });
-
-            if (!testResponse.ok) {
-              throw new Error('Invalid token');
-            }
-
-            sessionStorage.setItem('admin_session', 'true');
-            sessionStorage.setItem('github_token', token);
-            githubToken = token;
-
-            showDashboard();
-            loadData();
-          } catch (err) {
-            errorEl.textContent = 'Invalid GitHub token. Please try again.';
-            errorEl.style.display = 'block';
-          }
-        } else {
-          errorEl.textContent = 'Invalid password.';
+        } catch (err) {
+          errorEl.textContent = 'Connection error. Please try again.';
           errorEl.style.display = 'block';
+        } finally {
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Log In';
         }
       });
 
       document.getElementById('logoutBtn').addEventListener('click', () => {
-        sessionStorage.removeItem('admin_session');
-        sessionStorage.removeItem('github_token');
-        githubToken = '';
+        sessionStorage.removeItem('admin_token');
+        sessionToken = '';
         location.reload();
       });
 
@@ -676,23 +575,34 @@
       });
 
       // ============================================
-      // GITHUB API HELPERS
+      // API HELPERS - Now uses serverless proxy
       // ============================================
 
-      async function githubRequest(path, options = {}) {
-        const url = `https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${path}`;
-        const response = await fetch(url, {
-          ...options,
+      async function apiRequest(action, path, options = {}) {
+        const response = await fetch('/api/github', {
+          method: 'POST',
           headers: {
-            Authorization: `token ${githubToken}`,
-            Accept: 'application/vnd.github.v3+json',
             'Content-Type': 'application/json',
-            ...options.headers,
+            Authorization: `Bearer ${sessionToken}`,
           },
+          body: JSON.stringify({
+            action,
+            path,
+            ...options,
+          }),
         });
 
+        if (response.status === 401) {
+          // Session expired
+          sessionStorage.removeItem('admin_token');
+          alert('Session expired. Please log in again.');
+          location.reload();
+          return null;
+        }
+
         if (!response.ok) {
-          throw new Error(`GitHub API error: ${response.status}`);
+          const error = await response.json();
+          throw new Error(error.error || `API error: ${response.status}`);
         }
 
         return response.json();
@@ -700,7 +610,7 @@
 
       async function getFiles(path) {
         try {
-          return await githubRequest(path);
+          return await apiRequest('list', path);
         } catch (err) {
           console.error('Error fetching files:', err);
           return [];
@@ -708,37 +618,17 @@
       }
 
       async function getFileContent(path) {
-        const file = await githubRequest(path);
+        const file = await apiRequest('get', path);
         const content = atob(file.content);
         return { content, sha: file.sha };
       }
 
       async function saveFile(path, content, sha = null, message = 'Update via admin') {
-        const body = {
-          message,
-          content: btoa(content),
-          branch: CONFIG.branch,
-        };
-
-        if (sha) {
-          body.sha = sha;
-        }
-
-        await githubRequest(path, {
-          method: 'PUT',
-          body: JSON.stringify(body),
-        });
+        await apiRequest('save', path, { content, sha, message });
       }
 
       async function deleteFile(path, sha, message = 'Delete via admin') {
-        await githubRequest(path, {
-          method: 'DELETE',
-          body: JSON.stringify({
-            message,
-            sha,
-            branch: CONFIG.branch,
-          }),
-        });
+        await apiRequest('delete', path, { sha, message });
       }
 
       // ============================================
@@ -749,6 +639,11 @@
 
       async function loadProducts() {
         const files = await getFiles(CONFIG.productsPath);
+        if (!files || !Array.isArray(files)) {
+          document.getElementById('productsLoading').textContent = 'No products found or error loading.';
+          return;
+        }
+
         products = [];
 
         for (const file of files) {
@@ -886,6 +781,11 @@ inStock: ${document.getElementById('productInStock').checked}
 
       async function loadJobs() {
         const files = await getFiles(CONFIG.jobsPath);
+        if (!files || !Array.isArray(files)) {
+          document.getElementById('jobsLoading').textContent = 'No jobs found or error loading.';
+          return;
+        }
+
         jobs = [];
 
         for (const file of files) {
@@ -1061,7 +961,7 @@ ${body}
       }
 
       async function loadData() {
-        document.getElementById('statusBar').textContent = 'Loading content from GitHub...';
+        document.getElementById('statusBar').textContent = 'Loading content...';
         try {
           await Promise.all([loadProducts(), loadJobs()]);
           document.getElementById('statusBar').textContent =
