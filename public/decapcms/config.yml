@@ -1,6 +1,10 @@
 backend:
   name: git-gateway
   branch: main
+  # Point to your Netlify site for Identity/Git Gateway authentication
+  # Replace 'mtnmud-cms' with your actual Netlify subdomain after setup
+  identity_url: 'https://mtnmud-cms.netlify.app/.netlify/identity'
+  gateway_url: 'https://mtnmud-cms.netlify.app/.netlify/git'
 
 media_folder: 'src/assets/images'
 public_folder: '/_astro'

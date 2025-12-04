@@ -10,5 +10,14 @@
   <body>
     <!-- Include the script that builds the page and powers Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      // Initialize Netlify Identity with external URL (for hosting on Cloudflare)
+      // Replace 'mtnmud-cms' with your actual Netlify subdomain
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.init({
+          APIUrl: 'https://mtnmud-cms.netlify.app/.netlify/identity'
+        });
+      }
+    </script>
   </body>
 </html>
