@@ -403,6 +403,27 @@
         width: 0%;
         transition: width 0.3s;
       }
+
+      /* Category select with add button */
+      .category-select-wrapper {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .category-select-wrapper select {
+        flex: 1;
+      }
+      .btn-add-category {
+        padding: 12px;
+        font-size: 18px;
+        line-height: 1;
+        min-width: 44px;
+      }
+
+      /* Small modal for adding category */
+      .modal-small {
+        max-width: 350px;
+      }
     </style>
   </head>
   <body>
@@ -436,7 +457,7 @@
         <div class="status-bar" id="statusBar">
           <span id="statusText">Loading content...</span>
           <button class="btn btn-secondary btn-small" id="refreshBtn" style="margin-left: 15px; display: none">
-            Refresh from GitHub
+            Refresh from Database
           </button>
         </div>
 
@@ -502,7 +523,19 @@
           </div>
           <div class="form-group">
             <label for="productCategory">Category *</label>
-            <input type="text" id="productCategory" required placeholder="e.g., Bentonite, Lost Circulation" />
+            <div class="category-select-wrapper">
+              <select id="productCategory" required>
+                <option value="">Select a category...</option>
+              </select>
+              <button
+                type="button"
+                class="btn btn-secondary btn-add-category"
+                onclick="openCategoryModal()"
+                title="Add new category"
+              >
+                +
+              </button>
+            </div>
           </div>
           <div class="form-group">
             <label for="productSize">Size</label>
@@ -573,6 +606,23 @@
       </div>
     </div>
 
+    <!-- Add Category Modal -->
+    <div class="modal-overlay" id="categoryModal">
+      <div class="modal modal-small">
+        <h2>Add New Category</h2>
+        <form id="categoryForm">
+          <div class="form-group">
+            <label for="newCategoryName">Category Name *</label>
+            <input type="text" id="newCategoryName" required placeholder="e.g., Specialty Chemicals" />
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add Category</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script>
       // ============================================
       // CONFIGURATION
@@ -582,11 +632,15 @@
         jobsPath: 'src/content/jobs',
         pdfsPath: 'public/pdfs/products',
         cacheKey: 'mtn_admin_cache',
+        categoriesKey: 'mtn_admin_categories',
         maxPdfSize: 20 * 1024 * 1024, // 20MB
       };
 
       // Session token from auth
       let sessionToken = '';
+
+      // Categories list (stored in localStorage)
+      let categories = [];
 
       // Pending PDF upload data
       let pendingPdfFile = null;
@@ -910,6 +964,88 @@
       }
 
       // ============================================
+      // CATEGORIES
+      // ============================================
+
+      function loadCategories() {
+        try {
+          const stored = localStorage.getItem(CONFIG.categoriesKey);
+          if (stored) {
+            categories = JSON.parse(stored);
+          }
+        } catch (e) {
+          console.error('Error loading categories:', e);
+          categories = [];
+        }
+      }
+
+      function saveCategories() {
+        try {
+          localStorage.setItem(CONFIG.categoriesKey, JSON.stringify(categories));
+        } catch (e) {
+          console.error('Error saving categories:', e);
+        }
+      }
+
+      function updateCategoriesFromProducts() {
+        // Extract unique categories from products
+        const productCategories = [...new Set(products.map((p) => p.category).filter(Boolean))];
+
+        // Merge with existing categories (keep any user-added ones)
+        productCategories.forEach((cat) => {
+          if (!categories.includes(cat)) {
+            categories.push(cat);
+          }
+        });
+
+        // Sort alphabetically
+        categories.sort((a, b) => a.localeCompare(b));
+        saveCategories();
+      }
+
+      function renderCategoryDropdown(selectedValue = '') {
+        const select = document.getElementById('productCategory');
+        select.innerHTML = '<option value="">Select a category...</option>';
+
+        categories.forEach((cat) => {
+          const option = document.createElement('option');
+          option.value = cat;
+          option.textContent = cat;
+          if (cat === selectedValue) {
+            option.selected = true;
+          }
+          select.appendChild(option);
+        });
+      }
+
+      window.openCategoryModal = function () {
+        document.getElementById('newCategoryName').value = '';
+        document.getElementById('categoryModal').classList.add('active');
+        document.getElementById('newCategoryName').focus();
+      };
+
+      window.closeCategoryModal = function () {
+        document.getElementById('categoryModal').classList.remove('active');
+      };
+
+      document.getElementById('categoryForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newCategory = document.getElementById('newCategoryName').value.trim();
+
+        if (newCategory && !categories.includes(newCategory)) {
+          categories.push(newCategory);
+          categories.sort((a, b) => a.localeCompare(b));
+          saveCategories();
+          renderCategoryDropdown(newCategory);
+        } else if (categories.includes(newCategory)) {
+          // Category exists, just select it
+          document.getElementById('productCategory').value = newCategory;
+        }
+
+        closeCategoryModal();
+      });
+
+      // ============================================
       // PRODUCTS
       // ============================================
 
@@ -950,6 +1086,9 @@
 
         sortProducts();
         renderProducts();
+
+        // Update categories list from loaded products
+        updateCategoriesFromProducts();
       }
 
       function renderProducts() {
@@ -984,11 +1123,13 @@
         document.getElementById('productSlug').value = product?.slug || '';
         document.getElementById('productSha').value = product?.sha || '';
         document.getElementById('productTitle').value = product?.title || '';
-        document.getElementById('productCategory').value = product?.category || '';
         document.getElementById('productSize').value = product?.size || '';
         document.getElementById('productOrder').value = product?.order || 0;
         document.getElementById('productInStock').checked = product?.inStock !== false;
         document.getElementById('productPdfPath').value = product?.pdf || '';
+
+        // Render category dropdown and select current value
+        renderCategoryDropdown(product?.category || '');
 
         // Reset PDF upload state
         resetPdfUpload();
@@ -1026,7 +1167,7 @@
         products.splice(productIndex, 1);
         renderProducts();
         setCache({ products, jobs });
-        updateStatus(`Deleted "${product.title}". Saving to GitHub...`);
+        updateStatus(`Deleted "${product.title}". Saving to database...`);
 
         try {
           await deleteFile(product.path, product.sha, `Delete product: ${product.title}`);
@@ -1123,7 +1264,7 @@
           renderProducts();
           closeProductModal();
           setCache({ products, jobs });
-          updateStatus(`${isEdit ? 'Updated' : 'Added'} "${title}". Saving to GitHub...`);
+          updateStatus(`${isEdit ? 'Updated' : 'Added'} "${title}". Saving to database...`);
 
           // Build frontmatter with optional PDF field
           let content = `---
@@ -1143,7 +1284,7 @@ inStock: ${inStock}`;
           showRebuildNotice();
           updateStatus(`Product "${title}" saved successfully.`);
         } catch (err) {
-          alert('Error saving product: ' + err.message + '\n\nClick "Refresh from GitHub" to reload.');
+          alert('Error saving product: ' + err.message + '\n\nClick "Refresh from Database" to reload.');
           updateStatus('Error saving. Please refresh.');
         } finally {
           saveBtn.disabled = false;
@@ -1251,7 +1392,7 @@ inStock: ${inStock}`;
         jobs.splice(jobIndex, 1);
         renderJobs();
         setCache({ products, jobs });
-        updateStatus(`Deleted "${job.title}". Saving to GitHub...`);
+        updateStatus(`Deleted "${job.title}". Saving to database...`);
 
         try {
           await deleteFile(job.path, job.sha, `Delete job: ${job.title}`);
@@ -1326,7 +1467,7 @@ inStock: ${inStock}`;
         renderJobs();
         closeJobModal();
         setCache({ products, jobs });
-        updateStatus(`${isEdit ? 'Updated' : 'Added'} "${title}". Saving to GitHub...`);
+        updateStatus(`${isEdit ? 'Updated' : 'Added'} "${title}". Saving to database...`);
 
         const content = `---
 title: ${title}
@@ -1342,7 +1483,7 @@ ${body}
           showRebuildNotice();
           updateStatus(`Job "${title}" saved successfully.`);
         } catch (err) {
-          alert('Error saving job: ' + err.message + '\n\nClick "Refresh from GitHub" to reload.');
+          alert('Error saving job: ' + err.message + '\n\nClick "Refresh from Database" to reload.');
           updateStatus('Error saving. Please refresh.');
         } finally {
           saveBtn.disabled = false;
@@ -1414,6 +1555,7 @@ ${body}
             jobs = cached.jobs;
             renderProducts();
             renderJobs();
+            updateCategoriesFromProducts();
             const cacheAge = Math.round((Date.now() - cached.timestamp) / 60000);
             updateStatus(
               `Showing cached data (${cacheAge} min old). ${products.length} products, ${jobs.length} jobs.`
@@ -1423,8 +1565,8 @@ ${body}
           }
         }
 
-        // Fetch fresh data from GitHub
-        updateStatus(forceRefresh ? 'Refreshing from GitHub...' : 'Loading content from GitHub...');
+        // Fetch fresh data from database
+        updateStatus(forceRefresh ? 'Refreshing from database...' : 'Loading content from database...');
         refreshBtn.style.display = 'none';
 
         try {
@@ -1447,6 +1589,7 @@ ${body}
       });
 
       // Initialize
+      loadCategories();
       setupPdfUpload();
       checkSession();
     </script>
