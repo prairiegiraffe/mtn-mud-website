@@ -1268,9 +1268,9 @@
 
           // Build frontmatter with optional PDF field
           let content = `---
-title: ${title}
-category: ${category}
-size: ${size}
+title: ${yamlString(title)}
+category: ${yamlString(category)}
+size: ${yamlString(size)}
 order: ${order}
 inStock: ${inStock}`;
 
@@ -1470,8 +1470,8 @@ inStock: ${inStock}`;
         updateStatus(`${isEdit ? 'Updated' : 'Added'} "${title}". Saving to database...`);
 
         const content = `---
-title: ${title}
-locations: ${locations}
+title: ${yamlString(title)}
+locations: ${yamlString(locations)}
 active: ${active}
 order: ${order}
 ---
@@ -1500,6 +1500,17 @@ ${body}
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/(^-|-$)/g, '');
+      }
+
+      // Quote YAML string values that might be interpreted as numbers or contain special chars
+      function yamlString(value) {
+        if (!value) return '';
+        // If it looks like a number or contains special YAML chars, wrap in quotes
+        if (/^[\d.]+$/.test(value) || /[:#\[\]{}|>&*!?,]/.test(value) || value.includes('"') || value.includes("'")) {
+          // Escape any double quotes and wrap in double quotes
+          return '"' + value.replace(/"/g, '\\"') + '"';
+        }
+        return value;
       }
 
       function escapeHtml(text) {
