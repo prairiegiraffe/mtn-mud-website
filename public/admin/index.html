@@ -1170,7 +1170,18 @@
         updateStatus(`Deleted "${product.title}". Saving to database...`);
 
         try {
-          await deleteFile(product.path, product.sha, `Delete product: ${product.title}`);
+          // Fetch the latest SHA to avoid 409 conflicts
+          let currentSha = product.sha;
+          try {
+            const latestFile = await apiRequest('get', product.path);
+            if (latestFile && latestFile.sha) {
+              currentSha = latestFile.sha;
+            }
+          } catch {
+            // Use existing sha if we can't fetch latest
+          }
+
+          await deleteFile(product.path, currentSha, `Delete product: ${product.title}`);
           showRebuildNotice();
           updateStatus(`Product "${product.title}" deleted successfully.`);
         } catch (err) {
@@ -1395,7 +1406,18 @@ inStock: ${inStock}`;
         updateStatus(`Deleted "${job.title}". Saving to database...`);
 
         try {
-          await deleteFile(job.path, job.sha, `Delete job: ${job.title}`);
+          // Fetch the latest SHA to avoid 409 conflicts
+          let currentSha = job.sha;
+          try {
+            const latestFile = await apiRequest('get', job.path);
+            if (latestFile && latestFile.sha) {
+              currentSha = latestFile.sha;
+            }
+          } catch {
+            // Use existing sha if we can't fetch latest
+          }
+
+          await deleteFile(job.path, currentSha, `Delete job: ${job.title}`);
           showRebuildNotice();
           updateStatus(`Job "${job.title}" deleted successfully.`);
         } catch (err) {
