@@ -140,7 +140,11 @@ const metadata = {
             <span class="text-white font-medium text-sm">Current Service Areas</span>
           </div>
           <div class="flex items-center gap-3">
-            <div class="w-6 h-4 rounded border-2 border-dashed" style="border-color: #FFB347; background: rgba(255, 179, 71, 0.15);"></div>
+            <div
+              class="w-6 h-4 rounded border-2 border-dashed"
+              style="border-color: #FFB347; background: rgba(255, 179, 71, 0.15);"
+            >
+            </div>
             <span class="text-white font-medium text-sm" style="color: #FFB347;">Coming Soon</span>
           </div>
         </div>
@@ -365,7 +369,16 @@ const metadata = {
         }).addTo(map);
 
         // Current service states (safety orange)
-        const currentStates = ['Wyoming', 'North Dakota', 'South Dakota', 'Montana', 'Colorado', 'New Mexico', 'Arizona', 'Kansas'];
+        const currentStates = [
+          'Wyoming',
+          'North Dakota',
+          'South Dakota',
+          'Montana',
+          'Colorado',
+          'New Mexico',
+          'Arizona',
+          'Kansas',
+        ];
 
         // Coming soon states (lighter orange/gold)
         const comingSoonStates = ['Oklahoma', 'Texas'];
