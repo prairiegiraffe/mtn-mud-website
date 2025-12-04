@@ -1,6 +1,6 @@
 ---
 title: Bent Plug CR Super Sacks
-category: Bentonit
+category: Bentonite
 size: 50 LBS
 order: 1
 inStock: true
