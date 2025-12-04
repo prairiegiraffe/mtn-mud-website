@@ -364,7 +364,12 @@
           Changes saved! The site will rebuild automatically. Changes will appear in 1-2 minutes.
         </div>
 
-        <div class="status-bar" id="statusBar">Loading content...</div>
+        <div class="status-bar" id="statusBar">
+          <span id="statusText">Loading content...</span>
+          <button class="btn btn-secondary btn-small" id="refreshBtn" style="margin-left: 15px; display: none">
+            Refresh from GitHub
+          </button>
+        </div>
 
         <div class="tabs">
           <button class="tab active" data-tab="products">Products</button>
@@ -491,10 +496,45 @@
       const CONFIG = {
         productsPath: 'src/content/products',
         jobsPath: 'src/content/jobs',
+        cacheKey: 'mtn_admin_cache',
       };
 
       // Session token from auth
       let sessionToken = '';
+
+      // ============================================
+      // CACHE HELPERS
+      // ============================================
+
+      function getCache() {
+        try {
+          const cached = localStorage.getItem(CONFIG.cacheKey);
+          if (cached) {
+            return JSON.parse(cached);
+          }
+        } catch (e) {
+          console.error('Cache read error:', e);
+        }
+        return null;
+      }
+
+      function setCache(data) {
+        try {
+          localStorage.setItem(
+            CONFIG.cacheKey,
+            JSON.stringify({
+              ...data,
+              timestamp: Date.now(),
+            })
+          );
+        } catch (e) {
+          console.error('Cache write error:', e);
+        }
+      }
+
+      function clearCache() {
+        localStorage.removeItem(CONFIG.cacheKey);
+      }
 
       // ============================================
       // INITIALIZATION
@@ -637,7 +677,16 @@
 
       let products = [];
 
-      async function loadProducts() {
+      function sortProducts() {
+        products.sort((a, b) => {
+          if (a.category !== b.category) return (a.category || '').localeCompare(b.category || '');
+          return (a.order || 0) - (b.order || 0);
+        });
+      }
+
+      async function loadProducts(fromGitHub = false) {
+        if (!fromGitHub) return; // Only fetch if explicitly requested
+
         const files = await getFiles(CONFIG.productsPath);
         if (!files || !Array.isArray(files)) {
           document.getElementById('productsLoading').textContent = 'No products found or error loading.';
@@ -661,11 +710,7 @@
           }
         }
 
-        products.sort((a, b) => {
-          if (a.category !== b.category) return (a.category || '').localeCompare(b.category || '');
-          return (a.order || 0) - (b.order || 0);
-        });
-
+        sortProducts();
         renderProducts();
       }
 
@@ -720,18 +765,28 @@
       window.deleteProduct = async function (slug) {
         if (!confirm('Are you sure you want to delete this product?')) return;
 
-        const product = products.find((p) => p.slug === slug);
-        if (!product) return;
+        const productIndex = products.findIndex((p) => p.slug === slug);
+        if (productIndex === -1) return;
+
+        const product = products[productIndex];
+
+        // Optimistic update - remove from local array immediately
+        products.splice(productIndex, 1);
+        renderProducts();
+        setCache({ products, jobs });
+        updateStatus(`Deleted "${product.title}". Saving to GitHub...`);
 
         try {
-          document.getElementById('statusBar').textContent = 'Deleting product...';
           await deleteFile(product.path, product.sha, `Delete product: ${product.title}`);
           showRebuildNotice();
-          await loadProducts();
-          document.getElementById('statusBar').textContent = 'Product deleted successfully.';
+          updateStatus(`Product "${product.title}" deleted successfully.`);
         } catch (err) {
+          // Revert on error
+          products.splice(productIndex, 0, product);
+          renderProducts();
+          setCache({ products, jobs });
           alert('Error deleting product: ' + err.message);
-          document.getElementById('statusBar').textContent = 'Error deleting product.';
+          updateStatus('Error deleting product.');
         }
       };
 
@@ -747,26 +802,61 @@
         const existingSlug = document.getElementById('productSlug').value;
         const sha = document.getElementById('productSha').value;
         const title = document.getElementById('productTitle').value;
+        const category = document.getElementById('productCategory').value;
+        const size = document.getElementById('productSize').value;
+        const order = parseInt(document.getElementById('productOrder').value) || 0;
+        const inStock = document.getElementById('productInStock').checked;
         const slug = existingSlug || slugify(title);
+        const path = `${CONFIG.productsPath}/${slug}.md`;
+        const isEdit = !!sha;
+
+        // Build the new/updated product object
+        const updatedProduct = {
+          title,
+          category,
+          size,
+          order,
+          inStock,
+          slug,
+          sha: sha || 'pending', // Will be updated after save
+          path,
+          body: '',
+        };
+
+        // Optimistic update
+        if (isEdit) {
+          const idx = products.findIndex((p) => p.slug === slug);
+          if (idx !== -1) {
+            updatedProduct.sha = products[idx].sha; // Keep old sha for now
+            products[idx] = updatedProduct;
+          }
+        } else {
+          products.push(updatedProduct);
+        }
+        sortProducts();
+        renderProducts();
+        closeProductModal();
+        setCache({ products, jobs });
+        updateStatus(`${isEdit ? 'Updated' : 'Added'} "${title}". Saving to GitHub...`);
 
         const content = `---
 title: ${title}
-category: ${document.getElementById('productCategory').value}
-size: ${document.getElementById('productSize').value}
-order: ${parseInt(document.getElementById('productOrder').value) || 0}
-inStock: ${document.getElementById('productInStock').checked}
+category: ${category}
+size: ${size}
+order: ${order}
+inStock: ${inStock}
 ---
 `;
 
         try {
-          const path = `${CONFIG.productsPath}/${slug}.md`;
-          await saveFile(path, content, sha || null, `${sha ? 'Update' : 'Add'} product: ${title}`);
-          closeProductModal();
+          await saveFile(path, content, sha || null, `${isEdit ? 'Update' : 'Add'} product: ${title}`);
           showRebuildNotice();
-          await loadProducts();
-          document.getElementById('statusBar').textContent = 'Product saved successfully.';
+          updateStatus(`Product "${title}" saved successfully.`);
         } catch (err) {
-          alert('Error saving product: ' + err.message);
+          // On error, we'd ideally revert but since we don't have the old state easily,
+          // just notify and suggest refresh
+          alert('Error saving product: ' + err.message + '\n\nClick "Refresh from GitHub" to reload.');
+          updateStatus('Error saving. Please refresh.');
         } finally {
           saveBtn.disabled = false;
           saveBtn.textContent = 'Save';
@@ -779,7 +869,13 @@ inStock: ${document.getElementById('productInStock').checked}
 
       let jobs = [];
 
-      async function loadJobs() {
+      function sortJobs() {
+        jobs.sort((a, b) => (a.order || 0) - (b.order || 0));
+      }
+
+      async function loadJobs(fromGitHub = false) {
+        if (!fromGitHub) return; // Only fetch if explicitly requested
+
         const files = await getFiles(CONFIG.jobsPath);
         if (!files || !Array.isArray(files)) {
           document.getElementById('jobsLoading').textContent = 'No jobs found or error loading.';
@@ -803,7 +899,7 @@ inStock: ${document.getElementById('productInStock').checked}
           }
         }
 
-        jobs.sort((a, b) => (a.order || 0) - (b.order || 0));
+        sortJobs();
         renderJobs();
       }
 
@@ -857,18 +953,28 @@ inStock: ${document.getElementById('productInStock').checked}
       window.deleteJob = async function (slug) {
         if (!confirm('Are you sure you want to delete this job?')) return;
 
-        const job = jobs.find((j) => j.slug === slug);
-        if (!job) return;
+        const jobIndex = jobs.findIndex((j) => j.slug === slug);
+        if (jobIndex === -1) return;
+
+        const job = jobs[jobIndex];
+
+        // Optimistic update - remove from local array immediately
+        jobs.splice(jobIndex, 1);
+        renderJobs();
+        setCache({ products, jobs });
+        updateStatus(`Deleted "${job.title}". Saving to GitHub...`);
 
         try {
-          document.getElementById('statusBar').textContent = 'Deleting job...';
           await deleteFile(job.path, job.sha, `Delete job: ${job.title}`);
           showRebuildNotice();
-          await loadJobs();
-          document.getElementById('statusBar').textContent = 'Job deleted successfully.';
+          updateStatus(`Job "${job.title}" deleted successfully.`);
         } catch (err) {
+          // Revert on error
+          jobs.splice(jobIndex, 0, job);
+          renderJobs();
+          setCache({ products, jobs });
           alert('Error deleting job: ' + err.message);
-          document.getElementById('statusBar').textContent = 'Error deleting job.';
+          updateStatus('Error deleting job.');
         }
       };
 
@@ -884,27 +990,58 @@ inStock: ${document.getElementById('productInStock').checked}
         const existingSlug = document.getElementById('jobSlug').value;
         const sha = document.getElementById('jobSha').value;
         const title = document.getElementById('jobTitle').value;
-        const slug = existingSlug || slugify(title);
+        const locations = document.getElementById('jobLocations').value || 'All Locations';
+        const active = document.getElementById('jobActive').checked;
+        const order = parseInt(document.getElementById('jobOrder').value) || 0;
         const body = document.getElementById('jobBody').value;
+        const slug = existingSlug || slugify(title);
+        const path = `${CONFIG.jobsPath}/${slug}.md`;
+        const isEdit = !!sha;
+
+        // Build the new/updated job object
+        const updatedJob = {
+          title,
+          locations,
+          active,
+          order,
+          slug,
+          sha: sha || 'pending',
+          path,
+          body,
+        };
+
+        // Optimistic update
+        if (isEdit) {
+          const idx = jobs.findIndex((j) => j.slug === slug);
+          if (idx !== -1) {
+            updatedJob.sha = jobs[idx].sha;
+            jobs[idx] = updatedJob;
+          }
+        } else {
+          jobs.push(updatedJob);
+        }
+        sortJobs();
+        renderJobs();
+        closeJobModal();
+        setCache({ products, jobs });
+        updateStatus(`${isEdit ? 'Updated' : 'Added'} "${title}". Saving to GitHub...`);
 
         const content = `---
 title: ${title}
-locations: ${document.getElementById('jobLocations').value || 'All Locations'}
-active: ${document.getElementById('jobActive').checked}
-order: ${parseInt(document.getElementById('jobOrder').value) || 0}
+locations: ${locations}
+active: ${active}
+order: ${order}
 ---
 ${body}
 `;
 
         try {
-          const path = `${CONFIG.jobsPath}/${slug}.md`;
-          await saveFile(path, content, sha || null, `${sha ? 'Update' : 'Add'} job: ${title}`);
-          closeJobModal();
+          await saveFile(path, content, sha || null, `${isEdit ? 'Update' : 'Add'} job: ${title}`);
           showRebuildNotice();
-          await loadJobs();
-          document.getElementById('statusBar').textContent = 'Job saved successfully.';
+          updateStatus(`Job "${title}" saved successfully.`);
         } catch (err) {
-          alert('Error saving job: ' + err.message);
+          alert('Error saving job: ' + err.message + '\n\nClick "Refresh from GitHub" to reload.');
+          updateStatus('Error saving. Please refresh.');
         } finally {
           saveBtn.disabled = false;
           saveBtn.textContent = 'Save';
@@ -960,16 +1097,52 @@ ${body}
         setTimeout(() => notice.classList.remove('active'), 10000);
       }
 
-      async function loadData() {
-        document.getElementById('statusBar').textContent = 'Loading content...';
+      function updateStatus(text) {
+        document.getElementById('statusText').textContent = text;
+      }
+
+      async function loadData(forceRefresh = false) {
+        const refreshBtn = document.getElementById('refreshBtn');
+
+        // Try to load from cache first (unless forcing refresh)
+        if (!forceRefresh) {
+          const cached = getCache();
+          if (cached && cached.products && cached.jobs) {
+            products = cached.products;
+            jobs = cached.jobs;
+            renderProducts();
+            renderJobs();
+            const cacheAge = Math.round((Date.now() - cached.timestamp) / 60000);
+            updateStatus(
+              `Showing cached data (${cacheAge} min old). ${products.length} products, ${jobs.length} jobs.`
+            );
+            refreshBtn.style.display = 'inline-block';
+            return;
+          }
+        }
+
+        // Fetch fresh data from GitHub
+        updateStatus(forceRefresh ? 'Refreshing from GitHub...' : 'Loading content from GitHub...');
+        refreshBtn.style.display = 'none';
+
         try {
-          await Promise.all([loadProducts(), loadJobs()]);
-          document.getElementById('statusBar').textContent =
-            `Loaded ${products.length} products and ${jobs.length} jobs.`;
+          await Promise.all([loadProducts(true), loadJobs(true)]);
+
+          // Save to cache
+          setCache({ products, jobs });
+
+          updateStatus(`Loaded ${products.length} products and ${jobs.length} jobs.`);
+          refreshBtn.style.display = 'inline-block';
         } catch (err) {
-          document.getElementById('statusBar').textContent = 'Error loading data: ' + err.message;
+          updateStatus('Error loading data: ' + err.message);
+          refreshBtn.style.display = 'inline-block';
         }
       }
+
+      // Refresh button handler
+      document.getElementById('refreshBtn').addEventListener('click', () => {
+        loadData(true);
+      });
 
       // Initialize
       checkSession();
