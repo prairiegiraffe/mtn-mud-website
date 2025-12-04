@@ -403,7 +403,7 @@ const activeJobs = allJobs
                 class="w-full px-4 py-3 border-2 border-warm-gray-600 bg-charcoal-800 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-safety-orange focus:border-safety-orange transition-all"
               >
                 <option value="">Select a position...</option>
-                {activeJobs.map((job) => <option value={job.slug}>{job.data.title}</option>)}
+                {activeJobs.map((job) => <option value={job.id}>{job.data.title}</option>)}
                 <option value="general-application">General Application / Other</option>
               </select>
             </div>
