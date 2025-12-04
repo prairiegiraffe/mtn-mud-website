@@ -120,6 +120,34 @@ export async function onRequestPost(context) {
         });
       }
 
+      case 'upload': {
+        // For binary files (PDFs, images) - content is already base64 encoded
+        const body = {
+          message: message || 'Upload file via admin',
+          content: content, // Already base64 encoded
+          branch: 'main',
+        };
+        if (sha) {
+          body.sha = sha;
+        }
+
+        const response = await fetch(`${baseUrl}/${path}`, {
+          method: 'PUT',
+          headers: {
+            Authorization: `token ${token}`,
+            Accept: 'application/vnd.github.v3+json',
+            'Content-Type': 'application/json',
+            'User-Agent': 'MTN-Mud-Admin',
+          },
+          body: JSON.stringify(body),
+        });
+        const data = await response.json();
+        return new Response(JSON.stringify(data), {
+          status: response.status,
+          headers: corsHeaders,
+        });
+      }
+
       case 'delete': {
         const response = await fetch(`${baseUrl}/${path}`, {
           method: 'DELETE',

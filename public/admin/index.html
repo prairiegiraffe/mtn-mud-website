@@ -334,6 +334,75 @@
         font-size: 14px;
         color: #ccc;
       }
+
+      /* PDF Upload */
+      .file-upload {
+        border: 2px dashed #3a3a5a;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .file-upload:hover {
+        border-color: #ff6600;
+        background: rgba(255, 102, 0, 0.1);
+      }
+      .file-upload.has-file {
+        border-color: #28a745;
+        background: rgba(40, 167, 69, 0.1);
+      }
+      .file-upload input[type='file'] {
+        display: none;
+      }
+      .file-upload-text {
+        color: #ccc;
+        font-size: 14px;
+      }
+      .file-upload-text .filename {
+        color: #4ade80;
+        font-weight: 600;
+      }
+      .current-pdf {
+        margin-top: 10px;
+        padding: 10px;
+        background: #1a1a2e;
+        border-radius: 6px;
+        font-size: 13px;
+      }
+      .current-pdf a {
+        color: #ff6600;
+        text-decoration: none;
+      }
+      .current-pdf a:hover {
+        text-decoration: underline;
+      }
+      .remove-pdf {
+        color: #dc3545;
+        cursor: pointer;
+        margin-left: 10px;
+        font-size: 12px;
+      }
+      .remove-pdf:hover {
+        text-decoration: underline;
+      }
+      .upload-progress {
+        margin-top: 10px;
+        height: 4px;
+        background: #3a3a5a;
+        border-radius: 2px;
+        overflow: hidden;
+        display: none;
+      }
+      .upload-progress.active {
+        display: block;
+      }
+      .upload-progress-bar {
+        height: 100%;
+        background: #ff6600;
+        width: 0%;
+        transition: width 0.3s;
+      }
     </style>
   </head>
   <body>
@@ -426,6 +495,7 @@
         <form id="productForm">
           <input type="hidden" id="productSlug" />
           <input type="hidden" id="productSha" />
+          <input type="hidden" id="productPdfPath" />
           <div class="form-group">
             <label for="productTitle">Title *</label>
             <input type="text" id="productTitle" required />
@@ -445,6 +515,20 @@
           <div class="form-group checkbox-group">
             <input type="checkbox" id="productInStock" checked />
             <label for="productInStock">In Stock</label>
+          </div>
+          <div class="form-group">
+            <label>Product PDF (spec sheet, SDS, etc.)</label>
+            <div class="file-upload" id="pdfUploadArea">
+              <input type="file" id="productPdfFile" accept=".pdf" />
+              <div class="file-upload-text" id="pdfUploadText">Click or drag to upload PDF (max 20MB)</div>
+            </div>
+            <div class="upload-progress" id="pdfUploadProgress">
+              <div class="upload-progress-bar" id="pdfUploadProgressBar"></div>
+            </div>
+            <div class="current-pdf" id="currentPdfInfo" style="display: none">
+              Current: <a id="currentPdfLink" href="#" target="_blank"></a>
+              <span class="remove-pdf" onclick="removePdf()">Remove</span>
+            </div>
           </div>
           <div class="modal-actions">
             <button type="button" class="btn btn-secondary" onclick="closeProductModal()">Cancel</button>
@@ -496,11 +580,17 @@
       const CONFIG = {
         productsPath: 'src/content/products',
         jobsPath: 'src/content/jobs',
+        pdfsPath: 'public/pdfs/products',
         cacheKey: 'mtn_admin_cache',
+        maxPdfSize: 20 * 1024 * 1024, // 20MB
       };
 
       // Session token from auth
       let sessionToken = '';
+
+      // Pending PDF upload data
+      let pendingPdfFile = null;
+      let pendingPdfRemove = false;
 
       // ============================================
       // CACHE HELPERS
@@ -672,6 +762,154 @@
       }
 
       // ============================================
+      // PDF UPLOAD
+      // ============================================
+
+      async function uploadPdf(file, productSlug) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = async () => {
+            try {
+              // Get base64 content (remove data URL prefix)
+              const base64Content = reader.result.split(',')[1];
+              const pdfPath = `${CONFIG.pdfsPath}/${productSlug}.pdf`;
+
+              // Check if file already exists (to get sha for update)
+              let existingSha = null;
+              try {
+                const existing = await apiRequest('get', pdfPath);
+                if (existing && existing.sha) {
+                  existingSha = existing.sha;
+                }
+              } catch {
+                // File doesn't exist, that's fine
+              }
+
+              // Upload the PDF
+              await apiRequest('upload', pdfPath, {
+                content: base64Content,
+                sha: existingSha,
+                message: `Upload PDF for ${productSlug}`,
+              });
+
+              resolve(`/pdfs/products/${productSlug}.pdf`);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          reader.onerror = () => reject(new Error('Failed to read file'));
+          reader.readAsDataURL(file);
+        });
+      }
+
+      async function deletePdf(pdfPath) {
+        // Convert public path to repo path
+        const repoPath = pdfPath.startsWith('/') ? 'public' + pdfPath : 'public/' + pdfPath;
+
+        try {
+          // Get the sha of the existing file
+          const existing = await apiRequest('get', repoPath);
+          if (existing && existing.sha) {
+            await apiRequest('delete', repoPath, {
+              sha: existing.sha,
+              message: 'Delete product PDF',
+            });
+          }
+        } catch {
+          // File might not exist, that's okay
+        }
+      }
+
+      // PDF Upload UI handlers
+      function setupPdfUpload() {
+        const uploadArea = document.getElementById('pdfUploadArea');
+        const fileInput = document.getElementById('productPdfFile');
+        const uploadText = document.getElementById('pdfUploadText');
+
+        // Click to upload
+        uploadArea.addEventListener('click', () => fileInput.click());
+
+        // Drag and drop
+        uploadArea.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          uploadArea.style.borderColor = '#ff6600';
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+          uploadArea.style.borderColor = pendingPdfFile ? '#28a745' : '#3a3a5a';
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const file = e.dataTransfer.files[0];
+          if (file) handlePdfSelect(file);
+        });
+
+        // File input change
+        fileInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file) handlePdfSelect(file);
+        });
+      }
+
+      function handlePdfSelect(file) {
+        const uploadArea = document.getElementById('pdfUploadArea');
+        const uploadText = document.getElementById('pdfUploadText');
+
+        // Validate file type
+        if (file.type !== 'application/pdf') {
+          alert('Please select a PDF file.');
+          return;
+        }
+
+        // Validate file size
+        if (file.size > CONFIG.maxPdfSize) {
+          alert(`File is too large. Maximum size is ${CONFIG.maxPdfSize / 1024 / 1024}MB.`);
+          return;
+        }
+
+        // Store the file for upload on save
+        pendingPdfFile = file;
+        pendingPdfRemove = false;
+
+        // Update UI
+        uploadArea.classList.add('has-file');
+        uploadText.innerHTML = `<span class="filename">${file.name}</span> (${(file.size / 1024 / 1024).toFixed(2)}MB)`;
+
+        // Hide current PDF info since we're replacing it
+        document.getElementById('currentPdfInfo').style.display = 'none';
+      }
+
+      window.removePdf = function () {
+        pendingPdfRemove = true;
+        pendingPdfFile = null;
+
+        // Reset upload area
+        const uploadArea = document.getElementById('pdfUploadArea');
+        const uploadText = document.getElementById('pdfUploadText');
+        uploadArea.classList.remove('has-file');
+        uploadText.textContent = 'Click or drag to upload PDF (max 20MB)';
+
+        // Hide current PDF info
+        document.getElementById('currentPdfInfo').style.display = 'none';
+      };
+
+      function resetPdfUpload() {
+        pendingPdfFile = null;
+        pendingPdfRemove = false;
+
+        const uploadArea = document.getElementById('pdfUploadArea');
+        const uploadText = document.getElementById('pdfUploadText');
+        const fileInput = document.getElementById('productPdfFile');
+
+        uploadArea.classList.remove('has-file');
+        uploadText.textContent = 'Click or drag to upload PDF (max 20MB)';
+        fileInput.value = '';
+        document.getElementById('currentPdfInfo').style.display = 'none';
+        document.getElementById('pdfUploadProgress').classList.remove('active');
+      }
+
+      // ============================================
       // PRODUCTS
       // ============================================
 
@@ -750,6 +988,20 @@
         document.getElementById('productSize').value = product?.size || '';
         document.getElementById('productOrder').value = product?.order || 0;
         document.getElementById('productInStock').checked = product?.inStock !== false;
+        document.getElementById('productPdfPath').value = product?.pdf || '';
+
+        // Reset PDF upload state
+        resetPdfUpload();
+
+        // Show current PDF if exists
+        if (product?.pdf) {
+          const currentPdfInfo = document.getElementById('currentPdfInfo');
+          const currentPdfLink = document.getElementById('currentPdfLink');
+          currentPdfLink.href = product.pdf;
+          currentPdfLink.textContent = product.pdf.split('/').pop();
+          currentPdfInfo.style.display = 'block';
+        }
+
         document.getElementById('productModal').classList.add('active');
       }
 
@@ -806,60 +1058,84 @@
         const size = document.getElementById('productSize').value;
         const order = parseInt(document.getElementById('productOrder').value) || 0;
         const inStock = document.getElementById('productInStock').checked;
+        let pdfPath = document.getElementById('productPdfPath').value;
         const slug = existingSlug || slugify(title);
         const path = `${CONFIG.productsPath}/${slug}.md`;
         const isEdit = !!sha;
 
-        // Build the new/updated product object
-        const updatedProduct = {
-          title,
-          category,
-          size,
-          order,
-          inStock,
-          slug,
-          sha: sha || 'pending', // Will be updated after save
-          path,
-          body: '',
-        };
+        try {
+          // Handle PDF upload/removal
+          if (pendingPdfFile) {
+            saveBtn.textContent = 'Uploading PDF...';
+            const progressBar = document.getElementById('pdfUploadProgress');
+            const progressBarInner = document.getElementById('pdfUploadProgressBar');
+            progressBar.classList.add('active');
+            progressBarInner.style.width = '50%';
 
-        // Optimistic update
-        if (isEdit) {
-          const idx = products.findIndex((p) => p.slug === slug);
-          if (idx !== -1) {
-            updatedProduct.sha = products[idx].sha; // Keep old sha for now
-            products[idx] = updatedProduct;
+            pdfPath = await uploadPdf(pendingPdfFile, slug);
+
+            progressBarInner.style.width = '100%';
+            saveBtn.textContent = 'Saving...';
+          } else if (pendingPdfRemove && pdfPath) {
+            saveBtn.textContent = 'Removing PDF...';
+            await deletePdf(pdfPath);
+            pdfPath = '';
           }
-        } else {
-          products.push(updatedProduct);
-        }
-        sortProducts();
-        renderProducts();
-        closeProductModal();
-        setCache({ products, jobs });
-        updateStatus(`${isEdit ? 'Updated' : 'Added'} "${title}". Saving to GitHub...`);
 
-        const content = `---
+          // Build the new/updated product object
+          const updatedProduct = {
+            title,
+            category,
+            size,
+            order,
+            inStock,
+            pdf: pdfPath || undefined,
+            slug,
+            sha: sha || 'pending',
+            path,
+            body: '',
+          };
+
+          // Optimistic update
+          if (isEdit) {
+            const idx = products.findIndex((p) => p.slug === slug);
+            if (idx !== -1) {
+              updatedProduct.sha = products[idx].sha;
+              products[idx] = updatedProduct;
+            }
+          } else {
+            products.push(updatedProduct);
+          }
+          sortProducts();
+          renderProducts();
+          closeProductModal();
+          setCache({ products, jobs });
+          updateStatus(`${isEdit ? 'Updated' : 'Added'} "${title}". Saving to GitHub...`);
+
+          // Build frontmatter with optional PDF field
+          let content = `---
 title: ${title}
 category: ${category}
 size: ${size}
 order: ${order}
-inStock: ${inStock}
----
-`;
+inStock: ${inStock}`;
 
-        try {
+          if (pdfPath) {
+            content += `\npdf: ${pdfPath}`;
+          }
+
+          content += `\n---\n`;
+
           await saveFile(path, content, sha || null, `${isEdit ? 'Update' : 'Add'} product: ${title}`);
           showRebuildNotice();
           updateStatus(`Product "${title}" saved successfully.`);
         } catch (err) {
-          // On error, we'd ideally revert but since we don't have the old state easily,
-          // just notify and suggest refresh
           alert('Error saving product: ' + err.message + '\n\nClick "Refresh from GitHub" to reload.');
           updateStatus('Error saving. Please refresh.');
         } finally {
           saveBtn.disabled = false;
           saveBtn.textContent = 'Save';
+          resetPdfUpload();
         }
       });
 
@@ -1145,6 +1421,7 @@ ${body}
       });
 
       // Initialize
+      setupPdfUpload();
       checkSession();
     </script>
   </body>
