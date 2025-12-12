@@ -469,10 +469,10 @@ const metadata = {
       }
 
       try {
-        // Initialize the map centered on Wyoming/North Dakota region
+        // Initialize the map centered on service region (zoomed out to show all states)
         const map = L.map('map', {
-          center: [45.5, -104.0],
-          zoom: 6,
+          center: [40.0, -104.0],
+          zoom: 5,
           scrollWheelZoom: true,
           dragging: true,
           zoomControl: true,
