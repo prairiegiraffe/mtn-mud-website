@@ -1,0 +1,502 @@
+---
+// Admin Products List
+export const prerender = false;
+
+import '~/assets/styles/tailwind.css';
+import type { Product, Category } from '~/lib/types';
+
+const env = Astro.locals.runtime?.env;
+const user = Astro.locals.user;
+const DB = env?.DB;
+
+let products: Product[] = [];
+let categories: Category[] = [];
+
+if (DB) {
+  try {
+    const productsResult = await DB.prepare(
+      `
+      SELECT p.*, c.name as category_name
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      ORDER BY c.name, p.sort_order, p.title
+    `
+    ).all();
+    products = (productsResult.results || []) as Product[];
+
+    const categoriesResult = await DB.prepare(
+      `
+      SELECT * FROM categories ORDER BY sort_order, name
+    `
+    ).all();
+    categories = (categoriesResult.results || []) as Category[];
+  } catch (error) {
+    console.error('Products load error:', error);
+  }
+}
+
+const canEdit = user?.role !== 'viewer';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products - Admin - MTN MUD</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-[#1a1a2e] text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center gap-8">
+            <a href="/admin" class="font-black text-xl text-[#ff6600]">MTN MUD</a>
+            <div class="hidden md:flex gap-6">
+              <a href="/admin" class="text-gray-300 hover:text-white">Dashboard</a>
+              <a href="/admin/products" class="text-white font-medium">Products</a>
+              <a href="/admin/jobs" class="text-gray-300 hover:text-white">Jobs</a>
+              <a href="/admin/submissions" class="text-gray-300 hover:text-white">Submissions</a>
+              {
+                (user?.role === 'superadmin' || user?.role === 'agency' || user?.role === 'admin') && (
+                  <a href="/admin/users" class="text-gray-300 hover:text-white">
+                    Users
+                  </a>
+                )
+              }
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-gray-400 text-sm">{user?.name}</span>
+            <a href="/api/admin/logout" class="text-gray-300 hover:text-white text-sm bg-gray-800 px-3 py-1.5 rounded">
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Products</h1>
+          <p class="text-gray-600">{products.length} products in {categories.length} categories</p>
+        </div>
+        {
+          canEdit && (
+            <button
+              id="addProductBtn"
+              class="bg-[#ff6600] hover:bg-[#ff7700] text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Product
+            </button>
+          )
+        }
+      </div>
+
+      <!-- Category Filter -->
+      <div class="mb-6 flex gap-4 flex-wrap">
+        <button class="category-filter px-4 py-2 rounded-lg bg-[#ff6600] text-white font-medium" data-category="all">
+          All
+        </button>
+        {
+          categories.map((cat) => (
+            <button
+              class="category-filter px-4 py-2 rounded-lg bg-gray-200 text-gray-700 hover:bg-gray-300 font-medium"
+              data-category={cat.id}
+            >
+              {cat.name}
+            </button>
+          ))
+        }
+      </div>
+
+      <!-- Products Table -->
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+        <table class="w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
+              {
+                canEdit && (
+                  <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Actions
+                  </th>
+                )
+              }
+            </tr>
+          </thead>
+          <tbody id="productsBody" class="divide-y divide-gray-200">
+            {
+              products.map((product) => (
+                <tr class="hover:bg-gray-50 product-row" data-category={product.category_id}>
+                  <td class="px-6 py-4">
+                    <div class="font-medium text-gray-900">{product.title}</div>
+                    {product.pdf_url && (
+                      <div class="text-xs text-gray-500 flex items-center gap-1 mt-1">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path
+                            fill-rule="evenodd"
+                            d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                            clip-rule="evenodd"
+                          />
+                        </svg>
+                        PDF attached
+                      </div>
+                    )}
+                  </td>
+                  <td class="px-6 py-4 text-gray-600">{product.category_name}</td>
+                  <td class="px-6 py-4 text-gray-600">{product.size || '-'}</td>
+                  <td class="px-6 py-4">
+                    <span
+                      class={`inline-flex px-2 py-1 text-xs font-medium rounded ${
+                        product.in_stock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      }`}
+                    >
+                      {product.in_stock ? 'In Stock' : 'Out of Stock'}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-gray-600">{product.sort_order}</td>
+                  {canEdit && (
+                    <td class="px-6 py-4 text-right">
+                      <button
+                        class="text-[#ff6600] hover:text-[#ff7700] font-medium mr-3 edit-btn"
+                        data-id={product.id}
+                        data-product={JSON.stringify(product)}
+                      >
+                        Edit
+                      </button>
+                      <button class="text-red-600 hover:text-red-700 font-medium delete-btn" data-id={product.id}>
+                        Delete
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+
+        {
+          products.length === 0 && (
+            <div class="px-6 py-12 text-center text-gray-500">
+              <p>No products yet</p>
+              {canEdit && <p class="text-sm mt-1">Click "Add Product" to create your first product</p>}
+            </div>
+          )
+        }
+      </div>
+    </main>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 id="modalTitle" class="text-lg font-semibold text-gray-900">Add Product</h2>
+          <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form id="productForm" class="p-6 space-y-4">
+          <input type="hidden" id="productId" />
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+            <input
+              type="text"
+              id="productTitle"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+            <div class="flex gap-2">
+              <select
+                id="productCategory"
+                required
+                class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+              >
+                <option value="">Select category...</option>
+                {categories.map((cat) => <option value={cat.id}>{cat.name}</option>)}
+              </select>
+              <button
+                type="button"
+                id="addCategoryBtn"
+                class="px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
+                title="Add new category"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Size</label>
+              <input
+                type="text"
+                id="productSize"
+                placeholder="e.g., 50 LBS"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Sort Order</label>
+              <input
+                type="number"
+                id="productOrder"
+                value="0"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <textarea
+              id="productDescription"
+              rows="3"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            ></textarea>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <input type="checkbox" id="productInStock" checked class="w-4 h-4 text-[#ff6600] rounded" />
+            <label for="productInStock" class="text-sm font-medium text-gray-700">In Stock</label>
+          </div>
+
+          <div id="errorMessage" class="hidden text-red-600 text-sm bg-red-50 p-3 rounded-lg"></div>
+
+          <div class="flex justify-end gap-3 pt-4">
+            <button type="button" id="cancelBtn" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              Cancel
+            </button>
+            <button
+              type="submit"
+              id="submitBtn"
+              class="px-4 py-2 bg-[#ff6600] hover:bg-[#ff7700] text-white rounded-lg font-medium"
+            >
+              Save Product
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Category Modal -->
+    <div id="categoryModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm mx-4">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h2 class="text-lg font-semibold text-gray-900">Add Category</h2>
+        </div>
+        <form id="categoryForm" class="p-6 space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Category Name *</label>
+            <input
+              type="text"
+              id="categoryName"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            />
+          </div>
+          <div class="flex justify-end gap-3 pt-2">
+            <button type="button" id="cancelCategoryBtn" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 bg-[#ff6600] hover:bg-[#ff7700] text-white rounded-lg font-medium">
+              Add Category
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script define:vars={{ canEdit }}>
+      if (canEdit) {
+        const productModal = document.getElementById('productModal');
+        const categoryModal = document.getElementById('categoryModal');
+        const productForm = document.getElementById('productForm');
+        const categoryForm = document.getElementById('categoryForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Open add product modal
+        document.getElementById('addProductBtn')?.addEventListener('click', () => {
+          document.getElementById('modalTitle').textContent = 'Add Product';
+          document.getElementById('productId').value = '';
+          productForm.reset();
+          document.getElementById('productInStock').checked = true;
+          productModal.classList.remove('hidden');
+          productModal.classList.add('flex');
+        });
+
+        // Edit buttons
+        document.querySelectorAll('.edit-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const product = JSON.parse(btn.dataset.product);
+            document.getElementById('modalTitle').textContent = 'Edit Product';
+            document.getElementById('productId').value = product.id;
+            document.getElementById('productTitle').value = product.title;
+            document.getElementById('productCategory').value = product.category_id;
+            document.getElementById('productSize').value = product.size || '';
+            document.getElementById('productOrder').value = product.sort_order || 0;
+            document.getElementById('productDescription').value = product.description || '';
+            document.getElementById('productInStock').checked = product.in_stock === 1;
+            productModal.classList.remove('hidden');
+            productModal.classList.add('flex');
+          });
+        });
+
+        // Delete buttons
+        document.querySelectorAll('.delete-btn').forEach((btn) => {
+          btn.addEventListener('click', async () => {
+            if (!confirm('Are you sure you want to delete this product?')) return;
+
+            try {
+              const response = await fetch(`/api/admin/products/${btn.dataset.id}`, {
+                method: 'DELETE',
+              });
+              if (response.ok) {
+                window.location.reload();
+              } else {
+                const data = await response.json();
+                alert(data.error || 'Failed to delete product');
+              }
+            } catch {
+              alert('Failed to delete product');
+            }
+          });
+        });
+
+        // Close modal
+        document.getElementById('closeModal')?.addEventListener('click', closeProductModal);
+        document.getElementById('cancelBtn')?.addEventListener('click', closeProductModal);
+
+        function closeProductModal() {
+          productModal.classList.add('hidden');
+          productModal.classList.remove('flex');
+          errorMessage.classList.add('hidden');
+        }
+
+        // Submit product form
+        productForm?.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          errorMessage.classList.add('hidden');
+
+          const id = document.getElementById('productId').value;
+          const data = {
+            title: document.getElementById('productTitle').value,
+            category_id: parseInt(document.getElementById('productCategory').value),
+            size: document.getElementById('productSize').value,
+            sort_order: parseInt(document.getElementById('productOrder').value) || 0,
+            description: document.getElementById('productDescription').value,
+            in_stock: document.getElementById('productInStock').checked,
+          };
+
+          try {
+            const url = id ? `/api/admin/products/${id}` : '/api/admin/products';
+            const method = id ? 'PUT' : 'POST';
+
+            const response = await fetch(url, {
+              method,
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+              window.location.reload();
+            } else {
+              errorMessage.textContent = result.error || 'Failed to save product';
+              errorMessage.classList.remove('hidden');
+            }
+          } catch {
+            errorMessage.textContent = 'Connection error';
+            errorMessage.classList.remove('hidden');
+          }
+        });
+
+        // Add category modal
+        document.getElementById('addCategoryBtn')?.addEventListener('click', () => {
+          categoryModal.classList.remove('hidden');
+          categoryModal.classList.add('flex');
+        });
+
+        document.getElementById('cancelCategoryBtn')?.addEventListener('click', () => {
+          categoryModal.classList.add('hidden');
+          categoryModal.classList.remove('flex');
+        });
+
+        categoryForm?.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const name = document.getElementById('categoryName').value;
+
+          try {
+            const response = await fetch('/api/admin/categories', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ name }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+              // Add to dropdown and select it
+              const select = document.getElementById('productCategory');
+              const option = document.createElement('option');
+              option.value = result.data.id;
+              option.textContent = result.data.name;
+              select.appendChild(option);
+              select.value = result.data.id;
+
+              categoryModal.classList.add('hidden');
+              categoryModal.classList.remove('flex');
+              categoryForm.reset();
+            } else {
+              alert(result.error || 'Failed to add category');
+            }
+          } catch {
+            alert('Connection error');
+          }
+        });
+      }
+
+      // Category filter
+      document.querySelectorAll('.category-filter').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          document.querySelectorAll('.category-filter').forEach((b) => {
+            b.classList.remove('bg-[#ff6600]', 'text-white');
+            b.classList.add('bg-gray-200', 'text-gray-700');
+          });
+          btn.classList.remove('bg-gray-200', 'text-gray-700');
+          btn.classList.add('bg-[#ff6600]', 'text-white');
+
+          // Filter products
+          const category = btn.dataset.category;
+          document.querySelectorAll('.product-row').forEach((row) => {
+            if (category === 'all' || row.dataset.category === category) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

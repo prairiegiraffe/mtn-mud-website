@@ -1,6 +1,8 @@
 ---
+// Careers page - fetches jobs from D1 database
+export const prerender = false;
+
 import Layout from '~/layouts/PageLayout.astro';
-import { getCollection } from 'astro:content';
 
 // Image imports
 import constructionWorkerOnSite from '~/assets/images/new/Construction Workers On Site.webp';
@@ -11,11 +13,36 @@ const metadata = {
     'Join MTN MUD and be part of a team that values safety, service excellence, and innovation. Competitive compensation and career growth opportunities.',
 };
 
-// Fetch active job postings from the CMS
-const allJobs = await getCollection('jobs');
-const activeJobs = allJobs
-  .filter((job) => job.data.active !== false)
-  .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+// Get runtime environment
+const env = Astro.locals.runtime?.env;
+const DB = env?.DB;
+
+// Type for active jobs display
+type ActiveJob = {
+  id: string;
+  title: string;
+  locations: string;
+  description: string | null;
+};
+
+let activeJobs: ActiveJob[] = [];
+
+if (DB) {
+  try {
+    const result = await DB.prepare(
+      `
+      SELECT id, title, locations, description
+      FROM jobs
+      WHERE is_active = 1
+      ORDER BY sort_order, title
+    `
+    ).all();
+
+    activeJobs = (result.results || []) as ActiveJob[];
+  } catch (error) {
+    console.error('Jobs fetch error:', error);
+  }
+}
 ---
 
 <Layout metadata={metadata}>
@@ -240,7 +267,7 @@ const activeJobs = allJobs
         {
           activeJobs.map((job) => (
             <div class="bg-charcoal-800 p-8 rounded-2xl border border-white/10 hover:border-safety-orange/50 transition-all shadow-soft-lg">
-              <h4 class="text-2xl font-black text-white mb-3 uppercase tracking-tight">{job.data.title}</h4>
+              <h4 class="text-2xl font-black text-white mb-3 uppercase tracking-tight">{job.title}</h4>
               <div class="flex items-start gap-2 text-warm-gray-300">
                 <svg
                   class="w-5 h-5 text-safety-orange mt-0.5 flex-shrink-0"
@@ -261,7 +288,7 @@ const activeJobs = allJobs
                     d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
-                <span class="font-bold">{job.data.locations}</span>
+                <span class="font-bold">{job.locations}</span>
               </div>
             </div>
           ))
@@ -403,7 +430,7 @@ const activeJobs = allJobs
                 class="w-full px-4 py-3 border-2 border-warm-gray-600 bg-charcoal-800 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-safety-orange focus:border-safety-orange transition-all"
               >
                 <option value="">Select a position...</option>
-                {activeJobs.map((job) => <option value={job.id}>{job.data.title}</option>)}
+                {activeJobs.map((job) => <option value={job.id}>{job.title}</option>)}
                 <option value="general-application">General Application / Other</option>
               </select>
             </div>

@@ -1,0 +1,23 @@
+# MTN MUD Website - Cloudflare Configuration
+name = "mtn-mud-website"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "./dist"
+
+# D1 Database Binding
+[[d1_databases]]
+binding = "DB"
+database_name = "mtn-mud-db"
+database_id = "2ad67241-5087-46dc-9674-2d256145a05d"
+
+# R2 Storage Binding
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "mtn-mud-files"
+
+# Environment variables are set in Cloudflare Pages dashboard:
+# - JWT_SECRET: Random 32+ character string for auth tokens
+# - TENANT_ID: mtn_mud
+# - AWS_ACCESS_KEY_ID: For SES email (optional until domain verified)
+# - AWS_SECRET_ACCESS_KEY: For SES email (optional until domain verified)
+# - AWS_REGION: us-east-1 (or your SES region)
+# - FROM_EMAIL: noreply@mtnmud.com (after domain verified)

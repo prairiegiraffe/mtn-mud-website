@@ -1,0 +1,405 @@
+---
+// Admin Dashboard
+export const prerender = false;
+
+import '~/assets/styles/tailwind.css';
+import type { Submission, DashboardStats } from '~/lib/types';
+
+const env = Astro.locals.runtime?.env;
+const user = Astro.locals.user;
+const DB = env?.DB;
+const tenantId = env?.TENANT_ID || 'mtn_mud';
+
+// Get dashboard stats
+let stats: DashboardStats = {
+  products: { total: 0, in_stock: 0, out_of_stock: 0 },
+  jobs: { total: 0, active: 0 },
+  submissions: { total: 0, new_count: 0, contacts: 0, applications: 0 },
+};
+
+let recentSubmissions: Submission[] = [];
+
+if (DB && user) {
+  try {
+    // Product stats
+    const productStats = await DB.prepare(
+      `
+      SELECT
+        COUNT(*) as total,
+        SUM(CASE WHEN in_stock = 1 THEN 1 ELSE 0 END) as in_stock,
+        SUM(CASE WHEN in_stock = 0 THEN 1 ELSE 0 END) as out_of_stock
+      FROM products
+    `
+    ).first();
+
+    if (productStats) {
+      stats.products = productStats as typeof stats.products;
+    }
+
+    // Job stats
+    const jobStats = await DB.prepare(
+      `
+      SELECT
+        COUNT(*) as total,
+        SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active
+      FROM jobs
+    `
+    ).first();
+
+    if (jobStats) {
+      stats.jobs = jobStats as typeof stats.jobs;
+    }
+
+    // Submission stats (last 30 days)
+    const canSeeAllTenants = user.role === 'superadmin' || user.role === 'agency';
+    const submissionQuery = canSeeAllTenants
+      ? `
+        SELECT
+          COUNT(*) as total,
+          SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count,
+          SUM(CASE WHEN form_type = 'contact' THEN 1 ELSE 0 END) as contacts,
+          SUM(CASE WHEN form_type = 'application' THEN 1 ELSE 0 END) as applications
+        FROM submissions
+        WHERE created_at > datetime('now', '-30 days')
+      `
+      : `
+        SELECT
+          COUNT(*) as total,
+          SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count,
+          SUM(CASE WHEN form_type = 'contact' THEN 1 ELSE 0 END) as contacts,
+          SUM(CASE WHEN form_type = 'application' THEN 1 ELSE 0 END) as applications
+        FROM submissions
+        WHERE tenant_id = ? AND created_at > datetime('now', '-30 days')
+      `;
+
+    const subStats = canSeeAllTenants
+      ? await DB.prepare(submissionQuery).first()
+      : await DB.prepare(submissionQuery).bind(tenantId).first();
+
+    if (subStats) {
+      stats.submissions = subStats as typeof stats.submissions;
+    }
+
+    // Recent submissions
+    const recentQuery = canSeeAllTenants
+      ? `
+        SELECT * FROM submissions
+        ORDER BY created_at DESC
+        LIMIT 10
+      `
+      : `
+        SELECT * FROM submissions
+        WHERE tenant_id = ?
+        ORDER BY created_at DESC
+        LIMIT 10
+      `;
+
+    const recentResult = canSeeAllTenants
+      ? await DB.prepare(recentQuery).all()
+      : await DB.prepare(recentQuery).bind(tenantId).all();
+
+    recentSubmissions = (recentResult.results || []) as Submission[];
+  } catch (error) {
+    console.error('Dashboard error:', error);
+  }
+}
+
+// Format date helper
+function formatDate(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+// Status badge color
+function getStatusColor(status: string): string {
+  const colors: Record<string, string> = {
+    new: 'bg-yellow-100 text-yellow-800',
+    reviewed: 'bg-blue-100 text-blue-800',
+    contacted: 'bg-purple-100 text-purple-800',
+    hired: 'bg-green-100 text-green-800',
+    archived: 'bg-gray-100 text-gray-800',
+  };
+  return colors[status] || colors.new;
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard - MTN MUD</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-[#1a1a2e] text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center gap-8">
+            <a href="/admin" class="font-black text-xl text-[#ff6600]">MTN MUD</a>
+            <div class="hidden md:flex gap-6">
+              <a href="/admin" class="text-white font-medium">Dashboard</a>
+              <a href="/admin/products" class="text-gray-300 hover:text-white">Products</a>
+              <a href="/admin/jobs" class="text-gray-300 hover:text-white">Jobs</a>
+              <a href="/admin/submissions" class="text-gray-300 hover:text-white">Submissions</a>
+              {
+                (user?.role === 'superadmin' || user?.role === 'agency' || user?.role === 'admin') && (
+                  <a href="/admin/users" class="text-gray-300 hover:text-white">
+                    Users
+                  </a>
+                )
+              }
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <a href="/admin/settings" class="text-gray-300 hover:text-white text-sm">Settings</a>
+            <span class="text-gray-400 text-sm">
+              {user?.name}
+              {user?.role === 'superadmin' && <span class="ml-1 text-xs bg-red-600 px-2 py-0.5 rounded">Super</span>}
+              {user?.role === 'agency' && <span class="ml-1 text-xs bg-purple-600 px-2 py-0.5 rounded">Agency</span>}
+            </span>
+            <a
+              href="/api/admin/logout"
+              class="text-gray-300 hover:text-white text-sm bg-gray-800 px-3 py-1.5 rounded hover:bg-gray-700"
+            >
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Welcome -->
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold text-gray-900">Welcome back, {user?.name?.split(' ')[0]}</h1>
+        <p class="text-gray-600">Here's what's happening with your site.</p>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Products -->
+        <a href="/admin/products" class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Products</p>
+              <p class="text-3xl font-bold text-gray-900 mt-1">{stats.products.total}</p>
+              <p class="text-xs text-gray-400 mt-1">{stats.products.in_stock} in stock</p>
+            </div>
+            <div class="bg-blue-100 p-3 rounded-lg">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+              </svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Jobs -->
+        <a href="/admin/jobs" class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Job Postings</p>
+              <p class="text-3xl font-bold text-gray-900 mt-1">{stats.jobs.total}</p>
+              <p class="text-xs text-gray-400 mt-1">{stats.jobs.active} active</p>
+            </div>
+            <div class="bg-green-100 p-3 rounded-lg">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- New Submissions -->
+        <a
+          href="/admin/submissions?status=new"
+          class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow"
+        >
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">New Submissions</p>
+              <p class="text-3xl font-bold text-[#ff6600] mt-1">{stats.submissions.new_count}</p>
+              <p class="text-xs text-gray-400 mt-1">Last 30 days</p>
+            </div>
+            <div class="bg-orange-100 p-3 rounded-lg">
+              <svg class="w-6 h-6 text-[#ff6600]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Total Submissions -->
+        <a href="/admin/submissions" class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-gray-500 text-sm font-medium">Total Submissions</p>
+              <p class="text-3xl font-bold text-gray-900 mt-1">{stats.submissions.total}</p>
+              <p class="text-xs text-gray-400 mt-1">
+                {stats.submissions.contacts} contacts, {stats.submissions.applications} applications
+              </p>
+            </div>
+            <div class="bg-gray-100 p-3 rounded-lg">
+              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                ></path>
+              </svg>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <a
+          href="/admin/products?action=new"
+          class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow flex items-center gap-4"
+        >
+          <div class="bg-blue-100 p-3 rounded-lg">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900">Add Product</p>
+            <p class="text-sm text-gray-500">Create a new product listing</p>
+          </div>
+        </a>
+
+        <a
+          href="/admin/jobs?action=new"
+          class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow flex items-center gap-4"
+        >
+          <div class="bg-green-100 p-3 rounded-lg">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900">Add Job Posting</p>
+            <p class="text-sm text-gray-500">Post a new job opening</p>
+          </div>
+        </a>
+
+        <a
+          href="/"
+          target="_blank"
+          class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition-shadow flex items-center gap-4"
+        >
+          <div class="bg-gray-100 p-3 rounded-lg">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900">View Website</p>
+            <p class="text-sm text-gray-500">Open public site in new tab</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Recent Submissions -->
+      <div class="bg-white rounded-xl shadow">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 class="text-lg font-semibold text-gray-900">Recent Submissions</h2>
+          <a href="/admin/submissions" class="text-sm text-[#ff6600] hover:text-[#ff7700]">View all →</a>
+        </div>
+
+        {
+          recentSubmissions.length === 0 ? (
+            <div class="px-6 py-12 text-center text-gray-500">
+              <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
+                />
+              </svg>
+              <p>No submissions yet</p>
+              <p class="text-sm mt-1">Form submissions will appear here</p>
+            </div>
+          ) : (
+            <div class="overflow-x-auto">
+              <table class="w-full">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Email
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Status
+                    </th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider" />
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                  {recentSubmissions.map((sub) => (
+                    <tr class="hover:bg-gray-50">
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span
+                          class={`inline-flex px-2 py-1 text-xs font-medium rounded ${
+                            sub.type === 'application' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
+                          }`}
+                        >
+                          {sub.type}
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{sub.name}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-gray-600">{sub.email}</td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <span class={`inline-flex px-2 py-1 text-xs font-medium rounded ${getStatusColor(sub.status)}`}>
+                          {sub.status}
+                        </span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{formatDate(sub.created_at)}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-right">
+                        <a
+                          href={`/admin/submissions/${sub.id}`}
+                          class="text-[#ff6600] hover:text-[#ff7700] text-sm font-medium"
+                        >
+                          View
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        }
+      </div>
+    </main>
+  </body>
+</html>

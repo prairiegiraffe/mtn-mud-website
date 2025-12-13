@@ -1,0 +1,194 @@
+// Submission Detail API
+import type { APIRoute } from 'astro';
+import type { Submission } from '~/lib/types';
+
+export const prerender = false;
+
+// Get single submission
+export const GET: APIRoute = async ({ params, locals }) => {
+  const corsHeaders = {
+    'Content-Type': 'application/json',
+  };
+
+  try {
+    const env = locals.runtime?.env;
+
+    if (!env?.DB) {
+      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+        status: 500,
+        headers: corsHeaders,
+      });
+    }
+
+    const { id } = params;
+
+    const submission = await env.DB.prepare('SELECT * FROM submissions WHERE id = ?').bind(id).first<Submission>();
+
+    if (!submission) {
+      return new Response(JSON.stringify({ error: 'Submission not found' }), {
+        status: 404,
+        headers: corsHeaders,
+      });
+    }
+
+    return new Response(JSON.stringify(submission), {
+      status: 200,
+      headers: corsHeaders,
+    });
+  } catch (error) {
+    console.error('Submission fetch error:', error);
+    return new Response(JSON.stringify({ error: 'Failed to fetch submission' }), {
+      status: 500,
+      headers: corsHeaders,
+    });
+  }
+};
+
+// Update submission status
+export const PUT: APIRoute = async ({ params, request, locals }) => {
+  const corsHeaders = {
+    'Content-Type': 'application/json',
+  };
+
+  try {
+    const env = locals.runtime?.env;
+    const user = locals.user;
+
+    if (!env?.DB) {
+      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+        status: 500,
+        headers: corsHeaders,
+      });
+    }
+
+    // Viewers cannot modify
+    if (user?.role === 'viewer') {
+      return new Response(JSON.stringify({ error: 'Permission denied' }), {
+        status: 403,
+        headers: corsHeaders,
+      });
+    }
+
+    const { id } = params;
+    const { status, notes } = await request.json();
+
+    // Validate status
+    if (status && !['new', 'read', 'archived'].includes(status)) {
+      return new Response(JSON.stringify({ error: 'Invalid status' }), {
+        status: 400,
+        headers: corsHeaders,
+      });
+    }
+
+    // Check submission exists
+    const existing = await env.DB.prepare('SELECT id FROM submissions WHERE id = ?').bind(id).first();
+
+    if (!existing) {
+      return new Response(JSON.stringify({ error: 'Submission not found' }), {
+        status: 404,
+        headers: corsHeaders,
+      });
+    }
+
+    // Build update query
+    const updates: string[] = [];
+    const values: (string | number)[] = [];
+
+    if (status) {
+      updates.push('status = ?');
+      values.push(status);
+    }
+
+    if (notes !== undefined) {
+      updates.push('notes = ?');
+      values.push(notes);
+    }
+
+    if (updates.length === 0) {
+      return new Response(JSON.stringify({ error: 'No updates provided' }), {
+        status: 400,
+        headers: corsHeaders,
+      });
+    }
+
+    values.push(id as string);
+
+    await env.DB.prepare(`UPDATE submissions SET ${updates.join(', ')} WHERE id = ?`)
+      .bind(...values)
+      .run();
+
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: corsHeaders,
+    });
+  } catch (error) {
+    console.error('Submission update error:', error);
+    return new Response(JSON.stringify({ error: 'Failed to update submission' }), {
+      status: 500,
+      headers: corsHeaders,
+    });
+  }
+};
+
+// Delete submission
+export const DELETE: APIRoute = async ({ params, locals }) => {
+  const corsHeaders = {
+    'Content-Type': 'application/json',
+  };
+
+  try {
+    const env = locals.runtime?.env;
+    const user = locals.user;
+
+    if (!env?.DB) {
+      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+        status: 500,
+        headers: corsHeaders,
+      });
+    }
+
+    // Only admins and above can delete
+    if (!['superadmin', 'agency', 'admin'].includes(user?.role || '')) {
+      return new Response(JSON.stringify({ error: 'Permission denied' }), {
+        status: 403,
+        headers: corsHeaders,
+      });
+    }
+
+    const { id } = params;
+
+    // Check submission exists
+    const existing = await env.DB.prepare('SELECT id, resume_file_key FROM submissions WHERE id = ?')
+      .bind(id)
+      .first<{ id: string; resume_file_key: string | null }>();
+
+    if (!existing) {
+      return new Response(JSON.stringify({ error: 'Submission not found' }), {
+        status: 404,
+        headers: corsHeaders,
+      });
+    }
+
+    // Delete resume from R2 if exists
+    if (existing.resume_file_key && env.STORAGE) {
+      try {
+        await env.STORAGE.delete(existing.resume_file_key);
+      } catch (e) {
+        console.error('Failed to delete resume file:', e);
+      }
+    }
+
+    await env.DB.prepare('DELETE FROM submissions WHERE id = ?').bind(id).run();
+
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: corsHeaders,
+    });
+  } catch (error) {
+    console.error('Submission delete error:', error);
+    return new Response(JSON.stringify({ error: 'Failed to delete submission' }), {
+      status: 500,
+      headers: corsHeaders,
+    });
+  }
+};

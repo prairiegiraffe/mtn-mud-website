@@ -1,0 +1,492 @@
+---
+// Admin Submissions List
+export const prerender = false;
+
+import '~/assets/styles/tailwind.css';
+import type { Submission } from '~/lib/types';
+
+const env = Astro.locals.runtime?.env;
+const user = Astro.locals.user;
+const DB = env?.DB;
+
+// Get filter from URL
+const url = new URL(Astro.request.url);
+const typeFilter = url.searchParams.get('type') || '';
+const statusFilter = url.searchParams.get('status') || '';
+
+let submissions: Submission[] = [];
+let stats = { total: 0, new: 0, contact: 0, application: 0 };
+
+if (DB) {
+  try {
+    // Build query
+    let query = 'SELECT * FROM submissions WHERE 1=1';
+    const params: string[] = [];
+
+    if (typeFilter) {
+      query += ' AND type = ?';
+      params.push(typeFilter);
+    }
+
+    if (statusFilter) {
+      query += ' AND status = ?';
+      params.push(statusFilter);
+    }
+
+    query += ' ORDER BY created_at DESC LIMIT 100';
+
+    const result = await DB.prepare(query)
+      .bind(...params)
+      .all();
+    submissions = (result.results || []) as Submission[];
+
+    // Get stats
+    const statsResult = await DB.prepare(
+      `
+      SELECT
+        COUNT(*) as total,
+        SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count,
+        SUM(CASE WHEN type = 'contact' THEN 1 ELSE 0 END) as contact_count,
+        SUM(CASE WHEN type = 'application' THEN 1 ELSE 0 END) as application_count
+      FROM submissions
+    `
+    ).first<{ total: number; new_count: number; contact_count: number; application_count: number }>();
+
+    if (statsResult) {
+      stats = {
+        total: statsResult.total,
+        new: statsResult.new_count,
+        contact: statsResult.contact_count,
+        application: statsResult.application_count,
+      };
+    }
+  } catch (error) {
+    console.error('Submissions load error:', error);
+  }
+}
+
+const canEdit = user?.role !== 'viewer';
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submissions - Admin - MTN MUD</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-[#1a1a2e] text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center gap-8">
+            <a href="/admin" class="font-black text-xl text-[#ff6600]">MTN MUD</a>
+            <div class="hidden md:flex gap-6">
+              <a href="/admin" class="text-gray-300 hover:text-white">Dashboard</a>
+              <a href="/admin/products" class="text-gray-300 hover:text-white">Products</a>
+              <a href="/admin/jobs" class="text-gray-300 hover:text-white">Jobs</a>
+              <a href="/admin/submissions" class="text-white font-medium">Submissions</a>
+              {
+                (user?.role === 'superadmin' || user?.role === 'agency' || user?.role === 'admin') && (
+                  <a href="/admin/users" class="text-gray-300 hover:text-white">
+                    Users
+                  </a>
+                )
+              }
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-gray-400 text-sm">{user?.name}</span>
+            <a href="/api/admin/logout" class="text-gray-300 hover:text-white text-sm bg-gray-800 px-3 py-1.5 rounded">
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Header & Stats -->
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">Form Submissions</h1>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-white rounded-lg p-4 shadow">
+            <p class="text-sm text-gray-600">Total</p>
+            <p class="text-2xl font-bold text-gray-900">{stats.total}</p>
+          </div>
+          <div class="bg-white rounded-lg p-4 shadow">
+            <p class="text-sm text-gray-600">New</p>
+            <p class="text-2xl font-bold text-[#ff6600]">{stats.new}</p>
+          </div>
+          <div class="bg-white rounded-lg p-4 shadow">
+            <p class="text-sm text-gray-600">Contact Forms</p>
+            <p class="text-2xl font-bold text-gray-900">{stats.contact}</p>
+          </div>
+          <div class="bg-white rounded-lg p-4 shadow">
+            <p class="text-sm text-gray-600">Job Applications</p>
+            <p class="text-2xl font-bold text-gray-900">{stats.application}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="bg-white rounded-lg shadow p-4 mb-6 flex flex-wrap gap-4 items-center">
+        <span class="text-sm font-medium text-gray-700">Filter:</span>
+
+        <select id="typeFilter" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">All Types</option>
+          <option value="contact" selected={typeFilter === 'contact'}>Contact Forms</option>
+          <option value="application" selected={typeFilter === 'application'}>Job Applications</option>
+        </select>
+
+        <select id="statusFilter" class="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+          <option value="">All Statuses</option>
+          <option value="new" selected={statusFilter === 'new'}>New</option>
+          <option value="read" selected={statusFilter === 'read'}>Read</option>
+          <option value="archived" selected={statusFilter === 'archived'}>Archived</option>
+        </select>
+
+        <button id="applyFilters" class="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-700">
+          Apply
+        </button>
+
+        {
+          (typeFilter || statusFilter) && (
+            <a href="/admin/submissions" class="text-sm text-gray-600 hover:text-gray-800">
+              Clear filters
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Submissions Table -->
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+        <table class="w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            {
+              submissions.map((sub) => (
+                <tr class={`hover:bg-gray-50 ${sub.status === 'new' ? 'bg-orange-50' : ''}`}>
+                  <td class="px-6 py-4 text-sm text-gray-600">{formatDate(sub.created_at)}</td>
+                  <td class="px-6 py-4">
+                    <span
+                      class={`inline-flex px-2 py-1 text-xs font-medium rounded ${
+                        sub.type === 'contact' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'
+                      }`}
+                    >
+                      {sub.type === 'contact' ? 'Contact' : 'Application'}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 font-medium text-gray-900">{sub.name}</td>
+                  <td class="px-6 py-4">
+                    <div class="text-sm text-gray-900">{sub.email}</div>
+                    {sub.phone && <div class="text-sm text-gray-500">{sub.phone}</div>}
+                  </td>
+                  <td class="px-6 py-4">
+                    <span
+                      class={`inline-flex px-2 py-1 text-xs font-medium rounded ${
+                        sub.status === 'new'
+                          ? 'bg-orange-100 text-orange-800'
+                          : sub.status === 'read'
+                            ? 'bg-gray-100 text-gray-800'
+                            : 'bg-gray-200 text-gray-600'
+                      }`}
+                    >
+                      {sub.status}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <button
+                      class="text-[#ff6600] hover:text-[#ff7700] font-medium view-btn"
+                      data-id={sub.id}
+                      data-submission={JSON.stringify(sub)}
+                    >
+                      View
+                    </button>
+                    {canEdit && (
+                      <button class="text-red-600 hover:text-red-700 font-medium ml-3 delete-btn" data-id={sub.id}>
+                        Delete
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+
+        {
+          submissions.length === 0 && (
+            <div class="px-6 py-12 text-center text-gray-500">
+              <p>No submissions found</p>
+            </div>
+          )
+        }
+      </div>
+    </main>
+
+    <!-- Submission Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 id="modalTitle" class="text-lg font-semibold text-gray-900">Submission Details</h2>
+          <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="p-6 space-y-6">
+          <!-- Submission Info -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Type</label>
+              <p id="detailType" class="mt-1 text-gray-900"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Date</label>
+              <p id="detailDate" class="mt-1 text-gray-900"></p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Name</label>
+              <p id="detailName" class="mt-1 text-gray-900"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Company</label>
+              <p id="detailCompany" class="mt-1 text-gray-900"></p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Email</label>
+              <p id="detailEmail" class="mt-1">
+                <a href="#" class="text-[#ff6600] hover:text-[#ff7700]"></a>
+              </p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Phone</label>
+              <p id="detailPhone" class="mt-1 text-gray-900"></p>
+            </div>
+          </div>
+
+          <!-- Job-specific fields -->
+          <div id="jobFields" class="hidden space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Position Applied For</label>
+              <p id="detailPosition" class="mt-1 text-gray-900"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Resume</label>
+              <p id="detailResume" class="mt-1"></p>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">Message</label>
+            <div id="detailMessage" class="mt-1 text-gray-900 bg-gray-50 p-4 rounded-lg whitespace-pre-wrap"></div>
+          </div>
+
+          <!-- Admin Notes -->
+          {
+            canEdit && (
+              <div>
+                <label class="block text-sm font-medium text-gray-500 mb-1">Admin Notes</label>
+                <textarea
+                  id="detailNotes"
+                  rows="3"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+                  placeholder="Add internal notes..."
+                />
+              </div>
+            )
+          }
+
+          <!-- Status Update -->
+          {
+            canEdit && (
+              <div class="flex items-center gap-4 pt-4 border-t border-gray-200">
+                <label class="text-sm font-medium text-gray-700">Status:</label>
+                <select
+                  id="detailStatus"
+                  class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+                >
+                  <option value="new">New</option>
+                  <option value="read">Read</option>
+                  <option value="archived">Archived</option>
+                </select>
+                <button
+                  id="saveChanges"
+                  class="px-4 py-2 bg-[#ff6600] hover:bg-[#ff7700] text-white rounded-lg font-medium"
+                >
+                  Save Changes
+                </button>
+              </div>
+            )
+          }
+        </div>
+      </div>
+    </div>
+
+    <script define:vars={{ canEdit }}>
+      // Filter handling
+      document.getElementById('applyFilters')?.addEventListener('click', () => {
+        const type = document.getElementById('typeFilter').value;
+        const status = document.getElementById('statusFilter').value;
+
+        const params = new URLSearchParams();
+        if (type) params.set('type', type);
+        if (status) params.set('status', status);
+
+        const queryString = params.toString();
+        window.location.href = '/admin/submissions' + (queryString ? '?' + queryString : '');
+      });
+
+      // Modal handling
+      const modal = document.getElementById('detailModal');
+      let currentSubmissionId = null;
+
+      function closeModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        currentSubmissionId = null;
+      }
+
+      document.getElementById('closeModal')?.addEventListener('click', closeModal);
+
+      // View buttons
+      document.querySelectorAll('.view-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const sub = JSON.parse(btn.dataset.submission);
+          currentSubmissionId = sub.id;
+
+          // Populate modal
+          document.getElementById('detailType').textContent =
+            sub.type === 'contact' ? 'Contact Form' : 'Job Application';
+          document.getElementById('detailDate').textContent = new Date(sub.created_at).toLocaleString();
+          document.getElementById('detailName').textContent = sub.name;
+          document.getElementById('detailCompany').textContent = sub.company || '-';
+
+          const emailLink = document.querySelector('#detailEmail a');
+          emailLink.href = 'mailto:' + sub.email;
+          emailLink.textContent = sub.email;
+
+          document.getElementById('detailPhone').textContent = sub.phone || '-';
+          document.getElementById('detailMessage').textContent = sub.message || '-';
+
+          // Job fields
+          const jobFields = document.getElementById('jobFields');
+          if (sub.type === 'application') {
+            jobFields.classList.remove('hidden');
+            document.getElementById('detailPosition').textContent = sub.job_title || '-';
+
+            const resumeEl = document.getElementById('detailResume');
+            if (sub.resume_file_key) {
+              resumeEl.innerHTML = `<a href="/api/admin/files/${sub.resume_file_key}" target="_blank" class="text-[#ff6600] hover:text-[#ff7700]">Download Resume</a>`;
+            } else {
+              resumeEl.textContent = 'No resume uploaded';
+            }
+          } else {
+            jobFields.classList.add('hidden');
+          }
+
+          if (canEdit) {
+            document.getElementById('detailNotes').value = sub.notes || '';
+            document.getElementById('detailStatus').value = sub.status;
+          }
+
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+
+          // Mark as read if new
+          if (sub.status === 'new' && canEdit) {
+            try {
+              await fetch(`/api/admin/submissions/${sub.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: 'read' }),
+              });
+            } catch (e) {
+              console.error('Failed to mark as read:', e);
+            }
+          }
+        });
+      });
+
+      // Save changes
+      if (canEdit) {
+        document.getElementById('saveChanges')?.addEventListener('click', async () => {
+          if (!currentSubmissionId) return;
+
+          const status = document.getElementById('detailStatus').value;
+          const notes = document.getElementById('detailNotes').value;
+
+          try {
+            const response = await fetch(`/api/admin/submissions/${currentSubmissionId}`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ status, notes }),
+            });
+
+            if (response.ok) {
+              window.location.reload();
+            } else {
+              const data = await response.json();
+              alert(data.error || 'Failed to save changes');
+            }
+          } catch {
+            alert('Connection error');
+          }
+        });
+      }
+
+      // Delete buttons
+      document.querySelectorAll('.delete-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          if (!confirm('Are you sure you want to delete this submission? This cannot be undone.')) return;
+
+          try {
+            const response = await fetch(`/api/admin/submissions/${btn.dataset.id}`, {
+              method: 'DELETE',
+            });
+
+            if (response.ok) {
+              window.location.reload();
+            } else {
+              const data = await response.json();
+              alert(data.error || 'Failed to delete submission');
+            }
+          } catch {
+            alert('Failed to delete submission');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

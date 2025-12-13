@@ -1,7 +1,10 @@
 ---
+// Products page - fetches from D1 database
+export const prerender = false;
+
 import Layout from '~/layouts/PageLayout.astro';
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
+import type { Product } from '~/lib/types';
 
 // Import images
 import industrialStorageTanks from '~/assets/images/new/Industrial Storage Tanks.webp';
@@ -13,29 +16,54 @@ const metadata = {
     'Premium products for every drilling challenge. Over 2 million pounds of bulk barite and 20,000+ barrels of OBM in stock.',
 };
 
-// Get all products from the collection
-const allProducts = await getCollection('products');
+// Get runtime environment
+const env = Astro.locals.runtime?.env;
+const DB = env?.DB;
 
-// Group products by category and sort by order
-const productsByCategory = allProducts.reduce(
-  (acc, product) => {
-    const category = product.data.category;
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-    acc[category].push(product);
-    return acc;
-  },
-  {} as Record<string, typeof allProducts>
-);
+// Type for our grouped products
+type ProductItem = {
+  title: string;
+  size: string | null;
+  pdf: string | null;
+  sort_order: number;
+};
 
-// Sort products within each category by order
-Object.keys(productsByCategory).forEach((category) => {
-  productsByCategory[category].sort((a, b) => a.data.order - b.data.order);
-});
+let productsByCategory: Record<string, ProductItem[]> = {};
+let categories: string[] = [];
 
-// Get category names sorted alphabetically
-const categories = Object.keys(productsByCategory).sort();
+if (DB) {
+  try {
+    // Fetch products with category names
+    const result = await DB.prepare(
+      `
+      SELECT p.*, c.name as category_name
+      FROM products p
+      LEFT JOIN categories c ON p.category_id = c.id
+      ORDER BY c.sort_order, c.name, p.sort_order, p.title
+    `
+    ).all();
+
+    const products = (result.results || []) as (Product & { category_name: string })[];
+
+    // Group by category
+    products.forEach((product) => {
+      const categoryName = product.category_name || 'Uncategorized';
+      if (!productsByCategory[categoryName]) {
+        productsByCategory[categoryName] = [];
+      }
+      productsByCategory[categoryName].push({
+        title: product.title,
+        size: product.size,
+        pdf: product.pdf_url,
+        sort_order: product.sort_order,
+      });
+    });
+
+    categories = Object.keys(productsByCategory).sort();
+  } catch (error) {
+    console.error('Products fetch error:', error);
+  }
+}
 ---
 
 <Layout metadata={metadata}>
@@ -186,12 +214,12 @@ const categories = Object.keys(productsByCategory).sort();
                   <tbody class="divide-y divide-charcoal-700">
                     {productsByCategory[category].map((product, idx) => (
                       <tr class={idx % 2 === 0 ? 'bg-charcoal-800' : 'bg-charcoal-700'}>
-                        <td class="px-6 py-4 font-bold text-white">{product.data.title}</td>
-                        <td class="px-6 py-4 text-warm-gray-200 font-medium">{product.data.size || '-'}</td>
+                        <td class="px-6 py-4 font-bold text-white">{product.title}</td>
+                        <td class="px-6 py-4 text-warm-gray-200 font-medium">{product.size || '-'}</td>
                         <td class="px-6 py-4">
-                          {product.data.pdf ? (
+                          {product.pdf ? (
                             <a
-                              href={product.data.pdf}
+                              href={product.pdf}
                               class="text-safety-orange hover:text-safety-orange-700 font-bold inline-flex items-center gap-2 hover:underline transition-all"
                               target="_blank"
                               rel="noopener noreferrer"

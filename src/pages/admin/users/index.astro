@@ -1,0 +1,434 @@
+---
+// Admin Users Management
+export const prerender = false;
+
+import '~/assets/styles/tailwind.css';
+import type { AdminUser } from '~/lib/types';
+import { canManageUsers } from '~/lib/auth';
+
+const env = Astro.locals.runtime?.env;
+const user = Astro.locals.user;
+const DB = env?.DB;
+
+// Check permissions
+if (!canManageUsers(user?.role)) {
+  return Astro.redirect('/admin');
+}
+
+let users: Omit<AdminUser, 'password_hash'>[] = [];
+
+if (DB) {
+  try {
+    let query = `
+      SELECT id, email, name, role, notify_contact, notify_applications, last_login, created_at
+      FROM admin_users
+    `;
+
+    // Role-based filtering
+    if (user?.role === 'agency') {
+      query += ` WHERE role IN ('agency', 'admin', 'viewer')`;
+    } else if (user?.role === 'admin') {
+      query += ` WHERE role IN ('admin', 'viewer')`;
+    }
+
+    query += ' ORDER BY role, name';
+
+    const result = await DB.prepare(query).all();
+    users = (result.results || []) as Omit<AdminUser, 'password_hash'>[];
+  } catch (error) {
+    console.error('Users load error:', error);
+  }
+}
+
+// Determine which roles this user can create
+const roleHierarchy = { superadmin: 4, agency: 3, admin: 2, viewer: 1 };
+const userLevel = roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0;
+
+const availableRoles = Object.entries(roleHierarchy)
+  .filter(([, level]) => level <= userLevel)
+  .filter(([role]) => role !== 'superadmin' || user?.role === 'superadmin')
+  .map(([role]) => role);
+
+function formatDate(dateStr: string | null) {
+  if (!dateStr) return 'Never';
+  return new Date(dateStr).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+function getRoleLabel(role: string) {
+  const labels: Record<string, string> = {
+    superadmin: 'Super Admin',
+    agency: 'Agency',
+    admin: 'Admin',
+    viewer: 'Viewer',
+  };
+  return labels[role] || role;
+}
+
+function getRoleColor(role: string) {
+  const colors: Record<string, string> = {
+    superadmin: 'bg-purple-100 text-purple-800',
+    agency: 'bg-blue-100 text-blue-800',
+    admin: 'bg-green-100 text-green-800',
+    viewer: 'bg-gray-100 text-gray-800',
+  };
+  return colors[role] || 'bg-gray-100 text-gray-800';
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users - Admin - MTN MUD</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-[#1a1a2e] text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center gap-8">
+            <a href="/admin" class="font-black text-xl text-[#ff6600]">MTN MUD</a>
+            <div class="hidden md:flex gap-6">
+              <a href="/admin" class="text-gray-300 hover:text-white">Dashboard</a>
+              <a href="/admin/products" class="text-gray-300 hover:text-white">Products</a>
+              <a href="/admin/jobs" class="text-gray-300 hover:text-white">Jobs</a>
+              <a href="/admin/submissions" class="text-gray-300 hover:text-white">Submissions</a>
+              <a href="/admin/users" class="text-white font-medium">Users</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="text-gray-400 text-sm">{user?.name}</span>
+            <a href="/api/admin/logout" class="text-gray-300 hover:text-white text-sm bg-gray-800 px-3 py-1.5 rounded">
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-8">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">User Management</h1>
+          <p class="text-gray-600">{users.length} users</p>
+        </div>
+        <button
+          id="addUserBtn"
+          class="bg-[#ff6600] hover:bg-[#ff7700] text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          Add User
+        </button>
+      </div>
+
+      <!-- Role Hierarchy Info -->
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+        <h3 class="font-medium text-blue-800 mb-2">Role Hierarchy</h3>
+        <ul class="text-sm text-blue-700 space-y-1">
+          <li><strong>Super Admin:</strong> Full access, can manage all users</li>
+          <li><strong>Agency:</strong> Can manage agency users, admins, and viewers</li>
+          <li><strong>Admin:</strong> Can manage products, jobs, and viewer accounts</li>
+          <li><strong>Viewer:</strong> Read-only access to admin dashboard</li>
+        </ul>
+      </div>
+
+      <!-- Users Table -->
+      <div class="bg-white rounded-xl shadow overflow-hidden">
+        <table class="w-full">
+          <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >Notifications</th
+              >
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Login</th>
+              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200">
+            {
+              users.map((u) => {
+                const canEditUser =
+                  user?.id === u.id ||
+                  (roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0) >
+                    (roleHierarchy[u.role as keyof typeof roleHierarchy] || 0);
+                const canDeleteUser =
+                  user?.id !== u.id &&
+                  (roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0) >
+                    (roleHierarchy[u.role as keyof typeof roleHierarchy] || 0);
+
+                return (
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4">
+                      <div class="font-medium text-gray-900">
+                        {u.name}
+                        {u.id === user?.id && (
+                          <span class="ml-2 text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">You</span>
+                        )}
+                      </div>
+                      <div class="text-sm text-gray-500">{u.email}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                      <span class={`inline-flex px-2 py-1 text-xs font-medium rounded ${getRoleColor(u.role)}`}>
+                        {getRoleLabel(u.role)}
+                      </span>
+                    </td>
+                    <td class="px-6 py-4">
+                      <div class="flex gap-2">
+                        {u.notify_contact === 1 && (
+                          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Contact</span>
+                        )}
+                        {u.notify_applications === 1 && (
+                          <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Applications</span>
+                        )}
+                        {u.notify_contact !== 1 && u.notify_applications !== 1 && (
+                          <span class="text-xs text-gray-400">None</span>
+                        )}
+                      </div>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600 text-sm">{formatDate(u.last_login)}</td>
+                    <td class="px-6 py-4 text-right">
+                      {canEditUser && (
+                        <button
+                          class="text-[#ff6600] hover:text-[#ff7700] font-medium mr-3 edit-btn"
+                          data-id={u.id}
+                          data-user={JSON.stringify(u)}
+                        >
+                          Edit
+                        </button>
+                      )}
+                      {canDeleteUser && (
+                        <button class="text-red-600 hover:text-red-700 font-medium delete-btn" data-id={u.id}>
+                          Delete
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
+        </table>
+
+        {
+          users.length === 0 && (
+            <div class="px-6 py-12 text-center text-gray-500">
+              <p>No users found</p>
+            </div>
+          )
+        }
+      </div>
+    </main>
+
+    <!-- User Modal -->
+    <div id="userModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 id="modalTitle" class="text-lg font-semibold text-gray-900">Add User</h2>
+          <button id="closeModal" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form id="userForm" class="p-6 space-y-4">
+          <input type="hidden" id="userId" />
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+            <input
+              type="text"
+              id="userName"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+            <input
+              type="email"
+              id="userEmail"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Password <span id="passwordHint" class="text-gray-400 font-normal">(leave blank to keep current)</span>
+            </label>
+            <input
+              type="password"
+              id="userPassword"
+              minlength="8"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Role *</label>
+            <select
+              id="userRole"
+              required
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            >
+              {availableRoles.map((role) => <option value={role}>{getRoleLabel(role)}</option>)}
+            </select>
+          </div>
+
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700">Email Notifications</label>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="notifyContact" class="w-4 h-4 text-[#ff6600] rounded" />
+              <label for="notifyContact" class="text-sm text-gray-700">Contact form submissions</label>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="notifyApplications" class="w-4 h-4 text-[#ff6600] rounded" />
+              <label for="notifyApplications" class="text-sm text-gray-700">Job applications</label>
+            </div>
+          </div>
+
+          <div id="errorMessage" class="hidden text-red-600 text-sm bg-red-50 p-3 rounded-lg"></div>
+
+          <div class="flex justify-end gap-3 pt-4">
+            <button type="button" id="cancelBtn" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 bg-[#ff6600] hover:bg-[#ff7700] text-white rounded-lg font-medium">
+              Save User
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script define:vars={{ currentUserId: user?.id }}>
+      const modal = document.getElementById('userModal');
+      const form = document.getElementById('userForm');
+      const errorMessage = document.getElementById('errorMessage');
+      const passwordHint = document.getElementById('passwordHint');
+
+      // Open add modal
+      document.getElementById('addUserBtn')?.addEventListener('click', () => {
+        document.getElementById('modalTitle').textContent = 'Add User';
+        document.getElementById('userId').value = '';
+        form.reset();
+        passwordHint.classList.add('hidden');
+        document.getElementById('userPassword').required = true;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      });
+
+      // Edit buttons
+      document.querySelectorAll('.edit-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const u = JSON.parse(btn.dataset.user);
+          document.getElementById('modalTitle').textContent = 'Edit User';
+          document.getElementById('userId').value = u.id;
+          document.getElementById('userName').value = u.name;
+          document.getElementById('userEmail').value = u.email;
+          document.getElementById('userPassword').value = '';
+          document.getElementById('userRole').value = u.role;
+          document.getElementById('notifyContact').checked = u.notify_contact === 1;
+          document.getElementById('notifyApplications').checked = u.notify_applications === 1;
+
+          passwordHint.classList.remove('hidden');
+          document.getElementById('userPassword').required = false;
+
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+        });
+      });
+
+      // Delete buttons
+      document.querySelectorAll('.delete-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          // Prevent users from deleting themselves
+          if (btn.dataset.id === currentUserId) {
+            alert('You cannot delete your own account');
+            return;
+          }
+          if (!confirm('Are you sure you want to delete this user? This cannot be undone.')) return;
+
+          try {
+            const response = await fetch(`/api/admin/users/${btn.dataset.id}`, {
+              method: 'DELETE',
+            });
+            if (response.ok) {
+              window.location.reload();
+            } else {
+              const data = await response.json();
+              alert(data.error || 'Failed to delete user');
+            }
+          } catch {
+            alert('Failed to delete user');
+          }
+        });
+      });
+
+      // Close modal
+      function closeModal() {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        errorMessage.classList.add('hidden');
+      }
+
+      document.getElementById('closeModal')?.addEventListener('click', closeModal);
+      document.getElementById('cancelBtn')?.addEventListener('click', closeModal);
+
+      // Submit form
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorMessage.classList.add('hidden');
+
+        const id = document.getElementById('userId').value;
+        const data = {
+          name: document.getElementById('userName').value,
+          email: document.getElementById('userEmail').value,
+          role: document.getElementById('userRole').value,
+          notify_contact: document.getElementById('notifyContact').checked,
+          notify_applications: document.getElementById('notifyApplications').checked,
+        };
+
+        const password = document.getElementById('userPassword').value;
+        if (password) {
+          data.password = password;
+        }
+
+        try {
+          const url = id ? `/api/admin/users/${id}` : '/api/admin/users';
+          const method = id ? 'PUT' : 'POST';
+
+          const response = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+
+          if (response.ok && (result.success || result.user)) {
+            window.location.reload();
+          } else {
+            errorMessage.textContent = result.error || 'Failed to save user';
+            errorMessage.classList.remove('hidden');
+          }
+        } catch {
+          errorMessage.textContent = 'Connection error';
+          errorMessage.classList.remove('hidden');
+        }
+      });
+    </script>
+  </body>
+</html>
