@@ -95,12 +95,12 @@ export default defineConfig({
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
-        // Fix React SSR for Cloudflare Workers (MessageChannel not available)
-        'react-dom/server': 'react-dom/server.browser',
+        // Fix React 19 SSR for Cloudflare Workers (MessageChannel not available)
+        // Use edge version instead of browser version which requires MessageChannel
+        ...(process.env.NODE_ENV === 'production' && {
+          'react-dom/server': 'react-dom/server.edge',
+        }),
       },
-    },
-    ssr: {
-      external: ['react-dom/server'],
     },
   },
 });
