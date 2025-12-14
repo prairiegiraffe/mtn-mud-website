@@ -95,7 +95,12 @@ export default defineConfig({
     resolve: {
       alias: {
         '~': path.resolve(__dirname, './src'),
+        // Fix React SSR for Cloudflare Workers (MessageChannel not available)
+        'react-dom/server': 'react-dom/server.browser',
       },
+    },
+    ssr: {
+      external: ['react-dom/server'],
     },
   },
 });
