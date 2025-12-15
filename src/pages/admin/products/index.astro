@@ -398,7 +398,7 @@ const canEdit = user?.role !== 'viewer';
           const id = document.getElementById('productId').value;
           const data = {
             title: document.getElementById('productTitle').value,
-            category_id: parseInt(document.getElementById('productCategory').value),
+            category_id: document.getElementById('productCategory').value,
             size: document.getElementById('productSize').value,
             sort_order: parseInt(document.getElementById('productOrder').value) || 0,
             description: document.getElementById('productDescription').value,
