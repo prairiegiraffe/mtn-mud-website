@@ -104,6 +104,9 @@ CREATE TABLE IF NOT EXISTS admin_users (
   -- Role hierarchy: superadmin > agency > admin > viewer
   role TEXT NOT NULL DEFAULT 'admin' CHECK (role IN ('superadmin', 'agency', 'admin', 'viewer')),
 
+  -- Account status
+  is_active INTEGER DEFAULT 1,
+
   -- Email notification preferences
   notify_contact INTEGER DEFAULT 0,
   notify_applications INTEGER DEFAULT 0,
