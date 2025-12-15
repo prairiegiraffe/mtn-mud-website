@@ -1,6 +1,6 @@
 // User Detail API
 import type { APIRoute } from 'astro';
-import { hashPassword, canManageUsers } from '~/lib/auth';
+import { hashPassword, canManageUsers, getTokenFromRequest, verifyToken, validateSession } from '~/lib/auth';
 
 export const prerender = false;
 
@@ -12,23 +12,35 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
 
   try {
     const env = locals.runtime?.env;
-    const user = locals.user;
 
-    if (!env?.DB) {
-      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+    if (!env?.DB || !env?.JWT_SECRET) {
+      return new Response(JSON.stringify({ error: 'Server not configured' }), {
         status: 500,
         headers: corsHeaders,
       });
     }
 
+    // Verify auth
+    const token = getTokenFromRequest(request);
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+    }
+
+    const payload = await verifyToken(token, env.JWT_SECRET);
+    const sessionValid = await validateSession(env.DB, payload.jti);
+    if (!sessionValid) {
+      return new Response(JSON.stringify({ error: 'Session expired' }), { status: 401, headers: corsHeaders });
+    }
+
     // Only superadmin, agency, and admin can update users
-    if (!canManageUsers(user?.role)) {
+    if (!canManageUsers(payload.role)) {
       return new Response(JSON.stringify({ error: 'Permission denied' }), {
         status: 403,
         headers: corsHeaders,
       });
     }
 
+    const user = payload;
     const { id } = params;
     const { email, name, password, role, notify_contact, notify_applications } = await request.json();
 
@@ -46,11 +58,11 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
 
     // Check role hierarchy - users can only edit users at their level or below
     const roleHierarchy = { superadmin: 4, agency: 3, admin: 2, viewer: 1 };
-    const currentUserLevel = roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0;
+    const currentUserLevel = roleHierarchy[user.role as keyof typeof roleHierarchy] || 0;
     const existingUserLevel = roleHierarchy[existing.role as keyof typeof roleHierarchy] || 0;
 
     // Cannot edit users with higher or equal role (unless it's yourself)
-    if (existingUserLevel >= currentUserLevel && existing.id !== user?.id) {
+    if (existingUserLevel >= currentUserLevel && existing.id !== user.sub) {
       return new Response(JSON.stringify({ error: 'Cannot edit user with equal or higher role' }), {
         status: 403,
         headers: corsHeaders,
@@ -78,7 +90,7 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
       }
 
       // Only superadmin can assign superadmin role
-      if (role === 'superadmin' && user?.role !== 'superadmin') {
+      if (role === 'superadmin' && user.role !== 'superadmin') {
         return new Response(JSON.stringify({ error: 'Only superadmins can assign superadmin role' }), {
           status: 403,
           headers: corsHeaders,
@@ -162,34 +174,46 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
 };
 
 // Delete user
-export const DELETE: APIRoute = async ({ params, locals }) => {
+export const DELETE: APIRoute = async ({ params, request, locals }) => {
   const corsHeaders = {
     'Content-Type': 'application/json',
   };
 
   try {
     const env = locals.runtime?.env;
-    const user = locals.user;
 
-    if (!env?.DB) {
-      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+    if (!env?.DB || !env?.JWT_SECRET) {
+      return new Response(JSON.stringify({ error: 'Server not configured' }), {
         status: 500,
         headers: corsHeaders,
       });
     }
 
+    // Verify auth
+    const token = getTokenFromRequest(request);
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+    }
+
+    const payload = await verifyToken(token, env.JWT_SECRET);
+    const sessionValid = await validateSession(env.DB, payload.jti);
+    if (!sessionValid) {
+      return new Response(JSON.stringify({ error: 'Session expired' }), { status: 401, headers: corsHeaders });
+    }
+
     // Only superadmin, agency, and admin can delete users
-    if (!canManageUsers(user?.role)) {
+    if (!canManageUsers(payload.role)) {
       return new Response(JSON.stringify({ error: 'Permission denied' }), {
         status: 403,
         headers: corsHeaders,
       });
     }
 
+    const user = payload;
     const { id } = params;
 
     // Cannot delete yourself
-    if (id === user?.id) {
+    if (id === user.sub) {
       return new Response(JSON.stringify({ error: 'Cannot delete your own account' }), {
         status: 400,
         headers: corsHeaders,
@@ -210,7 +234,7 @@ export const DELETE: APIRoute = async ({ params, locals }) => {
 
     // Check role hierarchy
     const roleHierarchy = { superadmin: 4, agency: 3, admin: 2, viewer: 1 };
-    const currentUserLevel = roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0;
+    const currentUserLevel = roleHierarchy[user.role as keyof typeof roleHierarchy] || 0;
     const existingUserLevel = roleHierarchy[existing.role as keyof typeof roleHierarchy] || 0;
 
     // Cannot delete users with higher or equal role

@@ -1,34 +1,47 @@
 // Users List/Create API
 import type { APIRoute } from 'astro';
 import type { AdminUser } from '~/lib/types';
-import { hashPassword, canManageUsers } from '~/lib/auth';
+import { hashPassword, canManageUsers, getTokenFromRequest, verifyToken, validateSession } from '~/lib/auth';
 
 export const prerender = false;
 
 // Get all users
-export const GET: APIRoute = async ({ locals }) => {
+export const GET: APIRoute = async ({ request, locals }) => {
   const corsHeaders = {
     'Content-Type': 'application/json',
   };
 
   try {
     const env = locals.runtime?.env;
-    const user = locals.user;
 
-    if (!env?.DB) {
-      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+    if (!env?.DB || !env?.JWT_SECRET) {
+      return new Response(JSON.stringify({ error: 'Server not configured' }), {
         status: 500,
         headers: corsHeaders,
       });
     }
 
+    // Verify auth
+    const token = getTokenFromRequest(request);
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+    }
+
+    const payload = await verifyToken(token, env.JWT_SECRET);
+    const sessionValid = await validateSession(env.DB, payload.jti);
+    if (!sessionValid) {
+      return new Response(JSON.stringify({ error: 'Session expired' }), { status: 401, headers: corsHeaders });
+    }
+
     // Only superadmin, agency, and admin can view users
-    if (!canManageUsers(user?.role)) {
+    if (!canManageUsers(payload.role)) {
       return new Response(JSON.stringify({ error: 'Permission denied' }), {
         status: 403,
         headers: corsHeaders,
       });
     }
+
+    const user = payload;
 
     // Build query based on role hierarchy
     let query = `
@@ -71,22 +84,35 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   try {
     const env = locals.runtime?.env;
-    const user = locals.user;
 
-    if (!env?.DB) {
-      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+    if (!env?.DB || !env?.JWT_SECRET) {
+      return new Response(JSON.stringify({ error: 'Server not configured' }), {
         status: 500,
         headers: corsHeaders,
       });
     }
 
+    // Verify auth
+    const token = getTokenFromRequest(request);
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+    }
+
+    const payload = await verifyToken(token, env.JWT_SECRET);
+    const sessionValid = await validateSession(env.DB, payload.jti);
+    if (!sessionValid) {
+      return new Response(JSON.stringify({ error: 'Session expired' }), { status: 401, headers: corsHeaders });
+    }
+
     // Only superadmin, agency, and admin can create users
-    if (!canManageUsers(user?.role)) {
+    if (!canManageUsers(payload.role)) {
       return new Response(JSON.stringify({ error: 'Permission denied' }), {
         status: 403,
         headers: corsHeaders,
       });
     }
+
+    const user = payload;
 
     const { email, name, password, role, notify_contact, notify_applications } = await request.json();
 
