@@ -107,9 +107,21 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   } catch (error) {
     console.error('Login error:', error);
-    return new Response(JSON.stringify({ success: false, error: 'Server error' }), {
-      status: 500,
-      headers: corsHeaders,
-    });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'Server error',
+        debug: {
+          message: errorMessage,
+          stack: errorStack,
+        },
+      }),
+      {
+        status: 500,
+        headers: corsHeaders,
+      }
+    );
   }
 };
