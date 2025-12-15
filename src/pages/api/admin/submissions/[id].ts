@@ -1,6 +1,7 @@
 // Submission Detail API
 import type { APIRoute } from 'astro';
 import type { Submission } from '~/lib/types';
+import { getTokenFromRequest, verifyToken, validateSession } from '~/lib/auth';
 
 export const prerender = false;
 
@@ -52,17 +53,28 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
 
   try {
     const env = locals.runtime?.env;
-    const user = locals.user;
 
-    if (!env?.DB) {
-      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+    if (!env?.DB || !env?.JWT_SECRET) {
+      return new Response(JSON.stringify({ error: 'Server not configured' }), {
         status: 500,
         headers: corsHeaders,
       });
     }
 
+    // Verify auth
+    const token = getTokenFromRequest(request);
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+    }
+
+    const payload = await verifyToken(token, env.JWT_SECRET);
+    const sessionValid = await validateSession(env.DB, payload.jti);
+    if (!sessionValid) {
+      return new Response(JSON.stringify({ error: 'Session expired' }), { status: 401, headers: corsHeaders });
+    }
+
     // Viewers cannot modify
-    if (user?.role === 'viewer') {
+    if (payload.role === 'viewer') {
       return new Response(JSON.stringify({ error: 'Permission denied' }), {
         status: 403,
         headers: corsHeaders,
@@ -131,24 +143,35 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
 };
 
 // Delete submission
-export const DELETE: APIRoute = async ({ params, locals }) => {
+export const DELETE: APIRoute = async ({ params, request, locals }) => {
   const corsHeaders = {
     'Content-Type': 'application/json',
   };
 
   try {
     const env = locals.runtime?.env;
-    const user = locals.user;
 
-    if (!env?.DB) {
-      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+    if (!env?.DB || !env?.JWT_SECRET) {
+      return new Response(JSON.stringify({ error: 'Server not configured' }), {
         status: 500,
         headers: corsHeaders,
       });
     }
 
+    // Verify auth
+    const token = getTokenFromRequest(request);
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+    }
+
+    const payload = await verifyToken(token, env.JWT_SECRET);
+    const sessionValid = await validateSession(env.DB, payload.jti);
+    if (!sessionValid) {
+      return new Response(JSON.stringify({ error: 'Session expired' }), { status: 401, headers: corsHeaders });
+    }
+
     // Only admins and above can delete
-    if (!['superadmin', 'agency', 'admin'].includes(user?.role || '')) {
+    if (!['superadmin', 'agency', 'admin'].includes(payload.role)) {
       return new Response(JSON.stringify({ error: 'Permission denied' }), {
         status: 403,
         headers: corsHeaders,
