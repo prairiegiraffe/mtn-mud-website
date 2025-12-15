@@ -137,7 +137,15 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
     return new Response(JSON.stringify({ success: true, data: product }), { status: 200, headers });
   } catch (error) {
     console.error('Product update error:', error);
-    return new Response(JSON.stringify({ success: false, error: 'Server error' }), { status: 500, headers });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'Server error',
+        debug: { message: errorMessage },
+      }),
+      { status: 500, headers }
+    );
   }
 };
 
