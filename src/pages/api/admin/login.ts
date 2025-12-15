@@ -21,10 +21,28 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const env = locals.runtime?.env;
 
     if (!env?.DB || !env?.JWT_SECRET) {
-      return new Response(JSON.stringify({ success: false, error: 'Server not configured' }), {
-        status: 500,
-        headers: corsHeaders,
+      console.error('Missing env bindings:', {
+        hasRuntime: !!locals.runtime,
+        hasEnv: !!env,
+        hasDB: !!env?.DB,
+        hasJWT: !!env?.JWT_SECRET,
       });
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: 'Server not configured',
+          debug: {
+            hasRuntime: !!locals.runtime,
+            hasEnv: !!env,
+            hasDB: !!env?.DB,
+            hasJWT: !!env?.JWT_SECRET,
+          },
+        }),
+        {
+          status: 500,
+          headers: corsHeaders,
+        }
+      );
     }
 
     const { email, password } = await request.json();
