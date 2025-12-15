@@ -68,10 +68,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     let jobTitle: string | null = null;
 
     if (position && position !== 'general-application') {
-      const job = await env.DB.prepare('SELECT id, title FROM jobs WHERE id = ?').bind(position).first();
+      const job = await env.DB.prepare('SELECT id, title FROM jobs WHERE id = ?').bind(position).first<{ id: string; title: string }>();
       if (job) {
-        jobId = job.id as string;
-        jobTitle = job.title as string;
+        jobId = job.id;
+        jobTitle = job.title;
       } else {
         // Position might be a title string
         jobTitle = position;
@@ -127,7 +127,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
                 name: fullName,
                 email,
                 phone,
-                jobTitle,
+                job_title: jobTitle,
                 preferredLocation: location,
                 yearsExperience,
                 education,

@@ -71,7 +71,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     await env.STORAGE.put(key, arrayBuffer, {
       httpMetadata: {
         contentType: 'application/pdf',
+      },
+      customMetadata: {
         contentDisposition: `inline; filename="${file.name}"`,
+        originalFilename: file.name,
       },
     });
 

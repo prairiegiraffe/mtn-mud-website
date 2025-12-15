@@ -24,7 +24,7 @@ export const GET: APIRoute = async ({ params, locals }) => {
 
     const headers = new Headers();
     headers.set('Content-Type', object.httpMetadata?.contentType || 'application/pdf');
-    headers.set('Content-Disposition', object.httpMetadata?.contentDisposition || 'inline');
+    headers.set('Content-Disposition', object.customMetadata?.contentDisposition || 'inline');
     headers.set('Cache-Control', 'public, max-age=31536000'); // Cache for 1 year
 
     return new Response(object.body, { headers });
