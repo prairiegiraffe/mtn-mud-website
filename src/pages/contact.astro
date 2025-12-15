@@ -847,6 +847,12 @@ const metadata = {
       return;
     }
 
+    // Prevent duplicate event listeners
+    if (form.dataset.initialized) {
+      return;
+    }
+    form.dataset.initialized = 'true';
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       e.stopPropagation();
