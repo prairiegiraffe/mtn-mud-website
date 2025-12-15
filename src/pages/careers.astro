@@ -714,32 +714,26 @@ if (DB) {
       // Get form data
       const formData = new FormData(form);
       const data = {
-        formType: 'careers',
-        timestamp: new Date().toISOString(),
-        data: {
-          fullName: formData.get('fullName'),
-          email: formData.get('email'),
-          phone: formData.get('phone'),
-          address: formData.get('address'),
-          city: formData.get('city'),
-          state: formData.get('state'),
-          zip: formData.get('zip'),
-          position: formData.get('position'),
-          location: formData.get('location'),
-          startDate: formData.get('startDate'),
-          yearsExperience: formData.get('yearsExperience'),
-          previousRoles: formData.get('previousRoles'),
-          certifications: formData.get('certifications'),
-          education: formData.get('education'),
-          coverLetter: formData.get('coverLetter'),
-          comments: formData.get('comments'),
-          certify: formData.get('certify') === 'on',
-          resumeUrl: null, // Will be implemented with Cloudinary later
-        },
+        fullName: formData.get('fullName'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        address: formData.get('address'),
+        city: formData.get('city'),
+        state: formData.get('state'),
+        zip: formData.get('zip'),
+        position: formData.get('position'),
+        location: formData.get('location'),
+        startDate: formData.get('startDate'),
+        yearsExperience: formData.get('yearsExperience'),
+        previousRoles: formData.get('previousRoles'),
+        certifications: formData.get('certifications'),
+        education: formData.get('education'),
+        coverLetter: formData.get('coverLetter'),
+        comments: formData.get('comments'),
       };
 
       try {
-        const response = await fetch('https://hook.us1.make.com/vt3hs3jatkw5otpx5om9zi96axljr4v7', {
+        const response = await fetch('/api/application', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -747,19 +741,21 @@ if (DB) {
           body: JSON.stringify(data),
         });
 
-        if (response.ok) {
+        const result = await response.json();
+
+        if (response.ok && result.success) {
           // Success
           messageDiv.className =
             'p-4 rounded-xl bg-green-500/10 border-2 border-green-500 text-green-500 text-center font-bold';
           messageDiv.textContent =
-            "Thank you for your application! We've received your submission and will review it carefully. We'll be in touch soon.";
+            result.message || "Thank you for your application! We've received your submission and will review it carefully. We'll be in touch soon.";
           form.reset();
           // Scroll to message
           messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
-          throw new Error('Failed to submit application');
+          throw new Error(result.error || 'Failed to submit application');
         }
-      } catch {
+      } catch (err) {
         // Error
         messageDiv.className =
           'p-4 rounded-xl bg-red-500/10 border-2 border-red-500 text-red-500 text-center font-bold';
