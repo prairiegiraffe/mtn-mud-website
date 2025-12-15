@@ -83,7 +83,7 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
     }
 
     const body = await request.json();
-    const { title, category_id, size, description, sort_order, in_stock, pdf_url } = body;
+    const { title, category_id, size, description, sort_order, in_stock, pdf_url, remove_pdf } = body;
 
     if (!title || !category_id) {
       return new Response(JSON.stringify({ success: false, error: 'Title and category required' }), {
@@ -92,22 +92,44 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
       });
     }
 
-    await env.DB.prepare(
+    // Handle PDF: if remove_pdf is true, clear it; if new pdf_url provided, use it; otherwise keep existing
+    if (remove_pdf) {
+      // Explicitly remove PDF - set to null
+      await env.DB.prepare(
+        `
+        UPDATE products SET
+          title = ?,
+          category_id = ?,
+          size = ?,
+          description = ?,
+          sort_order = ?,
+          in_stock = ?,
+          pdf_url = NULL,
+          updated_at = datetime('now')
+        WHERE id = ?
       `
-      UPDATE products SET
-        title = ?,
-        category_id = ?,
-        size = ?,
-        description = ?,
-        sort_order = ?,
-        in_stock = ?,
-        pdf_url = COALESCE(?, pdf_url),
-        updated_at = datetime('now')
-      WHERE id = ?
-    `
-    )
-      .bind(title, category_id, size || null, description || null, sort_order || 0, in_stock ? 1 : 0, pdf_url || null, id)
-      .run();
+      )
+        .bind(title, category_id, size || null, description || null, sort_order || 0, in_stock ? 1 : 0, id)
+        .run();
+    } else {
+      // Keep existing or update with new URL
+      await env.DB.prepare(
+        `
+        UPDATE products SET
+          title = ?,
+          category_id = ?,
+          size = ?,
+          description = ?,
+          sort_order = ?,
+          in_stock = ?,
+          pdf_url = COALESCE(?, pdf_url),
+          updated_at = datetime('now')
+        WHERE id = ?
+      `
+      )
+        .bind(title, category_id, size || null, description || null, sort_order || 0, in_stock ? 1 : 0, pdf_url || null, id)
+        .run();
+    }
 
     // Get updated product
     const product = await env.DB.prepare(

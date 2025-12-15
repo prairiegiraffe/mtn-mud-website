@@ -379,11 +379,13 @@ const canEdit = user?.role !== 'viewer';
 
         let currentPdfUrl = null;
         let pendingPdfFile = null;
+        let pdfRemoved = false; // Track if user explicitly removed the PDF
 
         // Reset PDF state
         function resetPdfState() {
           currentPdfUrl = null;
           pendingPdfFile = null;
+          pdfRemoved = false;
           currentPdf.classList.add('hidden');
           currentPdf.classList.remove('flex');
           productPdfInput.value = '';
@@ -409,6 +411,7 @@ const canEdit = user?.role !== 'viewer';
         // Remove PDF button
         document.getElementById('removePdfBtn')?.addEventListener('click', () => {
           currentPdfUrl = null;
+          pdfRemoved = true; // Mark as explicitly removed
           currentPdf.classList.add('hidden');
           currentPdf.classList.remove('flex');
         });
@@ -530,6 +533,11 @@ const canEdit = user?.role !== 'viewer';
             }
           }
 
+          // If PDF was explicitly removed, set to empty string to clear it
+          if (pdfRemoved) {
+            pdfUrl = '';
+          }
+
           const data = {
             title: document.getElementById('productTitle').value,
             category_id: document.getElementById('productCategory').value,
@@ -538,6 +546,7 @@ const canEdit = user?.role !== 'viewer';
             description: document.getElementById('productDescription').value,
             in_stock: document.getElementById('productInStock').checked,
             pdf_url: pdfUrl,
+            remove_pdf: pdfRemoved,
           };
 
           try {
