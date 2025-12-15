@@ -534,25 +534,18 @@ if (DB) {
             <div>
               <label for="resume" class="block text-white font-bold mb-2 text-sm uppercase tracking-wider">
                 Resume/CV Upload <span class="text-warm-gray-400 italic text-xs font-normal"
-                  >(file upload coming soon - email resume to applications@mtnmud.com)</span
+                  >(optional - PDF only, max 10MB)</span
                 >
               </label>
               <input
                 type="file"
                 id="resume"
                 name="resume"
-                accept=".pdf,.doc,.docx"
-                disabled
-                class="block w-full text-sm text-warm-gray-500 border-2 border-warm-gray-700 rounded-xl cursor-not-allowed bg-charcoal-900 opacity-50
-                       file:mr-4 file:py-4 file:px-6 file:border-0 file:bg-warm-gray-700 file:text-warm-gray-400 file:font-bold file:text-sm file:uppercase file:tracking-wider file:cursor-not-allowed file:rounded-l-lg"
+                accept=".pdf,application/pdf"
+                class="block w-full text-sm text-warm-gray-300 border-2 border-warm-gray-600 rounded-xl cursor-pointer bg-charcoal-800
+                       file:mr-4 file:py-4 file:px-6 file:border-0 file:bg-safety-orange file:text-white file:font-bold file:text-sm file:uppercase file:tracking-wider file:cursor-pointer file:rounded-l-lg hover:file:bg-safety-orange/90 transition-all"
               />
-              <p class="text-sm text-warm-gray-400 mt-2">
-                Resume upload will be available soon. For now, please email your resume to
-                <a href="mailto:applications@mtnmud.com" class="text-safety-orange hover:underline"
-                  >applications@mtnmud.com</a
-                >
-                after submitting this form.
-              </p>
+              <p id="resumeStatus" class="text-sm text-warm-gray-400 mt-2">Upload your resume in PDF format.</p>
             </div>
 
             <div>
@@ -707,6 +700,33 @@ if (DB) {
     }
     form.dataset.initialized = 'true';
 
+    // Handle file selection display
+    const resumeInput = document.getElementById('resume');
+    const resumeStatus = document.getElementById('resumeStatus');
+
+    if (resumeInput && resumeStatus) {
+      resumeInput.addEventListener('change', () => {
+        const file = resumeInput.files[0];
+        if (file) {
+          if (file.type !== 'application/pdf') {
+            resumeStatus.textContent = 'Please select a PDF file.';
+            resumeStatus.className = 'text-sm text-red-400 mt-2';
+            resumeInput.value = '';
+          } else if (file.size > 10 * 1024 * 1024) {
+            resumeStatus.textContent = 'File is too large. Maximum size is 10MB.';
+            resumeStatus.className = 'text-sm text-red-400 mt-2';
+            resumeInput.value = '';
+          } else {
+            resumeStatus.textContent = `Selected: ${file.name}`;
+            resumeStatus.className = 'text-sm text-green-400 mt-2';
+          }
+        } else {
+          resumeStatus.textContent = 'Upload your resume in PDF format.';
+          resumeStatus.className = 'text-sm text-warm-gray-400 mt-2';
+        }
+      });
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -717,34 +737,13 @@ if (DB) {
       buttonIcon.className = 'ri-loader-4-line animate-spin';
       messageDiv.className = 'hidden';
 
-      // Get form data
+      // Use FormData directly to support file upload
       const formData = new FormData(form);
-      const data = {
-        fullName: formData.get('fullName'),
-        email: formData.get('email'),
-        phone: formData.get('phone'),
-        address: formData.get('address'),
-        city: formData.get('city'),
-        state: formData.get('state'),
-        zip: formData.get('zip'),
-        position: formData.get('position'),
-        location: formData.get('location'),
-        startDate: formData.get('startDate'),
-        yearsExperience: formData.get('yearsExperience'),
-        previousRoles: formData.get('previousRoles'),
-        certifications: formData.get('certifications'),
-        education: formData.get('education'),
-        coverLetter: formData.get('coverLetter'),
-        comments: formData.get('comments'),
-      };
 
       try {
         const response = await fetch('/api/application', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
+          body: formData, // Send as multipart/form-data
         });
 
         const result = await response.json();

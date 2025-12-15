@@ -298,9 +298,50 @@ function formatDate(dateStr: string) {
 
           <!-- Job-specific fields -->
           <div id="jobFields" class="hidden space-y-4">
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-500">Position Applied For</label>
+                <p id="detailPosition" class="mt-1 text-gray-900"></p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-500">Preferred Location</label>
+                <p id="detailPreferredLocation" class="mt-1 text-gray-900"></p>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-500">Available Start Date</label>
+                <p id="detailStartDate" class="mt-1 text-gray-900"></p>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-500">Years Experience</label>
+                <p id="detailYearsExperience" class="mt-1 text-gray-900"></p>
+              </div>
+            </div>
+            <div id="addressSection">
+              <label class="block text-sm font-medium text-gray-500">Address</label>
+              <p id="detailAddress" class="mt-1 text-gray-900"></p>
+            </div>
             <div>
-              <label class="block text-sm font-medium text-gray-500">Position Applied For</label>
-              <p id="detailPosition" class="mt-1 text-gray-900"></p>
+              <label class="block text-sm font-medium text-gray-500">Education</label>
+              <p id="detailEducation" class="mt-1 text-gray-900"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Previous Roles</label>
+              <p id="detailPreviousRoles" class="mt-1 text-gray-900 whitespace-pre-wrap"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Certifications</label>
+              <p id="detailCertifications" class="mt-1 text-gray-900 whitespace-pre-wrap"></p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Cover Letter</label>
+              <div id="detailCoverLetter" class="mt-1 text-gray-900 bg-gray-50 p-4 rounded-lg whitespace-pre-wrap">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-500">Additional Comments</label>
+              <p id="detailComments" class="mt-1 text-gray-900 whitespace-pre-wrap"></p>
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-500">Resume</label>
@@ -308,7 +349,8 @@ function formatDate(dateStr: string) {
             </div>
           </div>
 
-          <div>
+          <!-- Contact form message -->
+          <div id="contactMessageSection">
             <label class="block text-sm font-medium text-gray-500">Message</label>
             <div id="detailMessage" class="mt-1 text-gray-900 bg-gray-50 p-4 rounded-lg whitespace-pre-wrap"></div>
           </div>
@@ -402,18 +444,82 @@ function formatDate(dateStr: string) {
 
           // Job fields
           const jobFields = document.getElementById('jobFields');
+          const contactMessageSection = document.getElementById('contactMessageSection');
+
           if (sub.type === 'application') {
             jobFields.classList.remove('hidden');
+            contactMessageSection.classList.add('hidden');
+
             document.getElementById('detailPosition').textContent = sub.job_title || '-';
+
+            // Parse the JSON message field for application data
+            let appData = {};
+            try {
+              if (sub.message) {
+                appData = JSON.parse(sub.message);
+              }
+            } catch (e) {
+              console.log('Could not parse application data:', e);
+            }
+
+            // Format location name
+            const locationNames = {
+              gillette: 'Gillette, WY',
+              boulder: 'Boulder, WY',
+              vernal: 'Vernal, UT',
+              roosevelt: 'Roosevelt, UT',
+              'rock-springs': 'Rock Springs, WY',
+              farmington: 'Farmington, NM',
+            };
+            document.getElementById('detailPreferredLocation').textContent =
+              locationNames[appData.preferredLocation] || appData.preferredLocation || '-';
+
+            // Format start date
+            const startDate = appData.startDate ? new Date(appData.startDate).toLocaleDateString() : '-';
+            document.getElementById('detailStartDate').textContent = startDate;
+
+            // Years experience
+            const expLabels = {
+              '0-1': '0-1 years',
+              '1-3': '1-3 years',
+              '3-5': '3-5 years',
+              '5-10': '5-10 years',
+              '10': '10+ years',
+            };
+            document.getElementById('detailYearsExperience').textContent =
+              expLabels[appData.yearsExperience] || appData.yearsExperience || '-';
+
+            // Address
+            const addressParts = [appData.address, appData.city, appData.state, appData.zip].filter(Boolean);
+            document.getElementById('detailAddress').textContent =
+              addressParts.length > 0 ? addressParts.join(', ') : '-';
+
+            // Education
+            const eduLabels = {
+              'high-school': 'High School / GED',
+              'some-college': 'Some College',
+              associates: "Associate's Degree",
+              bachelors: "Bachelor's Degree",
+              masters: "Master's Degree or higher",
+            };
+            document.getElementById('detailEducation').textContent =
+              eduLabels[appData.education] || appData.education || '-';
+
+            // Other text fields
+            document.getElementById('detailPreviousRoles').textContent = appData.previousRoles || '-';
+            document.getElementById('detailCertifications').textContent = appData.certifications || '-';
+            document.getElementById('detailCoverLetter').textContent = appData.coverLetter || '-';
+            document.getElementById('detailComments').textContent = appData.comments || '-';
 
             const resumeEl = document.getElementById('detailResume');
             if (sub.resume_file_key) {
-              resumeEl.innerHTML = `<a href="/api/admin/files/${sub.resume_file_key}" target="_blank" class="text-[#ff6600] hover:text-[#ff7700]">Download Resume</a>`;
+              resumeEl.innerHTML = `<a href="/api/files/${sub.resume_file_key}" target="_blank" class="text-[#ff6600] hover:text-[#ff7700]">Download Resume</a>`;
             } else {
               resumeEl.textContent = 'No resume uploaded';
             }
           } else {
             jobFields.classList.add('hidden');
+            contactMessageSection.classList.remove('hidden');
           }
 
           if (canEdit) {
