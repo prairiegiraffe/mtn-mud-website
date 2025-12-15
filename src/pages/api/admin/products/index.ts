@@ -76,7 +76,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     const body = await request.json();
-    const { title, category_id, size, price, description, sort_order, in_stock } = body;
+    const { title, category_id, size, description, sort_order, in_stock } = body;
 
     if (!title || !category_id) {
       return new Response(JSON.stringify({ success: false, error: 'Title and category required' }), {
@@ -100,21 +100,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     await env.DB.prepare(
       `
-      INSERT INTO products (id, slug, title, category_id, size, price, description, sort_order, in_stock)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO products (id, slug, title, category_id, size, description, sort_order, in_stock)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `
     )
-      .bind(
-        id,
-        finalSlug,
-        title,
-        category_id,
-        size || null,
-        price || null,
-        description || null,
-        sort_order || 0,
-        in_stock ? 1 : 0
-      )
+      .bind(id, finalSlug, title, category_id, size || null, description || null, sort_order || 0, in_stock ? 1 : 0)
       .run();
 
     // Get the created product

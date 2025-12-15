@@ -83,7 +83,7 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
     }
 
     const body = await request.json();
-    const { title, category_id, size, price, description, sort_order, in_stock, pdf_key, pdf_filename } = body;
+    const { title, category_id, size, description, sort_order, in_stock, pdf_url } = body;
 
     if (!title || !category_id) {
       return new Response(JSON.stringify({ success: false, error: 'Title and category required' }), {
@@ -98,28 +98,15 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
         title = ?,
         category_id = ?,
         size = ?,
-        price = ?,
         description = ?,
         sort_order = ?,
         in_stock = ?,
-        pdf_key = COALESCE(?, pdf_key),
-        pdf_filename = COALESCE(?, pdf_filename),
+        pdf_url = COALESCE(?, pdf_url),
         updated_at = datetime('now')
       WHERE id = ?
     `
     )
-      .bind(
-        title,
-        category_id,
-        size || null,
-        price || null,
-        description || null,
-        sort_order || 0,
-        in_stock ? 1 : 0,
-        pdf_key || null,
-        pdf_filename || null,
-        id
-      )
+      .bind(title, category_id, size || null, description || null, sort_order || 0, in_stock ? 1 : 0, pdf_url || null, id)
       .run();
 
     // Get updated product
@@ -177,20 +164,6 @@ export const DELETE: APIRoute = async ({ params, request, locals }) => {
 
     if (!canModify(payload)) {
       return new Response(JSON.stringify({ success: false, error: 'Permission denied' }), { status: 403, headers });
-    }
-
-    // Get product to check for PDF to delete
-    const product = await env.DB.prepare('SELECT pdf_key FROM products WHERE id = ?')
-      .bind(id)
-      .first<{ pdf_key: string | null }>();
-
-    // Delete from R2 if there's a PDF
-    if (product?.pdf_key && env.STORAGE) {
-      try {
-        await env.STORAGE.delete(product.pdf_key);
-      } catch (e) {
-        console.error('Failed to delete PDF from R2:', e);
-      }
     }
 
     await env.DB.prepare('DELETE FROM products WHERE id = ?').bind(id).run();
