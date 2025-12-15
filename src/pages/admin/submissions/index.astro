@@ -465,7 +465,11 @@ function formatDate(dateStr: string) {
             // Format location name
             const locationNames = {
               gillette: 'Gillette, WY',
+              cheyenne: 'Cheyenne, WY',
               boulder: 'Boulder, WY',
+              williston: 'Williston, ND',
+              open: 'Open to any location',
+              // Legacy locations (may exist in older submissions)
               vernal: 'Vernal, UT',
               roosevelt: 'Roosevelt, UT',
               'rock-springs': 'Rock Springs, WY',
@@ -478,16 +482,8 @@ function formatDate(dateStr: string) {
             const startDate = appData.startDate ? new Date(appData.startDate).toLocaleDateString() : '-';
             document.getElementById('detailStartDate').textContent = startDate;
 
-            // Years experience
-            const expLabels = {
-              '0-1': '0-1 years',
-              '1-3': '1-3 years',
-              '3-5': '3-5 years',
-              '5-10': '5-10 years',
-              '10': '10+ years',
-            };
-            document.getElementById('detailYearsExperience').textContent =
-              expLabels[appData.yearsExperience] || appData.yearsExperience || '-';
+            // Years experience (free text field)
+            document.getElementById('detailYearsExperience').textContent = appData.yearsExperience || '-';
 
             // Address
             const addressParts = [appData.address, appData.city, appData.state, appData.zip].filter(Boolean);
