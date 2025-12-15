@@ -378,13 +378,11 @@ const canEdit = user?.role !== 'viewer';
         const uploadStatus = document.getElementById('uploadStatus');
 
         let currentPdfUrl = null;
-        let pendingPdfFile = null;
         let pdfRemoved = false; // Track if user explicitly removed the PDF
 
         // Reset PDF state
         function resetPdfState() {
           currentPdfUrl = null;
-          pendingPdfFile = null;
           pdfRemoved = false;
           currentPdf.classList.add('hidden');
           currentPdf.classList.remove('flex');
@@ -506,7 +504,7 @@ const canEdit = user?.role !== 'viewer';
               uploadStatus.textContent = 'Upload failed: ' + (result.error || 'Unknown error');
               return null;
             }
-          } catch (err) {
+          } catch {
             uploadStatus.textContent = 'Upload failed: Connection error';
             return null;
           }
