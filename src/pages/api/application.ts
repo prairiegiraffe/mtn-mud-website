@@ -127,7 +127,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
                 name: fullName,
                 email,
                 phone,
-                job_title: jobTitle,
+                job_title: jobTitle || undefined,
                 preferredLocation: location,
                 yearsExperience,
                 education,
