@@ -124,6 +124,7 @@ const canEdit = user?.role !== 'viewer';
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Sheet</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
               <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
               {
@@ -141,21 +142,29 @@ const canEdit = user?.role !== 'viewer';
                 <tr class="hover:bg-gray-50 product-row" data-category={product.category_id}>
                   <td class="px-6 py-4">
                     <div class="font-medium text-gray-900">{product.title}</div>
-                    {product.pdf_url && (
-                      <div class="text-xs text-gray-500 flex items-center gap-1 mt-1">
-                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  </td>
+                  <td class="px-6 py-4 text-gray-600">{product.category_name}</td>
+                  <td class="px-6 py-4 text-gray-600">{product.size || '-'}</td>
+                  <td class="px-6 py-4">
+                    {product.pdf_url ? (
+                      <a
+                        href={product.pdf_url}
+                        target="_blank"
+                        class="inline-flex items-center gap-1 text-[#ff6600] hover:text-[#ff7700] font-medium"
+                      >
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path
                             fill-rule="evenodd"
                             d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
                             clip-rule="evenodd"
                           />
                         </svg>
-                        PDF attached
-                      </div>
+                        View PDF
+                      </a>
+                    ) : (
+                      <span class="text-gray-400">-</span>
                     )}
                   </td>
-                  <td class="px-6 py-4 text-gray-600">{product.category_name}</td>
-                  <td class="px-6 py-4 text-gray-600">{product.size || '-'}</td>
                   <td class="px-6 py-4">
                     <span
                       class={`inline-flex px-2 py-1 text-xs font-medium rounded ${
@@ -278,6 +287,35 @@ const canEdit = user?.role !== 'viewer';
             <label for="productInStock" class="text-sm font-medium text-gray-700">In Stock</label>
           </div>
 
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Data Sheet (PDF)</label>
+            <div id="currentPdf" class="hidden mb-2 p-2 bg-gray-50 rounded-lg flex items-center justify-between">
+              <a id="currentPdfLink" href="#" target="_blank" class="text-[#ff6600] hover:underline flex items-center gap-1">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                    clip-rule="evenodd"></path>
+                </svg>
+                <span id="currentPdfName">Current PDF</span>
+              </a>
+              <button type="button" id="removePdfBtn" class="text-red-500 hover:text-red-700 text-sm">Remove</button>
+            </div>
+            <input
+              type="file"
+              id="productPdf"
+              accept=".pdf,application/pdf"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:text-sm file:font-medium file:bg-[#ff6600] file:text-white hover:file:bg-[#ff7700]"
+            />
+            <p class="text-xs text-gray-500 mt-1">Max 10MB. PDF files only.</p>
+            <div id="uploadProgress" class="hidden mt-2">
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div id="uploadProgressBar" class="bg-[#ff6600] h-2 rounded-full transition-all" style="width: 0%"></div>
+              </div>
+              <p id="uploadStatus" class="text-xs text-gray-500 mt-1">Uploading...</p>
+            </div>
+          </div>
+
           <div id="errorMessage" class="hidden text-red-600 text-sm bg-red-50 p-3 rounded-lg"></div>
 
           <div class="flex justify-end gap-3 pt-4">
@@ -331,6 +369,49 @@ const canEdit = user?.role !== 'viewer';
         const productForm = document.getElementById('productForm');
         const categoryForm = document.getElementById('categoryForm');
         const errorMessage = document.getElementById('errorMessage');
+        const currentPdf = document.getElementById('currentPdf');
+        const currentPdfLink = document.getElementById('currentPdfLink');
+        const currentPdfName = document.getElementById('currentPdfName');
+        const productPdfInput = document.getElementById('productPdf');
+        const uploadProgress = document.getElementById('uploadProgress');
+        const uploadProgressBar = document.getElementById('uploadProgressBar');
+        const uploadStatus = document.getElementById('uploadStatus');
+
+        let currentPdfUrl = null;
+        let pendingPdfFile = null;
+
+        // Reset PDF state
+        function resetPdfState() {
+          currentPdfUrl = null;
+          pendingPdfFile = null;
+          currentPdf.classList.add('hidden');
+          currentPdf.classList.remove('flex');
+          productPdfInput.value = '';
+          uploadProgress.classList.add('hidden');
+        }
+
+        // Show current PDF
+        function showCurrentPdf(url) {
+          if (url) {
+            currentPdfUrl = url;
+            currentPdfLink.href = url;
+            // Extract filename from URL
+            const filename = url.split('/').pop() || 'Data Sheet';
+            currentPdfName.textContent = filename.replace(/^\d+-/, '').replace(/_/g, ' ');
+            currentPdf.classList.remove('hidden');
+            currentPdf.classList.add('flex');
+          } else {
+            currentPdf.classList.add('hidden');
+            currentPdf.classList.remove('flex');
+          }
+        }
+
+        // Remove PDF button
+        document.getElementById('removePdfBtn')?.addEventListener('click', () => {
+          currentPdfUrl = null;
+          currentPdf.classList.add('hidden');
+          currentPdf.classList.remove('flex');
+        });
 
         // Open add product modal
         document.getElementById('addProductBtn')?.addEventListener('click', () => {
@@ -338,6 +419,7 @@ const canEdit = user?.role !== 'viewer';
           document.getElementById('productId').value = '';
           productForm.reset();
           document.getElementById('productInStock').checked = true;
+          resetPdfState();
           productModal.classList.remove('hidden');
           productModal.classList.add('flex');
         });
@@ -354,6 +436,8 @@ const canEdit = user?.role !== 'viewer';
             document.getElementById('productOrder').value = product.sort_order || 0;
             document.getElementById('productDescription').value = product.description || '';
             document.getElementById('productInStock').checked = product.in_stock === 1;
+            resetPdfState();
+            showCurrentPdf(product.pdf_url);
             productModal.classList.remove('hidden');
             productModal.classList.add('flex');
           });
@@ -388,6 +472,41 @@ const canEdit = user?.role !== 'viewer';
           productModal.classList.add('hidden');
           productModal.classList.remove('flex');
           errorMessage.classList.add('hidden');
+          resetPdfState();
+        }
+
+        // Upload PDF file
+        async function uploadPdf(file, productId) {
+          const formData = new FormData();
+          formData.append('file', file);
+          if (productId) {
+            formData.append('productId', productId);
+          }
+
+          uploadProgress.classList.remove('hidden');
+          uploadProgressBar.style.width = '30%';
+          uploadStatus.textContent = 'Uploading...';
+
+          try {
+            const response = await fetch('/api/admin/upload', {
+              method: 'POST',
+              body: formData,
+            });
+
+            uploadProgressBar.style.width = '100%';
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+              uploadStatus.textContent = 'Upload complete!';
+              return result.data.url;
+            } else {
+              uploadStatus.textContent = 'Upload failed: ' + (result.error || 'Unknown error');
+              return null;
+            }
+          } catch (err) {
+            uploadStatus.textContent = 'Upload failed: Connection error';
+            return null;
+          }
         }
 
         // Submit product form
@@ -396,6 +515,21 @@ const canEdit = user?.role !== 'viewer';
           errorMessage.classList.add('hidden');
 
           const id = document.getElementById('productId').value;
+          const pdfFile = productPdfInput.files[0];
+
+          // If there's a new PDF file, upload it first
+          let pdfUrl = currentPdfUrl;
+          if (pdfFile) {
+            const uploadedUrl = await uploadPdf(pdfFile, id || null);
+            if (uploadedUrl) {
+              pdfUrl = uploadedUrl;
+            } else if (!id) {
+              // For new products, continue without PDF if upload failed
+              errorMessage.textContent = 'PDF upload failed, but product will be saved without data sheet';
+              errorMessage.classList.remove('hidden');
+            }
+          }
+
           const data = {
             title: document.getElementById('productTitle').value,
             category_id: document.getElementById('productCategory').value,
@@ -403,6 +537,7 @@ const canEdit = user?.role !== 'viewer';
             sort_order: parseInt(document.getElementById('productOrder').value) || 0,
             description: document.getElementById('productDescription').value,
             in_stock: document.getElementById('productInStock').checked,
+            pdf_url: pdfUrl,
           };
 
           try {
