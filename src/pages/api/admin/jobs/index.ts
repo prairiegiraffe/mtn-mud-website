@@ -71,7 +71,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     const body = await request.json();
-    const { title, locations, description, requirements, responsibilities, is_active, sort_order } = body;
+    const { title, locations, description, is_active, sort_order } = body;
 
     if (!title || !locations) {
       return new Response(JSON.stringify({ success: false, error: 'Title and locations required' }), {
@@ -80,36 +80,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    // Generate slug
-    const slug = title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-|-$/g, '');
-
-    // Check for duplicate slug
-    const existing = await env.DB.prepare('SELECT id FROM jobs WHERE slug = ?').bind(slug).first();
-    const finalSlug = existing ? `${slug}-${Date.now()}` : slug;
-
     // Generate UUID
     const id = crypto.randomUUID();
 
     await env.DB.prepare(
       `
-      INSERT INTO jobs (id, slug, title, locations, description, requirements, responsibilities, is_active, sort_order)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO jobs (id, title, locations, description, is_active, sort_order)
+      VALUES (?, ?, ?, ?, ?, ?)
     `
     )
-      .bind(
-        id,
-        finalSlug,
-        title,
-        locations,
-        description || null,
-        requirements ? JSON.stringify(requirements) : null,
-        responsibilities ? JSON.stringify(responsibilities) : null,
-        is_active !== false ? 1 : 0,
-        sort_order || 0
-      )
+      .bind(id, title, locations, description || null, is_active !== false ? 1 : 0, sort_order || 0)
       .run();
 
     const job = await env.DB.prepare('SELECT * FROM jobs WHERE id = ?').bind(id).first();

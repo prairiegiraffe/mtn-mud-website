@@ -72,7 +72,7 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
     }
 
     const body = await request.json();
-    const { title, locations, description, requirements, responsibilities, is_active, sort_order } = body;
+    const { title, locations, description, is_active, sort_order } = body;
 
     if (!title || !locations) {
       return new Response(JSON.stringify({ success: false, error: 'Title and locations required' }), {
@@ -87,24 +87,13 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
         title = ?,
         locations = ?,
         description = ?,
-        requirements = ?,
-        responsibilities = ?,
         is_active = ?,
         sort_order = ?,
         updated_at = datetime('now')
       WHERE id = ?
     `
     )
-      .bind(
-        title,
-        locations,
-        description || null,
-        requirements ? JSON.stringify(requirements) : null,
-        responsibilities ? JSON.stringify(responsibilities) : null,
-        is_active !== false ? 1 : 0,
-        sort_order || 0,
-        id
-      )
+      .bind(title, locations, description || null, is_active !== false ? 1 : 0, sort_order || 0, id)
       .run();
 
     const job = await env.DB.prepare('SELECT * FROM jobs WHERE id = ?').bind(id).first();
