@@ -1,20 +1,27 @@
 // File Download API (R2)
 import type { APIRoute } from 'astro';
+import { getTokenFromRequest, verifyToken, validateSession } from '~/lib/auth';
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ params, locals }) => {
+export const GET: APIRoute = async ({ params, request, locals }) => {
   try {
     const env = locals.runtime?.env;
-    const user = locals.user;
 
-    if (!env?.STORAGE) {
-      return new Response('Storage not configured', { status: 500 });
+    if (!env?.STORAGE || !env?.DB || !env?.JWT_SECRET) {
+      return new Response('Server not configured', { status: 500 });
     }
 
-    // Must be logged in
-    if (!user) {
+    // Verify auth
+    const token = getTokenFromRequest(request);
+    if (!token) {
       return new Response('Unauthorized', { status: 401 });
+    }
+
+    const payload = await verifyToken(token, env.JWT_SECRET);
+    const sessionValid = await validateSession(env.DB, payload.jti);
+    if (!sessionValid) {
+      return new Response('Session expired', { status: 401 });
     }
 
     const key = params.key;

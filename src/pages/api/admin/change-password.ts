@@ -1,6 +1,6 @@
 // Change Password API
 import type { APIRoute } from 'astro';
-import { hashPassword, verifyPassword } from '~/lib/auth';
+import { hashPassword, verifyPassword, getTokenFromRequest, verifyToken, validateSession } from '~/lib/auth';
 
 export const prerender = false;
 
@@ -11,20 +11,24 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   try {
     const env = locals.runtime?.env;
-    const user = locals.user;
 
-    if (!env?.DB) {
-      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+    if (!env?.DB || !env?.JWT_SECRET) {
+      return new Response(JSON.stringify({ error: 'Server not configured' }), {
         status: 500,
         headers: corsHeaders,
       });
     }
 
-    if (!user) {
-      return new Response(JSON.stringify({ error: 'Not authenticated' }), {
-        status: 401,
-        headers: corsHeaders,
-      });
+    // Verify auth
+    const token = getTokenFromRequest(request);
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+    }
+
+    const payload = await verifyToken(token, env.JWT_SECRET);
+    const sessionValid = await validateSession(env.DB, payload.jti);
+    if (!sessionValid) {
+      return new Response(JSON.stringify({ error: 'Session expired' }), { status: 401, headers: corsHeaders });
     }
 
     const { current_password, new_password } = await request.json();
@@ -45,7 +49,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Get user with password hash
     const fullUser = await env.DB.prepare('SELECT password_hash FROM admin_users WHERE id = ?')
-      .bind(user.id)
+      .bind(payload.sub)
       .first<{ password_hash: string }>();
 
     if (!fullUser) {
@@ -69,7 +73,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const newHash = await hashPassword(new_password);
 
     // Update password
-    await env.DB.prepare('UPDATE admin_users SET password_hash = ? WHERE id = ?').bind(newHash, user.id).run();
+    await env.DB.prepare('UPDATE admin_users SET password_hash = ? WHERE id = ?').bind(newHash, payload.sub).run();
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
