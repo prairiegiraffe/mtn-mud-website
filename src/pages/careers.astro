@@ -748,7 +748,8 @@ if (DB) {
           messageDiv.className =
             'p-4 rounded-xl bg-green-500/10 border-2 border-green-500 text-green-500 text-center font-bold';
           messageDiv.textContent =
-            result.message || "Thank you for your application! We've received your submission and will review it carefully. We'll be in touch soon.";
+            result.message ||
+            "Thank you for your application! We've received your submission and will review it carefully. We'll be in touch soon.";
           form.reset();
           // Scroll to message
           messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });

@@ -84,7 +84,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // If productId provided, update the product
     if (productId) {
-      await env.DB.prepare('UPDATE products SET pdf_url = ?, updated_at = datetime(\'now\') WHERE id = ?')
+      await env.DB.prepare("UPDATE products SET pdf_url = ?, updated_at = datetime('now') WHERE id = ?")
         .bind(url, productId)
         .run();
     }

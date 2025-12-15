@@ -127,7 +127,16 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
         WHERE id = ?
       `
       )
-        .bind(title, category_id, size || null, description || null, sort_order || 0, in_stock ? 1 : 0, pdf_url || null, id)
+        .bind(
+          title,
+          category_id,
+          size || null,
+          description || null,
+          sort_order || 0,
+          in_stock ? 1 : 0,
+          pdf_url || null,
+          id
+        )
         .run();
     }
 

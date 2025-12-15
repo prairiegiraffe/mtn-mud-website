@@ -290,7 +290,12 @@ const canEdit = user?.role !== 'viewer';
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">Data Sheet (PDF)</label>
             <div id="currentPdf" class="hidden mb-2 p-2 bg-gray-50 rounded-lg flex items-center justify-between">
-              <a id="currentPdfLink" href="#" target="_blank" class="text-[#ff6600] hover:underline flex items-center gap-1">
+              <a
+                id="currentPdfLink"
+                href="#"
+                target="_blank"
+                class="text-[#ff6600] hover:underline flex items-center gap-1"
+              >
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fill-rule="evenodd"
@@ -310,7 +315,8 @@ const canEdit = user?.role !== 'viewer';
             <p class="text-xs text-gray-500 mt-1">Max 10MB. PDF files only.</p>
             <div id="uploadProgress" class="hidden mt-2">
               <div class="w-full bg-gray-200 rounded-full h-2">
-                <div id="uploadProgressBar" class="bg-[#ff6600] h-2 rounded-full transition-all" style="width: 0%"></div>
+                <div id="uploadProgressBar" class="bg-[#ff6600] h-2 rounded-full transition-all" style="width: 0%">
+                </div>
               </div>
               <p id="uploadStatus" class="text-xs text-gray-500 mt-1">Uploading...</p>
             </div>

@@ -42,13 +42,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Validate required fields
     if (!fullName || !email || !position || !location) {
-      return new Response(
-        JSON.stringify({ error: 'Name, email, position, and location are required' }),
-        {
-          status: 400,
-          headers: corsHeaders,
-        }
-      );
+      return new Response(JSON.stringify({ error: 'Name, email, position, and location are required' }), {
+        status: 400,
+        headers: corsHeaders,
+      });
     }
 
     // Basic email validation
@@ -68,7 +65,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
     let jobTitle: string | null = null;
 
     if (position && position !== 'general-application') {
-      const job = await env.DB.prepare('SELECT id, title FROM jobs WHERE id = ?').bind(position).first<{ id: string; title: string }>();
+      const job = await env.DB.prepare('SELECT id, title FROM jobs WHERE id = ?')
+        .bind(position)
+        .first<{ id: string; title: string }>();
       if (job) {
         jobId = job.id;
         jobTitle = job.title;

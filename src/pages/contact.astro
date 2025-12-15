@@ -882,7 +882,8 @@ const metadata = {
           // Success
           messageDiv.className =
             'p-4 rounded-xl bg-green-500/10 border-2 border-green-500 text-green-500 text-center font-bold';
-          messageDiv.textContent = result.message || "Thank you! Your message has been sent successfully. We'll get back to you soon.";
+          messageDiv.textContent =
+            result.message || "Thank you! Your message has been sent successfully. We'll get back to you soon.";
           form.reset();
         } else {
           throw new Error(result.error || 'Failed to send message');
