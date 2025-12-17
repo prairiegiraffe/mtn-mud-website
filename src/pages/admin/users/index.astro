@@ -57,6 +57,11 @@ const availableRoles: string[] = (() => {
   }
 })();
 
+// Helper to check if user can manage another user's role
+function canManageRole(targetRole: string): boolean {
+  return availableRoles.includes(targetRole);
+}
+
 function formatDate(dateStr: string | null) {
   if (!dateStr) return 'Never';
   return new Date(dateStr).toLocaleDateString('en-US', {
@@ -229,14 +234,8 @@ function getRoleColor(role: string) {
           <tbody class="divide-y divide-gray-200">
             {
               users.map((u) => {
-                const canEditUser =
-                  user?.id === u.id ||
-                  (roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0) >
-                    (roleHierarchy[u.role as keyof typeof roleHierarchy] || 0);
-                const canDeleteUser =
-                  user?.id !== u.id &&
-                  (roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0) >
-                    (roleHierarchy[u.role as keyof typeof roleHierarchy] || 0);
+                const canEditUser = user?.id === u.id || canManageRole(u.role);
+                const canDeleteUser = user?.id !== u.id && canManageRole(u.role);
 
                 return (
                   <tr class="hover:bg-gray-50">
@@ -304,14 +303,8 @@ function getRoleColor(role: string) {
       <div class="md:hidden space-y-4">
         {
           users.map((u) => {
-            const canEditUser =
-              user?.id === u.id ||
-              (roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0) >
-                (roleHierarchy[u.role as keyof typeof roleHierarchy] || 0);
-            const canDeleteUser =
-              user?.id !== u.id &&
-              (roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0) >
-                (roleHierarchy[u.role as keyof typeof roleHierarchy] || 0);
+            const canEditUser = user?.id === u.id || canManageRole(u.role);
+            const canDeleteUser = user?.id !== u.id && canManageRole(u.role);
 
             return (
               <div class="bg-white rounded-xl shadow p-4">
