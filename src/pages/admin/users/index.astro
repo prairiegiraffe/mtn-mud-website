@@ -141,8 +141,8 @@ function getRoleColor(role: string) {
         </ul>
       </div>
 
-      <!-- Users Table -->
-      <div class="bg-white rounded-xl shadow overflow-hidden">
+      <!-- Users Table (Desktop) -->
+      <div class="hidden md:block bg-white rounded-xl shadow overflow-hidden">
         <table class="w-full">
           <thead class="bg-gray-50">
             <tr>
@@ -223,6 +223,78 @@ function getRoleColor(role: string) {
         {
           users.length === 0 && (
             <div class="px-6 py-12 text-center text-gray-500">
+              <p>No users found</p>
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Users Cards (Mobile) -->
+      <div class="md:hidden space-y-4">
+        {
+          users.map((u) => {
+            const canEditUser =
+              user?.id === u.id ||
+              (roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0) >
+                (roleHierarchy[u.role as keyof typeof roleHierarchy] || 0);
+            const canDeleteUser =
+              user?.id !== u.id &&
+              (roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0) >
+                (roleHierarchy[u.role as keyof typeof roleHierarchy] || 0);
+
+            return (
+              <div class="bg-white rounded-xl shadow p-4">
+                <div class="flex justify-between items-start mb-2">
+                  <div>
+                    <h3 class="font-semibold text-gray-900">
+                      {u.name}
+                      {u.id === user?.id && (
+                        <span class="ml-2 text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">You</span>
+                      )}
+                    </h3>
+                    <p class="text-sm text-gray-500">{u.email}</p>
+                  </div>
+                  <span class={`inline-flex px-2 py-1 text-xs font-medium rounded ${getRoleColor(u.role)}`}>
+                    {getRoleLabel(u.role)}
+                  </span>
+                </div>
+                <div class="flex flex-wrap gap-2 text-xs mb-3">
+                  {u.notify_contact === 1 && (
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded">Contact</span>
+                  )}
+                  {u.notify_applications === 1 && (
+                    <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded">Applications</span>
+                  )}
+                  {u.notify_contact !== 1 && u.notify_applications !== 1 && (
+                    <span class="text-gray-400">No notifications</span>
+                  )}
+                </div>
+                <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                  <span class="text-xs text-gray-500">Last login: {formatDate(u.last_login)}</span>
+                  <div class="flex gap-3">
+                    {canEditUser && (
+                      <button
+                        class="text-[#ff6600] hover:text-[#ff7700] font-medium text-sm edit-btn"
+                        data-id={u.id}
+                        data-user={JSON.stringify(u)}
+                      >
+                        Edit
+                      </button>
+                    )}
+                    {canDeleteUser && (
+                      <button class="text-red-600 hover:text-red-700 font-medium text-sm delete-btn" data-id={u.id}>
+                        Delete
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        }
+        {
+          users.length === 0 && (
+            <div class="bg-white rounded-xl shadow px-6 py-12 text-center text-gray-500">
               <p>No users found</p>
             </div>
           )

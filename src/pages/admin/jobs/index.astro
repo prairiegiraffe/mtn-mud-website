@@ -88,8 +88,8 @@ const canEdit = user?.role !== 'viewer';
         }
       </div>
 
-      <!-- Jobs Table -->
-      <div class="bg-white rounded-xl shadow overflow-hidden">
+      <!-- Jobs Table (Desktop) -->
+      <div class="hidden md:block bg-white rounded-xl shadow overflow-hidden">
         <table class="w-full">
           <thead class="bg-gray-50">
             <tr>
@@ -145,6 +145,52 @@ const canEdit = user?.role !== 'viewer';
         {
           jobs.length === 0 && (
             <div class="px-6 py-12 text-center text-gray-500">
+              <p>No job postings yet</p>
+              {canEdit && <p class="text-sm mt-1">Click "Add Job" to create your first job posting</p>}
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Jobs Cards (Mobile) -->
+      <div class="md:hidden space-y-4">
+        {
+          jobs.map((job) => (
+            <div class="bg-white rounded-xl shadow p-4">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="font-semibold text-gray-900">{job.title}</h3>
+                <span
+                  class={`inline-flex px-2 py-1 text-xs font-medium rounded ${
+                    job.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                  }`}
+                >
+                  {job.is_active ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+              <p class="text-sm text-gray-600 mb-3">{job.locations}</p>
+              <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                <span class="text-xs text-gray-500">Order: {job.sort_order}</span>
+                {canEdit && (
+                  <div class="flex gap-3">
+                    <button
+                      class="text-[#ff6600] hover:text-[#ff7700] font-medium text-sm edit-btn"
+                      data-id={job.id}
+                      data-job={JSON.stringify(job)}
+                    >
+                      Edit
+                    </button>
+                    <button class="text-red-600 hover:text-red-700 font-medium text-sm delete-btn" data-id={job.id}>
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        }
+        {
+          jobs.length === 0 && (
+            <div class="bg-white rounded-xl shadow px-6 py-12 text-center text-gray-500">
               <p>No job postings yet</p>
               {canEdit && <p class="text-sm mt-1">Click "Add Job" to create your first job posting</p>}
             </div>

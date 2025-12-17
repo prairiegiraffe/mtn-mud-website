@@ -172,8 +172,8 @@ function formatDate(dateStr: string) {
         }
       </div>
 
-      <!-- Submissions Table -->
-      <div class="bg-white rounded-xl shadow overflow-hidden">
+      <!-- Submissions Table (Desktop) -->
+      <div class="hidden md:block bg-white rounded-xl shadow overflow-hidden">
         <table class="w-full">
           <thead class="bg-gray-50">
             <tr>
@@ -240,6 +240,67 @@ function formatDate(dateStr: string) {
         {
           submissions.length === 0 && (
             <div class="px-6 py-12 text-center text-gray-500">
+              <p>No submissions found</p>
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Submissions Cards (Mobile) -->
+      <div class="md:hidden space-y-4">
+        {
+          submissions.map((sub) => (
+            <div class={`bg-white rounded-xl shadow p-4 ${sub.status === 'new' ? 'ring-2 ring-orange-300' : ''}`}>
+              <div class="flex justify-between items-start mb-2">
+                <div>
+                  <h3 class="font-semibold text-gray-900">{sub.name}</h3>
+                  <p class="text-sm text-gray-500">{formatDate(sub.created_at)}</p>
+                </div>
+                <div class="flex flex-col items-end gap-1">
+                  <span
+                    class={`inline-flex px-2 py-1 text-xs font-medium rounded ${
+                      sub.type === 'contact' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'
+                    }`}
+                  >
+                    {sub.type === 'contact' ? 'Contact' : 'Application'}
+                  </span>
+                  <span
+                    class={`inline-flex px-2 py-1 text-xs font-medium rounded ${
+                      sub.status === 'new'
+                        ? 'bg-orange-100 text-orange-800'
+                        : sub.status === 'read'
+                          ? 'bg-gray-100 text-gray-800'
+                          : 'bg-gray-200 text-gray-600'
+                    }`}
+                  >
+                    {sub.status}
+                  </span>
+                </div>
+              </div>
+              <div class="text-sm text-gray-600 mb-3">
+                <p>{sub.email}</p>
+                {sub.phone && <p>{sub.phone}</p>}
+              </div>
+              <div class="flex items-center justify-end gap-3 pt-3 border-t border-gray-100">
+                <button
+                  class="text-[#ff6600] hover:text-[#ff7700] font-medium text-sm view-btn"
+                  data-id={sub.id}
+                  data-submission={JSON.stringify(sub)}
+                >
+                  View
+                </button>
+                {canEdit && (
+                  <button class="text-red-600 hover:text-red-700 font-medium text-sm delete-btn" data-id={sub.id}>
+                    Delete
+                  </button>
+                )}
+              </div>
+            </div>
+          ))
+        }
+        {
+          submissions.length === 0 && (
+            <div class="bg-white rounded-xl shadow px-6 py-12 text-center text-gray-500">
               <p>No submissions found</p>
             </div>
           )

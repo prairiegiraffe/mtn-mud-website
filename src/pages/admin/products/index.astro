@@ -116,8 +116,8 @@ const canEdit = user?.role !== 'viewer';
         }
       </div>
 
-      <!-- Products Table -->
-      <div class="bg-white rounded-xl shadow overflow-hidden">
+      <!-- Products Table (Desktop) -->
+      <div class="hidden md:block bg-white rounded-xl shadow overflow-hidden">
         <table class="w-full">
           <thead class="bg-gray-50">
             <tr>
@@ -198,6 +198,81 @@ const canEdit = user?.role !== 'viewer';
         {
           products.length === 0 && (
             <div class="px-6 py-12 text-center text-gray-500">
+              <p>No products yet</p>
+              {canEdit && <p class="text-sm mt-1">Click "Add Product" to create your first product</p>}
+            </div>
+          )
+        }
+      </div>
+
+      <!-- Products Cards (Mobile) -->
+      <div class="md:hidden space-y-4" id="productsCards">
+        {
+          products.map((product) => (
+            <div class="bg-white rounded-xl shadow p-4 product-card" data-category={product.category_id}>
+              <div class="flex justify-between items-start mb-3">
+                <div>
+                  <h3 class="font-semibold text-gray-900">{product.title}</h3>
+                  <p class="text-sm text-gray-500">{product.category_name}</p>
+                </div>
+                <span
+                  class={`inline-flex px-2 py-1 text-xs font-medium rounded ${
+                    product.in_stock ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                  }`}
+                >
+                  {product.in_stock ? 'In Stock' : 'Out'}
+                </span>
+              </div>
+              <div class="grid grid-cols-2 gap-2 text-sm mb-3">
+                <div>
+                  <span class="text-gray-500">Size:</span>
+                  <span class="ml-1 text-gray-700">{product.size || '-'}</span>
+                </div>
+                <div>
+                  <span class="text-gray-500">Order:</span>
+                  <span class="ml-1 text-gray-700">{product.sort_order}</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                {product.pdf_url ? (
+                  <a
+                    href={product.pdf_url}
+                    target="_blank"
+                    class="inline-flex items-center gap-1 text-[#ff6600] hover:text-[#ff7700] font-medium text-sm"
+                  >
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fill-rule="evenodd"
+                        d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    View PDF
+                  </a>
+                ) : (
+                  <span class="text-gray-400 text-sm">No PDF</span>
+                )}
+                {canEdit && (
+                  <div class="flex gap-3">
+                    <button
+                      class="text-[#ff6600] hover:text-[#ff7700] font-medium text-sm edit-btn"
+                      data-id={product.id}
+                      data-product={JSON.stringify(product)}
+                    >
+                      Edit
+                    </button>
+                    <button class="text-red-600 hover:text-red-700 font-medium text-sm delete-btn" data-id={product.id}>
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))
+        }
+        {
+          products.length === 0 && (
+            <div class="bg-white rounded-xl shadow px-6 py-12 text-center text-gray-500">
               <p>No products yet</p>
               {canEdit && <p class="text-sm mt-1">Click "Add Product" to create your first product</p>}
             </div>
@@ -634,13 +709,13 @@ const canEdit = user?.role !== 'viewer';
           btn.classList.remove('bg-gray-200', 'text-gray-700');
           btn.classList.add('bg-[#ff6600]', 'text-white');
 
-          // Filter products
+          // Filter products (both table rows and mobile cards)
           const category = btn.dataset.category;
-          document.querySelectorAll('.product-row').forEach((row) => {
-            if (category === 'all' || row.dataset.category === category) {
-              row.style.display = '';
+          document.querySelectorAll('.product-row, .product-card').forEach((item) => {
+            if (category === 'all' || item.dataset.category === category) {
+              item.style.display = '';
             } else {
-              row.style.display = 'none';
+              item.style.display = 'none';
             }
           });
         });
