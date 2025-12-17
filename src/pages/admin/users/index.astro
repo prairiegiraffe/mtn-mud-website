@@ -40,14 +40,22 @@ if (DB) {
   }
 }
 
-// Determine which roles this user can create
-const roleHierarchy = { superadmin: 4, agency: 3, admin: 2, viewer: 1 };
-const userLevel = roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0;
-
-const availableRoles = Object.entries(roleHierarchy)
-  .filter(([, level]) => level <= userLevel)
-  .filter(([role]) => role !== 'superadmin' || user?.role === 'superadmin')
-  .map(([role]) => role);
+// Determine which roles this user can create/manage
+// - superadmin: can manage all roles
+// - agency: can manage agency, admin, viewer (NOT superadmin)
+// - admin (client): can manage admin, viewer only (NOT superadmin or agency)
+const availableRoles: string[] = (() => {
+  switch (user?.role) {
+    case 'superadmin':
+      return ['superadmin', 'agency', 'admin', 'viewer'];
+    case 'agency':
+      return ['agency', 'admin', 'viewer'];
+    case 'admin':
+      return ['admin', 'viewer'];
+    default:
+      return [];
+  }
+})();
 
 function formatDate(dateStr: string | null) {
   if (!dateStr) return 'Never';

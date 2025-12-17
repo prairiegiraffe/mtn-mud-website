@@ -124,30 +124,20 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
     }
 
-    // Validate role
-    const validRoles = ['superadmin', 'agency', 'admin', 'viewer'];
-    if (!validRoles.includes(role)) {
-      return new Response(JSON.stringify({ error: 'Invalid role' }), {
-        status: 400,
-        headers: corsHeaders,
-      });
-    }
+    // Validate role and check permissions
+    // - superadmin: can create all roles
+    // - agency: can create agency, admin, viewer (NOT superadmin)
+    // - admin (client): can create admin, viewer only (NOT superadmin or agency)
+    const allowedRoles: Record<string, string[]> = {
+      superadmin: ['superadmin', 'agency', 'admin', 'viewer'],
+      agency: ['agency', 'admin', 'viewer'],
+      admin: ['admin', 'viewer'],
+    };
 
-    // Check role hierarchy - users can only create users at their level or below
-    const roleHierarchy = { superadmin: 4, agency: 3, admin: 2, viewer: 1 };
-    const currentUserLevel = roleHierarchy[user?.role as keyof typeof roleHierarchy] || 0;
-    const newUserLevel = roleHierarchy[role as keyof typeof roleHierarchy];
+    const userAllowedRoles = allowedRoles[user?.role || ''] || [];
 
-    if (newUserLevel > currentUserLevel) {
-      return new Response(JSON.stringify({ error: 'Cannot create user with higher role than your own' }), {
-        status: 403,
-        headers: corsHeaders,
-      });
-    }
-
-    // Only superadmin can create other superadmins
-    if (role === 'superadmin' && user?.role !== 'superadmin') {
-      return new Response(JSON.stringify({ error: 'Only superadmins can create other superadmins' }), {
+    if (!userAllowedRoles.includes(role)) {
+      return new Response(JSON.stringify({ error: 'You do not have permission to create users with this role' }), {
         status: 403,
         headers: corsHeaders,
       });

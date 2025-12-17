@@ -56,14 +56,21 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
       });
     }
 
-    // Check role hierarchy - users can only edit users at their level or below
-    const roleHierarchy = { superadmin: 4, agency: 3, admin: 2, viewer: 1 };
-    const currentUserLevel = roleHierarchy[user.role as keyof typeof roleHierarchy] || 0;
-    const existingUserLevel = roleHierarchy[existing.role as keyof typeof roleHierarchy] || 0;
+    // Define which roles each user type can manage
+    // - superadmin: can manage all roles
+    // - agency: can manage agency, admin, viewer (NOT superadmin)
+    // - admin (client): can manage admin, viewer only (NOT superadmin or agency)
+    const allowedRoles: Record<string, string[]> = {
+      superadmin: ['superadmin', 'agency', 'admin', 'viewer'],
+      agency: ['agency', 'admin', 'viewer'],
+      admin: ['admin', 'viewer'],
+    };
 
-    // Cannot edit users with higher or equal role (unless it's yourself)
-    if (existingUserLevel >= currentUserLevel && existing.id !== user.sub) {
-      return new Response(JSON.stringify({ error: 'Cannot edit user with equal or higher role' }), {
+    const userAllowedRoles = allowedRoles[user.role || ''] || [];
+
+    // Cannot edit users with roles outside your allowed list (unless it's yourself editing own profile)
+    if (!userAllowedRoles.includes(existing.role) && existing.id !== user.sub) {
+      return new Response(JSON.stringify({ error: 'Cannot edit user with this role' }), {
         status: 403,
         headers: corsHeaders,
       });
@@ -71,27 +78,8 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
 
     // Validate role if changing
     if (role) {
-      const validRoles = ['superadmin', 'agency', 'admin', 'viewer'];
-      if (!validRoles.includes(role)) {
-        return new Response(JSON.stringify({ error: 'Invalid role' }), {
-          status: 400,
-          headers: corsHeaders,
-        });
-      }
-
-      const newUserLevel = roleHierarchy[role as keyof typeof roleHierarchy];
-
-      // Cannot promote user above your own level
-      if (newUserLevel > currentUserLevel) {
-        return new Response(JSON.stringify({ error: 'Cannot promote user above your role level' }), {
-          status: 403,
-          headers: corsHeaders,
-        });
-      }
-
-      // Only superadmin can assign superadmin role
-      if (role === 'superadmin' && user.role !== 'superadmin') {
-        return new Response(JSON.stringify({ error: 'Only superadmins can assign superadmin role' }), {
+      if (!userAllowedRoles.includes(role)) {
+        return new Response(JSON.stringify({ error: 'You do not have permission to assign this role' }), {
           status: 403,
           headers: corsHeaders,
         });
@@ -232,14 +220,21 @@ export const DELETE: APIRoute = async ({ params, request, locals }) => {
       });
     }
 
-    // Check role hierarchy
-    const roleHierarchy = { superadmin: 4, agency: 3, admin: 2, viewer: 1 };
-    const currentUserLevel = roleHierarchy[user.role as keyof typeof roleHierarchy] || 0;
-    const existingUserLevel = roleHierarchy[existing.role as keyof typeof roleHierarchy] || 0;
+    // Define which roles each user type can delete
+    // - superadmin: can delete all roles (except themselves)
+    // - agency: can delete agency, admin, viewer (NOT superadmin)
+    // - admin (client): can delete admin, viewer only (NOT superadmin or agency)
+    const allowedRoles: Record<string, string[]> = {
+      superadmin: ['superadmin', 'agency', 'admin', 'viewer'],
+      agency: ['agency', 'admin', 'viewer'],
+      admin: ['admin', 'viewer'],
+    };
 
-    // Cannot delete users with higher or equal role
-    if (existingUserLevel >= currentUserLevel) {
-      return new Response(JSON.stringify({ error: 'Cannot delete user with equal or higher role' }), {
+    const userAllowedRoles = allowedRoles[user.role || ''] || [];
+
+    // Cannot delete users with roles outside your allowed list
+    if (!userAllowedRoles.includes(existing.role)) {
+      return new Response(JSON.stringify({ error: 'Cannot delete user with this role' }), {
         status: 403,
         headers: corsHeaders,
       });
