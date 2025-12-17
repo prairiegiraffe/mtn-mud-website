@@ -57,6 +57,7 @@ const canEdit = user?.role !== 'viewer';
             </div>
           </div>
           <div class="hidden md:flex items-center gap-4">
+            <a href="/admin/settings" class="text-gray-300 hover:text-white text-sm">Settings</a>
             <span class="text-gray-400 text-sm">{user?.name}</span>
             <a href="/api/admin/logout" class="text-gray-300 hover:text-white text-sm bg-gray-800 px-3 py-1.5 rounded">
               Logout
@@ -106,6 +107,9 @@ const canEdit = user?.role !== 'viewer';
               </a>
             )
           }
+          <a href="/admin/settings" class="block px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white"
+            >Settings</a
+          >
           <div class="border-t border-gray-700 pt-2 mt-2">
             <div class="px-3 py-2 text-gray-400 text-sm">{user?.name}</div>
             <a
