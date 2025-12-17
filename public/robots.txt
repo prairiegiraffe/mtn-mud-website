@@ -1,2 +1,11 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Block admin and API routes from search engines
+Disallow: /admin/
+Disallow: /api/
+
+# Allow product datasheets to be indexed
+Allow: /api/files/datasheets/
+
+Sitemap: https://mtnmud.com/sitemap-index.xml

@@ -1,10 +1,11 @@
 // Submissions List API
 import type { APIRoute } from 'astro';
 import type { Submission } from '~/lib/types';
+import { getTokenFromRequest, verifyToken, validateSession } from '~/lib/auth';
 
 export const prerender = false;
 
-export const GET: APIRoute = async ({ locals, url }) => {
+export const GET: APIRoute = async ({ request, locals, url }) => {
   const corsHeaders = {
     'Content-Type': 'application/json',
   };
@@ -12,11 +13,23 @@ export const GET: APIRoute = async ({ locals, url }) => {
   try {
     const env = locals.runtime?.env;
 
-    if (!env?.DB) {
-      return new Response(JSON.stringify({ error: 'Database not configured' }), {
+    if (!env?.DB || !env?.JWT_SECRET) {
+      return new Response(JSON.stringify({ error: 'Server not configured' }), {
         status: 500,
         headers: corsHeaders,
       });
+    }
+
+    // Verify auth
+    const token = getTokenFromRequest(request);
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: corsHeaders });
+    }
+
+    const payload = await verifyToken(token, env.JWT_SECRET);
+    const sessionValid = await validateSession(env.DB, payload.jti);
+    if (!sessionValid) {
+      return new Response(JSON.stringify({ error: 'Session expired' }), { status: 401, headers: corsHeaders });
     }
 
     // Get filter parameters

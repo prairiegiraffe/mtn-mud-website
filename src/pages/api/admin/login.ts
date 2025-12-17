@@ -21,22 +21,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const env = locals.runtime?.env;
 
     if (!env?.DB || !env?.JWT_SECRET) {
-      console.error('Missing env bindings:', {
-        hasRuntime: !!locals.runtime,
-        hasEnv: !!env,
-        hasDB: !!env?.DB,
-        hasJWT: !!env?.JWT_SECRET,
-      });
+      console.error('Missing env bindings');
       return new Response(
         JSON.stringify({
           success: false,
           error: 'Server not configured',
-          debug: {
-            hasRuntime: !!locals.runtime,
-            hasEnv: !!env,
-            hasDB: !!env?.DB,
-            hasJWT: !!env?.JWT_SECRET,
-          },
         }),
         {
           status: 500,
@@ -107,16 +96,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   } catch (error) {
     console.error('Login error:', error);
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    const errorStack = error instanceof Error ? error.stack : undefined;
     return new Response(
       JSON.stringify({
         success: false,
         error: 'Server error',
-        debug: {
-          message: errorMessage,
-          stack: errorStack,
-        },
       }),
       {
         status: 500,
