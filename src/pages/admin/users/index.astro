@@ -206,16 +206,18 @@ function getRoleColor(role: string) {
         </button>
       </div>
 
-      <!-- Role Hierarchy Info -->
-      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <h3 class="font-medium text-blue-800 mb-2">Role Hierarchy</h3>
-        <ul class="text-sm text-blue-700 space-y-1">
-          <li><strong>Super Admin:</strong> Full access, can manage all users</li>
-          <li><strong>Agency:</strong> Can manage agency users, admins, and viewers</li>
-          <li><strong>Admin:</strong> Can manage products, jobs, and viewer accounts</li>
-          <li><strong>Viewer:</strong> Read-only access to admin dashboard</li>
-        </ul>
-      </div>
+      <!-- Role Hierarchy Info (superadmin only) -->
+      {user?.role === 'superadmin' && (
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <h3 class="font-medium text-blue-800 mb-2">Role Hierarchy</h3>
+          <ul class="text-sm text-blue-700 space-y-1">
+            <li><strong>Super Admin:</strong> Full access, can manage all users</li>
+            <li><strong>Agency:</strong> Can manage agency users, admins, and viewers</li>
+            <li><strong>Admin:</strong> Can manage products, jobs, and viewer accounts</li>
+            <li><strong>Viewer:</strong> Read-only access to admin dashboard</li>
+          </ul>
+        </div>
+      )}
 
       <!-- Users Table (Desktop) -->
       <div class="hidden md:block bg-white rounded-xl shadow overflow-hidden">
