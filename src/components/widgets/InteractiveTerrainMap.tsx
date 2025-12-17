@@ -20,7 +20,7 @@ const TERRAIN_BOUNDS = {
 const TERRAIN_WIDTH = 30; // Wide landscape format
 const TERRAIN_HEIGHT = 10; // Shorter north-south distance
 
-// MTN Mud location data with terrain coordinates
+// MTN MUD location data with terrain coordinates
 const locationsData = [
   {
     id: 'williston',

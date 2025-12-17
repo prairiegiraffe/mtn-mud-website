@@ -1,5 +1,5 @@
 site:
-  name: MTN Mud
+  name: MTN MUD
   site: 'https://mtnmud.com'
   base: '/'
   trailingSlash: false
@@ -9,14 +9,14 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: MTN Mud - Service Based Drilling Fluids
-    template: '%s — MTN Mud'
+    default: MTN MUD - Service Based Drilling Fluids
+    template: '%s — MTN MUD'
   description: 'Exceptional, customer-specific service in the drilling fluids industry. 20 years operating experience delivering high-quality products, superior service, and unwavering commitment to technology.'
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: MTN Mud
+    site_name: MTN MUD
     images:
       - url: '~/assets/images/default.png'
         width: 1200
