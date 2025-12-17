@@ -108,7 +108,7 @@ function formatDate(dateStr: string) {
             </div>
           </div>
           <div class="hidden md:flex items-center gap-4">
-            <a href="/admin/settings" class="text-gray-300 hover:text-white text-sm">Settings</a>
+            <button id="settingsBtn" class="text-gray-300 hover:text-white text-sm">Settings</button>
             <span class="text-gray-400 text-sm">{user?.name}</span>
             <a href="/api/admin/logout" class="text-gray-300 hover:text-white text-sm bg-gray-800 px-3 py-1.5 rounded">
               Logout
@@ -159,8 +159,10 @@ function formatDate(dateStr: string) {
               </a>
             )
           }
-          <a href="/admin/settings" class="block px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white"
-            >Settings</a
+          <button
+            id="settingsBtnMobile"
+            class="block w-full text-left px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white"
+            >Settings</button
           >
           <div class="border-t border-gray-700 pt-2 mt-2">
             <div class="px-3 py-2 text-gray-400 text-sm">{user?.name}</div>
@@ -526,7 +528,18 @@ function formatDate(dateStr: string) {
       </div>
     </div>
 
-    <script define:vars={{ canEdit }}>
+    <script
+      define:vars={{
+        canEdit,
+        currentUser: {
+          id: user?.id,
+          name: user?.name,
+          email: user?.email,
+          notify_contact: user?.notify_contact,
+          notify_applications: user?.notify_applications,
+        },
+      }}
+    >
       // Filter handling
       document.getElementById('applyFilters')?.addEventListener('click', () => {
         const type = document.getElementById('typeFilter').value;
@@ -719,6 +732,144 @@ function formatDate(dateStr: string) {
           }
         });
       });
+
+      // Settings modal
+      const settingsModal = document.getElementById('settingsModal');
+      const settingsForm = document.getElementById('settingsForm');
+      const settingsError = document.getElementById('settingsError');
+      const settingsSuccess = document.getElementById('settingsSuccess');
+
+      function openSettingsModal() {
+        document.getElementById('settingsName').value = currentUser.name || '';
+        document.getElementById('settingsEmail').value = currentUser.email || '';
+        document.getElementById('settingsPassword').value = '';
+        document.getElementById('settingsNotifyContact').checked = currentUser.notify_contact === 1;
+        document.getElementById('settingsNotifyApplications').checked = currentUser.notify_applications === 1;
+        settingsError.classList.add('hidden');
+        settingsSuccess.classList.add('hidden');
+        settingsModal.classList.remove('hidden');
+        settingsModal.classList.add('flex');
+      }
+
+      function closeSettingsModal() {
+        settingsModal.classList.add('hidden');
+        settingsModal.classList.remove('flex');
+      }
+
+      document.getElementById('settingsBtn')?.addEventListener('click', openSettingsModal);
+      document.getElementById('settingsBtnMobile')?.addEventListener('click', openSettingsModal);
+      document.getElementById('closeSettingsModal')?.addEventListener('click', closeSettingsModal);
+      document.getElementById('cancelSettingsBtn')?.addEventListener('click', closeSettingsModal);
+
+      settingsForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        settingsError.classList.add('hidden');
+        settingsSuccess.classList.add('hidden');
+
+        const data = {
+          name: document.getElementById('settingsName').value,
+          email: document.getElementById('settingsEmail').value,
+          notify_contact: document.getElementById('settingsNotifyContact').checked,
+          notify_applications: document.getElementById('settingsNotifyApplications').checked,
+        };
+
+        const password = document.getElementById('settingsPassword').value;
+        if (password) {
+          if (password.length < 8) {
+            settingsError.textContent = 'Password must be at least 8 characters';
+            settingsError.classList.remove('hidden');
+            return;
+          }
+          data.password = password;
+        }
+
+        try {
+          const response = await fetch(`/api/admin/users/${currentUser.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
+
+          const result = await response.json();
+
+          if (response.ok && result.success) {
+            settingsSuccess.textContent = 'Settings saved successfully!';
+            settingsSuccess.classList.remove('hidden');
+            setTimeout(() => window.location.reload(), 1000);
+          } else {
+            settingsError.textContent = result.error || 'Failed to save settings';
+            settingsError.classList.remove('hidden');
+          }
+        } catch {
+          settingsError.textContent = 'Connection error';
+          settingsError.classList.remove('hidden');
+        }
+      });
     </script>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4">
+        <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+          <h2 class="text-lg font-semibold text-gray-900">Account Settings</h2>
+          <button id="closeSettingsModal" class="text-gray-400 hover:text-gray-600">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <form id="settingsForm" class="p-6 space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Name</label>
+            <input
+              type="text"
+              id="settingsName"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              id="settingsEmail"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >New Password <span class="text-gray-400 font-normal">(leave blank to keep current)</span></label
+            >
+            <input
+              type="password"
+              id="settingsPassword"
+              minlength="8"
+              placeholder="Enter new password"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#ff6600] focus:border-transparent"
+            />
+          </div>
+          <div class="space-y-2">
+            <label class="block text-sm font-medium text-gray-700">Email Notifications</label>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="settingsNotifyContact" class="w-4 h-4 text-[#ff6600] rounded" />
+              <label for="settingsNotifyContact" class="text-sm text-gray-700">Contact form submissions</label>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="settingsNotifyApplications" class="w-4 h-4 text-[#ff6600] rounded" />
+              <label for="settingsNotifyApplications" class="text-sm text-gray-700">Job applications</label>
+            </div>
+          </div>
+          <div id="settingsError" class="hidden text-red-600 text-sm bg-red-50 p-3 rounded-lg"></div>
+          <div id="settingsSuccess" class="hidden text-green-600 text-sm bg-green-50 p-3 rounded-lg"></div>
+          <div class="flex justify-end gap-3 pt-4">
+            <button type="button" id="cancelSettingsBtn" class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+              >Cancel</button
+            >
+            <button type="submit" class="px-4 py-2 bg-[#ff6600] hover:bg-[#ff7700] text-white rounded-lg font-medium"
+              >Save Changes</button
+            >
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>
