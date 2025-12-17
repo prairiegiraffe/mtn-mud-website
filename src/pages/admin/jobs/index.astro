@@ -56,15 +56,79 @@ const canEdit = user?.role !== 'viewer';
               }
             </div>
           </div>
-          <div class="flex items-center gap-4">
+          <div class="hidden md:flex items-center gap-4">
             <span class="text-gray-400 text-sm">{user?.name}</span>
             <a href="/api/admin/logout" class="text-gray-300 hover:text-white text-sm bg-gray-800 px-3 py-1.5 rounded">
               Logout
             </a>
           </div>
+          <!-- Mobile menu button -->
+          <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-gray-800" aria-label="Toggle menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                id="menuIconOpen"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"></path>
+              <path
+                id="menuIconClose"
+                class="hidden"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="hidden md:hidden border-t border-gray-700">
+        <div class="px-4 py-3 space-y-2">
+          <a href="/admin" class="block px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white"
+            >Dashboard</a
+          >
+          <a href="/admin/products" class="block px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white"
+            >Products</a
+          >
+          <a href="/admin/jobs" class="block px-3 py-2 rounded-lg bg-gray-800 text-white font-medium">Jobs</a>
+          <a
+            href="/admin/submissions"
+            class="block px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white">Submissions</a
+          >
+          {
+            (user?.role === 'superadmin' || user?.role === 'agency' || user?.role === 'admin') && (
+              <a
+                href="/admin/users"
+                class="block px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white"
+              >
+                Users
+              </a>
+            )
+          }
+          <div class="border-t border-gray-700 pt-2 mt-2">
+            <div class="px-3 py-2 text-gray-400 text-sm">{user?.name}</div>
+            <a
+              href="/api/admin/logout"
+              class="block px-3 py-2 rounded-lg text-red-400 hover:bg-gray-800 hover:text-red-300">Logout</a
+            >
+          </div>
         </div>
       </div>
     </nav>
+
+    <script>
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const menuIconOpen = document.getElementById('menuIconOpen');
+      const menuIconClose = document.getElementById('menuIconClose');
+
+      mobileMenuBtn?.addEventListener('click', () => {
+        mobileMenu?.classList.toggle('hidden');
+        menuIconOpen?.classList.toggle('hidden');
+        menuIconClose?.classList.toggle('hidden');
+      });
+    </script>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Header -->
