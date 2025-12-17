@@ -17,10 +17,16 @@ const statusFilter = url.searchParams.get('status') || '';
 let submissions: Submission[] = [];
 let stats = { total: 0, new: 0, contact: 0, application: 0 };
 
+// Determine which soft-delete column to filter by based on user role
+// Agency users (superadmin, agency) see submissions not deleted by agency
+// Client users (admin, viewer) see submissions not deleted by client
+const isAgency = ['superadmin', 'agency'].includes(user?.role || '');
+const deleteFilter = isAgency ? 'deleted_by_agency = 0' : 'deleted_by_client = 0';
+
 if (DB) {
   try {
-    // Build query
-    let query = 'SELECT * FROM submissions WHERE 1=1';
+    // Build query with soft delete filtering
+    let query = `SELECT * FROM submissions WHERE ${deleteFilter}`;
     const params: string[] = [];
 
     if (typeFilter) {
@@ -40,7 +46,7 @@ if (DB) {
       .all();
     submissions = (result.results || []) as Submission[];
 
-    // Get stats
+    // Get stats (also filtered by soft delete)
     const statsResult = await DB.prepare(
       `
       SELECT
@@ -49,6 +55,7 @@ if (DB) {
         SUM(CASE WHEN type = 'contact' THEN 1 ELSE 0 END) as contact_count,
         SUM(CASE WHEN type = 'application' THEN 1 ELSE 0 END) as application_count
       FROM submissions
+      WHERE ${deleteFilter}
     `
     ).first<{ total: number; new_count: number; contact_count: number; application_count: number }>();
 

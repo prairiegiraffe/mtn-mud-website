@@ -142,7 +142,7 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
   }
 };
 
-// Delete submission
+// Delete submission (soft delete - only hard delete when both client and agency delete)
 export const DELETE: APIRoute = async ({ params, request, locals }) => {
   const corsHeaders = {
     'Content-Type': 'application/json',
@@ -180,10 +180,12 @@ export const DELETE: APIRoute = async ({ params, request, locals }) => {
 
     const { id } = params;
 
-    // Check submission exists
-    const existing = await env.DB.prepare('SELECT id, resume_file_key FROM submissions WHERE id = ?')
+    // Check submission exists and get current soft delete state
+    const existing = await env.DB.prepare(
+      'SELECT id, resume_file_key, deleted_by_client, deleted_by_agency FROM submissions WHERE id = ?'
+    )
       .bind(id)
-      .first<{ id: string; resume_file_key: string | null }>();
+      .first<{ id: string; resume_file_key: string | null; deleted_by_client: number; deleted_by_agency: number }>();
 
     if (!existing) {
       return new Response(JSON.stringify({ error: 'Submission not found' }), {
@@ -192,16 +194,33 @@ export const DELETE: APIRoute = async ({ params, request, locals }) => {
       });
     }
 
-    // Delete resume from R2 if exists
-    if (existing.resume_file_key && env.STORAGE) {
-      try {
-        await env.STORAGE.delete(existing.resume_file_key);
-      } catch (e) {
-        console.error('Failed to delete resume file:', e);
+    // Determine if this is an agency user or client user
+    const isAgency = ['superadmin', 'agency'].includes(payload.role);
+
+    // Calculate new delete states
+    const newDeletedByClient = isAgency ? existing.deleted_by_client : 1;
+    const newDeletedByAgency = isAgency ? 1 : existing.deleted_by_agency;
+
+    // If both will be deleted, do a hard delete
+    if (newDeletedByClient === 1 && newDeletedByAgency === 1) {
+      // Delete resume from R2 if exists
+      if (existing.resume_file_key && env.STORAGE) {
+        try {
+          await env.STORAGE.delete(existing.resume_file_key);
+        } catch (e) {
+          console.error('Failed to delete resume file:', e);
+        }
+      }
+
+      await env.DB.prepare('DELETE FROM submissions WHERE id = ?').bind(id).run();
+    } else {
+      // Soft delete - just set the appropriate flag
+      if (isAgency) {
+        await env.DB.prepare('UPDATE submissions SET deleted_by_agency = 1 WHERE id = ?').bind(id).run();
+      } else {
+        await env.DB.prepare('UPDATE submissions SET deleted_by_client = 1 WHERE id = ?').bind(id).run();
       }
     }
-
-    await env.DB.prepare('DELETE FROM submissions WHERE id = ?').bind(id).run();
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

@@ -60,6 +60,8 @@ CREATE INDEX IF NOT EXISTS idx_jobs_order ON jobs(sort_order);
 -- SUBMISSIONS TABLE
 -- ============================================
 -- Stores contact form submissions and job applications
+-- Soft delete: client and agency each set their own flag
+-- Only truly deleted (with resume cleanup) when both flags are set
 CREATE TABLE IF NOT EXISTS submissions (
   id TEXT PRIMARY KEY,
   type TEXT NOT NULL CHECK (type IN ('contact', 'application')),
@@ -80,6 +82,10 @@ CREATE TABLE IF NOT EXISTS submissions (
 
   -- Admin notes
   notes TEXT,
+
+  -- Soft delete flags (only hard delete when BOTH are 1)
+  deleted_by_client INTEGER DEFAULT 0,
+  deleted_by_agency INTEGER DEFAULT 0,
 
   -- Timestamps
   created_at TEXT DEFAULT (datetime('now')),
