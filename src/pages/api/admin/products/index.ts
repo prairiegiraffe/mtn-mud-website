@@ -104,7 +104,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
     )
-      .bind(id, finalSlug, title, category_id, size || null, description || null, sort_order || 0, in_stock ? 1 : 0, pdf_url || null)
+      .bind(
+        id,
+        finalSlug,
+        title,
+        category_id,
+        size || null,
+        description || null,
+        sort_order || 0,
+        in_stock ? 1 : 0,
+        pdf_url || null
+      )
       .run();
 
     // Get the created product
