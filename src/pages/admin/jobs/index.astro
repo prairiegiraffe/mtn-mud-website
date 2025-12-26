@@ -442,7 +442,9 @@ const canEdit = user?.role !== 'viewer';
         // Helper to get selected locations
         function getSelectedLocations() {
           const checkboxes = document.querySelectorAll('.location-checkbox:checked');
-          return Array.from(checkboxes).map((cb) => cb.value).join(', ');
+          return Array.from(checkboxes)
+            .map((cb) => cb.value)
+            .join(', ');
         }
 
         // Helper to set location checkboxes from string
