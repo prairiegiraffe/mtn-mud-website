@@ -11,8 +11,9 @@ const isActivePath = (path: string) => {
 };
 ---
 
-<!-- Link to icon library -->
-<link rel="stylesheet" href="/remixicon.css" />
+<!-- Link to icon library - loaded async to avoid render blocking -->
+<link rel="preload" href="/remixicon.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link rel="stylesheet" href="/remixicon.css" /></noscript>
 
 <!-- Mobile Oil Price Bar (shown above header on mobile/tablet) -->
 <OilPriceTicker variant="mobile" />

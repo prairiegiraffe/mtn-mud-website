@@ -32,7 +32,7 @@ import logoSilverHills from '~/assets/images/Partners/Silver Hills Energy Operat
 import logoWhiteRock from '~/assets/images/Partners/WHITE ROCK OIL & GAS.svg';
 import logoXTO from '~/assets/images/Partners/XTO ENERGY .svg';
 import logoZavanna from '~/assets/images/Partners/ZAVANNA, LLC.svg';
-import logoExxonMobil from '~/assets/images/Partners/exxonmobil-logo.jpeg';
+import logoExxonMobil from '~/assets/images/Partners/exxonmobil-logo-optimized.jpeg';
 import logoOccidental from '~/assets/images/Partners/Occidental Petroleum.svg';
 import logoConoco from '~/assets/images/Partners/ConocoPhillips_Logo.svg';
 
@@ -228,6 +228,8 @@ const metadata = {
           <Image
             src={industrialFacility}
             alt="Industrial facility aerial view"
+            widths={[400, 600, 800]}
+            sizes="(max-width: 1024px) 100vw, 50vw"
             class="h-96 w-full rounded-2xl shadow-soft-lg object-cover"
           />
         </div>
@@ -415,6 +417,8 @@ const metadata = {
         <Image
           src={modernCoffeeLab}
           alt="Mud lab testing facility"
+          widths={[400, 600, 800]}
+          sizes="(max-width: 1024px) 100vw, 50vw"
           class="h-96 w-full rounded-2xl shadow-soft-lg object-cover"
         />
       </div>
@@ -424,6 +428,8 @@ const metadata = {
         <Image
           src={mtnMudTruck}
           alt="MTN MUD delivery fleet"
+          widths={[400, 600, 800]}
+          sizes="(max-width: 1024px) 100vw, 50vw"
           class="order-2 lg:order-1 h-96 w-full rounded-2xl shadow-soft-lg object-cover"
         />
         <div class="order-1 lg:order-2">
@@ -568,6 +574,8 @@ const metadata = {
         <Image
           src={warehouseInterior}
           alt="Field engineer and warehouse operations"
+          widths={[400, 600, 800]}
+          sizes="(max-width: 1024px) 100vw, 50vw"
           class="h-96 w-full rounded-2xl shadow-soft-lg object-cover"
         />
       </div>
