@@ -8,7 +8,6 @@ import type { Submission, DashboardStats } from '~/lib/types';
 const env = Astro.locals.runtime?.env;
 const user = Astro.locals.user;
 const DB = env?.DB;
-const tenantId = env?.TENANT_ID || 'mtn_mud';
 
 // Get dashboard stats
 let stats: DashboardStats = {
@@ -51,52 +50,35 @@ if (DB && user) {
     }
 
     // Submission stats (last 30 days)
-    const canSeeAllTenants = user.role === 'superadmin' || user.role === 'agency';
-    const submissionQuery = canSeeAllTenants
-      ? `
-        SELECT
-          COUNT(*) as total,
-          SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count,
-          SUM(CASE WHEN type = 'contact' THEN 1 ELSE 0 END) as contacts,
-          SUM(CASE WHEN type = 'application' THEN 1 ELSE 0 END) as applications
-        FROM submissions
-        WHERE created_at > datetime('now', '-30 days')
-      `
-      : `
-        SELECT
-          COUNT(*) as total,
-          SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count,
-          SUM(CASE WHEN type = 'contact' THEN 1 ELSE 0 END) as contacts,
-          SUM(CASE WHEN type = 'application' THEN 1 ELSE 0 END) as applications
-        FROM submissions
-        WHERE tenant_id = ? AND created_at > datetime('now', '-30 days')
-      `;
+    // Respect soft-delete flags: agency sees all non-agency-deleted, client sees all non-client-deleted
+    const isAgencyOrSuper = user.role === 'superadmin' || user.role === 'agency';
+    const deleteFilter = isAgencyOrSuper ? 'deleted_by_agency = 0' : 'deleted_by_client = 0';
 
-    const subStats = canSeeAllTenants
-      ? await DB.prepare(submissionQuery).first()
-      : await DB.prepare(submissionQuery).bind(tenantId).first();
+    const submissionQuery = `
+      SELECT
+        COUNT(*) as total,
+        SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count,
+        SUM(CASE WHEN type = 'contact' THEN 1 ELSE 0 END) as contacts,
+        SUM(CASE WHEN type = 'application' THEN 1 ELSE 0 END) as applications
+      FROM submissions
+      WHERE ${deleteFilter} AND created_at > datetime('now', '-30 days')
+    `;
+
+    const subStats = await DB.prepare(submissionQuery).first();
 
     if (subStats) {
       stats.submissions = subStats as typeof stats.submissions;
     }
 
-    // Recent submissions
-    const recentQuery = canSeeAllTenants
-      ? `
-        SELECT * FROM submissions
-        ORDER BY created_at DESC
-        LIMIT 10
-      `
-      : `
-        SELECT * FROM submissions
-        WHERE tenant_id = ?
-        ORDER BY created_at DESC
-        LIMIT 10
-      `;
+    // Recent submissions (respecting soft-delete flags)
+    const recentQuery = `
+      SELECT * FROM submissions
+      WHERE ${deleteFilter}
+      ORDER BY created_at DESC
+      LIMIT 10
+    `;
 
-    const recentResult = canSeeAllTenants
-      ? await DB.prepare(recentQuery).all()
-      : await DB.prepare(recentQuery).bind(tenantId).all();
+    const recentResult = await DB.prepare(recentQuery).all();
 
     recentSubmissions = (recentResult.results || []) as Submission[];
   } catch (error) {
