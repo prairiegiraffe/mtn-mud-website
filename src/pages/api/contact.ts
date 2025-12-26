@@ -21,7 +21,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     const formData = await request.json();
-    const { name, email, phone, company, message } = formData;
+    const { name, email, phone, company, message, website } = formData;
+
+    // Honeypot check - if filled, it's a bot
+    if (website) {
+      // Silently succeed to not tip off bots
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: 'Thank you for your message. We will be in touch soon!',
+        }),
+        { status: 200, headers: corsHeaders }
+      );
+    }
 
     // Validate required fields
     if (!name || !email || !message) {

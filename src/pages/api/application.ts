@@ -23,6 +23,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Parse multipart form data
     const formData = await request.formData();
 
+    // Honeypot check - if filled, it's a bot
+    const faxNumber = formData.get('fax_number') as string;
+    if (faxNumber) {
+      // Silently succeed to not tip off bots
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: "Thank you for your application! We've received your submission and will review it carefully.",
+        }),
+        { status: 200, headers: corsHeaders }
+      );
+    }
+
     const fullName = formData.get('fullName') as string;
     const email = formData.get('email') as string;
     const phone = formData.get('phone') as string;

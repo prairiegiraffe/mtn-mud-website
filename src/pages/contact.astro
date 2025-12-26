@@ -269,6 +269,12 @@ const metadata = {
             <h3 class="text-3xl font-black mb-8 text-white uppercase tracking-tight">Send Us a Message</h3>
 
             <form id="contactForm" class="space-y-6">
+              <!-- Honeypot field - hidden from users, bots will fill it -->
+              <div class="absolute -left-[9999px]" aria-hidden="true">
+                <label for="website">Website</label>
+                <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+              </div>
+
               <div>
                 <label for="name" class="block text-white font-bold mb-2 text-sm uppercase tracking-wider">
                   Name <span class="text-safety-orange">*</span>
@@ -867,6 +873,7 @@ const metadata = {
         email: formData.get('email'),
         phone: formData.get('phone'),
         message: formData.get('message'),
+        website: formData.get('website'), // Honeypot
       };
 
       try {
