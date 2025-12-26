@@ -16,6 +16,7 @@
     url('../webfonts/remixicon.woff2?t=1708865856766') format('woff2'),
     url('../webfonts/remixicon.woff?t=1708865856766') format('woff'),
     url('../webfonts/remixicon.ttf?t=1708865856766') format('truetype'); /* Removed SVG */
+  font-display: swap;
 }
 [class^='ri-'],
 [class*=' ri-'] {
