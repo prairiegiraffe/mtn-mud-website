@@ -57,8 +57,8 @@ if (DB && user) {
         SELECT
           COUNT(*) as total,
           SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count,
-          SUM(CASE WHEN form_type = 'contact' THEN 1 ELSE 0 END) as contacts,
-          SUM(CASE WHEN form_type = 'application' THEN 1 ELSE 0 END) as applications
+          SUM(CASE WHEN type = 'contact' THEN 1 ELSE 0 END) as contacts,
+          SUM(CASE WHEN type = 'application' THEN 1 ELSE 0 END) as applications
         FROM submissions
         WHERE created_at > datetime('now', '-30 days')
       `
@@ -66,8 +66,8 @@ if (DB && user) {
         SELECT
           COUNT(*) as total,
           SUM(CASE WHEN status = 'new' THEN 1 ELSE 0 END) as new_count,
-          SUM(CASE WHEN form_type = 'contact' THEN 1 ELSE 0 END) as contacts,
-          SUM(CASE WHEN form_type = 'application' THEN 1 ELSE 0 END) as applications
+          SUM(CASE WHEN type = 'contact' THEN 1 ELSE 0 END) as contacts,
+          SUM(CASE WHEN type = 'application' THEN 1 ELSE 0 END) as applications
         FROM submissions
         WHERE tenant_id = ? AND created_at > datetime('now', '-30 days')
       `;
