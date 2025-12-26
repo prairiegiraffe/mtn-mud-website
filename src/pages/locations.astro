@@ -337,7 +337,7 @@ const metadata = {
           window.locationsMap.remove();
           window.locationsMap = null;
         } catch (e) {
-          console.log('Error removing old map:', e);
+          // Ignore cleanup errors
         }
       }
 
@@ -616,8 +616,6 @@ const metadata = {
         setTimeout(function () {
           map.invalidateSize();
         }, 250);
-
-        console.log('Map initialized successfully');
       } catch (error) {
         console.error('Error initializing map:', error);
       }
@@ -645,7 +643,6 @@ const metadata = {
 
     // Handle Astro view transitions (if enabled)
     document.addEventListener('astro:page-load', function () {
-      console.log('Astro page load event detected');
       setTimeout(function () {
         if (typeof L !== 'undefined' && document.getElementById('map')) {
           initializeMap();
@@ -660,7 +657,7 @@ const metadata = {
           window.locationsMap.remove();
           window.locationsMap = null;
         } catch (e) {
-          console.log('Error cleaning up map:', e);
+          // Ignore cleanup errors
         }
       }
     });

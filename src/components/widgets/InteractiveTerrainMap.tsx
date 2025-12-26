@@ -210,8 +210,6 @@ function Terrain() {
       const imageData = ctx.getImageData(0, 0, img.width, img.height);
       heightmapData = imageData;
 
-      console.log('🗺️ Heightmap loaded (flipped horizontally):', img.width, 'x', img.height);
-
       const geometry = terrainRef.current.geometry as THREE.PlaneGeometry;
       const positionAttribute = geometry.getAttribute('position');
 
