@@ -37,7 +37,13 @@ export default defineConfig({
       applyBaseStyles: false,
     }),
     react(),
-    sitemap(),
+    sitemap({
+      filter: (page) =>
+        !page.includes('/admin') &&
+        !page.includes('/api') &&
+        !page.includes('/map-simple') &&
+        !page.includes('/map-test'),
+    }),
     mdx(),
     icon({
       include: {
