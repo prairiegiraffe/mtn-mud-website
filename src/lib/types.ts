@@ -159,6 +159,8 @@ export interface Env {
   AWS_SECRET_ACCESS_KEY?: string;
   AWS_SES_REGION?: string;
   SES_FROM_EMAIL?: string;
+  // Cloudflare Turnstile for form protection
+  TURNSTILE_SECRET_KEY?: string;
 }
 
 // Extend Astro locals

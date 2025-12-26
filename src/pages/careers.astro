@@ -45,6 +45,9 @@ if (DB) {
 }
 ---
 
+<!-- Cloudflare Turnstile Script -->
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
   <section class="relative bg-charcoal-900 overflow-hidden min-h-[600px] md:min-h-[700px]">
@@ -600,6 +603,9 @@ if (DB) {
           </label>
         </div>
 
+        {/* Turnstile Widget */}
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAACJN_s-uPzi4DRW0" data-theme="dark"></div>
+
         {/* Form Messages */}
         <div id="careersFormMessage" class="hidden"></div>
 
@@ -742,8 +748,23 @@ if (DB) {
       buttonIcon.className = 'ri-loader-4-line animate-spin';
       messageDiv.className = 'hidden';
 
+      // Get Turnstile token
+      const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]');
+      const turnstileToken = turnstileResponse ? turnstileResponse.value : '';
+
+      if (!turnstileToken) {
+        messageDiv.className =
+          'p-4 rounded-xl bg-red-500/10 border-2 border-red-500 text-red-500 text-center font-bold';
+        messageDiv.textContent = 'Please complete the security verification.';
+        submitButton.disabled = false;
+        buttonText.textContent = 'Submit Application';
+        buttonIcon.className = 'ri-arrow-right-up-line';
+        return;
+      }
+
       // Use FormData directly to support file upload
       const formData = new FormData(form);
+      formData.set('cf-turnstile-response', turnstileToken);
 
       try {
         const response = await fetch('/api/application', {
@@ -761,6 +782,10 @@ if (DB) {
             result.message ||
             "Thank you for your application! We've received your submission and will review it carefully. We'll be in touch soon.";
           form.reset();
+          // Reset Turnstile widget
+          if (window.turnstile) {
+            window.turnstile.reset();
+          }
           // Scroll to message
           messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {

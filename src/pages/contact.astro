@@ -11,6 +11,9 @@ const metadata = {
 };
 ---
 
+<!-- Cloudflare Turnstile Script -->
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
   <section class="relative bg-charcoal-900 overflow-hidden min-h-[600px] md:min-h-[700px]">
@@ -342,6 +345,9 @@ const metadata = {
                   class="w-full px-4 py-3 border-2 border-warm-gray-600 bg-charcoal-700 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-safety-orange focus:border-safety-orange transition-all placeholder-warm-gray-400"
                 ></textarea>
               </div>
+
+              <!-- Turnstile Widget -->
+              <div class="cf-turnstile" data-sitekey="0x4AAAAAACJN_s-uPzi4DRW0" data-theme="dark"></div>
 
               <!-- Form Messages -->
               <div id="contactFormMessage" class="hidden"></div>
@@ -865,6 +871,20 @@ const metadata = {
       buttonIcon.className = 'ri-loader-4-line animate-spin';
       messageDiv.className = 'hidden';
 
+      // Get Turnstile token
+      const turnstileResponse = document.querySelector('[name="cf-turnstile-response"]');
+      const turnstileToken = turnstileResponse ? turnstileResponse.value : '';
+
+      if (!turnstileToken) {
+        messageDiv.className =
+          'p-4 rounded-xl bg-red-500/10 border-2 border-red-500 text-red-500 text-center font-bold';
+        messageDiv.textContent = 'Please complete the security verification.';
+        submitButton.disabled = false;
+        buttonText.textContent = 'Send Message';
+        buttonIcon.className = 'ri-arrow-right-up-line';
+        return;
+      }
+
       // Get form data
       const formData = new FormData(form);
       const data = {
@@ -874,6 +894,7 @@ const metadata = {
         phone: formData.get('phone'),
         message: formData.get('message'),
         website: formData.get('website'), // Honeypot
+        'cf-turnstile-response': turnstileToken,
       };
 
       try {
@@ -894,6 +915,10 @@ const metadata = {
           messageDiv.textContent =
             result.message || "Thank you! Your message has been sent successfully. We'll get back to you soon.";
           form.reset();
+          // Reset Turnstile widget
+          if (window.turnstile) {
+            window.turnstile.reset();
+          }
         } else {
           throw new Error(result.error || 'Failed to send message');
         }

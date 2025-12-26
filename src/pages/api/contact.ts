@@ -22,6 +22,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     const formData = await request.json();
     const { name, email, phone, company, message, website } = formData;
+    const turnstileToken = formData['cf-turnstile-response'];
 
     // Honeypot check - if filled, it's a bot
     if (website) {
@@ -33,6 +34,34 @@ export const POST: APIRoute = async ({ request, locals }) => {
         }),
         { status: 200, headers: corsHeaders }
       );
+    }
+
+    // Verify Turnstile token
+    if (!turnstileToken) {
+      return new Response(JSON.stringify({ error: 'Security verification required' }), {
+        status: 400,
+        headers: corsHeaders,
+      });
+    }
+
+    const turnstileSecret = env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret) {
+      const turnstileResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          secret: turnstileSecret,
+          response: turnstileToken,
+        }),
+      });
+
+      const turnstileResult = (await turnstileResponse.json()) as { success: boolean };
+      if (!turnstileResult.success) {
+        return new Response(JSON.stringify({ error: 'Security verification failed. Please try again.' }), {
+          status: 400,
+          headers: corsHeaders,
+        });
+      }
     }
 
     // Validate required fields

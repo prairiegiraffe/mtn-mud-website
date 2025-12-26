@@ -36,6 +36,35 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
+    // Verify Turnstile token
+    const turnstileToken = formData.get('cf-turnstile-response') as string;
+    if (!turnstileToken) {
+      return new Response(JSON.stringify({ error: 'Security verification required' }), {
+        status: 400,
+        headers: corsHeaders,
+      });
+    }
+
+    const turnstileSecret = env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret) {
+      const turnstileResponse = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          secret: turnstileSecret,
+          response: turnstileToken,
+        }),
+      });
+
+      const turnstileResult = (await turnstileResponse.json()) as { success: boolean };
+      if (!turnstileResult.success) {
+        return new Response(JSON.stringify({ error: 'Security verification failed. Please try again.' }), {
+          status: 400,
+          headers: corsHeaders,
+        });
+      }
+    }
+
     const fullName = formData.get('fullName') as string;
     const email = formData.get('email') as string;
     const phone = formData.get('phone') as string;
