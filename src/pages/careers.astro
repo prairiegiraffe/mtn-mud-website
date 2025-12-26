@@ -48,6 +48,55 @@ if (DB) {
 <!-- Cloudflare Turnstile Script -->
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
+{/* JobPosting Schema for Google Jobs */}
+{
+  activeJobs.length > 0 && (
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': activeJobs.map((job) => ({
+          '@type': 'JobPosting',
+          title: job.title,
+          description:
+            job.description ||
+            `Join MTN MUD as a ${job.title}. We offer competitive compensation, career growth opportunities, and a safety-first culture.`,
+          datePosted: new Date().toISOString().split('T')[0],
+          validThrough: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+          employmentType: 'FULL_TIME',
+          hiringOrganization: {
+            '@type': 'Organization',
+            name: 'MTN MUD',
+            sameAs: 'https://mtnmud.com',
+            logo: 'https://mtnmud.com/favicon.svg',
+          },
+          jobLocation: job.locations.split(',').map((loc: string) => {
+            const trimmed = loc.trim();
+            const isND = trimmed.includes('ND');
+            const city = trimmed.replace(/, (WY|ND)/, '').trim();
+            return {
+              '@type': 'Place',
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: city,
+                addressRegion: isND ? 'ND' : 'WY',
+                addressCountry: 'US',
+              },
+            };
+          }),
+          applicantLocationRequirements: {
+            '@type': 'Country',
+            name: 'United States',
+          },
+          jobBenefits: 'Competitive compensation, career growth opportunities, safety-first culture, work-life balance',
+          industry: 'Oil and Gas',
+          occupationalCategory: '47-5000 Extraction Workers',
+        })),
+      })}
+    />
+  )
+}
+
 <Layout metadata={metadata}>
   <!-- SECTION 1: HERO -->
   <section class="relative bg-charcoal-900 overflow-hidden min-h-[600px] md:min-h-[700px]">

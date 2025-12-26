@@ -1,0 +1,238 @@
+---
+// Structured Data (JSON-LD) for MTN MUD
+// Includes Organization schema and LocalBusiness for each location
+
+const siteUrl = 'https://mtnmud.com';
+
+// Organization schema - appears on all pages
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: 'MTN MUD',
+  legalName: 'Mountain Mud Inc.',
+  url: siteUrl,
+  logo: {
+    '@type': 'ImageObject',
+    url: `${siteUrl}/favicon.svg`,
+    width: 512,
+    height: 512,
+  },
+  image: `${siteUrl}/hero-image.png`,
+  description:
+    'MTN MUD is a premier drilling fluids company providing comprehensive mud engineering services, products, and 24/7 technical support across Wyoming, North Dakota, and the Rocky Mountain region.',
+  telephone: '+1-307-682-8688',
+  email: 'info@mtnmud.com',
+  foundingDate: '1995',
+  areaServed: [
+    { '@type': 'State', name: 'Wyoming' },
+    { '@type': 'State', name: 'North Dakota' },
+    { '@type': 'State', name: 'South Dakota' },
+    { '@type': 'State', name: 'Montana' },
+    { '@type': 'State', name: 'Colorado' },
+    { '@type': 'State', name: 'New Mexico' },
+    { '@type': 'State', name: 'Arizona' },
+    { '@type': 'State', name: 'Kansas' },
+  ],
+  sameAs: [
+    'https://www.facebook.com/mtnmud',
+    'https://www.instagram.com/MTN_MUD',
+    'https://www.linkedin.com/company/mountainmud/',
+    'https://www.tiktok.com/@mtn_mud',
+    'https://www.youtube.com/@MTN_MUD',
+    'https://linktr.ee/MTN_MUD',
+  ],
+  contactPoint: [
+    {
+      '@type': 'ContactPoint',
+      telephone: '+1-307-682-8688',
+      contactType: 'customer service',
+      availableLanguage: 'English',
+      areaServed: 'US',
+      hoursAvailable: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        opens: '00:00',
+        closes: '23:59',
+      },
+    },
+    {
+      '@type': 'ContactPoint',
+      telephone: '+1-307-682-8688',
+      contactType: 'technical support',
+      availableLanguage: 'English',
+      areaServed: 'US',
+      hoursAvailable: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        opens: '00:00',
+        closes: '23:59',
+      },
+    },
+  ],
+};
+
+// LocalBusiness schemas for each location
+const locations = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${siteUrl}/#location-gillette`,
+    name: 'MTN MUD - Gillette (Headquarters)',
+    image: `${siteUrl}/hero-image.png`,
+    url: `${siteUrl}/locations`,
+    telephone: '+1-307-682-8688',
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '1301 Lincoln St.',
+      addressLocality: 'Gillette',
+      addressRegion: 'WY',
+      postalCode: '82716',
+      addressCountry: 'US',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 44.2816,
+      longitude: -105.5061,
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '08:00',
+        closes: '17:00',
+      },
+    ],
+    parentOrganization: {
+      '@id': `${siteUrl}/#organization`,
+    },
+    description: 'MTN MUD headquarters offering full mud engineering, 24/7 delivery, mud lab, and technical support.',
+    areaServed: {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: 44.2816,
+        longitude: -105.5061,
+      },
+      geoRadius: '500 mi',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${siteUrl}/#location-cheyenne`,
+    name: 'MTN MUD - Cheyenne',
+    image: `${siteUrl}/hero-image.png`,
+    url: `${siteUrl}/locations`,
+    telephone: '+1-307-682-8688',
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '6415 Clear Creek Parkway',
+      addressLocality: 'Cheyenne',
+      addressRegion: 'WY',
+      postalCode: '82007',
+      addressCountry: 'US',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 41.0861,
+      longitude: -104.7608,
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '08:00',
+        closes: '17:00',
+      },
+    ],
+    parentOrganization: {
+      '@id': `${siteUrl}/#organization`,
+    },
+    description:
+      'MTN MUD Cheyenne location providing drilling fluid supplies, delivery services, and technical support.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${siteUrl}/#location-boulder`,
+    name: 'MTN MUD - Boulder (Sandraw Industrial)',
+    image: `${siteUrl}/hero-image.png`,
+    url: `${siteUrl}/locations`,
+    telephone: '+1-307-682-8688',
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Sandraw Industrial',
+      addressLocality: 'Boulder',
+      addressRegion: 'WY',
+      postalCode: '82923',
+      addressCountry: 'US',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 42.7414,
+      longitude: -109.7137,
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '08:00',
+        closes: '17:00',
+      },
+    ],
+    parentOrganization: {
+      '@id': `${siteUrl}/#organization`,
+    },
+    description:
+      'MTN MUD Boulder location offering full mud engineering, 24/7 delivery, mud lab, and technical support.',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    '@id': `${siteUrl}/#location-williston`,
+    name: 'MTN MUD - Williston',
+    image: `${siteUrl}/hero-image.png`,
+    url: `${siteUrl}/locations`,
+    telephone: '+1-307-682-8688',
+    priceRange: '$$',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '514 22nd Ave NE',
+      addressLocality: 'Williston',
+      addressRegion: 'ND',
+      postalCode: '58801',
+      addressCountry: 'US',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 48.1691,
+      longitude: -103.6108,
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        opens: '08:00',
+        closes: '17:00',
+      },
+    ],
+    parentOrganization: {
+      '@id': `${siteUrl}/#organization`,
+    },
+    description:
+      'MTN MUD Williston location with full functional mud lab, particle size analysis, and drilling fluid supplies.',
+  },
+];
+
+// Combine all schemas into a graph
+const schemaGraph = {
+  '@context': 'https://schema.org',
+  '@graph': [organizationSchema, ...locations],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schemaGraph)} />
