@@ -144,7 +144,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Check if email already exists (case-insensitive)
-    const existing = await env.DB.prepare('SELECT id FROM admin_users WHERE LOWER(email) = LOWER(?)').bind(email).first();
+    const existing = await env.DB.prepare('SELECT id FROM admin_users WHERE LOWER(email) = LOWER(?)')
+      .bind(email)
+      .first();
 
     if (existing) {
       return new Response(JSON.stringify({ error: 'Email already exists' }), {
