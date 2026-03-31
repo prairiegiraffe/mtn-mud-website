@@ -86,9 +86,9 @@ export const PUT: APIRoute = async ({ params, request, locals }) => {
       }
     }
 
-    // Check email uniqueness if changing
-    if (email && email !== existing.email) {
-      const emailExists = await env.DB.prepare('SELECT id FROM admin_users WHERE email = ? AND id != ?')
+    // Check email uniqueness if changing (case-insensitive)
+    if (email && email.toLowerCase() !== existing.email.toLowerCase()) {
+      const emailExists = await env.DB.prepare('SELECT id FROM admin_users WHERE LOWER(email) = LOWER(?) AND id != ?')
         .bind(email, id)
         .first();
 

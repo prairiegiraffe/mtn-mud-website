@@ -236,8 +236,8 @@ export async function cleanupExpiredSessions(db: D1Database): Promise<void> {
  */
 export async function getUserByEmail(db: D1Database, email: string): Promise<AdminUser | null> {
   const result = await db
-    .prepare(`SELECT * FROM admin_users WHERE email = ? AND is_active = 1`)
-    .bind(email.toLowerCase())
+    .prepare(`SELECT * FROM admin_users WHERE LOWER(email) = LOWER(?) AND is_active = 1`)
+    .bind(email)
     .first<AdminUser>();
 
   return result || null;
