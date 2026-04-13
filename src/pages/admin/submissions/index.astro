@@ -725,7 +725,8 @@ function formatDate(dateStr: string) {
 
             const resumeEl = document.getElementById('detailResume');
             if (sub.resume_file_key) {
-              resumeEl.innerHTML = `<a href="/api/files/${sub.resume_file_key}" target="_blank" class="text-[#ff6600] hover:text-[#ff7700]">Download Resume</a>`;
+              const resumePath = sub.resume_file_key.replace(/^resumes\//, '');
+              resumeEl.innerHTML = `<a href="/api/files/resumes/${resumePath}" target="_blank" class="text-[#ff6600] hover:text-[#ff7700]">Download Resume</a>`;
             } else {
               resumeEl.textContent = 'No resume uploaded';
             }
